@@ -12,11 +12,21 @@
 		<ul>
 			<template v-for="({type, data, cancel}) in list" :key="type">
 				<template v-if="type === 'role'">
-					<li v-for="item in data" :key="item.roleId">
-						<img src="@/assets/images/icon_role.png">
-						<span>{{ item.roleName }}</span>
-						<img src="@/assets/images/cancel.png" @click="cancel(item)">
-					</li>
+			<li v-for="item in data" :key="item.id">
+
+				<div style="display: flex;flex-direction: row">
+					<div class="f11">
+						<el-icon style="font-size: 20px"><Share /></el-icon>
+
+					</div>
+					<div class="f12">{{ item.name }}</div>
+					<div class="f13">
+						<el-button size="small" text @click="cancel(item)" :icon="CircleClose"></el-button>
+
+					</div>
+				</div>
+
+			</li>
 				</template>
 				<template v-if="type === 'dept'">
 					<li v-for="item in data" :key="item.id">
@@ -60,7 +70,7 @@ import iconFile from "@/assets/images/icon_file.png";
 import {
 	CircleClose,
 	Delete,
-	Edit, Grid,
+	Edit, Grid,Share,
 	Message,
 	Search,
 	Star,

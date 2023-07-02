@@ -14,6 +14,7 @@ export let searchVal = ref('')
 export let departments = ref({
 	titleDepartments: [],
 	childDepartments: [],
+	roleList: [],
 	employees: [],
 })
 export let roles = ref({})
@@ -30,8 +31,6 @@ export let getDepartmentList = async (parentId = 0,type='org') => {
 
 }
 export let getDebounceData = (event, type = 1) => {
-
-	console.log(event,type)
 
 	$func.debounce(async () => {
 

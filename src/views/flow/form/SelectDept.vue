@@ -10,7 +10,7 @@
 			></el-button>
 
 			<select-show v-else
-						 :disabled="form.perm === 'R'" v-model:orgList="form.props.value" type="dept" :multiple="true"></select-show>
+						 :disabled="form.perm === 'R'" v-model:orgList="form.props.value" type="dept" :multiple="form.props.multi"></select-show>
 
 	</div>
 </template>

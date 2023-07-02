@@ -73,9 +73,9 @@ export function queryMineEndTask(param) {
  *
  * @param data
  */
-export function queryTask(taskId: string) {
+export function queryTask(taskId: string,view:boolean) {
 	return request({
-		url: '/task/queryTask?taskId='+taskId,
+		url: '/task/queryTask?taskId='+taskId+"&view="+view,
 		method: 'get'
 	});
 }

@@ -50,7 +50,7 @@ const deal = (row) => {
 
 	currentData.value = row;
 	queryTask(
-		row.taskId
+		row.taskId,true
 	).then(res=>{
 
 	  	currentOpenFlowForm.value = res.data.formItems

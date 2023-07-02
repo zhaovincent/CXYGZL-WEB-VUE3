@@ -5,7 +5,7 @@
 
 		<el-tabs type="border-card">
 			<el-tab-pane label="设置审批人">
-				<el-radio-group v-model="approverConfig.assignedType" class="ml-4">
+				<el-radio-group v-model="approverConfig.assignedType" @change="assignedTypeChangeEvent" class="ml-4">
 					<el-row>
 						<el-col :span="8" v-for="({value, label}) in setTypes" :key="value">
 							<el-radio :label="value">{{ label }}</el-radio>
@@ -14,15 +14,22 @@
 				</el-radio-group>
 
 				<el-divider/>
+				<template v-if="approverConfig.assignedType===3">
+					<h4>选择角色</h4>
+
+					<select-show v-model:orgList="approverConfig.nodeUserList" type="role" :multiple="true"></select-show>
+
+				</template>
 				<template v-if="approverConfig.assignedType===1">
-					<h4>添加成员</h4>
+					<h4>选择成员</h4>
 
 					<select-show v-model:orgList="approverConfig.nodeUserList" type="user" :multiple="true"></select-show>
 
 				</template>
 				<template v-if="approverConfig.assignedType===8">
 					<h4>人员控件</h4>
-					<el-select v-model="approverConfig.formUserId" clearable  class="m-2" placeholder="请选择审批表单" size="large">
+					<el-select v-model="approverConfig.formUserId" clearable class="m-2" placeholder="请选择审批表单"
+										 size="large">
 						<el-option
 								v-for="item in step2FormUserList"
 								:key="item.id"
@@ -54,6 +61,7 @@
 				<template v-if="(
 					(approverConfig.multiple===true&&	approverConfig.assignedType===4)||
 				(approverConfig.assignedType===1&&approverConfig.nodeUserList.length>1)||
+				(approverConfig.assignedType===3)||
 				(approverConfig.assignedType===7&&approverConfig.deptLeaderLevel>1)||
 				(approverConfig.assignedType===8&&isMultiUserForm(approverConfig.formUserId))
 				)
@@ -93,34 +101,15 @@
 					<el-radio label="TO_ADMIN" size="large">转交给管理员</el-radio>
 					<el-radio label="TO_USER" size="large">指定人员</el-radio>
 				</el-radio-group>
-				<select-show v-if="approverConfig.nobody.handler==='TO_USER'" v-model:orgList="approverConfig.nobody.assignedUser" type="user"
+				<select-show v-if="approverConfig.nobody.handler==='TO_USER'"
+										 v-model:orgList="approverConfig.nobody.assignedUser" type="user"
 										 :multiple="false"></select-show>
 
 			</el-tab-pane>
 			<el-tab-pane label="表单权限">
 
-					<div style="display: flex;flex-direction: row;background-color: var(--el-fill-color-light)" effect="dark">
-							<div class="f1">表单字段</div>
-							<div class="f2">只读</div>
-							<div class="f3">编辑</div>
-							<div class="f4">隐藏</div>
-					</div>
+				<form-perm :form-perm="approverConfig.formPerms"></form-perm>
 
-					<div v-if="step2FormList.length==0">
-			  <el-empty description="暂无表单" />
-					</div>
-					<div style="display: flex;flex-direction: row;" v-for="item in step2FormList">
-			  <div class="f1">	<span v-if="item.required" style="color: #c75450"> * </span>
-			<span>{{ item.name }}</span></div>
-			  <el-radio-group v-model="approverConfig.formPerms[item.id]" size="large"  >
-
-
-							<div class="f2"> <el-radio size="large" label="R"  ><span></span></el-radio></div>
-							<div class="f3"><el-radio size="large" label="E" ><span></span></el-radio></div>
-							<div class="f4"><el-radio size="large" label="H"  ><span></span></el-radio></div>
-		</el-radio-group>
-
-		  </div>
 
 			</el-tab-pane>
 		</el-tabs>
@@ -134,8 +123,11 @@ import $func from '../../utils/index'
 import {setTypes, selectModes, selectRanges} from '../../utils/const'
 import {useStore} from '../../stores/index'
 import {useFlowStore} from '../../stores/flow'
-import { ElTable } from 'element-plus'
+import {ElTable} from 'element-plus'
+
 let flowStore = useFlowStore();
+
+import FormPerm from './components/formPerm.vue'
 
 
 const step2FormList = computed(() => {
@@ -150,18 +142,30 @@ const step2FormUserList = computed(() => {
 	return step2FormList.value.filter(res => res.type === 'SelectUser');
 })
 
-const  openEvent=()=>{
+const openEvent = () => {
 	let value = step2FormList.value;
-	var arr={};
+	var arr = {};
 	let formPerms = approverConfig.value.formPerms;
 
-	for(var item of value){
-		arr[item.id]="R"
-			if(formPerms[item.id]){
-				arr[item.id]=formPerms[item.id]
+	for (var item of value) {
+		arr[item.id] = "R"
+		if (item.type === 'Layout') {
+			arr[item.id] = "E"
+		}
+		if (formPerms[item.id]) {
+			arr[item.id] = formPerms[item.id]
+		}
+		if (item.type === 'Layout') {
+			let value1 = item.props.value;
+			for (var it of value1) {
+				arr[it.id] = "R"
+				if (formPerms[it.id]) {
+					arr[it.id] = formPerms[it.id]
+				}
 			}
+		}
 	}
-	approverConfig.value.formPerms=arr;
+	approverConfig.value.formPerms = arr;
 }
 
 import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
@@ -169,10 +173,7 @@ import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vu
 const {proxy} = getCurrentInstance();
 
 
-
-
 let approverConfig = ref({})
-
 
 
 let store = useStore()
@@ -210,12 +211,16 @@ watch(() => approverConfig.value.formUserId, (val) => {
 
 })
 
+//审批人类型变化
+const assignedTypeChangeEvent = () => {
+	approverConfig.value.nodeUserList = [];
+}
 
 const saveApprover = () => {
 	let approverStr = $func.setApproverStr(approverConfig.value);
 
 
-	approverConfig.value.error =proxy.$isBlank(approverStr)||(approverConfig.value.nobody.handler==='TO_USER'&&approverConfig.value.nobody.assignedUser.length==0)
+	approverConfig.value.error = proxy.$isBlank(approverStr) || (approverConfig.value.nobody.handler === 'TO_USER' && approverConfig.value.nobody.assignedUser.length == 0)
 	setApproverConfig({
 		value: approverConfig.value,
 		flag: true,
@@ -228,27 +233,4 @@ const closeDrawer = () => {
 }
 </script>
 <style lang="less" scoped>
-@width2:80px;
-@width3:80px;
-@width4:80px;
-
-.f1{
-	width: calc(100% - @width2 - @width3 - @width4);
-  padding: 10px;
-}
-.f2{
-	width: @width2;
-  padding: 10px;
-
-}
-.f3{
-	width: @width3;
-  padding: 10px;
-
-}
-.f4{
-	width: @width4;
-  padding: 10px;
-
-}
 </style>

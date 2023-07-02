@@ -1,3 +1,7 @@
+export interface FormGroupVO{
+	name:string;
+	formList:FormVO[];
+}
 export interface FormVO {
   name: string | "";
   id: String | "";

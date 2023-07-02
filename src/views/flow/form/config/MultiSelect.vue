@@ -13,14 +13,23 @@ import { useFlowStore } from "../../workflow/stores/flow";
 let flowStore = useFlowStore();
 
 var config = computed(() => {
-  let step2 = flowStore.step2;
-  let filterElement = step2.filter((res) => res.id === props.id)[0];
+	let step2 = flowStore.step2;
+	var idObjList = step2.filter(res => res.id === props.id);
+	if (idObjList.length > 0) {
+		return idObjList[0];
+	}
 
-  console.log("配置", filterElement);
+	let list = step2.filter(res => res.type === 'Layout');
+	for (var item of list) {
+		let value = item.props.value;
+		var valueList = value.filter(res => res.id === props.id);
+		if (valueList.length > 0) {
+			return valueList[0];
+		}
+	}
 
-  return filterElement;
+	return undefined;
 });
-
 var options = computed(() => {
   return config.value.props.options;
 });

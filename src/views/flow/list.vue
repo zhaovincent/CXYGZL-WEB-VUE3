@@ -41,10 +41,6 @@ import {
 
 } from "@/api/group";
 
-import {
-	getFlowDetail,
-	startFlow
-} from "@/api/flow";
 
 
 import {ref, getCurrentInstance, onMounted} from 'vue'
@@ -54,8 +50,6 @@ const {proxy} = getCurrentInstance()
 
 const successGroupList = ref<GroupVO[]>([]);
 
-const currentOpenFlowForm = ref<FormVO[]>([]);
-const currentOpenFlow = ref<FormVO[]>([]);
 
 import {useRouter} from 'vue-router'
 import {FormVO} from "@/api/form/types";

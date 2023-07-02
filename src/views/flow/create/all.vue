@@ -144,6 +144,10 @@ import {useRoute} from "vue-router";
 import {
 	getFlowDetail
 } from "@/api/flow";
+import {useUserStore} from "@/store/modules/user";
+
+const userStore = useUserStore();
+
 
 const route = useRoute();
 onMounted(() => {
@@ -161,7 +165,7 @@ onMounted(() => {
 			store.step1.admin = JSON.parse(data.admin)
 			store.step1.name = data.name
 			store.step1.logo = data.logo
-			if (!cp||!(parseInt(cp) === 1)) {
+			if (!cp || !(parseInt(cp) === 1)) {
 				//复制
 				store.step1.flowId = flowId
 
@@ -173,6 +177,18 @@ onMounted(() => {
 			store.setStep2(JSON.parse(data.formItems))
 			step3NodeConfig.value = JSON.parse(data.process)
 		})
+	} else {
+		//新增
+		let userId = userStore.userId;
+		let name = userStore.nickname;
+		let avatar = userStore.avatar;
+		store.step1.admin = [{
+			"id": userId,
+			name: name,
+			avatar: avatar,
+			type: 'user'
+		}]
+
 	}
 
 
@@ -245,10 +261,6 @@ const submitFlow = () => {
 		flow.formItems = JSON.stringify(step2);
 		flow.process = JSON.stringify(res);
 		flow.admin = JSON.stringify(step1.admin);
-
-		// flow.process = flow.process.replaceAll("\"childNode\":{},", "")
-		// flow.process = flow.process.replaceAll(",\"childNode\":{}", "")
-		// flow.process = flow.process.replaceAll("\"childNode\":{}", "")
 
 		addFlow(flow).then(res => {
 			validateDialogShow.value = false;

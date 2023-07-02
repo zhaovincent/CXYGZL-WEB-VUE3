@@ -2,7 +2,7 @@
 	<el-dialog title="选择成员" v-model="visibleDialog" :width="600" append-to-body class="promoter_person">
 		<div class="person_body clear">
 			<div class="person_tree l">
-				<selectBox ref="selectBoxRef" :list="list" :multiple="multiple" v-model:selectedList="selectedList"
+				<selectBox ref="selectBoxRef" :selectSelf="selectSelf" :list="list" :multiple="multiple" v-model:selectedList="selectedList"
 									 :type="type"/>
 			</div>
 			<selectResult :total="total" @del="delList" :list="resList"/>
@@ -39,6 +39,10 @@ let props = defineProps({
 	multiple: {
 		type: Boolean,
 		default: true
+	},
+	selectSelf: {
+		type: Boolean,
+		default: true
 	}
 });
 
@@ -65,6 +69,9 @@ let list = computed(() => {
 	return [{
 		type: 'dept',
 		data: value == undefined ? [] : value.childDepartments
+	},{
+		type: 'role',
+		data: value == undefined ? [] : value.roleList
 	}, {
 		type: 'user',
 		data: value == undefined ? [] : value.employees,
@@ -92,6 +99,7 @@ let resList = computed(() => {
 
 	let userData = selectedList.value.filter(res => res.type === 'user');
 	let deptData = selectedList.value.filter(res => res.type === 'dept');
+	let roleData = selectedList.value.filter(res => res.type === 'role');
 
 
 	let data = [{
@@ -100,7 +108,7 @@ let resList = computed(() => {
 		cancel: (item) => {
 
 
-			item.selected=false;
+			item.selected = false;
 			selectBoxRef.value.changeEvent(item)
 
 		}
@@ -111,8 +119,20 @@ let resList = computed(() => {
 			data: deptData,
 			cancel: (item) => {
 
-		  item.selected=false;
-		  selectBoxRef.value.changeEvent(item)
+				item.selected = false;
+				selectBoxRef.value.changeEvent(item)
+
+			}
+		})
+	}
+	if (props.type === 'role') {
+		data.unshift({
+			type: 'role',
+			data: roleData,
+			cancel: (item) => {
+
+				item.selected = false;
+				selectBoxRef.value.changeEvent(item)
 
 			}
 		})
@@ -125,7 +145,6 @@ watch(() => props.visible, (val) => {
 		selectedList.value = props.data
 
 		searchVal.value = "";
-
 
 
 	}
@@ -163,11 +182,11 @@ let saveDialog = () => {
 const delList = () => {
 
 
-	for(var item of proxy.$deepCopy(selectedList.value)){
-		item.selected=false;
+	for (var item of proxy.$deepCopy(selectedList.value)) {
+		item.selected = false;
 		selectBoxRef.value.changeEvent(item)
 	}
-	selectedList.value=[]
+	selectedList.value = []
 
 }
 

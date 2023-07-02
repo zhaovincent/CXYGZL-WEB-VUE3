@@ -76,7 +76,7 @@ const rules = reactive<FormRules>({
 		{min: 2, max: 10, message: "2-10个字符", trigger: "blur"},
 	],
 	remark: [
-		{required: true, message: "请填写描述", trigger: "blur"},
+		{required: false, message: "请填写描述", trigger: "blur"},
 		{min: 2, max: 20, message: "2-20个字符", trigger: "blur"},
 	],
 	groupId: [
@@ -106,13 +106,7 @@ import {useRoute} from "vue-router";
 
 const route = useRoute();
 
-let selectUserDialogVisible = ref(false);
-const afterSelectUser = (data) => {
-	form.value.admin = (data);
 
-	// flowStore.setAdmin(data)
-	selectUserDialogVisible.value = false;
-};
 const groupList = ref<GroupVO[]>([]);
 
 onMounted(() => {
@@ -142,7 +136,6 @@ let props = defineProps({
 import {reactive, ref, computed} from "vue";
 import {GroupVO} from "@/api/group/types";
 
-import employeesDialog from "@/views/flow/workflow/components/dialog/employeesDialog.vue";
 
 import {useFlowStore} from "../workflow/stores/flow";
 

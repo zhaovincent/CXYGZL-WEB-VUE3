@@ -5,7 +5,7 @@
 			v-for="(item, index) in data" style=" margin-right: 5px;margin-top: 5px;"
 			  :key="item.id"
 	  :closable="!disabled" @close="removeItem(index,item.id,item.type)"
-	  :type="item.type==='dept'?'primary':'success'" size="large"
+	  :type="item.type==='dept'?'primary':(item.type==='user'?'warning':'success')" size="large"
 	  >
 		  {{ item.name }}
 	  </el-tag>
@@ -14,7 +14,6 @@
 
 <script setup>
 
-import { Delete, Edit, Search, Close, Upload } from "@element-plus/icons-vue";
 let emits = defineEmits(['update:data'])
 
 let props = defineProps({

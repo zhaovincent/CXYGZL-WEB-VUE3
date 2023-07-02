@@ -4,11 +4,12 @@
 				v-model="searchVal"
 				class="w-50 m-2"
 				style="width: 100%;"
+				v-if="type!='role'"
 				placeholder="搜索成员"
 				@input="getDebounceData($event)"
 				:prefix-icon="Search"
 		/>
-		<p class="ellipsis tree_nav" v-if="!searchVal">
+		<p class="ellipsis tree_nav" v-if="!searchVal&&type!='role'">
 			<span @click="queryData(0)" class="ellipsis">根节点</span>
 			<span v-for="(item,index) in departments.titleDepartments" class="ellipsis"
 						:key="index+'a'" @click="queryData(item.id)">{{ item.name }}</span>
@@ -17,36 +18,54 @@
 		<ul class="select-box">
 			<template v-for="(elem, i) in dataList" :key="i">
 				<template v-if="elem.type === 'role'">
-					<li v-for="item in elem.data" :key="item.roleId"
-							class="check_box"
-							:class="{active: elem.isActive && elem.isActive(item), not: elem.not}"
-							@click="elem.change(item)">
-						<a :title="item.description" :class="{active: elem.isActiveItem && elem.isActiveItem(item)}">
-							<img src="@/assets/images/icon_role.png">{{ item.roleName }}
-						</a>
+					<li v-for="item in elem.data" :key="item.id">
+
+						<el-checkbox v-model="item.selected" @change="changeEvent(item)"
+												 :disabled="(item.status==0)"
+						>
+							<div style="display: flex;flex-direction: row">
+								<div class="f11">
+									<el-icon style="font-size: 20px">
+										<Share/>
+									</el-icon>
+								</div>
+								<div class="f12">{{ item.name }}</div>
+							</div>
+						</el-checkbox>
+
 					</li>
 				</template>
 				<template v-if="elem.type === 'dept'&&(type==='org'||type==='dept'||type==='user')">
 					<li v-for="item in elem.data" :key="item.id">
 
-						<el-checkbox v-model="item.selected" @change="changeEvent(item)"
-												 :disabled="!(type==='org'||type==='dept')"
-						>
-				<div style="display: flex;flex-direction: row">
-					<div class="f11">
-			  <el-icon style="font-size: 20px"><Grid /></el-icon>
-					</div>
-					<div class="f12">{{ item.name }}</div>
-				</div>
-						</el-checkbox>
+						<div style="display: flex;flex-direction: row">
+							<div class="d11">
+								<el-checkbox v-model="item.selected" @change="changeEvent(item)"
+														 :disabled="(!(type==='org'||type==='dept'))||(item.status==0)"
+								>
+									<div style="display: flex;flex-direction: row">
+										<div class="f11">
+											<el-icon style="font-size: 20px">
+												<Grid/>
+											</el-icon>
+										</div>
+										<div class="f12">{{ item.name }}</div>
+									</div>
+								</el-checkbox>
+							</div>
+							<div class="d22" @click="queryData(item.id)">
 
-						<i @click="queryData(item.id)">下级</i>
+								 下级
+							</div>
+						</div>
+
 					</li>
 				</template>
 				<template v-if="elem.type === 'user'&&(type==='org'||type==='user')">
 					<li v-for="item in elem.data" :key="item.id" class="check_box">
-
-						<el-checkbox v-model="item.selected" @change="changeEvent(item)">
+						<el-checkbox v-model="item.selected"
+												 :disabled="item.status==0||(!selectSelf&&(parseInt(currentUserId)===parseInt(item.id)))"
+												 @change="changeEvent(item)">
 							<div style="display: flex;flex-direction: row">
 								<div class="f11">
 									<el-avatar shape="square" :size="20" :src="item.avatar"/>
@@ -77,10 +96,21 @@ var props = defineProps({
 	multiple: {
 		type: Boolean,
 		default: true
+	},
+	selectSelf: {
+		type: Boolean,
+		default: true
 	}
 })
+import {useUserStore} from "@/store/modules/user";
 
-import {Delete, Edit, Search, Share, OfficeBuilding,Grid} from "@element-plus/icons-vue";
+const userStore = useUserStore();
+
+const currentUserId = computed(() => {
+	return userStore.userId;
+})
+
+import {Delete, Edit, Search, Share, OfficeBuilding, Grid} from "@element-plus/icons-vue";
 
 const queryData = (pid) => {
 	getDepartmentList(pid, props.type).then(res => {
@@ -88,6 +118,9 @@ const queryData = (pid) => {
 		let selectedList = props.selectedList;
 
 		for (var it of dataList.value) {
+
+			console.log(it,"))))))))))))))")
+
 			for (var item of it.data) {
 				var b = selectedList.filter(res => res.id === item.id && res.type === item.type).length > 0
 				item.selected = b;
@@ -109,6 +142,11 @@ let userList = computed(() => {
 	return departments.value.employees;
 
 })
+let roleList = computed(() => {
+
+	return departments.value.roleList;
+
+})
 
 var dataList = computed(() => {
 	let newVar = [
@@ -117,6 +155,9 @@ var dataList = computed(() => {
 		},
 		{
 			type: "user", data: userList.value
+		},
+		{
+			type: "role", data: roleList.value
 		}
 	];
 	return newVar
@@ -167,14 +208,10 @@ const changeEvent = (e) => {
 }
 
 
-
-
 const refreshData = () => {
 
 
-
 	let selectedList = props.selectedList;
-
 
 
 	for (var it of dataList.value) {
@@ -188,13 +225,15 @@ const refreshData = () => {
 }
 defineExpose({queryData, changeEvent, refreshData});
 
-watch(()=>props.selectedList,(val)=>{
+watch(() => props.selectedList, (val) => {
 
-		refreshData();
+	refreshData();
 })
 
 </script>
-<style lang="less">
+<style lang="less" scoped>
+@import "../css/dialog.css";
+
 .select-box {
 	height: 420px;
 	overflow-y: auto;
@@ -202,16 +241,16 @@ watch(()=>props.selectedList,(val)=>{
 	li {
 		padding: 5px 0;
 
-		i {
-			float: right;
-			padding-left: 24px;
-			padding-right: 10px;
-			color: #3195f8;
-			font-size: 12px;
-			cursor: pointer;
-			background: url(../assets/images/next_level_active.png) no-repeat 10px center;
-			border-left: 1px solid rgb(238, 238, 238);
-		}
+		//i {
+		//	float: right;
+		//	padding-left: 24px;
+		//	padding-right: 10px;
+		//	color: #3195f8;
+		//	font-size: 12px;
+		//	cursor: pointer;
+		//	background: url(../assets/images/next_level_active.png) no-repeat 10px center;
+		//	border-left: 1px solid rgb(238, 238, 238);
+		//}
 
 		//
 		//a.active+i {
@@ -302,6 +341,16 @@ watch(()=>props.selectedList,(val)=>{
 	width: calc(100% - 30px);
 	height: 20px;
 	line-height: 20px;
+}
+
+.d11{
+  width: calc(100% - 30px);
+}
+
+.d22{
+	width: 30px;
+	line-height: 41px;
+	cursor: pointer;
 }
 
 </style>

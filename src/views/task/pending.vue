@@ -8,11 +8,11 @@ import FlowNodeFormat from "@/components/Flow/FlowNodeFormatData.vue";
 
 import {
 	queryMineTask,
-	queryTask,
-	completeTask
+	queryTask
 } from "@/api/task";
 
 import {RoleQuery} from "@/api/role/types";
+import {getCurrentInstance} from "vue";
 
 const rightDrawerVisible = ref(false)
 
@@ -38,7 +38,7 @@ const deal = (row) => {
 
 	currentData.value = row;
 
-	queryTask(row.taskId).then(res => {
+	queryTask(row.taskId,false).then(res => {
 		currentOpenFlowForm.value = res.data.formItems
 		rightDrawerVisible.value = true;
 	})
@@ -46,6 +46,29 @@ const deal = (row) => {
 }
 const currentOpenFlowForm = ref();
 const viewImageRef = ref();
+const addLayoutOneItem = (id) => {
+
+	for (var item of currentOpenFlowForm.value) {
+		if (item.id !== id) {
+			continue;
+		}
+		let value = item.props.value;
+		let oriForm = item.props.oriForm;
+		value.push(proxy.$deepCopy(oriForm));
+		item.props.value=value;
+
+	}}
+const deleteLayoutOneItem = (id,index) => {
+
+	for (var item of currentOpenFlowForm.value) {
+		if (item.id !== id) {
+			continue;
+		}
+		item.props.value.splice(index,1);
+
+	}
+}
+const {proxy} = getCurrentInstance()
 
 
 /**
@@ -172,7 +195,7 @@ const formValue = computed(() => {
 			</template>
 			<template #default>
 				<el-card class="box-card">
-					<form-render ref="formRenderRef" :form-list="currentOpenFlowForm"></form-render>
+					<form-render @addLayoutOneItem="addLayoutOneItem" @deleteLayoutOneItem="deleteLayoutOneItem" ref="formRenderRef" :form-list="currentOpenFlowForm"></form-render>
 
 				</el-card>
 		  <flow-node-format :formData="formValue" :task-id="currentData.taskId" :processInstanceId="currentData.processInstanceId"  :flow-id="currentData.flowId"

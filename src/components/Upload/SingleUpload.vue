@@ -43,6 +43,14 @@ async function uploadFile(options: UploadRequestOptions): Promise<any> {
  * 限制用户上传文件的格式和大小
  */
 function handleBeforeUpload(file: UploadRawFile) {
+
+	let type = file.type;
+	if(type.indexOf("image")<0){
+	  ElMessage.warning("请上传图片");
+
+		return false;
+	}
+
   if (file.size > 2 * 1048 * 1048) {
     ElMessage.warning("上传图片不能大于2M");
     return false;

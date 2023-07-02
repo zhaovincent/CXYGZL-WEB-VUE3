@@ -5,6 +5,7 @@ import FlowNodeFormat from "@/components/Flow/FlowNodeFormatData.vue";
 import {defineExpose, ref} from "vue";
 import {FormVO} from "@/api/form/types";
 import {getFlowDetail, startFlow} from "@/api/flow";
+import {getCurrentInstance} from "vue";
 
 const dialogTableVisible = ref<Boolean>(false);
 const currentOpenFlowForm = ref<FormVO[]>([]);
@@ -14,7 +15,7 @@ const submitProcess = () => {
 
 	let validate = flowNodeFormatRef.value.validate();
 	if (!validate) {
-	  ElMessage.warning("请选择节点执行人");
+		ElMessage.warning("请选择节点执行人");
 
 		return;
 	}
@@ -22,6 +23,31 @@ const submitProcess = () => {
 	let param = flowNodeFormatRef.value.formatSelectNodeUser();
 
 	currentOpenFlowForm.value.forEach(res => param[res.id] = res.props.value)
+
+	{
+		for (var item of currentOpenFlowForm.value) {
+			param[item.id] = item.props.value
+			if (item.type === 'Layout') {
+
+
+				let subList = item.props.value;
+
+				var d = []
+				for (var array of subList) {
+					var v = {}
+
+					for (var subItem of array) {
+						let value = subItem.props.value;
+						v[subItem.id] = value;
+					}
+					d.push(v)
+
+				}
+				param[item.id] = d;
+
+			}
+		}
+	}
 
 	var data = {
 		flowId: currentOpenFlow.value.flowId,
@@ -58,7 +84,20 @@ const startProcess = (f) => {
 
 		const {formItems} = data;
 
-		currentOpenFlowForm.value = JSON.parse(formItems);
+		let formIteamJsonArray = JSON.parse(formItems);
+
+		for (var fi of formIteamJsonArray) {
+			if (fi.type === 'Layout') {
+				var arr = [];
+				let value = fi.props.value;
+				arr.push(value);
+				fi.props.value = arr;
+				fi.props.oriForm = proxy.$deepCopy(value);
+			}
+		}
+
+		currentOpenFlowForm.value = formIteamJsonArray;
+
 
 		selectUserNodeId.value = data.selectUserNodeId;
 
@@ -77,6 +116,32 @@ const formValue = computed(() => {
 	return obj;
 })
 
+//明细的添加一个
+const addLayoutOneItem = (id) => {
+
+	for (var item of currentOpenFlowForm.value) {
+		if (item.id !== id) {
+			continue;
+		}
+		let value = item.props.value;
+		let oriForm = item.props.oriForm;
+		value.push(proxy.$deepCopy(oriForm));
+		item.props.value=value;
+
+	}
+}
+const deleteLayoutOneItem = (id,index) => {
+
+	for (var item of currentOpenFlowForm.value) {
+		if (item.id !== id) {
+			continue;
+		}
+
+		item.props.value.splice(index,1);
+
+	}
+}
+const {proxy} = getCurrentInstance()
 
 const flowNodeFormatRef = ref();
 
@@ -90,7 +155,8 @@ const flowNodeFormatRef = ref();
 				<el-col :span="12">
 					<el-form label-position="top">
 
-						<form-render ref="formRenderRef" :form-list="currentOpenFlowForm"></form-render>
+						<form-render @addLayoutOneItem="addLayoutOneItem" ref="formRenderRef" @deleteLayoutOneItem="deleteLayoutOneItem"
+												 :form-list="currentOpenFlowForm"></form-render>
 
 					</el-form>
 

@@ -59,6 +59,17 @@ export function inputValidate(configValue: any, proxy: any) {
 	};
 }
 
+export function descriptionValidate(configValue: any, proxy: any) {
+	let placeHolder = configValue.placeholder;
+	if(proxy.$isBlank(placeHolder)){
+		return {
+			valid: false, msg: configValue.name + ':请设置提示'
+		}
+	}
+	return {
+		valid: true
+	};
+}
 export function numberValidate(configValue: any, proxy: any) {
 
 	let min = configValue.props.min;
@@ -121,6 +132,42 @@ export function numberValidate(configValue: any, proxy: any) {
 
 
 	}
+
+	return {
+		valid: true
+	};
+}
+export function layoutValidate(configValue: any, proxy: any) {
+
+	let min = configValue.props.min;
+	let max = configValue.props.max;
+
+	if (min && max && max < min) {
+		return {
+			valid: false, msg: configValue.name + ':数量范围设置错误'
+		}
+	}
+	let value = configValue.props.value;
+	if(value.length==0){
+		return {
+			valid: false, msg: configValue.name + ':内部表单不能为空'
+		}
+	}
+	for(var item of value){
+		let formValidateDictElement = formValidateDict[item.type];
+		if (formValidateDictElement) {
+			let result = formValidateDictElement(item, proxy);
+
+			if (!result.valid) {
+				return  {
+					valid: false, msg: configValue.name + ':'+result.msg
+				};
+			}
+		}
+	}
+
+
+
 
 	return {
 		valid: true
@@ -195,9 +242,11 @@ export let formValidateDict={
 		'Textarea': inputValidate,
 		'Number': numberValidate,
 		'Money': numberValidate,
+		'Description': descriptionValidate,
 		'SingleSelect': selectValidate,
 		'MultiSelect': selectValidate,
 		'UploadFile': fileValidate,
+		'Layout': layoutValidate,
 		'UploadImage': fileValidate
 
 }

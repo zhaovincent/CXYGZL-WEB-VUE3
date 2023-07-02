@@ -1,28 +1,35 @@
 <template>
 	<div>
 		<el-container>
-			<el-aside width="300px">
+			<el-aside width="400px">
 				<div effect="dark">
 					<h4 style="text-align: center">组件库</h4>
-					<draggable
-							v-model="oriFormList"
-							ghost-class="ghost" :force-fallback="true"
-							item-key="index"
-							:sort="false"
-							@end="dragEnd"
-							:animation="300"
-							:group="{ name: 'list', pull: 'clone', put: false }"
-							@change="dragChanged"
-							:clone='cloneFunc'
-					>
-						<template #item="{ element }">
-							<div class="zj">
-								<el-button size="large" style="width: 100%" :icon="$icon[element.icon]"
-								>{{ element.name }}
-								</el-button>
-							</div>
-						</template>
-					</draggable>
+					<template v-for="(item,index) in oriFormList">
+						<h5 style="padding-left: 60px">{{ item.name }}</h5>
+						<draggable
+								v-model="item.formList"
+								ghost-class="ghost" :force-fallback="true"
+								item-key="index"
+								:sort="false"
+								@end="dragEnd"
+								@start="drag=true"
+								class="leftItem"
+								:animation="300"
+								:group="{ name: 'dragFormList', pull: 'clone', put: false }"
+
+								:clone='cloneFunc'
+						>
+
+							<template #item="{ element }">
+								<div class="zj">
+									<el-button size="large" style="width: 100%" :icon="$icon[element.icon]"
+									>{{ element.name }}
+									</el-button>
+								</div>
+							</template>
+						</draggable>
+					</template>
+
 
 				</div>
 
@@ -38,22 +45,24 @@
 									item-key="index"
 									:sort="true"
 									effect="dark"
-									:group="{ name: 'list', pull: false, put: true }"
+									:group="{ name: 'dragFormList', pull: true, put: true }"
 									@change="dragChanged"
 							>
 								<template #item="{ element, index }">
 									<div
 											class="okcomponent border line " effect="dark"
-											@click.stop="showConfigPanel(element.id)"
+											@click.stop="showCurrentPageConfigPanel(element.id)"
 									>
 
 
-										<el-icon class="deleteIcon" @click.stop="deleteForm(element.id)">
+										<el-icon v-if="element.type!='Empty'" class="deleteIcon" @click.stop="deleteForm(element.id)">
 											<Delete/>
 										</el-icon>
 										<el-form-item :label="step2Object[element.id]?.name" :required="step2Object[element.id]?.required">
 
 											<component style="width: 100%"
+																 @showPanel="showPanel"
+																 :index="index"
 																 :is="getFormWidget(element.type)"
 																 :id="element.id"
 																 v-model:form="step2Object[element.id]"
@@ -78,8 +87,8 @@
 									<el-input v-model="currentForm.name" maxlength="10"/>
 								</el-form-item>
 
-								<el-form-item label="默认提示">
-									<el-input v-model="currentForm.placeholder" maxlength="20"/>
+								<el-form-item label="提示" :required="currentForm.type==='Description'">
+									<el-input v-model="currentForm.placeholder" maxlength="50"/>
 								</el-form-item>
 
 								<component
@@ -110,6 +119,8 @@ import {ref} from "vue";
 
 import {formValidateDict} from '../utils/formValidate'
 
+const drag = ref(false);
+
 const currentFormConfigRef = ref();
 var step2List = computed(() => {
 	let step2 = flowStore.step2;
@@ -132,39 +143,39 @@ const cloneFunc = (el) => {
 }
 const deleteForm = (id) => {
 
-	flowStore.setStep2(flowStore.step2.filter(res => res.id !== id));
+	let existForm = flowStore.step2.filter(res => res.id === id)[0];
+	if (existForm.type === 'Layout' && currentForm.value) {
+		//明细
+		let value = existForm.props.value;
+		let filter = value.filter(res => res.id === currentForm.value.id);
+		if (filter.length > 0) {
+			currentForm.value = undefined
 
-	targetList.value = targetList.value.filter(res => res.id !== id);
+		}
+	}
+
+
+	flowStore.setStep2(flowStore.step2.filter(res => res.id !== id));
 
 	if (currentForm.value && currentForm.value?.id === id) {
 		currentForm.value = undefined
 	}
 
+
 };
 
-const beforeCloseConfigPanel = (done) => {
-	if (proxy.$isBlank(currentForm.value?.name)) {
-		ElMessage.error("请输入标题");
-
-		return;
-	}
-
-	let validate = currentFormConfigRef.value.validate();
-	if (validate) {
-		done();
-		return;
-	}
-};
-
-const drawer = ref(false);
 
 //定义当前打开的表单
 const currentForm = ref<FormVO>();
+const drawer = ref(false);
 
-const showConfigPanel = (id) => {
+const showCurrentPageConfigPanel = (id) => {
 	currentForm.value = flowStore.step2.filter(res => res.id === id)[0];
 	drawer.value = true;
 };
+const showPanel = (form) => {
+	currentForm.value = form;
+}
 
 let flowStore = useFlowStore();
 //要注意导入
@@ -184,49 +195,56 @@ const getFormConfigWidget = (name: string) => {
 const {proxy} = getCurrentInstance();
 
 const dragEnd = (a) => {
-	let oldIndex = a.oldIndex;
 
-	let valueElement = oriFormList.value[oldIndex];
-
-	oriFormList.value.splice(oldIndex, 1, proxy.$deepCopy(valueElement))
+	drag.value = false;
+	oriFormList.value = proxy.$deepCopy(oriFormList.value)
 
 }
 // 开始拖拽
 const dragChanged = (a) => {
 
-	console.log("拖拽", a)
-
-
-	var l = targetList.value
-
-
-	flowStore.setStep2(l);
 };
 
 
 import draggable from "vuedraggable";
-import {FormVO} from "@/api/form/types";
-import {formConfig} from "@/api/form/data";
+import {FormGroupVO, FormVO} from "@/api/form/types";
+import {formGroupConfig} from "@/api/form/data";
 import {computed} from "vue";
-import {defineExpose} from "vue/dist/vue";
 
-let oriFormList = ref<FormVO[]>(formConfig);
+let oriFormList = ref<FormGroupVO[]>(formGroupConfig);
 
-let targetList = ref<Array<FormVO>>([]);
 
-watch(() => flowStore.step2, (val) => {
+let targetList = computed({
+	get: () => {
+		let value = flowStore.step2;
+		if (value?.length == 0) {
+			return [{
+				type: 'Empty',
+				name: ''
+			}]
+		}
+		return value;
+	},
+	set: (v) => {
 
-	if (val.length > targetList.value.length && targetList.value.length == 0) {
-		targetList.value = proxy.$deepCopy(val)
+		let value = v.filter(res => res.type != 'Empty');
+		flowStore.setStep2(value);
 
 	}
 })
+
+
 const validate = (f) => {
 
 	var err = []
 
 	let formList = step2List.value;
+	if (formList.length == 0) {
+		err.push("表单不能为空")
+	}
 	for (var form of formList) {
+
+
 
 
 		let formValidateDictElement = formValidateDict[form.type];
@@ -252,30 +270,37 @@ const validate = (f) => {
 defineExpose({validate});
 </script>
 <style scoped lang="less">
+.leftItem {
+	padding-left: 50px;
+}
+
 .zj {
 	display: inline-block;
 	width: 140px;
 	margin: 5px;
 }
 
+@f22_width: 400px;
+
 @center_width: 360px;
 .drag-content {
-	min-height: 636px; //建议是外层嵌套一层div，div固定高，此处再设为100%
+	min-height: 640px;
 	border: 1px solid;
 	width: @center_width;
 	border-radius: 10px;
 	padding: 10px 10px;
 
+	margin-left: calc(50% - (@center_width) / 2);
 
 }
 
-
 .f11 {
-	width: calc(100% - 400px);
+	width: calc(100% - @f22_width);
+
 }
 
 .f22 {
-	width: 400px;
+	width: @f22_width;
 
 }
 

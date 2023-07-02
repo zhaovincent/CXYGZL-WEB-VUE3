@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import FormRender from "@/views/flow/form/render/FormRender.vue";
 import ViewProcessInstanceImage from "@/components/Task/ViewProcessInstanceImage.vue";
-import AgreeHandle from "./handler/agree.vue"
-import RefuseHandle from "./handler/refuse.vue"
+
 import FlowNodeFormat from "@/components/Flow/FlowNodeFormatData.vue";
 
 
 import {
 	queryMineCC,
-	queryMineCCDetail,
-	completeTask
+	queryMineCCDetail
 } from "@/api/task";
 
 import {RoleQuery} from "@/api/role/types";
@@ -55,8 +53,6 @@ const viewImage = (row) => {
 	viewImageRef.value.view(row)
 }
 
-const agreeHandler = ref();
-const refuseHandler = ref();
 
 /**
  * 查询
@@ -78,24 +74,8 @@ const taskSubmitEvent=()=>{
 	handleQuery();
 }
 
-/**
- * 提交任务
- */
-const submitTask = () => {
-
-	agreeHandler.value.handle(currentData.value,currentOpenFlowForm.value);
 
 
-}
-/**
- * 拒绝任务
- */
-const refuseTask = () => {
-
-	refuseHandler.value.handle(currentData.value,currentOpenFlowForm.value);
-
-
-}
 onMounted(() => {
 	handleQuery();
 });

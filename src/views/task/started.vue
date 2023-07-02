@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import FormRender from "@/views/flow/form/render/FormRender.vue";
 import ViewProcessInstanceImage from "@/components/Task/ViewProcessInstanceImage.vue";
-import AgreeHandle from "./handler/agree.vue"
-import RefuseHandle from "./handler/refuse.vue"
 import FlowNodeFormat from "@/components/Flow/FlowNodeFormatData.vue";
 
 
 import {
 	queryMineStarted,
-	queryTask,
 	stopProcessInstance
 } from "@/api/task";
 

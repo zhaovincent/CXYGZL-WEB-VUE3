@@ -9,6 +9,8 @@ import "@/permission";
 // 本地SVG图标
 import "virtual:svg-icons-register";
 
+//日期计算格式化
+import moment from 'moment'
 // 国际化
 import i18n from "@/lang/index";
 
@@ -75,3 +77,4 @@ app.config.globalProperties.$getNumberRadixNum = function (s: Number) {
 app.config.globalProperties.$deepCopy = function (s: any) {
   return JSON.parse(JSON.stringify(s));
 };
+app.config.globalProperties.$moment = moment

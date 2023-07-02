@@ -57,12 +57,18 @@
 					<el-avatar shape="square" :size="50"
 							   :src="flow.logo"/>
 				</div>
-				<div style="margin-left: 20px;width: 200px;">
+				<div style="margin-left: 20px;width: 200px;" v-if="flow.remark?.length>0">
 					<div>{{ flow.name }}  <el-tag v-if="flow.isStop" type="danger">已停用</el-tag></div>
 					<div>{{flow.remark}}</div>
 				</div>
-				<div style="margin-left: 50px;height: 60px;line-height: 60px;width: 200px">
+				<div style="margin-left: 20px;width: 200px;" v-else>
+					<div style="height: 60px;line-height: 60px;">{{ flow.name }}  <el-tag v-if="flow.isStop" type="danger">已停用</el-tag></div>
+				</div>
+				<div style="margin-left: 50px;height: 60px;line-height: 60px;width: 250px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
 					{{flow.updated}}
+				</div>
+				<div style="margin-left: 50px;height: 60px;line-height: 60px;width: 300px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+					{{(flow.rangeShow&&flow.rangeShow.length>0)?flow.rangeShow:'所有人'}}
 				</div>
 				<div class="last">
 					<el-tooltip

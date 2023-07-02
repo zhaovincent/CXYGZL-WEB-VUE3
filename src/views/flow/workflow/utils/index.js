@@ -100,6 +100,17 @@ All.prototype = {
 				return ""
 
 			}
+		} else if (nodeConfig.assignedType == 3) {
+
+
+			//指定角色
+			if (nodeConfig.nodeUserList.length >= 1) {
+				return nodeConfig.nodeUserList.map(res => res.name).join(",")
+
+			} else {
+				return ""
+
+			}
 		} else if (nodeConfig.assignedType == 2) {
 			return nodeConfig.deptLeaderLevel == 1 ? '直接部门主管' : '第' + nodeConfig.deptLeaderLevel + '级部门主管'
 
@@ -145,9 +156,8 @@ All.prototype = {
 				for (var con of groupCondition.conditionList) {
 
 
-
 					const {key, expression, value} = con;
-					if(!key){
+					if (!key) {
 						continue
 					}
 
@@ -156,24 +166,24 @@ All.prototype = {
 					var name = valueElement.name;
 
 					var valueShow = value;
-					if (valueElement.type === 'SelectUser'||valueElement.type === 'SelectDept') {
+					if (valueElement.type === 'SelectUser' || valueElement.type === 'SelectDept') {
 						valueShow = value.map(res => res.name).join(",")
 					} else if (valueElement.type === 'SingleSelect') {
 						let options = valueElement.props.options;
-						 if(!options){
-							 options=[]
-						 }
+						if (!options) {
+							options = []
+						}
 						//valueShow = value.map(res => res.name).join(",")
-						var arr=[];
-						for(var ite of options){
-							if(value.indexOf(ite.key)>-1){
+						var arr = [];
+						for (var ite of options) {
+							if (value.indexOf(ite.key) > -1) {
 								arr.push(ite.value)
 							}
 						}
 						valueShow = arr.join(",")
-					}else{
-						if(!valueShow){
-							valueShow='?'
+					} else {
+						if (!valueShow) {
+							valueShow = '?'
 						}
 					}
 
@@ -199,13 +209,13 @@ All.prototype = {
 
 				if (mode) {
 					let s = conArr.join(" 且 ");
-					if(conArr.length>0){
+					if (conArr.length > 0) {
 						groupConArr.push('(' + s + ')')
 
 					}
 				} else {
 					let s = conArr.join(" 或 ");
-					if(conArr.length>0){
+					if (conArr.length > 0) {
 						groupConArr.push('(' + s + ')')
 
 					}
@@ -213,7 +223,7 @@ All.prototype = {
 
 			}
 
-			return groupConArr.length > 0 ? groupConArr.join(groupMode ? " 且 " : " 或 ") : '请设置条件'
+			return groupConArr.length > 0 ? groupConArr.join(groupMode ? " 且 " : " 或 ") : (index == nodeConfig.conditionNodes.length - 1?'默认条件':'请设置条件')
 		}
 	},
 	copyerStr(nodeConfig) {
@@ -222,13 +232,7 @@ All.prototype = {
 		if (nodeConfig.nodeUserList?.length != 0) {
 			return this.arrToStr(nodeConfig.nodeUserList)
 		}
-	},
-	toggleStrClass(item, key) {
-		let a = item.zdy1 ? item.zdy1.split(",") : []
-		return a.some(item => {
-			return item == key
-		});
-	},
+	}
 }
 
 export default new All();

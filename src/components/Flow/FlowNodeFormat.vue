@@ -2,8 +2,7 @@
 import {ref, getCurrentInstance, onMounted, watch} from 'vue'
 import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
 
-import {formatStartNodeShow} from '@/api/task/index';
-import {defineExpose} from "vue/dist/vue";
+
 
 let props = defineProps({
 
@@ -51,7 +50,7 @@ import {Check, Plus, Refresh} from "@element-plus/icons-vue";
 
 
 				<!--					渲染用户头像列表-->
-				<div v-if="node.userVoList&&node.userVoList.length>0" style="display: flex;flex-direction: row">
+				<div v-if="node.userVoList&&node.userVoList.length>0" style="display: flex;flex-direction: row;flex-wrap: wrap">
 					<div class="box-card" v-for="(item1,index1) in node.userVoList" :key="index1"
 							 style="margin-bottom: 10px;border: 0px solid red;width: 40px;text-align: center">
 

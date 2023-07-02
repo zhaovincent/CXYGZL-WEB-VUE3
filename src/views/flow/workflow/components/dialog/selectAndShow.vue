@@ -43,6 +43,10 @@ let props = defineProps({
 	disabled: {
 		type: Boolean,
 		default: false
+	},
+	selectSelf: {
+		type: Boolean,
+		default: true
 	}
 });
 </script>
@@ -54,6 +58,7 @@ let props = defineProps({
 				:data="defaultValue"
 				:type="type"
 				:multiple="multiple"
+				:selectSelf="selectSelf"
 				@change="afterSelectUser"
 		/>
 	</div>

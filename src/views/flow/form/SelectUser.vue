@@ -10,7 +10,7 @@
 	  ></el-button>
 
 		<select-show v-else
-				 :disabled="form.perm === 'R'" v-model:orgList="form.props.value" type="user" :multiple="true"></select-show>
+				 :disabled="form.perm === 'R'" v-model:orgList="form.props.value" type="user" :multiple="form.props.multi" :selectSelf="form.props.self"></select-show>
 
   </div>
 </template>
@@ -33,6 +33,9 @@ let props = defineProps({
 	}
 
 });
+
+onMounted(()=>{
+})
 
 const {proxy} = getCurrentInstance();
 
