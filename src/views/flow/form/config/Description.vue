@@ -37,7 +37,7 @@ const placeHolder = computed(()=>{
 })
 
 watch(()=>placeHolder.value,(f)=>{
-	config.value.props.value=f;
+ 			config.value.props.value=f;
 },{deep:true})
 
 </script>

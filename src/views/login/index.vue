@@ -101,6 +101,7 @@ import { useUserStore } from "@/store/modules/user";
 import { LocationQuery, LocationQueryValue, useRoute } from "vue-router";
 import { getCaptchaApi } from "@/api/auth";
 import { LoginData } from "@/api/auth/types";
+import {getCurrentInstance} from "vue";
 
 const userStore = useUserStore();
 const route = useRoute();
@@ -167,6 +168,49 @@ function getCaptcha() {
     captchaBase64.value = verifyCodeBase64;
   });
 }
+
+const {proxy} = getCurrentInstance();
+
+onMounted(()=>{
+	const query: LocationQuery = route.query;
+
+	const redirect = (query.redirect as LocationQueryValue) ?? "/";
+	const token = (query.token as LocationQueryValue) ?? "";
+
+
+		if(proxy.$isNotBlank(token)){
+			console.log("-------------")
+
+		loading.value = true;
+		userStore
+			.loginByToken(token)
+			.then(() => {
+
+
+				const otherQueryParams = Object.keys(query).reduce(
+					(acc: any, cur: string) => {
+						if (cur !== "redirect") {
+							acc[cur] = query[cur];
+						}
+						return acc;
+					},
+					{}
+				);
+
+
+
+				router.push({ path: redirect, query: otherQueryParams });
+			})
+			.catch(() => {
+				// 验证失败，重新生成验证码
+				getCaptcha();
+			})
+			.finally(() => {
+				loading.value = false;
+			});
+		}
+
+})
 
 /**
  * 登录

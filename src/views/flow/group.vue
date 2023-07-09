@@ -58,11 +58,11 @@
 							   :src="flow.logo"/>
 				</div>
 				<div style="margin-left: 20px;width: 200px;" v-if="flow.remark?.length>0">
-					<div>{{ flow.name }}  <el-tag v-if="flow.isStop" type="danger">已停用</el-tag></div>
+					<div>{{ flow.name }}  <el-tag v-if="flow.stop" type="danger">已停用</el-tag></div>
 					<div>{{flow.remark}}</div>
 				</div>
 				<div style="margin-left: 20px;width: 200px;" v-else>
-					<div style="height: 60px;line-height: 60px;">{{ flow.name }}  <el-tag v-if="flow.isStop" type="danger">已停用</el-tag></div>
+					<div style="height: 60px;line-height: 60px;">{{ flow.name }}  <el-tag v-if="flow.stop" type="danger">已停用</el-tag></div>
 				</div>
 				<div style="margin-left: 50px;height: 60px;line-height: 60px;width: 250px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
 					{{flow.updated}}
@@ -88,7 +88,7 @@
 						<el-button text @click="toCopyFlow(flow)"  :icon="DocumentCopy" circle/>
 					</el-tooltip>
 
-			  <el-tooltip v-if="!flow.isStop"
+			  <el-tooltip v-if="!flow.stop"
 					  class="box-item"
 					  effect="dark"
 					  content="停用"

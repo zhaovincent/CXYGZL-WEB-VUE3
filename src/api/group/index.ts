@@ -10,7 +10,7 @@ import {Group, GroupVO} from './types';
  */
 export function addGroup(data: Group) {
   return request({
-    url: '/admin/flow/createGroup',
+    url: '/processGroup/create',
     method: 'post',
     data: data
   });
@@ -22,7 +22,7 @@ export function addGroup(data: Group) {
  */
 export function delGroup(id: number) {
   return request({
-    url: '/admin/flow/group/'+id,
+    url: '/processGroup/delete/'+id,
     method: 'delete'
 
   });
@@ -34,7 +34,7 @@ export function delGroup(id: number) {
 
 export function queryGroupList():AxiosPromise<GroupVO[]> {
 	return request({
-		url: '/admin/flow/group/list',
+		url: '/processGroup/list',
 		method: 'get'
 	});
 }
@@ -45,7 +45,7 @@ export function queryGroupList():AxiosPromise<GroupVO[]> {
 
 export function queryGroupFlowList(hidden?:Boolean):AxiosPromise<GroupVO[]> {
 	return request({
-		url: '/admin/flow/group/',
+		url: '/combination/group/listGroupWithProcess',
 		method: 'get',
 		params:{hidden:hidden}
 	});
@@ -57,7 +57,7 @@ export function queryGroupFlowList(hidden?:Boolean):AxiosPromise<GroupVO[]> {
 
 export function queryMineStartGroupFlowList(hidden?:Boolean):AxiosPromise<GroupVO[]> {
 	return request({
-		url: '/admin/flow/startGroup',
+		url: '/combination/group/listCurrentUserStartGroup',
 		method: 'get',
 		params:{hidden:hidden}
 	});

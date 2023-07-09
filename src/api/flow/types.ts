@@ -4,7 +4,7 @@
  */
 export interface FlowVO {
 
-	isStop?:boolean;
+	stop?:boolean;
 	updated?:string;
 
 	/**

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import { loginApi, logoutApi } from "@/api/auth";
+import {loginApi, loginByTokenApi, logoutApi} from "@/api/auth";
 import { getUserInfo } from "@/api/user";
 import { resetRouter } from "@/router";
 import { store } from "@/store";
@@ -28,6 +28,25 @@ export const useUserStore = defineStore("user", () => {
   function login(loginData: LoginData) {
     return new Promise<void>((resolve, reject) => {
       loginApi(loginData)
+        .then((response) => {
+          const {tokenValue } = response.data;
+          token.value = tokenValue; // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
+          resolve();
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+  /**
+   * 登录调用
+   *
+   * @param {LoginData}
+   * @returns
+   */
+  function loginByToken(t: string) {
+    return new Promise<void>((resolve, reject) => {
+		loginByTokenApi(t)
         .then((response) => {
           const {tokenValue } = response.data;
           token.value = tokenValue; // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
@@ -94,6 +113,7 @@ export const useUserStore = defineStore("user", () => {
     roles,
     perms,
     login,
+	  loginByToken,
     getInfo,
     logout,
     resetToken,

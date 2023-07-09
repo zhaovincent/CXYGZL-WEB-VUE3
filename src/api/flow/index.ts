@@ -10,7 +10,7 @@ import { AxiosPromise } from 'axios';
  */
 export function addFlow(data: any) {
 	return request({
-		url: '/admin/flow/create',
+		url: '/process/create',
 		method: 'post',
 		data: data
 	});
@@ -23,7 +23,7 @@ export function addFlow(data: any) {
  */
 export function getFlowDetail(flowId: string) {
 	return request({
-		url: '/admin/flow/detail/'+flowId,
+		url: '/process/getDetail?flowId='+flowId,
 		method: 'get'
 	});
 }
@@ -34,7 +34,7 @@ export function getFlowDetail(flowId: string) {
  */
 export function disableFlow(flowId: string) {
 	return request({
-		url: '/admin/flow/'+flowId+"?type=stop",
+		url: '/process/update/'+flowId+"?type=stop",
 		method: 'put'
 	});
 }
@@ -45,7 +45,7 @@ export function disableFlow(flowId: string) {
  */
 export function deleteFlow(flowId: string) {
 	return request({
-		url: '/admin/flow/'+flowId+"?type=delete",
+		url: '/process/update/'+flowId+"?type=delete",
 		method: 'put'
 	});
 }
@@ -56,7 +56,7 @@ export function deleteFlow(flowId: string) {
  */
 export function enableFlow(flowId: string) {
 	return request({
-		url: '/admin/flow/'+flowId+"?type=using",
+		url: '/process/update/'+flowId+"?type=using",
 		method: 'put'
 	});
 }

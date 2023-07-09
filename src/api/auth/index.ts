@@ -16,6 +16,13 @@ export function loginApi(data: LoginData): AxiosPromise<LoginResult> {
   });
 }
 
+export function loginByTokenApi(token: string): AxiosPromise<LoginResult> {
+  return request({
+    url: '/user/loginByToken?token='+token,
+    method: 'get'
+  });
+}
+
 /**
  * 注销API
  */
