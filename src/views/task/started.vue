@@ -204,7 +204,7 @@ const formValue = computed(() => {
 					<form-render ref="formRenderRef" :form-list="currentOpenFlowForm"></form-render>
 
 				</el-card>
-				<flow-node-format :formData="formValue" :processInstanceId="currentData.processInstanceId"  :flow-id="currentData.flowId"
+				<flow-node-format :disableSelect="true" :formData="formValue" :processInstanceId="currentData.processInstanceId"  :flow-id="currentData.flowId"
 								  ref="flowNodeFormatRef"></flow-node-format>
 
 

@@ -14,6 +14,10 @@ let props = defineProps({
 	row: {
 		type: Array,
 		dafault: () => []
+	},
+	disableSelect:{
+		type:Boolean,
+			default:false
 	}
 
 
@@ -109,7 +113,7 @@ import {Check, Plus, Refresh} from "@element-plus/icons-vue";
 				<template v-if="node.selectUser">
 
 
-					<select-show v-model:orgList="nodeUser[node.id]" type="user" :multiple="node.multiple"></select-show>
+					<select-show :disabled="disableSelect" v-model:orgList="nodeUser[node.id]" type="user" :multiple="node.multiple"></select-show>
 
 
 				</template>
@@ -119,7 +123,7 @@ import {Check, Plus, Refresh} from "@element-plus/icons-vue";
 											 :key="index1">
 						<template v-if="node1.placeholder&&node1.placeholder.length>0">[{{ node1.placeholder }}]</template>
 						<div style="padding:0px 5px;">
-							<flow-node-format :node-user="nodeUser"
+							<flow-node-format :node-user="nodeUser" :disableSelect="disableSelect"
 																:row="node1.children"></flow-node-format>
 
 						</div>

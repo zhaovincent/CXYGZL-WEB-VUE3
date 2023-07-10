@@ -9,6 +9,10 @@ let props = defineProps({
 		type: String,
 		default: ''
 	},
+	disableSelect:{
+		type:Boolean,
+		default:false
+	},
 	taskId: {
 		type: String,
 		default: ''
@@ -93,7 +97,7 @@ defineExpose({validate,formatSelectNodeUser});
 
 <template>
 
-	<flow-node-format :row="row" :node-user="nodeUser"
+	<flow-node-format :row="row" :node-user="nodeUser" :disableSelect="disableSelect"
 					  ref="flowNodeFormatRef"></flow-node-format>
 </template>
 

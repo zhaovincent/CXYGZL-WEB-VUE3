@@ -41,9 +41,9 @@
 
 			<div style="text-align: center">
 				<el-result v-if="validateFlowStep==3"
-						   icon="success"
-						   title="检查成功"
-						   sub-title="流程检查完成，现在提交？"
+									 icon="success"
+									 title="检查成功"
+									 sub-title="流程检查完成，现在提交？"
 				>
 					<template #extra>
 						<el-button type="primary" @click="submitFlow">提交</el-button>
@@ -52,10 +52,10 @@
 
 
 				<el-result title="检查中" sub-title="正在检查流程信息"
-						   v-if="validateErrMsg.length==0&&validateDialogShow&&validatingShow&&validateFlowStep<3">
+									 v-if="validateErrMsg.length==0&&validateDialogShow&&validatingShow&&validateFlowStep<3">
 					<template #icon>
 						<span v-loading="true"
-				  style="display: inline-block;border:0px solid red;width: 100px;height: 100px;">
+									style="display: inline-block;border:0px solid red;width: 100px;height: 100px;">
 
 						</span>
 					</template>
@@ -63,8 +63,8 @@
 				</el-result>
 
 				<el-result v-if="validateErrMsg.length>0"
-						   icon="error"
-						   title="检查失败"
+									 icon="error"
+									 title="检查失败"
 				>
 					<template #sub-title>
 						<div v-for="item in validateErrMsg">
@@ -103,7 +103,7 @@ import Step1 from "./step1.vue";
 import Step2 from "./step2.vue";
 import Step3 from "./step3.vue";
 import {useFlowStore} from "../workflow/stores/flow";
-import {LocationQuery, LocationQueryValue,useRouter} from "vue-router";
+import {LocationQuery, LocationQueryValue, useRouter} from "vue-router";
 
 let store = useFlowStore();
 const step1Ref = ref();
@@ -161,10 +161,6 @@ onMounted(() => {
 
 	if (proxy.$isNotBlank(groupId)) {
 		paramGroupId.value = parseInt(groupId);
-	}
-
-	if (!!groupId) {
-		paramGroupId.value = groupId;
 	}
 	if (proxy.$isNotBlank(flowId)) {
 
@@ -226,17 +222,17 @@ const checkStep1 = () => {
 }
 const checkStep2 = () => {
 	step2Ref.value.validate(function (valid, arr) {
-			if (valid) {
-				setTimeout(function () {
-					validateFlowStep.value = 2
-					checkStep3();
-				})
-			} else {
-				validatingShow.value = false;
-				//错误信息
-				validateErrMsg.value = arr;
+				if (valid) {
+					setTimeout(function () {
+						validateFlowStep.value = 2
+						checkStep3();
+					})
+				} else {
+					validatingShow.value = false;
+					//错误信息
+					validateErrMsg.value = arr;
+				}
 			}
-		}
 	);
 
 }
@@ -285,69 +281,69 @@ const submitFlow = () => {
 <style scoped lang="less">
 @f2_width: 800px;
 .titlebar {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 40px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	height: 60px;
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 40px;
 
-  .f1 {
-	width: calc(100% / 2 - @f2_width / 2);
-  }
+	.f1 {
+		width: calc(100% / 2 - @f2_width / 2);
+	}
 
-  .f2 {
-	width: @f2_width;
-	text-align: center;
-  }
+	.f2 {
+		width: @f2_width;
+		text-align: center;
+	}
 
-  .f3 {
-	width: calc(100% / 2 - @f2_width / 2);
+	.f3 {
+		width: calc(100% / 2 - @f2_width / 2);
 
-	text-align: right;
-	line-height: 46px;
-	height: 46px;
-	padding-right: 20px;
-  }
+		text-align: right;
+		line-height: 46px;
+		height: 46px;
+		padding-right: 20px;
+	}
 }
 
 .center_t {
-  cursor: pointer;
-  padding: 10px 20px;
+	cursor: pointer;
+	padding: 10px 20px;
 
 
-  display: inline-block;
+	display: inline-block;
 
 
-  span:first-child {
-	margin-right: 6px;
-	font-size: 16px;
-	font-weight: 400;
-	text-align: center;
-	line-height: 22px;
-	border: 1px solid;
-	border-radius: 50%;
-	width: 24px;
-	height: 24px;
-	display: inline-block
-  }
+	span:first-child {
+		margin-right: 6px;
+		font-size: 16px;
+		font-weight: 400;
+		text-align: center;
+		line-height: 22px;
+		border: 1px solid;
+		border-radius: 50%;
+		width: 24px;
+		height: 24px;
+		display: inline-block
+	}
 
-  span:first-child[activeStep=true] {
-	color: white;
-	background-color: var(--el-color-primary);
-  }
+	span:first-child[activeStep=true] {
+		color: white;
+		background-color: var(--el-color-primary);
+	}
 
-  span:last-child {
-	font-weight: 500;
-	font-size: 18px;
-  }
+	span:last-child {
+		font-weight: 500;
+		font-size: 18px;
+	}
 
 
 }
 
 .center_t[activeStep=true] {
-  border-bottom: 2px solid var(--el-color-primary);
-  color: var(--el-color-primary);
+	border-bottom: 2px solid var(--el-color-primary);
+	color: var(--el-color-primary);
 
 }
 </style>

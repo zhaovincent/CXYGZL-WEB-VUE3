@@ -87,6 +87,37 @@ All.prototype = {
 		});
 		arr.splice(includesIndex, 1);
 	},
+	checkApproval(nodeConfig) {
+
+
+		if (nodeConfig.assignedType == 1) {
+
+
+			//指定成员
+			if (nodeConfig.nodeUserList.length == 0) {
+				return false;
+
+			}
+		} else if (nodeConfig.assignedType == 3) {
+
+
+			//指定角色
+			if (nodeConfig.nodeUserList.length == 0) {
+				return false
+
+			}
+		} else if (nodeConfig.assignedType == 8 && nodeConfig.formUserId.length == 0) {
+			//表单
+			return false;
+		}
+
+		//审批人为空
+		if(nodeConfig.nobody.handler === 'TO_USER' && nodeConfig.nobody.assignedUser.length == 0){
+			return false;
+		}
+
+		return true;
+	},
 	setApproverStr(nodeConfig) {
 
 		if (nodeConfig.assignedType == 1) {
@@ -223,7 +254,7 @@ All.prototype = {
 
 			}
 
-			return groupConArr.length > 0 ? groupConArr.join(groupMode ? " 且 " : " 或 ") : (index == nodeConfig.conditionNodes.length - 1?'默认条件':'请设置条件')
+			return groupConArr.length > 0 ? groupConArr.join(groupMode ? " 且 " : " 或 ") : (index == nodeConfig.conditionNodes.length - 1 ? '默认条件' : '请设置条件')
 		}
 	},
 	copyerStr(nodeConfig) {

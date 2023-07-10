@@ -282,7 +282,7 @@ onMounted(() => {
 
 
 	if (props.nodeConfig.type == 1) {
-		props.nodeConfig.error = !$func.setApproverStr(props.nodeConfig);
+		props.nodeConfig.error = !$func.checkApproval(props.nodeConfig);
 	} else if (props.nodeConfig.type == 2) {
 		props.nodeConfig.error = !$func.copyerStr(props.nodeConfig);
 	} else if (props.nodeConfig.type == 4) {

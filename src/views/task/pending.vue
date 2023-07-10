@@ -198,7 +198,7 @@ const formValue = computed(() => {
 					<form-render @addLayoutOneItem="addLayoutOneItem" @deleteLayoutOneItem="deleteLayoutOneItem" ref="formRenderRef" :form-list="currentOpenFlowForm"></form-render>
 
 				</el-card>
-		  <flow-node-format :formData="formValue" :task-id="currentData.taskId" :processInstanceId="currentData.processInstanceId"  :flow-id="currentData.flowId"
+		  <flow-node-format :disableSelect="true" :formData="formValue" :task-id="currentData.taskId" :processInstanceId="currentData.processInstanceId"  :flow-id="currentData.flowId"
 							ref="flowNodeFormatRef"></flow-node-format>
 
 
