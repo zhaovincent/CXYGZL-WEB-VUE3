@@ -151,7 +151,8 @@ const userStore = useUserStore();
 
 const route = useRoute();
 onMounted(() => {
-	const {groupId, flowId, cp} = toRaw(route).query.value;
+	console.log(route,toRaw(route))
+	const {groupId, flowId, cp} = toRaw(route).query;
 
 
 	if (!!groupId) {
