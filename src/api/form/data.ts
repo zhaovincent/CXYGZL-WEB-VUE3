@@ -157,18 +157,7 @@ const formGroupConfig: FormGroupVO[] = [
 	},{
 	name:"其他",
 		formList:[
-			{
-				name: "明细",
-				type: "Layout",
-				typeName: "明细",
-				icon: "ShoppingBag",
 
-				placeholder: "请选择",
-				required: false,
-				props: {
-					value: [], min: 1, max: 10
-				},
-			},
 
 			{
 				name: "图片",
@@ -196,7 +185,7 @@ const formGroupConfig: FormGroupVO[] = [
 				},
 			},
 			{
-				name: "用户",
+				name: "单用户",
 				type: "SelectUser",
 				typeName: "用户",
 				placeholder: "请选择",
@@ -211,7 +200,22 @@ const formGroupConfig: FormGroupVO[] = [
 				},
 			},
 			{
-				name: "部门",
+				name: "多用户",
+				type: "SelectMultiUser",
+				typeName: "多用户",
+				placeholder: "请选择",
+				icon: "User",
+
+				required: false,
+				props: {
+
+					multi: true,
+					self: false,
+					value: []
+				},
+			},
+			{
+				name: "单部门",
 				icon: "OfficeBuilding",
 				type: "SelectDept",
 				typeName: "部门",
@@ -219,6 +223,19 @@ const formGroupConfig: FormGroupVO[] = [
 				required: false,
 				props: {
 					multi: false,
+					self: false,
+					value: []
+				},
+			},
+			{
+				name: "多部门",
+				icon: "OfficeBuilding",
+				type: "SelectMultiDept",
+				typeName: "多部门",
+				placeholder: "请选择",
+				required: false,
+				props: {
+					multi: true,
 					self: false,
 					value: []
 				},

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import {useFlowStore} from '../../../stores/flow'
-import {getCurrentInstance,watch} from "vue";
+import {getCurrentInstance, watch} from "vue";
 
 let flowStore = useFlowStore();
 
@@ -13,19 +13,20 @@ const step2FormList = computed(() => {
 })
 
 
-
 const {proxy} = getCurrentInstance();
 
 //表单
 const formList = computed(() => {
 	let value = step2FormList.value;
 
-	let $deepCopy = proxy.$deepCopy(value.filter(res=>
-			res.type!='MultiSelect'&&
-			res.type!='Description'&&
-			res.type!='Layout'&&
-			res.type!='UploadImage'&&
-			res.type!='UploadFile'
+	let $deepCopy = proxy.$deepCopy(value.filter(res =>
+			res.type != 'MultiSelect' &&
+			res.type != 'Description' &&
+			res.type != 'SelectMultiUser' &&
+			res.type != 'SelectMultiDept' &&
+			res.type != 'Layout' &&
+			res.type != 'UploadImage' &&
+			res.type != 'UploadFile'
 	));
 
 
@@ -55,8 +56,8 @@ const formIdObj = computed(() => {
 	return obj
 })
 
-const  conditionVal=computed(()=>{
-	return	 props.condition;
+const conditionVal = computed(() => {
+	return props.condition;
 })
 
 
@@ -244,84 +245,84 @@ import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vu
 			/>
 		</el-select>
 
-			<el-input  v-model="condition.value" v-if="formIdObj[condition.key]?.type==='Input'||
+		<el-input v-model="condition.value" v-if="formIdObj[condition.key]?.type==='Input'||
 formIdObj[condition.key]?.type==='Textarea'
 " style="margin-top: 20px;" placeholder="条件值"></el-input>
 
 
-	  <el-input-number v-model="condition.value"
-					   v-if="formIdObj[condition.key]?.type==='Money'||
+		<el-input-number v-model="condition.value"
+										 v-if="formIdObj[condition.key]?.type==='Money'||
 formIdObj[condition.key]?.type==='Number'
 "
-					   placeholder="条件值"
-					   style="width: 100%;margin-top: 20px"
-					   controls-position="right"
-	  />
+										 placeholder="条件值"
+										 style="width: 100%;margin-top: 20px"
+										 controls-position="right"
+		/>
 
 
-	  <el-date-picker
-			value-format="YYYY-MM-DD"
-	  type="date"
-	  class="formDate"
+		<el-date-picker
+				value-format="YYYY-MM-DD"
+				type="date"
+				class="formDate"
 
-			v-model="condition.value"
-			v-if="formIdObj[condition.key]?.type==='Date'
+				v-model="condition.value"
+				v-if="formIdObj[condition.key]?.type==='Date'
 "
-	  placeholder="条件值"
-	  style="width: 100%;margin-top: 20px"
+				placeholder="条件值"
+				style="width: 100%;margin-top: 20px"
 
-	  />
-	  <el-time-picker
-			arrow-control
-	  value-format="HH:mm:ss"
+		/>
+		<el-time-picker
+				arrow-control
+				value-format="HH:mm:ss"
 
 
-	  class="formDate"
+				class="formDate"
 
-			v-model="condition.value"
-			v-if="formIdObj[condition.key]?.type==='Time'
+				v-model="condition.value"
+				v-if="formIdObj[condition.key]?.type==='Time'
 "
-	  placeholder="条件值"
-	  style="width: 100%;margin-top: 20px"
+				placeholder="条件值"
+				style="width: 100%;margin-top: 20px"
 
-	  />
+		/>
 
-	  <el-date-picker
-			value-format="YYYY-MM-DD HH:mm:ss"
-			type="datetime"
-	  class="formDate"
+		<el-date-picker
+				value-format="YYYY-MM-DD HH:mm:ss"
+				type="datetime"
+				class="formDate"
 
-			v-model="condition.value"
-			v-if="formIdObj[condition.key]?.type==='DateTime'
+				v-model="condition.value"
+				v-if="formIdObj[condition.key]?.type==='DateTime'
 "
-	  placeholder="条件值"
-	  style="width: 100%;margin-top: 20px"
+				placeholder="条件值"
+				style="width: 100%;margin-top: 20px"
 
-	  />
+		/>
 
-	  <el-select v-model="condition.value"
-			v-if="formIdObj[condition.key]?.type==='SingleSelect'
+		<el-select v-model="condition.value"
+							 v-if="formIdObj[condition.key]?.type==='SingleSelect'
 "
-	  style="width: 100%;margin-top: 20px"
-	  multiple
-	  collapse-tags
-	  collapse-tags-tooltip
+							 style="width: 100%;margin-top: 20px"
+							 multiple
+							 collapse-tags
+							 collapse-tags-tooltip
 
-						placeholder="请选择值"  >
-		  <el-option
-				  v-for="item in formIdObj[condition.key].props.options"
-				  :key="item.key"
-				  :label="item.value"
-				  :value="item.key"
-		  />
-	  </el-select>
-			<div style="margin-top: 20px">
-		  <select-show  v-if="formIdObj[condition.key]?.type==='SelectUser'
+							 placeholder="请选择值">
+			<el-option
+					v-for="item in formIdObj[condition.key].props.options"
+					:key="item.key"
+					:label="item.value"
+					:value="item.key"
+			/>
+		</el-select>
+		<div style="margin-top: 20px">
+			<select-show v-if="formIdObj[condition.key]?.type==='SelectUser'
 " v-model:orgList="condition.value" type="org" :multiple="true"></select-show>
-			</div>
-	  <div style="margin-top: 20px">
+		</div>
+		<div style="margin-top: 20px">
 
-	  <select-show   v-if="formIdObj[condition.key]?.type==='SelectDept'
+			<select-show v-if="formIdObj[condition.key]?.type==='SelectDept'
 " v-model:orgList="condition.value" type="dept" :multiple="true"></select-show>
 		</div>
 
@@ -330,10 +331,11 @@ formIdObj[condition.key]?.type==='Number'
 
 <style scoped lang="less">
 
-:deep( .formDate div.el-input__wrapper){
-  width: 100% !important;
+:deep( .formDate div.el-input__wrapper) {
+	width: 100% !important;
 }
-:deep( .formDate){
-  width: 100% !important;
+
+:deep( .formDate) {
+	width: 100% !important;
 }
 </style>

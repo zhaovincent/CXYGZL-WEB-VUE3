@@ -197,7 +197,8 @@ All.prototype = {
 					var name = valueElement.name;
 
 					var valueShow = value;
-					if (valueElement.type === 'SelectUser' || valueElement.type === 'SelectDept') {
+					if (valueElement.type === 'SelectUser' || valueElement.type === 'SelectDept' || valueElement.type === 'SelectMultiUser' || valueElement.type === 'SelectMultiDept') {
+
 						valueShow = value.map(res => res.name).join(",")
 					} else if (valueElement.type === 'SingleSelect') {
 						let options = valueElement.props.options;

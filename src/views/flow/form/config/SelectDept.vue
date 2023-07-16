@@ -68,13 +68,7 @@ const afterSelectUser = (data) => {
       :multiple="config.props.multi"
       @change="afterSelectUser"
     />
-    <el-form-item label="选择范围">
-      <el-checkbox
-        v-model="config.props.multi"
-        :disabled="defaultValue.length > 0"
-        label="可选多个部门"
-      />
-    </el-form-item>
+
     <el-form-item label="默认值">
       <el-button
         circle

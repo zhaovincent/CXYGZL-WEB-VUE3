@@ -37,10 +37,10 @@ var config = computed(() => {
 
 var defaultValue = computed({
   get: () => {
-    return  (config.value.props.value);
+    return (config.value.props.value);
   },
   set: (s: any[]) => {
-    config.value.props.value = s
+    config.value.props.value =  (s);
   },
 });
 
@@ -54,7 +54,7 @@ defineExpose({ validate });
 
 let selectUserDialogVisible = ref(false);
 const afterSelectUser = (data) => {
-	defaultValue.value = data;
+  defaultValue.value = data;
   selectUserDialogVisible.value = false;
 };
 </script>
@@ -64,18 +64,12 @@ const afterSelectUser = (data) => {
     <employees-dialog
       v-model:visible="selectUserDialogVisible"
       :data="defaultValue"
-      type="user"
+      type="dept"
       :multiple="config.props.multi"
       @change="afterSelectUser"
     />
-    <el-form-item label="选择范围">
-      <el-checkbox
-        v-model="config.props.self"
-        :disabled="defaultValue.length > 0"
-        label="可选自己"
-      />
 
-    </el-form-item>
+
     <el-form-item label="默认值">
       <el-button
         circle

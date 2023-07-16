@@ -168,9 +168,8 @@ const step2FormList = computed(() => {
 })
 
 const step2FormUserList = computed(() => {
+	return step2FormList.value.filter(res => res.type === 'SelectUser'|| res.type === 'SelectMultiUser');
 
-
-	return step2FormList.value.filter(res => res.type === 'SelectUser');
 })
 
 const openEvent = () => {
