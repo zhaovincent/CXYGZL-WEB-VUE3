@@ -236,6 +236,10 @@ All.prototype = {
 						conArr.push(name + " 小于 " + valueShow);
 					} else if (expression === '<=') {
 						conArr.push(name + " 小于等于 " + valueShow);
+					} else if (expression === 'contain') {
+						conArr.push(name + " 包含 " + valueShow);
+					} else if (expression === 'notcontain') {
+						conArr.push(name + " 不包含 " + valueShow);
 					}
 				}
 
