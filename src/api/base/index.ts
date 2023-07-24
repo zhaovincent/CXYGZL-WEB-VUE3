@@ -11,3 +11,13 @@ export function getIndexData() {
 		method: 'get'
 	});
 }
+
+/**
+ * 获取地区列表
+ */
+export function queryAreaList() {
+	return request({
+		url: '/base/areaList',
+		method: 'get'
+	});
+}

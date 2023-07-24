@@ -3,6 +3,7 @@
 import {useFlowStore} from '../../../stores/flow'
 import {queryAll} from '@/api/userfield/index'
 import {getCurrentInstance, watch} from "vue";
+import {queryAreaList} from "@/api/base/index";
 
 let flowStore = useFlowStore();
 
@@ -61,7 +62,9 @@ const formIdObj = computed(() => {
 import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
 
 import {conditionExpression} from '../../../utils/const'
-
+import {computed} from "vue";
+import {getAreaValue} from "@/utils/area";
+var areaList=ref([])
 var userFieldList = ref([])
 
 onMounted(() => {
@@ -73,6 +76,10 @@ onMounted(() => {
 
 		props.condition.userKeyFieldList = userFieldList.value;
 
+	})
+
+	queryAreaList().then(res=>{
+		areaList.value=res.data;
 	})
 })
 //第一个选项变化了
@@ -149,6 +156,14 @@ const numberFormPrecision = computed(() => {
 
 })
 
+var areaValue = computed({
+	get() {
+		return props.condition.value?.value;
+	},
+	set(t) {
+	  props.condition.value= getAreaValue(areaList,t);
+	}
+})
 </script>
 
 <template>
@@ -240,6 +255,20 @@ conditionTypeObj==='Number'
 
 		/>
 
+	  <el-cascader
+
+			  style="width: 100%;margin-top: 20px;"
+			  :options="areaList"
+		v-if="conditionTypeObj==='Area'"
+
+			  clearable
+			  :props="{
+			   checkStrictly:true,
+			   		value:'code',label:'name'
+					 }"
+			  v-model="areaValue"
+
+	  />
 		<el-select v-model="condition.value"
 							 v-if="conditionTypeObj==='SingleSelect'
 "

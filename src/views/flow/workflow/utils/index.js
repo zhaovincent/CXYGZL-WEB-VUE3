@@ -205,10 +205,8 @@ All.prototype = {
 				}
 
 				for (var ite of it.conditionList) {
-
-
-					if (!ite.key || ite.key.length == 0 || !ite.expression || ite.expression.length == 0 || !ite.value || ite.value.length == 0) {
-
+					if (!ite.key || ite.key.length == 0 || !ite.expression || ite.expression.length == 0 || !ite.value || ite.value.length == 0
+					||(ite.keyType==='Area'&&!ite.value?.value)) {
 						return false;
 					}
 				}
@@ -308,6 +306,15 @@ All.prototype = {
 							}
 						}
 						valueShow = arr.join(",")
+					} else if (valueElement.type === 'Area') {
+
+						if(value?.name){
+							valueShow=value.name
+
+						}else{
+							valueShow = '?'
+
+						}
 					} else {
 						if (!valueShow) {
 							valueShow = '?'

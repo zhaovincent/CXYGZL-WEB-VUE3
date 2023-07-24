@@ -158,6 +158,28 @@ export let conditionExpression = ref(
 				name: "小于等于"
 			}
 		],
+		"Area":[
+
+			{
+				key: "==",
+				name: "等于"
+			}, {
+				key: "!=",
+				name: "不等于"
+			}, {
+				key: "contain",
+				name: "包含"
+			}, {
+				key: "notcontain",
+				name: "不包含"
+			},{
+				key: "in",
+				name: "属于"
+			}, {
+				key: "notin",
+				name: "不属于"
+			}
+		],
 		"Money": [
 			{
 				key: "==",

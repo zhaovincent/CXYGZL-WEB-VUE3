@@ -249,6 +249,16 @@ const formGroupConfig: FormGroupVO[] = [
 				props: {
 					value: [], min: 1, max: 10
 				},
+			},{
+				name: "地区",
+				type: "Area",
+				typeName: "地区",
+				icon: "Position",
+				placeholder: "请选择",
+				required: false,
+				props: {
+					value: [], min: 1, max: 10
+				},
 			}
 		]
 	}
