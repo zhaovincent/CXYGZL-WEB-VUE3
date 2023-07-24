@@ -23,35 +23,46 @@
 		</el-form>
 		<el-form label-width="120px" v-else>
 			<el-form-item label="自定义关系">
+		  <el-button :icon="$icon['Delete']" @click="clearTag"  type="danger" text>清空选项</el-button>
+
+					<el-card style="min-height: 200px;width: 100%;">
+
+
+			  <el-tag
+								style="margin-bottom: 10px;"
+					  v-for="(tag,index) in conditionConfig.groupRelation"
+					  :key="tag.name"
+					  class="mx-1"
+						size="large"
+					  closable @close="delTag(index)"
+					  :type="tag.type"
+			  >
+				  {{ tag.name }}
+			  </el-tag>
+					</el-card>
 				<div class="demo-tagInput">
-					<TagTextInput
-							ref="refTagTextarea"
-							class-name="demo"
-							:default-value="conditionConfig.groupRelation"
-							:readonly="false"
-							:no-cursor="false"
-							:min-height="200"
-							:render-tag="renderTag"
-							@on-change="onChange"
-					/>
+
+
 
 					<div class="tag-wrap" >
-						<el-button v-for="item in  conditionConfig.conditionList.length" :key="item" @click="addTag('条件组'+item)">
-							{{ '条件组' + item }}
-						</el-button>
-						<el-button  @click="addTag('或')">
+						<el-button type="success"  @click="addTag('或','success','||')">
 						 	或
 						</el-button>
-						<el-button  @click="addTag('且')">
+						<el-button type="success"  @click="addTag('且','success','&&')">
 						 	且
 						</el-button>
-						<el-button  @click="addTag('(')">
+						<el-button type="danger"  @click="addTag('(','danger','(')">
 						 	(
 						</el-button>
-						<el-button  @click="addTag(')')">
+						<el-button type="danger"  @click="addTag(')','danger',')')">
 						 	)
 						</el-button>
 					</div>
+			<div class="tag-wrap"  >
+				<el-button type="primary" style="margin-top: 10px" v-for="item in  conditionConfig.conditionList.length" :key="item" @click="addTag('条件组'+item,'primary','c'+item)">
+					{{ '条件组' + item }}
+				</el-button>
+			</div>
 				</div>
 			</el-form-item>
 		</el-form>
@@ -100,33 +111,32 @@
 import {ref, watch, computed, getCurrentInstance} from 'vue'
 import $func from '../../utils/index'
 import {useStore} from '../../stores/index'
-import TagTextInput from "@/components/TagInput/index.vue";
-// 触发增加 tag
-const refTagTextarea = ref();
-const addTag = (id) => {
-	refTagTextarea.value.insertColumnTag(id);
+
+
+const addTag = (name,type,exp) => {
+	 	conditionConfig.value.groupRelation.push({
+				type:type,
+				exp:exp,
+				name:name
+		})
 };
-//假数据
 
-const renderTag = (id, options) => {
-	let tagName = `${id}`;
-	const ele = document.createElement("div");
-	ele.classList.add("tag-demo-con");
-	ele.innerHTML = `<div class="tag-wrap"><div class="tag">${tagName}</div></div>`;
-	return ele;
+const delTag=(index)=>{
+	conditionConfig.value.groupRelation.splice(index,1)
+}
 
+const clearTag=()=>{
+	conditionConfig.value.groupRelation.splice(0,conditionConfig.value.groupRelation.length)
 }
 
 
-const onChange = (error, value, obj) => {
-	 conditionConfig.value.groupRelation=value;
-};
+
 
 let conditionsConfig = ref({
 	conditionNodes: [],
 })
 let conditionConfig = ref({
-	groupRelation:''
+	groupRelation:[]
 })
 let PriorityLevel = ref('')
 

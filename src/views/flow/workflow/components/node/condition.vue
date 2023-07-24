@@ -156,7 +156,7 @@ const addTerm = () => {
 		parentId: props.nodeConfig.id,
 		mode: true,
 		"groupRelationMode": true,
-		"groupRelation": "",
+		"groupRelation": [],
 		id: proxy.$getRandomId(),
 		priorityLevel: len,
 		conditionList: [{

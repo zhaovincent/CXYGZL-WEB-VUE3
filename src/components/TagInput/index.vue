@@ -68,6 +68,7 @@ const cmEle = ref();
 let cmInstance: any = null;
 
 onMounted(() => {
+	console.log('cmEle.value',cmEle.value,props.defaultValue)
   if (cmEle.value) {
     //编辑器初始化
     cmInstance = CodeMirror(cmEle.value, {

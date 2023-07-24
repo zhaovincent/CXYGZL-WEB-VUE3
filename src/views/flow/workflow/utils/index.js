@@ -182,6 +182,16 @@ All.prototype = {
 	checkCondition(conditionsConfig, index) {
 		let conditionNodes = conditionsConfig.conditionNodes;
 		let conditionNode = conditionNodes[index];
+		let groupRelationMode = conditionNode.groupRelationMode;
+
+		let groupRelation = conditionNode.groupRelation;
+
+		if(!groupRelationMode){
+			if(groupRelation.length==0){
+				return false;
+			}
+		}
+
 
 		let conditionList = conditionNode.conditionList;
 		if (conditionList.length == 0) {
@@ -220,6 +230,13 @@ All.prototype = {
 		let groupRelationMode = conditionNode.groupRelationMode;
 
 		let groupRelation = conditionNode.groupRelation;
+
+		if(!groupRelationMode){
+			if(groupRelation.length==0){
+				return "请设置条件组关系";
+			}
+		}
+
 		var {conditionList} = conditionNode;
 		var groupMode = conditionNode.mode;
 		if (conditionList.length == 0) {
@@ -343,15 +360,13 @@ All.prototype = {
 			if (groupConArr.length == 0) {
 				return '请设置条件';
 			}
-
-			var str = groupRelation
-				.replaceAll('$或$', '或')
-				.replaceAll('$)$', ')')
-				.replaceAll('$($', '(')
-				.replaceAll('$且$', '且');
+			var str='';
+			for(var itm of groupRelation){
+				str=str+itm.name;
+			}
 
 			for (var k = 0; k < groupConArr.length; k++) {
-				str = str.replaceAll('$条件组' + (k + 1) + '$', groupConArr[k]);
+				str = str.replaceAll('条件组' + (k + 1) , groupConArr[k]);
 			}
 
 
