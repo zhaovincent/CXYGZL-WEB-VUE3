@@ -417,7 +417,6 @@ All.prototype = {
 
 		const {starterMode, starterValue, subFlowId, subFlowName} = nodeConfig;
 
-		console.log('子流程节点', nodeConfig)
 
 		return '子流程:' + (subFlowName?.length > 0 ? subFlowName : '?');
 
@@ -432,6 +431,7 @@ All.prototype = {
 			starterValue,
 			subFlowId,
 			pcFormList,
+			cpFormList,
 			multiple,
 			multipleMode,
 			multipleModeValue
@@ -457,6 +457,11 @@ All.prototype = {
 			}
 
 		} else {
+			for (var item of cpFormList) {
+				if (item.field.length == 0 || item.value.length == 0) {
+					return false;
+				}
+			}
 
 		}
 
