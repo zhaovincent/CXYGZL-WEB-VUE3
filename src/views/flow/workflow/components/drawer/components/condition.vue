@@ -79,7 +79,7 @@ onMounted(() => {
 	})
 
 	queryAreaList().then(res=>{
-		areaList.value=res.data;
+		areaList.value=res;
 	})
 })
 //第一个选项变化了

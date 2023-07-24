@@ -26,7 +26,8 @@ const dataList=ref([])
 
 onMounted(()=>{
 	queryAreaList().then(res=>{
-		dataList.value=res.data;
+
+		dataList.value=res;
 	})
 })
 

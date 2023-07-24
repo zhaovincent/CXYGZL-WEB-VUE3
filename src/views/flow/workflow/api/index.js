@@ -52,6 +52,14 @@ export function getWorkFlowData(data) {
   return http.get(`${baseUrl}data.json`, { params: data })
 }
 /**
+ * 获取地区数据
+ * @param {*} data
+ * @returns
+ */
+export function getAreaData() {
+  return http.get(`${baseUrl}area.json`, {   })
+}
+/**
  * 设置审批数据
  * @param {*} data
  * @returns
