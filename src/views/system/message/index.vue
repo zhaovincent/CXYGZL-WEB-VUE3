@@ -111,24 +111,6 @@ function handleSelectionChange(selection: any) {
   ids.value = selection.map((item: any) => item.id);
 }
 
-/**
- * 打开角色表单弹窗
- *
- * @param roleId
- */
-function openDialog(row?: Object) {
-  dialog.visible = true;
-  if (row.id) {
-    dialog.title = "修改角色";
-
-      Object.assign(formData, row);
-
-  } else {
-    dialog.title = "新增角色";
-	  Object.assign(formData, {});
-
-  }
-}
 
 /**
  * 角色表单提交
@@ -286,13 +268,22 @@ onMounted(() => {
   <div class="app-container">
     <div class="search">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-        <el-form-item prop="keywords" label="关键字">
-          <el-input
-            v-model="queryParams.keywords"
-            placeholder="角色名称"
-            clearable
-            @keyup.enter="handleQuery"
-          />
+
+        <el-form-item prop="keywords" label="是否已读">
+			<el-select clearable  v-model="queryParams.readed"   placeholder="选择"  >
+				<el-option
+
+						:key="true"
+						label="已读"
+						:value="true"
+				/>
+				<el-option
+
+						:key="false"
+						label="未读"
+						:value="false"
+				/>
+			</el-select>
         </el-form-item>
 
         <el-form-item>
