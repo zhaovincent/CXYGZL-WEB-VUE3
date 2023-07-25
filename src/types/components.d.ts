@@ -73,6 +73,7 @@ declare module "@vue/runtime-core" {
     RouterView: typeof import("vue-router")["RouterView"];
     SingleUpload: typeof import("./../components/Upload/SingleUpload.vue")["default"];
     SizeSelect: typeof import("./../components/SizeSelect/index.vue")["default"];
+	  MsgAlert: typeof import("./../components/MsgAlert/index.vue")["default"];
     SvgIcon: typeof import("./../components/SvgIcon/index.vue")["default"];
     TagInput: typeof import("./../components/TagInput/index.vue")["default"];
     WangEditor: typeof import("./../components/WangEditor/index.vue")["default"];
