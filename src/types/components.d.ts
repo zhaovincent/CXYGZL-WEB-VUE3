@@ -52,6 +52,7 @@ declare module "@vue/runtime-core" {
     IEpCaretBottom: typeof import("~icons/ep/caret-bottom")["default"];
     IEpCaretTop: typeof import("~icons/ep/caret-top")["default"];
     IEpClose: typeof import("~icons/ep/close")["default"];
+    IEpCheck: typeof import("~icons/ep/check")["default"];
     IEpCollection: typeof import("~icons/ep/collection")["default"];
     IEpDelete: typeof import("~icons/ep/delete")["default"];
     IEpDownload: typeof import("~icons/ep/download")["default"];

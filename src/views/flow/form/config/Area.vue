@@ -9,7 +9,9 @@ let props = defineProps({
 });
 
 import {useFlowStore} from "../../workflow/stores/flow";
-import {queryAreaList} from "@/api/base/index";
+import {areaData} from "@/views/flow/workflow/utils/area";
+
+
 import {getAreaValue} from "@/utils/area";
 
 let flowStore = useFlowStore();
@@ -33,12 +35,10 @@ var config = computed(() => {
 	return undefined;
 });
 
-const dataList = ref([])
+const dataList = areaData;
 
 onMounted(() => {
-	queryAreaList().then(res => {
-		dataList.value = res;
-	})
+
 })
 
 var areaValue = computed({

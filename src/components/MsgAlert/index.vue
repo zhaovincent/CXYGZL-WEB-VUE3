@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { useAppStore } from '@/store/modules/app';
-import { getMessageUnreadNum } from "@/api/message/index";
+import {useAppStore} from '@/store/modules/app';
+import {getMessageUnreadNum} from "@/api/message/index";
+import {useRouter} from "vue-router";
 
 const appStore = useAppStore();
 
-const unreadNum=ref(0)
+const unreadNum = ref(0)
 
 function handleQuery() {
 	getMessageUnreadNum().then(res => {
@@ -12,21 +13,27 @@ function handleQuery() {
 		unreadNum.value = data;
 	})
 }
+const router = useRouter();
 
-setInterval(()=>{
+setInterval(() => {
 	handleQuery()
-},5000)
+}, 5000)
 
-onMounted(()=>{
+onMounted(() => {
 	handleQuery();
 })
+
+const goto=()=>{
+		router.push("/system/message")
+}
+
 </script>
 
 <template>
-		<div>
-		<el-badge :value="unreadNum"  >
-			<svg-icon icon-class="message" />
+	<div @click="goto" style="cursor: pointer">
+		<el-badge :value="unreadNum">
+			<svg-icon icon-class="message"/>
 		</el-badge>
-		</div>
+	</div>
 
 </template>

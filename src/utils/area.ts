@@ -9,7 +9,7 @@ export function getAreaValue(dataList, t){
 	var code = '';
 
 	if (t[0]) {
-		let e = dataList.value.filter(res => res.code === t[0])[0];
+		let e = dataList.filter(res => res.code === t[0])[0];
 		nameObj.push( e.name);
 		name = name + e.name;
 		code=t[0]

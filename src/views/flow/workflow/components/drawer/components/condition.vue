@@ -3,7 +3,8 @@
 import {useFlowStore} from '../../../stores/flow'
 import {queryAll} from '@/api/userfield/index'
 import {getCurrentInstance, watch} from "vue";
-import {queryAreaList} from "@/api/base/index";
+import {areaData} from "@/views/flow/workflow/utils/area";
+
 
 let flowStore = useFlowStore();
 
@@ -64,7 +65,7 @@ import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vu
 import {conditionExpression} from '../../../utils/const'
 import {computed} from "vue";
 import {getAreaValue} from "@/utils/area";
-var areaList=ref([])
+var areaList=areaData
 var userFieldList = ref([])
 
 onMounted(() => {
@@ -78,9 +79,7 @@ onMounted(() => {
 
 	})
 
-	queryAreaList().then(res=>{
-		areaList.value=res;
-	})
+
 })
 //第一个选项变化了
 const firstSelectChangeEvent = () => {

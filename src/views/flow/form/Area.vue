@@ -21,19 +21,19 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import {queryAreaList} from "@/api/base/index";
-const dataList=ref([])
+
+import {areaData} from "@/views/flow/workflow/utils/area";
+
+
+const dataList=areaData;
 
 onMounted(()=>{
-	queryAreaList().then(res=>{
 
-		dataList.value=res;
-	})
 })
 
 var areaValue = computed({
 	get() {
-		return props.form.props.value.value;
+		return props.form.props.value?.value;
 	},
 	set(t) {
 	  props.form.props.value= getAreaValue(dataList,t);
