@@ -41,7 +41,8 @@ const halfSelectChange = (e) => {
 </script>
 
 <template>
-	<div>
+	<div v-if="config">
+
 
 
 		<el-form-item label="允许半选">

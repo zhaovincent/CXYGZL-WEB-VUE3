@@ -22,7 +22,8 @@ const {proxy} = getCurrentInstance();
 </script>
 
 <template>
-	<div>
+	<div v-if="config">
+
 
 		<el-form-item label="最小值">
 

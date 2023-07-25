@@ -52,7 +52,8 @@ const deleteOption = (index) => {
 </script>
 
 <template>
-  <div>
+	<div v-if="config">
+
     <el-form-item label="选项" required>
       <div v-for="(item, index) in options" :key="index" class="class_option">
         <div class="f1">

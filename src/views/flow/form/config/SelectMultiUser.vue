@@ -60,7 +60,8 @@ const afterSelectUser = (data) => {
 </script>
 
 <template>
-  <div>
+	<div v-if="config">
+
     <employees-dialog
       v-model:visible="selectUserDialogVisible"
       :data="defaultValue"

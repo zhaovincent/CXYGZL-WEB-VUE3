@@ -46,7 +46,6 @@
 									:sort="true"
 									effect="dark"
 									:group="{ name: 'dragFormList', pull: true, put: true }"
-									@change="dragChanged"
 							>
 								<template #item="{ element, index }">
 									<div
@@ -195,15 +194,11 @@ const getFormConfigWidget = (name: string) => {
 const {proxy} = getCurrentInstance();
 
 const dragEnd = (a) => {
-
 	drag.value = false;
 	oriFormList.value = proxy.$deepCopy(oriFormList.value)
 
 }
-// 开始拖拽
-const dragChanged = (a) => {
 
-};
 
 
 import draggable from "vuedraggable";
@@ -212,6 +207,7 @@ import {formGroupConfig} from "@/api/form/data";
 import {computed} from "vue";
 
 let oriFormList = ref<FormGroupVO[]>(formGroupConfig);
+let oriFormListStatic = ref<FormGroupVO[]>(formGroupConfig);
 
 
 let targetList = computed({
@@ -228,7 +224,7 @@ let targetList = computed({
 	set: (v) => {
 
 		let value = v.filter(res => res.type != 'Empty');
-		flowStore.setStep2(value);
+		flowStore.setStep2(proxy.$deepCopy(value));
 
 	}
 })

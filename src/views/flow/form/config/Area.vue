@@ -53,7 +53,8 @@ var areaValue = computed({
 </script>
 
 <template>
-	<div>
+	<div v-if="config">
+
 		<el-form-item label="默认值">
 
 			<el-cascader

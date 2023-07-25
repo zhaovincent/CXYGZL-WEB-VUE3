@@ -35,7 +35,7 @@ const {proxy} = getCurrentInstance();
 </script>
 
 <template>
-	<div>
+	<div v-if="config">
 		<el-form-item label="单位">
 			<el-input v-model="config.props.unit" style="width: 100%" maxlength="10"/>
 		</el-form-item>

@@ -12,7 +12,11 @@ const formGroupConfig: FormGroupVO[] = [
 				placeholder: "请填写",
 				required: false,
 				props: {
-					value: ""
+					value: "",
+					regex: "",
+					regexDesc: "",
+					minLength:undefined,
+					maxLength:undefined
 				},
 			},
 			{

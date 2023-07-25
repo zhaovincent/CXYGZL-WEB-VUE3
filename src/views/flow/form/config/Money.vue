@@ -35,7 +35,8 @@ const {proxy} = getCurrentInstance();
 </script>
 
 <template>
-	<div>
+	<div v-if="config">
+
 	  <el-form-item label="格式">
 		  <el-checkbox v-model="config.props.showChinese" label="显示大写数字" />
 <!--		  <el-checkbox v-model="config.props.showThousandSymbol" label="显示千位分隔符" />-->

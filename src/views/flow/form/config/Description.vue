@@ -33,11 +33,14 @@ var config = computed(() => {
 const {proxy} = getCurrentInstance();
 
 const placeHolder = computed(()=>{
-	return config.value.placeholder;
+	return config?.value?.placeholder;
 })
 
 watch(()=>placeHolder.value,(f)=>{
- 			config.value.props.value=f;
+	if(config.value){
+	  config.value.props.value=f;
+
+	}
 },{deep:true})
 
 </script>

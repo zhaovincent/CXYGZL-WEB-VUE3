@@ -34,7 +34,7 @@ const {proxy} = getCurrentInstance();
 </script>
 
 <template>
-	<div>
+	<div v-if="config">
 		<el-form-item label="最小长度">
 			<el-input-number  :step="1" step-strictly  v-model="config.props.minLength" style="width: 100%" controls-position="right" :min="1"
 							 :max="100"/>
