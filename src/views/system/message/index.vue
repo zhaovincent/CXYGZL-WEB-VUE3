@@ -210,6 +210,7 @@ onMounted(() => {
               type="success"
               size="small"
               link
+							:disabled="scope.row.readed"
               @click="handleRead(scope.row.id)"
             >
               <i-ep-check />已读
