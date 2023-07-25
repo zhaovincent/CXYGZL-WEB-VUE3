@@ -1,25 +1,30 @@
 <script setup lang="ts">
 import { useAppStore } from '@/store/modules/app';
+import { getMessageUnreadNum } from "@/api/message/index";
 
 const appStore = useAppStore();
 
-const sizeOptions = ref([
-  { label: '默认', value: 'default' },
-  { label: '大型', value: 'large' },
-  { label: '小型', value: 'small' }
-]);
+const unreadNum=ref(0)
 
-function handleSizeChange(size: string) {
-  appStore.changeSize(size);
-  ElMessage.success('切换布局大小成功');
+function handleQuery() {
+	getMessageUnreadNum().then(res => {
+		const {data} = res;
+		unreadNum.value = data;
+	})
 }
-import {Check, Plus,Bell, Aim, Link} from "@element-plus/icons-vue";
 
+setInterval(()=>{
+	handleQuery()
+},5000)
+
+onMounted(()=>{
+	handleQuery();
+})
 </script>
 
 <template>
 		<div>
-		<el-badge :value="12" is-dot>
+		<el-badge :value="unreadNum"  >
 			<svg-icon icon-class="message" />
 		</el-badge>
 		</div>
