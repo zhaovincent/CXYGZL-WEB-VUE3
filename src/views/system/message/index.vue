@@ -101,6 +101,7 @@ function handleQuery() {
 function resetQuery() {
   queryFormRef.value.resetFields();
   queryParams.pageNum = 1;
+	queryParams.readed=undefined
   handleQuery();
 }
 
