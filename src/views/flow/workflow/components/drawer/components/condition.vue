@@ -164,6 +164,7 @@ var areaValue = computed({
 	  props.condition.value= getAreaValue(areaList,t);
 	}
 })
+
 </script>
 
 <template>
@@ -205,8 +206,10 @@ conditionTypeObj==='Textarea'
 
 
 		<el-input-number v-model="condition.value"
-										 v-if="conditionTypeObj==='Money'||
-conditionTypeObj==='Number'
+										 v-if="conditionTypeObj==='Money'
+										 ||
+conditionTypeObj==='Number'			 ||
+conditionTypeObj==='Score'
 "
 					 :precision="numberFormPrecision"
 										 placeholder="条件值"
@@ -269,6 +272,9 @@ conditionTypeObj==='Number'
 			  v-model="areaValue"
 
 	  />
+			{{condition.halfSelect}}
+
+
 		<el-select v-model="condition.value"
 							 v-if="conditionTypeObj==='SingleSelect'
 "

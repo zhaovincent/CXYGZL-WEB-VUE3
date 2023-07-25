@@ -95,6 +95,27 @@ export let conditionExpression = ref(
 				name: "小于等于"
 			}
 		],
+		"Score": [
+			{
+				key: "==",
+				name: "等于"
+			}, {
+				key: "!=",
+				name: "不等于"
+			}, {
+				key: ">",
+				name: "大于"
+			}, {
+				key: ">=",
+				name: "大于等于"
+			}, {
+				key: "<",
+				name: "小于"
+			}, {
+				key: "<=",
+				name: "小于等于"
+			}
+		],
 		"Date": [
 			{
 				key: "==",

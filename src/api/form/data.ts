@@ -240,20 +240,30 @@ const formGroupConfig: FormGroupVO[] = [
 					value: []
 				},
 			},{
-				name: "明细",
-				type: "Layout",
-				typeName: "明细",
-				icon: "ShoppingBag",
-				placeholder: "请选择",
-				required: false,
-				props: {
-					value: [], min: 1, max: 10
-				},
-			},{
 				name: "地区",
 				type: "Area",
 				typeName: "地区",
 				icon: "Position",
+				placeholder: "请选择",
+				required: false,
+				props: {
+					value: {}
+				},
+			},{
+				name: "评分",
+				type: "Score",
+				typeName: "评分",
+				icon: "StarFilled",
+				placeholder: "请评分",
+				required: false,
+				props: {
+					value: 0, min: 1, max: 10,halfSelect:false,radixNum:1
+				},
+			},{
+				name: "明细",
+				type: "Layout",
+				typeName: "明细",
+				icon: "ShoppingBag",
 				placeholder: "请选择",
 				required: false,
 				props: {
