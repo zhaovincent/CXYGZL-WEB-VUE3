@@ -14,6 +14,9 @@ export const useStore = defineStore('store', {
     approverDrawer: false,
     triggerDrawer: false,
     delayDrawer: false,
+    routeDrawer: false,
+	  routeConfigData: {},
+
     subProcessDrawer: false,
     approverConfigData: {},
     subProcessConfigData: {},
@@ -46,6 +49,9 @@ export const useStore = defineStore('store', {
     setDelay(payload) {
       this.delayDrawer = payload
     },
+    setRoute(payload) {
+      this.routeDrawer = payload
+    },
     setApproverConfig(payload) {
       this.approverConfigData = payload
     },
@@ -54,6 +60,9 @@ export const useStore = defineStore('store', {
     },
     setDelayConfig(payload) {
       this.delayConfigData = payload
+    },
+    setRouteConfig(payload) {
+      this.routeConfigData = payload
     },
     setTriggerConfig(payload) {
       this.triggerConfigData = payload

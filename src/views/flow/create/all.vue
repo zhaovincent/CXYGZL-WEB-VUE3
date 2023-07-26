@@ -111,8 +111,8 @@ import Step1 from "./step1.vue";
 import Step2 from "./step2.vue";
 import Step3 from "./step3.vue";
 import Step4 from "./step4.vue";
-import {useFlowStore} from "../workflow/stores/flow";
 import {LocationQuery, LocationQueryValue, useRouter} from "vue-router";
+import {useFlowStore} from "../workflow/stores/flow";
 
 let store = useFlowStore();
 const step1Ref = ref();
@@ -221,7 +221,14 @@ onMounted(() => {
 
 })
 
-const step3NodeConfig = ref();
+const step3NodeConfig = computed({
+		get(){
+			return store.step3;
+		},
+		set(t){
+			store.setStep3(t);
+		}
+});
 
 var paramGroupId = ref();
 

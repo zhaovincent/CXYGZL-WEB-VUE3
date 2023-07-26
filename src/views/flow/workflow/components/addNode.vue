@@ -1,7 +1,7 @@
 <template>
 	<div class="add-node-btn-box">
 		<div class="add-node-btn">
-			<el-popover placement="right-start" v-model="visible" width="250px">
+			<el-popover placement="right-start" v-model="visible" width="350px">
 				<div class="add-node-popover-body">
 
 
@@ -59,6 +59,14 @@
 						<p>延时器</p>
 					</a>
 
+					<a class="add-node-popover-item route" @click="addType(10)">
+						<div class="item-wrapper">
+							<i class="icon icon-icon_transpond iconfont"></i>
+
+
+						</div>
+						<p>路由</p>
+					</a>
 					<a class="add-node-popover-item subProcess" @click="addType(9)">
 						<div class="item-wrapper">
 							<i class="icon icon-icon_pc_sharelink1 iconfont"></i>
@@ -211,6 +219,17 @@ const addType = (type) => {
 				mode: true,
 				delayUnit: 'TS',
 				value: ''
+			}
+		} else if (type == 10) {
+			//路由节点
+			data = {
+				"id": proxy.$getRandomId(),
+				"nodeName": "路由",
+				error: true,
+				"type": type,
+				"parentId": props.currentNode.id,
+				"childNode": props.childNodeP,
+					list:[]
 			}
 		} else if (type == 9) {
 			//子流程
@@ -548,6 +567,11 @@ const addType = (type) => {
 		&.subProcess {
 			.item-wrapper {
 				color: #996633
+			}
+		}
+		&.route {
+			.item-wrapper {
+				color: #999900
 			}
 		}
 

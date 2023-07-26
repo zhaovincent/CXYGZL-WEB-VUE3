@@ -6,6 +6,7 @@
 		<trigger @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==6" :nodeConfig="nodeConfig"></trigger>
 		<delay @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==7" :nodeConfig="nodeConfig"></delay>
 		<sub-process @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==9" :nodeConfig="nodeConfig"></sub-process>
+		<route @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==10" :nodeConfig="nodeConfig"></route>
 		<condition @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==4||nodeConfig.type==8" :nodeConfig="nodeConfig"></condition>
 		<parallel @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==5" :nodeConfig="nodeConfig"></parallel>
 		<nodeWrap v-if="nodeConfig.childNode" v-model:nodeConfig="nodeConfig.childNode"/>
@@ -19,6 +20,7 @@ import CC from "./node/cc.vue"
 import Trigger from "./node/trigger.vue"
 import Delay from "./node/delay.vue"
 import SubProcess from "./node/subProcess.vue"
+import Route from "./node/route.vue"
 import Condition from "./node/condition.vue"
 import Parallel from "./node/parallel.vue"
 

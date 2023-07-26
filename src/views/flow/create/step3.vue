@@ -24,6 +24,7 @@
 		<triggerDrawer/>
 		<delayDrawer/>
 		<subProcessDrawer/>
+		<route-drawer/>
 	</div>
 </template>
 
@@ -37,6 +38,7 @@ import triggerDrawer from "../workflow/components/drawer/triggerDrawer.vue";
 import delayDrawer from "../workflow/components/drawer/delayDrawer.vue";
 import subProcessDrawer from "../workflow/components/drawer/subProcessDrawer.vue";
 import conditionDrawer from "../workflow/components/drawer/conditionDrawer.vue";
+import routeDrawer from "../workflow/components/drawer/routeDrawer.vue";
 
 
 let tipList = ref([]);

@@ -65,7 +65,8 @@ import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vu
 import {conditionExpression} from '../../../utils/const'
 import {computed} from "vue";
 import {getAreaValue} from "@/utils/area";
-var areaList=areaData
+
+var areaList = areaData
 var userFieldList = ref([])
 
 onMounted(() => {
@@ -108,7 +109,7 @@ const conditionTypeObj = computed(() => {
 		return ''
 	}
 	let filter = userFieldList.value.filter(res => res.key === props.condition.userKey);
-	if(!filter||filter.length==0){
+	if (!filter || filter.length == 0) {
 		return ''
 	}
 	return filter[0].type
@@ -160,7 +161,25 @@ var areaValue = computed({
 		return props.condition.value?.value;
 	},
 	set(t) {
-	  props.condition.value= getAreaValue(areaList,t);
+		props.condition.value = getAreaValue(areaList, t);
+	}
+})
+
+var conditionKey = computed({
+	get() {
+		return props.condition.key;
+	},
+	set(key) {
+		props.condition.key = key
+		if (key === 'root') {
+			props.condition.keyType = 'SelectUser'
+		} else {
+			let ele = step2FormList.value.filter(res => res.id === key);
+			if (ele.length > 0) {
+				props.condition.keyType = ele[0].type;
+
+			}
+		}
 	}
 })
 
@@ -168,7 +187,7 @@ var areaValue = computed({
 
 <template>
 	<div>
-		<el-select v-model="condition.key" @change="firstSelectChangeEvent" placeholder="选择表单" style="width: 100%;">
+		<el-select v-model="conditionKey" @change="firstSelectChangeEvent" placeholder="选择表单" style="width: 100%;">
 			<el-option
 					v-for="f in formList"
 					:key="f.id"
@@ -210,7 +229,7 @@ conditionTypeObj==='Textarea'
 conditionTypeObj==='Number'			 ||
 conditionTypeObj==='Score'
 "
-					 :precision="numberFormPrecision"
+										 :precision="numberFormPrecision"
 										 placeholder="条件值"
 										 style="width: 100%;margin-top: 20px"
 										 controls-position="right"
@@ -257,21 +276,21 @@ conditionTypeObj==='Score'
 
 		/>
 
-	  <el-cascader
+		<el-cascader
 
-			  style="width: 100%;margin-top: 20px;"
-			  :options="areaList"
-		v-if="conditionTypeObj==='Area'"
+				style="width: 100%;margin-top: 20px;"
+				:options="areaList"
+				v-if="conditionTypeObj==='Area'"
 
-			  clearable
-			  :props="{
+				clearable
+				:props="{
 			   checkStrictly:true,
 			   		value:'code',label:'name'
 					 }"
-			  v-model="areaValue"
+				v-model="areaValue"
 
-	  />
-			{{condition.halfSelect}}
+		/>
+		{{ condition.halfSelect }}
 
 
 		<el-select v-model="condition.value"

@@ -20,6 +20,9 @@ export const useFlowStore = defineStore("flow", {
 				admin: adminList,
 				remark: "",
 			},
+			step3:{
+
+			},
 			step2: [] as FormVO[],
 			step4: {
 				frontNotify: {
@@ -81,6 +84,9 @@ export const useFlowStore = defineStore("flow", {
 		},
 		setStep4(p: any) {
 			this.step4 = p;
+		},
+		setStep3(p: any) {
+			this.step3 = p;
 		},
 		addStep4OneLine(key1, key2) {
 			this.step4[key1][key2].push({

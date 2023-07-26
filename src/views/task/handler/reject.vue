@@ -36,8 +36,6 @@ var rejectNodeList=computed(()=>{
 	produceSerialNodeList(undefined,process.value, arr, obj,true)
 
 
-		console.log(arr,obj)
-
 
 
 	var k = arr[nodeId.value];
@@ -56,7 +54,6 @@ var rejectNodeList=computed(()=>{
 		}
 	}
 
-	console.log(values)
 
 	return values
 })
