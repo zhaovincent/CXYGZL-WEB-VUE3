@@ -220,15 +220,7 @@ onMounted(() => {
 
 
 })
-
-const step3NodeConfig = computed({
-		get(){
-			return store.step3;
-		},
-		set(t){
-			store.setStep3(t);
-		}
-});
+const step3NodeConfig =  ref()
 
 var paramGroupId = ref();
 

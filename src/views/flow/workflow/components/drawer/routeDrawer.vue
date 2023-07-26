@@ -73,6 +73,7 @@ var rejectNodeList = computed(() => {
 	var childNodeArr = {}
 
 
+		console.log("-----------",flowStore.step3)
 	produceSerialNodeList(undefined, flowStore.step3, arr, obj, true, childNodeArr)
 
 	queryChildrenNode(config.value.id, childNodeArr, childArr);
@@ -84,6 +85,7 @@ var rejectNodeList = computed(() => {
 		k = []
 	}
 	k = k.concat(childArr);
+	console.log("-----------",k)
 
 	for (var item of k) {
 		var type = obj[item].type;
@@ -245,7 +247,6 @@ let visible = computed({
 	}
 })
 watch(delayConfigData, (val) => {
-	console.log("路由数据变化了", val)
 	config.value = val.value;
 
 

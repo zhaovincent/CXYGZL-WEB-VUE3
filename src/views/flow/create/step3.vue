@@ -51,7 +51,7 @@ let nodeConfig = ref({
 	"formPerms": {},
 	"nodeUserList": [],
 	"childNode": {},
-	multipleMode:1,
+	multipleMode: 1,
 
 	"operList": [
 		{
@@ -68,15 +68,16 @@ let props = defineProps({
 
 
 	nodeConfigObj: {
-		type: String,
-		default: ''
+		type: Object,
+		default: () => {
+		}
 	}
 });
 
 
 watch(() => props.nodeConfigObj, (val) => {
 	nodeConfig.value = val
-})
+}, {deep: true})
 
 const reErr = ({childNode}) => {
 	if (childNode) {
@@ -91,7 +92,7 @@ const reErr = ({childNode}) => {
 			reErr(childNode);
 		} else if (type == 3) {
 			reErr(childNode);
-		} else if (type == 4||type==8) {
+		} else if (type == 4 || type == 8) {
 			reErr(childNode);
 			for (var i = 0; i < conditionNodes.length; i++) {
 				if (conditionNodes[i].error) {
@@ -115,6 +116,15 @@ const reErr = ({childNode}) => {
 		childNode = null;
 	}
 };
+import {useFlowStore} from "../workflow/stores/flow";
+
+let store = useFlowStore();
+
+
+watch(() => nodeConfig.value, (v) => {
+	console.log("流程变化了", v)
+	store.setStep3(v)
+}, {deep: true})
 const getProcessData = async () => {
 
 	return nodeConfig.value

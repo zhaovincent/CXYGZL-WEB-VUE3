@@ -11,6 +11,8 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+
+
     const userStore = useUserStoreHook();
     if (userStore.token) {
       config.headers.Authorization = userStore.token;
@@ -25,6 +27,7 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (response: AxiosResponse) => {
+
     const { code, msg ,ok} = response.data;
     if (ok===true) {
       return response.data;

@@ -14,6 +14,8 @@ import moment from 'moment'
 // 国际化
 import i18n from "@/lang/index";
 
+import { ElLoading } from 'element-plus'
+
 // 设置icon
 import installIcon from '@/utils/icon'
 
