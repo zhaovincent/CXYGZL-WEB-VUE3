@@ -32,7 +32,7 @@ export function getUserPage(
  *
  * @param userId
  */
-export function getUserForm(userId: number): AxiosPromise<UserForm> {
+export function getUserDetail(userId: number): AxiosPromise<UserForm> {
   return request({
     url: '/user/getUserDetail?userId='+userId,
     method: 'get'

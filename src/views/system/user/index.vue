@@ -11,7 +11,7 @@ defineOptions({
 import {UploadFile} from "element-plus";
 import {
 	getUserPage,
-	getUserForm,
+	getUserDetail,
 	deleteUsers,
 	addUser,
 	updateUser,
@@ -206,8 +206,10 @@ async function openDialog(userId?: number) {
 	dialog.visible = true;
 	if (userId) {
 		dialog.title = "修改用户";
-		getUserForm(userId).then(({data}) => {
+		getUserDetail(userId).then(({data}) => {
 
+
+				data.deptId=''+data.deptId
 
 			for (var item of data.userFieldDataList) {
 
