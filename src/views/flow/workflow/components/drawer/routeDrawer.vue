@@ -1,5 +1,5 @@
 <template>
-	<el-drawer :append-to-body="true" title="路由" v-model="visible"
+	<el-drawer :append-to-body="true" title="动态路由" v-model="visible"
 
 
 						 @open="openEvent"

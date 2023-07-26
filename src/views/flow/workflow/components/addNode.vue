@@ -65,7 +65,7 @@
 
 
 						</div>
-						<p>路由</p>
+						<p>动态路由</p>
 					</a>
 					<a class="add-node-popover-item subProcess" @click="addType(9)">
 						<div class="item-wrapper">
@@ -224,7 +224,7 @@ const addType = (type) => {
 			//路由节点
 			data = {
 				"id": proxy.$getRandomId(),
-				"nodeName": "路由",
+				"nodeName": "动态路由",
 				error: true,
 				"type": type,
 				"parentId": props.currentNode.id,

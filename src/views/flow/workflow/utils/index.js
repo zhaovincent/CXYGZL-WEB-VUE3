@@ -502,7 +502,7 @@ All.prototype = {
 		if(!b){
 			return '请完善路由信息'
 		}
-		return  nodeConfig.list.length+'条路由'
+		return  nodeConfig.list.length+'条动态路由'
 	},
 	routeOk(nodeConfig){
 
