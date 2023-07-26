@@ -5,7 +5,7 @@ const {proxy} = getCurrentInstance();
 let isInput = ref(false);
 
 onMounted(() => {
-		props.nodeConfig.error = false
+	props.nodeConfig.error = !$func.routeOk(props.nodeConfig);
 
 });
 let props = defineProps({
@@ -39,7 +39,7 @@ let defaultText = computed(() => {
 var placeHolder = computed(() => {
 
 	//TODO 1
-	return $func.delayStr(props.nodeConfig)
+	return $func.routeStr(props.nodeConfig)
 
 })
 

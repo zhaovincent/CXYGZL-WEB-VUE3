@@ -12,14 +12,14 @@
 				<div class="card-header">
 					<span>路由{{ index + 1 }}</span>
 
-		  <el-select v-model="item.nodeId"   placeholder="选择节点" >
-			  <el-option
-				v-for="item in rejectNodeList"
-					  :key="item.id"
-					  :label="item.name"
-					  :value="item.id"
-			  />
-		  </el-select>
+					<el-select v-model="item.nodeId" placeholder="选择节点">
+						<el-option
+								v-for="item in rejectNodeList"
+								:key="item.id"
+								:label="item.name"
+								:value="item.id"
+						/>
+					</el-select>
 
 					<el-button class="button" type="danger" text @click="deleteRoute(index)">删除</el-button>
 				</div>
@@ -60,45 +60,53 @@ import {useFlowStore} from "../../stores/flow";
 let flowStore = useFlowStore();
 
 
-
-
 //计算节点列表
-var rejectNodeList=computed(()=>{
+var rejectNodeList = computed(() => {
 
 	//驳回节点列表
 	let values = []
-	const excType = [0,1]
+	const excType = [10,3]
 
-	var arr = {
-
-	}
+	var arr = {}
+	var childArr = []
 	var obj = {}
+	var childNodeArr = {}
 
 
+	produceSerialNodeList(undefined, flowStore.step3, arr, obj, true, childNodeArr)
 
-
-	produceSerialNodeList(undefined,flowStore.step3, arr, obj,true)
-
+	queryChildrenNode(config.value.id, childNodeArr, childArr);
 
 	var k = arr[config.value.id];
 
-	if(k==undefined){
-		return []
+
+	if (k == undefined) {
+		k = []
 	}
+	k = k.concat(childArr);
 
 	for (var item of k) {
 		var type = obj[item].type;
-		if (excType.indexOf(type)>-1&&obj[item].id!=config.value.id) {
-			values.push({ id: obj[item].id, name: obj[item].nodeName })
+		if (excType.indexOf(type) == -1 && obj[item].id != config.value.id) {
+			values.push({id: obj[item].id, name: obj[item].nodeName})
 		}
 	}
 
 	return values
 })
 
-//递归数据查找节点
-function produceSerialNodeList(parentId, process, nodeArr, nodeObj,noBranch) {
+//查询下级节点
+function queryChildrenNode(curNodeId, childNodeArr, arr) {
+	let childNodeArrElement = childNodeArr[curNodeId];
+	if (proxy.$isBlank(childNodeArrElement)) {
+		return
+	}
+	arr.push(childNodeArrElement);
+	queryChildrenNode(childNodeArrElement, childNodeArr, arr)
+}
 
+//递归数据查找节点
+function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch, childNodeArr) {
 
 
 	if (!proxy.$isNode(process)) {
@@ -106,10 +114,11 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj,noBranch) {
 	}
 
 
-
 	var nodeId = process.id;
 
 	nodeObj[nodeId] = process;
+
+	//子级
 
 
 	if (!proxy.$isNotBlank(parentId)) {
@@ -121,10 +130,10 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj,noBranch) {
 
 		let parentType = nodeObj[parentId].type;
 
-		if((parentType==5||parentType==8)&&!noBranch){
+		if ((parentType == 5 || parentType == 8) && !noBranch) {
 
 			nodeArr[nodeId] = [];
-		}else{
+		} else {
 			var arr1 = proxy.$deepCopy(p);
 			arr1.push(nodeId)
 			nodeArr[nodeId] = arr1;
@@ -137,32 +146,34 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj,noBranch) {
 
 	var children = process.childNode;
 
+	if (proxy.$isNode(children)) {
+		childNodeArr[nodeId] = children.id;
+
+	}
 	if (type === 5 || type === 8 || type === 4) {
 
 		var branchs = process.conditionNodes;
 
 
-
 		for (var item of branchs) {
 
-			produceSerialNodeList(nodeId, item, nodeArr, nodeObj,false)
+			produceSerialNodeList(nodeId, item, nodeArr, nodeObj, false, childNodeArr)
 
 		}
 
 		if (proxy.$isNode(children)) {
 
-			produceSerialNodeList(nodeId, children, nodeArr, nodeObj,true)
+			produceSerialNodeList(nodeId, children, nodeArr, nodeObj, true, childNodeArr)
 
 		}
 
 	} else {
 		if (proxy.$isNode(children)) {
-			produceSerialNodeList(nodeId, children, nodeArr, nodeObj,true)
+			produceSerialNodeList(nodeId, children, nodeArr, nodeObj, true, childNodeArr)
 		}
 	}
 
 }
-
 
 
 import $func from '../../utils/index'
@@ -204,14 +215,14 @@ var addCondition = (index) => {
 //对话框确定条件
 var confirmCondition = () => {
 	conditionDialogConfigTemp.value.error = !$func.checkCondition({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0);
-	if(!$func.checkCondition({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0)){
-	  ElMessage.warning("请完善条件");
+	if (!$func.checkCondition({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0)) {
+		ElMessage.warning("请完善条件");
 
-	  return
+		return
 
 	}
 
-	console.log("条件数据",conditionDialogConfigTemp.value)
+	console.log("条件数据", conditionDialogConfigTemp.value)
 	dialogVisible.value = false
 	//提示语
 	let conditionStr = $func.conditionStr({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0);
@@ -249,9 +260,8 @@ const openEvent = () => {
 
 
 const saveDelay = () => {
+	config.value.error = !$func.routeOk(config.value)
 
-
-	config.value.error =false
 	setRouteConfig({
 		value: config.value,
 		flag: true,

@@ -229,7 +229,16 @@ const addType = (type) => {
 				"type": type,
 				"parentId": props.currentNode.id,
 				"childNode": props.childNodeP,
-					list:[]
+					list:[{
+
+			  groupRelationMode: true,
+			  mode: true,
+			  error: true,
+			  nodeId: '',
+			  placeHolder: '',
+			  groupRelation: [],
+			  conditionList: []
+					}]
 			}
 		} else if (type == 9) {
 			//子流程

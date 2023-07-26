@@ -218,6 +218,7 @@ All.prototype = {
 		return true;
 
 	},
+
 	conditionStr(nodeConfig, index) {
 
 		let conditionNodes = nodeConfig.conditionNodes;
@@ -495,6 +496,22 @@ All.prototype = {
 
 
 		return true;
+	},
+	routeStr(nodeConfig){
+		let b = this.routeOk(nodeConfig);
+		if(!b){
+			return '请完善路由信息'
+		}
+		return  nodeConfig.list.length+'条路由'
+	},
+	routeOk(nodeConfig){
+
+		let list = nodeConfig.list;
+		if(list.length==0){
+			return false;
+		}
+		let length = list.filter(res=>res.error||res.nodeId.length==0).length;
+		return length==0
 	}
 }
 
