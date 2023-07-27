@@ -208,6 +208,8 @@ async function openDialog(userId?: number) {
   if (userId) {
     dialog.title = "修改用户";
     getUserForm(userId).then(({ data }) => {
+
+		data.deptId=''+data.deptId
       Object.assign(formData, data);
     });
   } else {
