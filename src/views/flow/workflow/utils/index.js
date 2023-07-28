@@ -274,18 +274,10 @@ All.prototype = {
 						if(type==='SelectUser'||type=='SelectDept'){
 							valueShow = value.map(res => res.name).join(",")
 						} else if (type === 'SingleSelect') {
-							let options = JSON.parse(ele.props).options;
-							if (!options) {
-								options = []
-							}
-							//valueShow = value.map(res => res.name).join(",")
-							var arr = [];
-							for (var ite of options) {
-								if (value.indexOf(ite.key) > -1) {
-									arr.push(ite.value)
-								}
-							}
-							valueShow = arr.join(",")
+
+							valueShow =  value.map(res=>res.value).join(",")
+
+
 						} else {
 							if (!valueShow) {
 								valueShow = '?'
@@ -295,18 +287,10 @@ All.prototype = {
 					} else if (valueElement.type === 'SelectDept') {
 						valueShow = value.map(res => res.name).join(",")
 					} else if (valueElement.type === 'SingleSelect') {
-						let options = valueElement.props.options;
-						if (!options) {
-							options = []
-						}
-						//valueShow = value.map(res => res.name).join(",")
-						var arr = [];
-						for (var ite of options) {
-							if (value.indexOf(ite.key) > -1) {
-								arr.push(ite.value)
-							}
-						}
-						valueShow = arr.join(",")
+
+
+
+						valueShow =  value.map(res=>res.value).join(",")
 					} else if (valueElement.type === 'Area') {
 
 						if(value?.name){

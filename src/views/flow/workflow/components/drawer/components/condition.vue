@@ -183,6 +183,23 @@ var conditionKey = computed({
 	}
 })
 
+const conditionSelectVal = computed(
+    {
+      get(){
+
+        let value = props.condition.value;
+        return (value&&value.length>0)?(value.map(res=>res.key)):undefined;
+
+      },
+      set(t){
+
+
+        let filterElement = conditionOptionsObj.value.filter(res=>t.indexOf(res.key)>=0);
+        props.condition.value = filterElement
+      }
+    }
+)
+
 </script>
 
 <template>
@@ -293,7 +310,7 @@ conditionTypeObj==='Score'
 		{{ condition.halfSelect }}
 
 
-		<el-select v-model="condition.value"
+		<el-select v-model="conditionSelectVal"
 							 v-if="conditionTypeObj==='SingleSelect'
 "
 							 style="width: 100%;margin-top: 20px"
