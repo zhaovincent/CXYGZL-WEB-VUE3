@@ -48,6 +48,17 @@ const addOption = () => {
 const deleteOption = (index) => {
   options.value.splice(index, 1);
 };
+
+var formValue = computed({
+	get() {
+		let value = config.value.props.value;
+		return (value&&value.length>0)?(value.map(res=>res.key)):undefined;
+	},
+	set(t) {
+		let filterElement = options.value.filter(res=>t.indexOf(res.key)>=0);
+		config.value.props.value = filterElement
+	}
+})
 </script>
 
 <template>
@@ -72,7 +83,7 @@ const deleteOption = (index) => {
 
     <el-form-item label="默认值">
       <el-select
-        v-model="config.props.value"
+        v-model="formValue"
         multiple
         collapse-tags
         collapse-tags-tooltip
