@@ -144,6 +144,7 @@ const formValue = computed(() => {
 					<el-table-column label="状态" prop="taskCreateTime" width="200">
 			  <template #default="scope">
 				<el-tag v-if="scope.row.status == 1" type="success">进行中</el-tag>
+				<el-tag v-else-if="scope.row.status == 3" type="danger">已撤销</el-tag>
 				<el-tag v-else>已结束</el-tag>
 
 			  </template>
@@ -169,7 +170,7 @@ const formValue = computed(() => {
 								@click="stop(scope.row)"
 						>
 							<i-ep-lock/>
-							终止流程
+							撤销流程
 						</el-button>
 
 						<el-button
