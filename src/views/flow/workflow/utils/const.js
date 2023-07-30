@@ -24,6 +24,14 @@ export let setTypes = [
 export let conditionExpression = ref(
 	{
 		"SelectDept": [
+            {
+                key: "empty",
+                name: "为空"
+            },
+            {
+                key: "notempty",
+                name: "不为空"
+            },
 			{
 				key: "in",
 				name: "属于"
@@ -34,6 +42,14 @@ export let conditionExpression = ref(
 		],
 
 		"SelectUser": [
+            {
+                key: "empty",
+                name: "为空"
+            },
+            {
+                key: "notempty",
+                name: "不为空"
+            },
 			{
 				key: "in",
 				name: "属于"
@@ -44,6 +60,14 @@ export let conditionExpression = ref(
 		],
 
 		"Input": [
+			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
 			{
 				key: "==",
 				name: "等于"
@@ -61,6 +85,14 @@ export let conditionExpression = ref(
 
 		"Textarea": [
 			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
+			{
 				key: "==",
 				name: "等于"
 			}, {
@@ -75,6 +107,14 @@ export let conditionExpression = ref(
 			}
 		],
 		"Number": [
+			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
 			{
 				key: "==",
 				name: "等于"
@@ -97,6 +137,14 @@ export let conditionExpression = ref(
 		],
 		"Score": [
 			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
+			{
 				key: "==",
 				name: "等于"
 			}, {
@@ -117,6 +165,14 @@ export let conditionExpression = ref(
 			}
 		],
 		"Date": [
+			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
 			{
 				key: "==",
 				name: "等于"
@@ -139,6 +195,14 @@ export let conditionExpression = ref(
 		],
 		"DateTime": [
 			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
+			{
 				key: "==",
 				name: "等于"
 			}, {
@@ -160,6 +224,14 @@ export let conditionExpression = ref(
 		],
 		"Time": [
 			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
+			{
 				key: "==",
 				name: "等于"
 			}, {
@@ -180,7 +252,14 @@ export let conditionExpression = ref(
 			}
 		],
 		"Area":[
-
+			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
 			{
 				key: "==",
 				name: "等于"
@@ -203,6 +282,14 @@ export let conditionExpression = ref(
 		],
 		"Money": [
 			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
+			{
 				key: "==",
 				name: "等于"
 			}, {
@@ -223,6 +310,14 @@ export let conditionExpression = ref(
 			}
 		],
 		"SingleSelect": [
+            {
+                key: "empty",
+                name: "为空"
+            },
+            {
+                key: "notempty",
+                name: "不为空"
+            },
 			{
 				key: "in",
 				name: "属于"

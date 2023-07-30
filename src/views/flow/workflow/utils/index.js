@@ -205,8 +205,11 @@ All.prototype = {
 				}
 
 				for (var ite of it.conditionList) {
-					if (!ite.key || ite.key.length == 0 || !ite.expression || ite.expression.length == 0 || !ite.value || ite.value.length == 0
-					||(ite.keyType==='Area'&&!ite.value?.value)) {
+					if(ite.keyType==='SelectUser'&&ite.userKey.indexOf('empty')>=0){
+						continue
+					}
+					if (!ite.key || ite.key.length == 0 || !ite.expression || ite.expression.length == 0 || ((ite.expression.indexOf('empty')<0) &&(!ite.value || ite.value.length == 0))
+					||(ite.keyType==='Area'&&(!ite.value?.value&&ite.expression.indexOf('empty')<0))) {
 						return false;
 					}
 				}
@@ -270,22 +273,41 @@ All.prototype = {
 						let userKeyFieldList = con.userKeyFieldList;
 
 						let ele = userKeyFieldList.filter(r=>r.key===userKey)[0];
-						let type = ele.type;
-						if(type==='SelectUser'||type=='SelectDept'){
-							valueShow = value.map(res => res.name).join(",")
-						} else if (type === 'SingleSelect') {
+
+                        let type = ele.type;
+                        if (type === 'SingleSelect') {
 
 							valueShow =  value.map(res=>res.value).join(",")
 
 
-						} else {
+						} else if(type&&type.length>0){
 							if (!valueShow) {
-								valueShow = '?'
+                                if(expression.indexOf('empty')>=0){
+                                    valueShow = ''
+
+                                }else{
+                                    valueShow = '?'
+
+                                }
 							}
+						}else{
+                            valueShow = ''
+
 						}
 
 					} else if (valueElement.type === 'SelectDept') {
-						valueShow = value.map(res => res.name).join(",")
+						if(!value){
+                            if(expression.indexOf('empty')>=0){
+                                valueShow = ''
+
+                            }else{
+                                valueShow = '?'
+
+                            }
+						}else{
+                            valueShow = value.map(res => res.name).join(",")
+
+						}
 					} else if (valueElement.type === 'SingleSelect') {
 
 
@@ -293,16 +315,30 @@ All.prototype = {
 						valueShow =  value.map(res=>res.value).join(",")
 					} else if (valueElement.type === 'Area') {
 
-						if(value?.name){
-							valueShow=value.name
+                        if(expression.indexOf('empty')>=0){
+                            valueShow = ''
 
-						}else{
-							valueShow = '?'
+                        }else{
+                            if(value?.name){
+                                valueShow=value.name
 
-						}
+                            }else{
+                                valueShow = '?'
+
+                            }
+
+                        }
+
+
 					} else {
 						if (!valueShow) {
-							valueShow = '?'
+							if(expression.indexOf('empty')>=0){
+								valueShow = ''
+
+							}else{
+								valueShow = '?'
+
+							}
 						}
 					}
 
@@ -320,7 +356,10 @@ All.prototype = {
 						let userKey = con.userKey;
 						let userKeyFieldList = con.userKeyFieldList;
 						let ele = userKeyFieldList.filter(r=>r.key===userKey)[0];
-						conArr.push(name + ' '+ele.name + ' ' + expObj[expression] + " " + valueShow)
+
+
+
+						conArr.push(name + ' '+ele.name + ' ' + (expObj[expression]?expObj[expression]:'') + " " + valueShow)
 
 					}else{
 						conArr.push(name + ' ' + expObj[expression] + " " + valueShow)

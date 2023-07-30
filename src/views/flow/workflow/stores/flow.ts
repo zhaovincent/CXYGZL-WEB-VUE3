@@ -29,50 +29,50 @@ export const useFlowStore = defineStore("flow", {
 					enable: false,
 					url: '',
 					header: [
-						{
-							field: '',
-							valueMode: true,
-							value: ''
-						}
+						// {
+						// 	field: '',
+						// 	valueMode: true,
+						// 	value: ''
+						// }
 					],
 					body: [
-						{
-							field: '',
-							valueMode: true,
-							value: ''
-						}
+						// {
+						// 	field: '',
+						// 	valueMode: true,
+						// 	value: ''
+						// }
 					],
 					result: [
-						{
-							field: '',
-							valueMode: true,
-							value: ''
-						}
+						// {
+						// 	field: '',
+						// 	valueMode: true,
+						// 	value: ''
+						// }
 					]
 				},
 				backNotify: {
 					enable: false,
 					url: '',
 					header: [
-						{
-							field: '',
-							valueMode: true,
-							value: ''
-						}
+						// {
+						// 	field: '',
+						// 	valueMode: true,
+						// 	value: ''
+						// }
 					],
 					body: [
-						{
-							field: '',
-							valueMode: true,
-							value: ''
-						}
+						// {
+						// 	field: '',
+						// 	valueMode: true,
+						// 	value: ''
+						// }
 					],
 					result: [
-						{
-							field: '',
-							valueMode: true,
-							value: ''
-						}
+						// {
+						// 	field: '',
+						// 	valueMode: true,
+						// 	value: ''
+						// }
 					]
 				}
 			}

@@ -122,7 +122,6 @@ let store = useFlowStore();
 
 
 watch(() => nodeConfig.value, (v) => {
-	console.log("流程变化了", v)
 	store.setStep3(v)
 }, {deep: true})
 const getProcessData = async () => {

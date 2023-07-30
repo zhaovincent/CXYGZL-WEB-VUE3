@@ -75,6 +75,12 @@ onMounted(() => {
 		userFieldList.value.push({
 			key: 'range', type: 'SelectUser', name: '范围'
 		})
+		userFieldList.value.push({
+			key: 'empty', type: '', name: '为空'
+		})
+		userFieldList.value.push({
+			key: 'notempty', type: '', name: '不为空'
+		})
 
 		props.condition.userKeyFieldList = userFieldList.value;
 
@@ -225,7 +231,7 @@ const conditionSelectVal = computed(
 		</el-select>
 
 
-		<el-select v-model="condition.expression" placeholder="选择关系" style="width: 100%;margin-top: 20px">
+		<el-select v-model="condition.expression" placeholder="选择关系" style="width: 100%;margin-top: 20px" v-if="conditionExpression[conditionTypeObj]?.length>0">
 
 			<el-option
 					v-for="f in conditionExpression[conditionTypeObj]"
@@ -234,107 +240,114 @@ const conditionSelectVal = computed(
 					:value="f.key"
 			/>
 		</el-select>
+			<template v-if="condition.expression?.indexOf('empty')<0">
 
-		<el-input v-model="condition.value" v-if="conditionTypeObj==='Input'||
+		  <el-input v-model="condition.value" v-if="conditionTypeObj==='Input'||
 conditionTypeObj==='Textarea'
 " style="margin-top: 20px;" placeholder="条件值"></el-input>
 
-
-		<el-input-number v-model="condition.value"
-										 v-if="conditionTypeObj==='Money'
+		  <el-input-number v-model="condition.value"
+						   v-if="conditionTypeObj==='Money'
 										 ||
 conditionTypeObj==='Number'			 ||
 conditionTypeObj==='Score'
 "
-										 :precision="numberFormPrecision"
-										 placeholder="条件值"
-										 style="width: 100%;margin-top: 20px"
-										 controls-position="right"
-		/>
+						   :precision="numberFormPrecision"
+						   placeholder="条件值"
+						   style="width: 100%;margin-top: 20px"
+						   controls-position="right"
+		  />
 
 
-		<el-date-picker
-				value-format="YYYY-MM-DD"
-				type="date"
-				class="formDate"
 
-				v-model="condition.value"
-				v-if="conditionTypeObj==='Date'
+		  <el-date-picker
+				  value-format="YYYY-MM-DD"
+				  type="date"
+				  class="formDate"
+
+				  v-model="condition.value"
+				  v-if="conditionTypeObj==='Date'
 "
-				placeholder="条件值"
-				style="width: 100%;margin-top: 20px"
+				  placeholder="条件值"
+				  style="width: 100%;margin-top: 20px"
 
-		/>
-		<el-time-picker
-				arrow-control
-				value-format="HH:mm:ss"
+		  />
+		  <el-time-picker
+				  arrow-control
+				  value-format="HH:mm:ss"
 
 
-				class="formDate"
+				  class="formDate"
 
-				v-model="condition.value"
-				v-if="conditionTypeObj==='Time'
+				  v-model="condition.value"
+				  v-if="conditionTypeObj==='Time'
 "
-				placeholder="条件值"
-				style="width: 100%;margin-top: 20px"
+				  placeholder="条件值"
+				  style="width: 100%;margin-top: 20px"
 
-		/>
+		  />
 
-		<el-date-picker
-				value-format="YYYY-MM-DD HH:mm:ss"
-				type="datetime"
-				class="formDate"
+		  <el-date-picker
+				  value-format="YYYY-MM-DD HH:mm:ss"
+				  type="datetime"
+				  class="formDate"
 
-				v-model="condition.value"
-				v-if="conditionTypeObj==='DateTime'
+				  v-model="condition.value"
+				  v-if="conditionTypeObj==='DateTime'
 "
-				placeholder="条件值"
-				style="width: 100%;margin-top: 20px"
+				  placeholder="条件值"
+				  style="width: 100%;margin-top: 20px"
 
-		/>
+		  />
 
-		<el-cascader
 
-				style="width: 100%;margin-top: 20px;"
-				:options="areaList"
-				v-if="conditionTypeObj==='Area'"
+		  <el-cascader
 
-				clearable
-				:props="{
+				  style="width: 100%;margin-top: 20px;"
+				  :options="areaList"
+				  v-if="conditionTypeObj==='Area'"
+
+				  clearable
+				  :props="{
 			   checkStrictly:true,
 			   		value:'code',label:'name'
 					 }"
-				v-model="areaValue"
+				  v-model="areaValue"
 
-		/>
-		{{ condition.halfSelect }}
-
-
-		<el-select v-model="conditionSelectVal"
-							 v-if="conditionTypeObj==='SingleSelect'
+		  />
+          <el-select v-model="conditionSelectVal"
+                     v-if="conditionTypeObj==='SingleSelect'
 "
-							 style="width: 100%;margin-top: 20px"
-							 multiple
-							 collapse-tags
-							 collapse-tags-tooltip
+                     style="width: 100%;margin-top: 20px"
+                     multiple
+                     collapse-tags
+                     collapse-tags-tooltip
 
-							 placeholder="请选择值">
-			<el-option
-					v-for="item in conditionOptionsObj"
-					:key="item.key"
-					:label="item.value"
-					:value="item.key"
-			/>
-		</el-select>
-		<div style="margin-top: 20px">
-			<select-show v-if="conditionTypeObj==='SelectUser'
-" v-model:orgList="condition.value" type="org" :multiple="true"></select-show>
-		</div>
-		<div style="margin-top: 20px">
+                     placeholder="请选择值">
+              <el-option
+                      v-for="item in conditionOptionsObj"
+                      :key="item.key"
+                      :label="item.value"
+                      :value="item.key"
+              />
+          </el-select>
+          <div style="margin-top: 20px">
 
-			<select-show v-if="conditionTypeObj==='SelectDept'
+              <select-show v-if="conditionTypeObj==='SelectDept'
 " v-model:orgList="condition.value" type="dept" :multiple="true"></select-show>
-		</div>
+          </div>
+
+          <div style="margin-top: 20px">
+              <select-show v-if="conditionTypeObj==='SelectUser'
+" v-model:orgList="condition.value" type="org" :multiple="true"></select-show>
+          </div>
+
+      </template>
+
+
+
+
+
 
 	</div>
 </template>
