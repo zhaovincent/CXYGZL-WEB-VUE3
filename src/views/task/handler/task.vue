@@ -51,6 +51,7 @@ const deal = (taskId) => {
 		currentData.value.processInstanceId = data.processInstanceId;
 		currentData.value.flowId = data.flowId;
 		currentData.value.processName = data.processName;
+		currentData.value.nodeName = data.nodeName;
 		currentData.value.nodeId = data.nodeId;
 		currentData.value.taskExist = data.taskExist;
 		if (data.subProcessStarterTask && data.taskExist) {
@@ -213,7 +214,8 @@ const subProcessStartFlowRef = ref()
 		<!--			右侧抽屉-->
 		<el-drawer v-model="rightDrawerVisible" direction="rtl" size="500px">
 			<template #header>
-				<h3>{{ currentData?.processName }}</h3>
+				<el-text size="large" tag="b" type="primary">{{ currentData?.processName }}</el-text>
+				<el-text size="large" tag="b" type="success"> {{ currentData?.nodeName }}</el-text>
 			</template>
 			<template #default>
 				<el-card class="box-card">
