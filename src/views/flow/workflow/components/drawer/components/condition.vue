@@ -56,9 +56,24 @@ const formIdObj = computed(() => {
 	return obj
 })
 
-const conditionVal = computed(() => {
-	return props.condition;
-})
+const conditionSelectVal = computed(
+	{
+			get(){
+
+		  let value = props.condition.value;
+		  return (value&&value.length>0)?(value.map(res=>res.key)):undefined;
+
+			},
+			set(t){
+
+		  let options = (formIdObj.value)[props.condition.key].props.options;
+
+
+		  let filterElement = options.filter(res=>t.indexOf(res.key)>=0);
+		  props.condition.value = filterElement
+			}
+	}
+)
 
 
 //表达式
@@ -312,7 +327,7 @@ formIdObj[condition.key]?.type==='Number'
 
 		/>
 
-		<el-select v-model="condition.value"
+		<el-select v-model="conditionSelectVal"
 							 v-if="formIdObj[condition.key]?.type==='SingleSelect'
 "
 							 style="width: 100%;margin-top: 20px"

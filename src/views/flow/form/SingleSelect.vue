@@ -10,7 +10,7 @@
 		</el-select>
 		<el-select v-else style="width: 100%"
 
-			   v-model="form.props.value"
+			   v-model="formValue"
 			   :disabled="form.perm === 'R'"
 			   :placeholder="form.placeholder"
 						 size="large"
@@ -26,7 +26,18 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import {defineExpose} from "vue";
+import {defineExpose,computed} from "vue";
+
+var formValue = computed({
+	get() {
+		let value = props.form.props.value;
+		return (value&&value.length==1)?value[0].key:undefined;
+	},
+	set(t) {
+		let filterElement = props.form.props.options.filter(res=>res.key===t);
+	  props.form.props.value = filterElement
+	}
+})
 
 let props = defineProps({
 
@@ -54,7 +65,7 @@ const getValidateRule = () => {
 	var checkConfig = (rule: any, value: any, callback: any) => {
 
 		if (item.required) {
-			if (value==undefined) {
+			if (value==undefined||value.length==0) {
 				return callback(new Error("请选择" + item.name))
 			}
 		}

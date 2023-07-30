@@ -201,18 +201,10 @@ All.prototype = {
 
 						valueShow = value.map(res => res.name).join(",")
 					} else if (valueElement.type === 'SingleSelect') {
-						let options = valueElement.props.options;
-						if (!options) {
-							options = []
-						}
-						//valueShow = value.map(res => res.name).join(",")
-						var arr = [];
-						for (var ite of options) {
-							if (value.indexOf(ite.key) > -1) {
-								arr.push(ite.value)
-							}
-						}
-						valueShow = arr.join(",")
+
+
+
+						valueShow =  value.map(res=>res.value).join(",")
 					} else {
 						if (!valueShow) {
 							valueShow = '?'
