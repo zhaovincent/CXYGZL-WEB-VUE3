@@ -108,7 +108,11 @@ All.prototype = {
 
 			}
 		} else if (nodeConfig.assignedType == 8 && nodeConfig.formUserId.length == 0) {
-			//表单
+			//表单-用户
+			return false;
+		}
+		else if (nodeConfig.assignedType == 9 && nodeConfig.formUserId.length == 0) {
+			//表单-部门
 			return false;
 		}
 
@@ -162,8 +166,11 @@ All.prototype = {
 		} else if (nodeConfig.assignedType == 7) {
 			return '到第' + nodeConfig.deptLeaderLevel + '级部门主管终止'
 		} else if (nodeConfig.assignedType == 8 && nodeConfig.formUserId.length > 0) {
-			//表单
-			return '表单：' + nodeConfig.formUserName
+			//表单-人员
+			return '表单人员：' + nodeConfig.formUserName
+		}else if (nodeConfig.assignedType == 9 && nodeConfig.formUserId.length > 0) {
+			//表单-部门
+			return '表单部门：' + nodeConfig.formUserName
 		}
 		return "";
 	},

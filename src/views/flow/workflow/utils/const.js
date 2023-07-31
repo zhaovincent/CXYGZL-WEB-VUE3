@@ -16,6 +16,7 @@ export let setTypes = [
   {value: 5, label: '发起人自己'},
   {value: 7, label: '连续多级主管'},
   {value: 8, label: '表单人员'},
+  {value: 9, label: '表单部门'},
 ]
 
 

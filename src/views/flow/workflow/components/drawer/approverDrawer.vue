@@ -1,28 +1,28 @@
 <template>
-	<el-drawer :append-to-body="true"   v-model="visible" :show-close="false" :size="550"
+	<el-drawer :append-to-body="true" v-model="visible" :show-close="false" :size="550"
 						 @open="openEvent"
 						 :before-close="saveApprover">
-<!--			标题-->
-	  <template #header="{ close, titleId, titleClass }">
+		<!--			标题-->
+		<template #header="{ close, titleId, titleClass }">
 
-			<el-text style="cursor: pointer"  v-if="!input"  tag="b" size="large" @click="titleTextClickEvent"  >
-				{{approverConfig.nodeName}}
+			<el-text style="cursor: pointer" v-if="!input" tag="b" size="large" @click="titleTextClickEvent">
+				{{ approverConfig.nodeName }}
 				<el-icon>
-					<EditPen />
+					<EditPen/>
 				</el-icon>
 
 			</el-text>
-				<el-input
+			<el-input
 
-								ref="titleInputRef"
+					ref="titleInputRef"
 
-				@blur="titleInputBlurEvent"
+					@blur="titleInputBlurEvent"
 
-				maxlength="10"
+					maxlength="10"
 
-								v-if="input" v-model="approverConfig.nodeName"></el-input>
+					v-if="input" v-model="approverConfig.nodeName"></el-input>
 
-	  </template>
+		</template>
 
 
 		<el-tabs type="border-card">
@@ -50,10 +50,22 @@
 				</template>
 				<template v-if="approverConfig.assignedType===8">
 					<h4>人员控件</h4>
-					<el-select v-model="approverConfig.formUserId" clearable class="m-2" placeholder="请选择审批表单"
+					<el-select v-model="formUserIdComputed" clearable class="m-2" placeholder="请选择审批表单"
 										 size="large">
 						<el-option
 								v-for="item in step2FormUserList"
+								:key="item.id"
+								:label="item.name"
+								:value="item.id"
+						/>
+					</el-select>
+				</template>
+				<template v-if="approverConfig.assignedType===9">
+					<h4>部门控件</h4>
+					<el-select v-model="formDeptIdComputed" clearable class="m-2" placeholder="请选择审批表单"
+										 size="large">
+						<el-option
+								v-for="item in step2FormDeptList"
 								:key="item.id"
 								:label="item.name"
 								:value="item.id"
@@ -83,9 +95,10 @@
 				<template v-if="(
 					(approverConfig.multiple===true&&	approverConfig.assignedType===4)||
 				(approverConfig.assignedType===1)||
+				(approverConfig.assignedType===9)||
 				(approverConfig.assignedType===3)||
 				(approverConfig.assignedType===7&&approverConfig.deptLeaderLevel>1)||
-				(approverConfig.assignedType===8&&isMultiUserForm(approverConfig.formUserId))
+				(approverConfig.assignedType===8)
 				)
 				&&(approverConfig.assignedType!=5&&approverConfig.assignedType!=2)">
 
@@ -104,12 +117,13 @@
 							<el-radio :label="3" size="large">依次审批(按顺序依次审批)</el-radio>
 						</p>
 					</el-radio-group>
-			<el-form v-if="approverConfig.multipleMode==1"  label-width="180px">
-				<el-form-item label="会签审核通过比例(%)">
-			<el-input-number v-model="approverConfig.completeRate" :min="1" :precision="2"  value-on-clear="max"  controls-position="right" :max="100"   />
+					<el-form v-if="approverConfig.multipleMode==1" label-width="180px">
+						<el-form-item label="会签审核通过比例(%)">
+							<el-input-number v-model="approverConfig.completeRate" :min="1" :precision="2" value-on-clear="max"
+															 controls-position="right" :max="100"/>
 
-		</el-form-item>
-			</el-form>
+						</el-form-item>
+					</el-form>
 				</template>
 				<template v-if="approverConfig.assignedType===2">
 
@@ -119,7 +133,6 @@
 													 size="small"/>
 					<span style="font-size: 14px;margin-left: 5px;">级部门主管</span>
 				</template>
-
 
 
 				<h4>审批人为空时</h4>
@@ -134,47 +147,47 @@
 										 :multiple="false"></select-show>
 
 
+			</el-tab-pane>
+			<el-tab-pane label="操作权限">
+				<ul>
+					<li>
+						<el-row>
+							<el-col :span="12">
+								<el-text tag="b">权限名字</el-text>
+							</el-col>
+							<el-col :span="12">
+								<el-text tag="b">按钮名字</el-text>
+							</el-col>
+						</el-row>
+					</li>
+					<li v-for="(item,index) in approverConfig.operList">
+						<el-row>
+							<el-col :span="12">
+								<el-checkbox v-model="item.checked" size="large">
+									{{ item.defaultName }}
+								</el-checkbox>
+							</el-col>
+							<el-col :span="12">
+								<el-text v-if="!item.edit" @click="clickOperBtnName(item,index)">
+									{{ item.name }}
+									<el-icon>
+										<EditPen/>
+									</el-icon>
+								</el-text>
+								<template v-else>
+									<el-input :id="'btnNameRef'+index" @blur="operInputBlur(item)" v-model="item.name"
+														placeholder="请输入按钮名字"/>
+								</template>
+							</el-col>
+						</el-row>
+
+
+					</li>
+
+				</ul>
+
 
 			</el-tab-pane>
-		<el-tab-pane label="操作权限">
-			<ul>
-				<li>
-					<el-row>
-						<el-col :span="12">
-							<el-text tag="b">权限名字</el-text>
-						</el-col>
-						<el-col :span="12">
-							<el-text tag="b">按钮名字</el-text>
-						</el-col>
-					</el-row>
-				</li>
-				<li v-for="(item,index) in approverConfig.operList">
-					<el-row>
-						<el-col :span="12">
-							<el-checkbox v-model="item.checked" size="large">
-								{{ item.defaultName }}
-							</el-checkbox>
-						</el-col>
-						<el-col :span="12">
-							<el-text v-if="!item.edit" @click="clickOperBtnName(item,index)">
-								{{ item.name }}
-								<el-icon>
-									<EditPen/>
-								</el-icon>
-							</el-text>
-							<template v-else>
-								<el-input :id="'btnNameRef'+index"  @blur="operInputBlur(item)" v-model="item.name" placeholder="请输入按钮名字"/>
-							</template>
-						</el-col>
-					</el-row>
-
-
-				</li>
-
-			</ul>
-
-
-		</el-tab-pane>
 			<el-tab-pane label="表单权限">
 
 				<form-perm :form-perm="approverConfig.formPerms"></form-perm>
@@ -202,44 +215,43 @@ import {ElTable} from 'element-plus'
 
 let flowStore = useFlowStore();
 
-const input=ref(false)
+const input = ref(false)
 
 import FormPerm from './components/formPerm.vue'
 
-const clickOperBtnName = (item,index) => {
+const clickOperBtnName = (item, index) => {
 
-	item.edit=true;
+	item.edit = true;
 
-	nextTick(()=>{
-	  document.getElementById("btnNameRef"+index)?.focus();
+	nextTick(() => {
+		document.getElementById("btnNameRef" + index)?.focus();
 
 	})
-
 
 
 }
 let defaultText = computed(() => {
 	return placeholderList[approverConfig.value.type]
 });
-const titleInputRef=ref()
+const titleInputRef = ref()
 const titleTextClickEvent = () => {
-	input.value=true
-	nextTick(()=>{
-	  titleInputRef.value.focus()
-  })
+	input.value = true
+	nextTick(() => {
+		titleInputRef.value.focus()
+	})
 }
 const titleInputBlurEvent = () => {
 
-	input.value=false
+	input.value = false
 	approverConfig.value.nodeName = approverConfig.value.nodeName || defaultText
 
 };
 const operInputBlur = (item) => {
 
-		item.edit=false;
-  	if(proxy.$isBlank(item.name)){
-		  item.name=item.defaultName
-		}
+	item.edit = false;
+	if (proxy.$isBlank(item.name)) {
+		item.name = item.defaultName
+	}
 }
 
 const step2FormList = computed(() => {
@@ -251,7 +263,13 @@ const step2FormList = computed(() => {
 const step2FormUserList = computed(() => {
 
 
-	return step2FormList.value.filter(res => res.type === 'SelectUser'|| res.type === 'SelectMultiUser');
+	return step2FormList.value.filter(res => res.type === 'SelectUser' || res.type === 'SelectMultiUser');
+})
+
+const step2FormDeptList = computed(() => {
+
+
+	return step2FormList.value.filter(res => res.type === 'SelectDept' || res.type === 'SelectMultiDept');
 })
 
 const openEvent = () => {
@@ -311,22 +329,36 @@ const isMultiUserForm = (id) => {
 	let t = step2FormUserList.value.filter(res => res.id === id)[0].props.multi;
 	return t;
 }
-//监听用户选择表单值变化
-watch(() => approverConfig.value.formUserId, (val) => {
 
-	// approverConfig.value.multiple = false
-	// approverConfig.value.multipleMode = 1
-	if (proxy.$isNotBlank(val)) {
+var formUserIdComputed = computed({
+	get() {
+		return approverConfig.value.formUserId;
+	},
+	set(val) {
 		approverConfig.value.formUserName = step2FormUserList.value.filter(res => res.id === val)[0].name
+		approverConfig.value.formUserId = val
 
 	}
-
-
 })
+
+
+var formDeptIdComputed = computed({
+	get() {
+		return approverConfig.value.formUserId;
+	},
+	set(val) {
+		approverConfig.value.formUserId = val
+		approverConfig.value.formUserName = step2FormDeptList.value.filter(res => res.id === val)[0].name
+
+	}
+})
+
 
 //审批人类型变化
 const assignedTypeChangeEvent = (e) => {
 	approverConfig.value.nodeUserList = [];
+	approverConfig.value.formUserId=''
+	approverConfig.value.formUserName=''
 }
 
 const saveApprover = () => {
