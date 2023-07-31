@@ -135,6 +135,18 @@
 				</template>
 
 
+				<h4>审批人与发起人是同一人时</h4>
+				<el-radio-group v-model="approverConfig.sameAsStarter.handler"  >
+
+						<el-radio style="width: 30%" label="TO_CONTINUE" size="large">继续处理</el-radio>
+						<el-radio style="width: 30%" label="TO_PASS" size="large">自动通过</el-radio>
+
+						<el-radio style="width: 30%" label="TO_DEPT_LEADER" size="large">转交给部门负责人处理</el-radio>
+						<el-radio style="width: 30%" label="TO_ADMIN" size="large">转交给管理员处理</el-radio>
+
+
+
+				</el-radio-group>
 				<h4>审批人为空时</h4>
 				<el-radio-group v-model="approverConfig.nobody.handler" class="ml-4">
 					<el-radio label="TO_PASS" size="large">自动通过</el-radio>
@@ -357,8 +369,8 @@ var formDeptIdComputed = computed({
 //审批人类型变化
 const assignedTypeChangeEvent = (e) => {
 	approverConfig.value.nodeUserList = [];
-	approverConfig.value.formUserId=''
-	approverConfig.value.formUserName=''
+	approverConfig.value.formUserId = ''
+	approverConfig.value.formUserName = ''
 }
 
 const saveApprover = () => {
