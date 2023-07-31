@@ -29,6 +29,8 @@ const themeColors = ref<string[]>([
   "#f5222d",
 ]);
 
+
+
 /**
  * 切换主题颜色
  */
@@ -38,6 +40,9 @@ function changeThemeColor(color: string) {
 }
 
 onMounted(() => {
+	isDark.value=false
+	settingsStore.tagsView=false
+	settingsStore.sidebarLogo=false
   window.document.body.setAttribute("layout", settingsStore.layout);
 });
 </script>

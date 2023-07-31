@@ -38,40 +38,49 @@
 				<div style="display: flex;flex-direction: row">
 
 					<div class="f11">
-						<el-form label-position="top">
-							<draggable
-									v-model="targetList"
-									class="drag-content"
-									item-key="index"
-									:sort="true"
-									effect="dark"
-									:group="{ name: 'dragFormList', pull: true, put: true }"
+							<div
+					  class="drag-content"
+
 							>
-								<template #item="{ element, index }">
-									<div
-											class="okcomponent border line " effect="dark"
-											@click.stop="showCurrentPageConfigPanel(element.id)"
-									>
+									<div class="drag-content-inner">
 
 
-										<el-icon v-if="element.type!='Empty'" class="deleteIcon" @click.stop="deleteForm(element.id)">
-											<Delete/>
-										</el-icon>
-										<el-form-item :label="step2Object[element.id]?.name" :required="step2Object[element.id]?.required">
+				  <el-form label-position="top">
+					  <draggable
+							  v-model="targetList"
+								style="min-height: 600px;background-color: var(--el-bg-color-page)"
+							  item-key="index"
+							  :sort="true"
+							  effect="dark"
+							  :group="{ name: 'dragFormList', pull: true, put: true }"
+					  >
+						  <template #item="{ element, index }">
+							  <div
+									  class="okcomponent border line " effect="dark"
+									  @click.stop="showCurrentPageConfigPanel(element.id)"
+							  >
 
-											<component style="width: 100%"
-																 @showPanel="showPanel"
-																 :index="index"
-																 :is="getFormWidget(element.type)"
-																 :id="element.id"
-																 v-model:form="step2Object[element.id]"
-											></component>
-										</el-form-item>
 
-									</div>
-								</template>
-							</draggable>
-						</el-form>
+								  <el-icon v-if="element.type!='Empty'" class="deleteIcon" @click.stop="deleteForm(element.id)">
+									  <Delete/>
+								  </el-icon>
+								  <el-form-item :label="step2Object[element.id]?.name" :required="step2Object[element.id]?.required">
+
+									  <component style="width: 100%"
+												 @showPanel="showPanel"
+												 :index="index"
+												 :is="getFormWidget(element.type)"
+												 :id="element.id"
+												 v-model:form="step2Object[element.id]"
+									  ></component>
+								  </el-form-item>
+
+							  </div>
+						  </template>
+					  </draggable>
+				  </el-form>
+				  </div>
+			  </div>
 
 					</div>
 					<div class="f22" v-if="currentForm">
@@ -207,8 +216,6 @@ import {formGroupConfig} from "@/api/form/data";
 import {computed} from "vue";
 
 let oriFormList = ref<FormGroupVO[]>(formGroupConfig);
-let oriFormListStatic = ref<FormGroupVO[]>(formGroupConfig);
-
 
 let targetList = computed({
 	get: () => {
@@ -281,15 +288,19 @@ defineExpose({validate});
 @center_width: 360px;
 .drag-content {
 	min-height: 640px;
-	border: 1px solid;
+	//border: 1px solid;
 	width: @center_width;
-	border-radius: 10px;
-	padding: 10px 10px;
-
+	border-radius: 20px;
+	padding: 30px 10px;
+	background-color: white;
 	margin-left: calc(50% - (@center_width) / 2);
-
+	box-shadow: 0px 0px 10px grey;
 }
-
+.drag-content-inner{
+	background-color: var(--el-bg-color-page);
+	border-radius: 5px;
+	padding: 5px;
+}
 .f11 {
 	width: calc(100% - @f22_width);
 
@@ -302,14 +313,16 @@ defineExpose({validate});
 
 .okcomponent {
 	padding: 5px;
-	border-radius: 5px;
+	border-radius: 0px;
 	margin-bottom: 10px;
+	border: 0px solid var(--el-bg-color-page);
+	background-color: white;
 
 }
 
 .deleteIcon {
 	position: absolute;
-	margin-left: calc(@center_width - 50px);
+	margin-left: calc(@center_width - 60px);
 	z-index: 20;
 }
 
