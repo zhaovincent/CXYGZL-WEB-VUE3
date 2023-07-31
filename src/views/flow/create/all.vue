@@ -231,6 +231,7 @@ const checkStep1 = () => {
 		if (valid) {
 			validateFlowStep.value = 1
 
+				console.log("step-1",new Date().getTime())
 			setTimeout(function () {
 				checkStep2();
 			}, 500)
@@ -245,10 +246,12 @@ const checkStep1 = () => {
 const checkStep2 = () => {
 	step2Ref.value.validate(function (valid, arr) {
 				if (valid) {
+			console.log("step-2",new Date().getTime())
+
 					setTimeout(function () {
 						validateFlowStep.value = 2
 						checkStep3();
-					})
+					},500)
 				} else {
 					validatingShow.value = false;
 					//错误信息
@@ -266,10 +269,12 @@ const checkStep3 = () => {
 
 		step3Ref.value.validate(function (valid, arr) {
 			if (valid) {
+		  console.log("step-3",new Date().getTime())
+
 		  setTimeout(function () {
 			  validateFlowStep.value = 3
 			  checkStep4();
-		  })
+		  },500)
 
 			} else {
 				validatingShow.value = false;
@@ -286,6 +291,8 @@ const checkStep4 = () => {
 
 		step4Ref.value.validate(function (valid, arr) {
 			if (valid) {
+		  console.log("step-4",new Date().getTime())
+
 				validateFlowStep.value = 4
 
 
