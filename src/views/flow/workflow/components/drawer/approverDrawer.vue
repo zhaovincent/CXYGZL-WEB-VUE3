@@ -2,6 +2,7 @@
 	<el-drawer :append-to-body="true"   v-model="visible" :show-close="false" :size="550"
 						 @open="openEvent"
 						 :before-close="saveApprover">
+<!--			标题-->
 	  <template #header="{ close, titleId, titleClass }">
 
 			<el-text style="cursor: pointer"  v-if="!input"  tag="b" size="large" @click="titleTextClickEvent"  >
@@ -34,7 +35,7 @@
 					</el-row>
 				</el-radio-group>
 
-				<el-divider/>
+
 				<template v-if="approverConfig.assignedType===3">
 					<h4>选择角色</h4>
 
@@ -44,7 +45,7 @@
 				<template v-if="approverConfig.assignedType===1">
 					<h4>选择成员</h4>
 
-					<select-show v-model:orgList="approverConfig.nodeUserList" type="user" :multiple="true"></select-show>
+					<select-show v-model:orgList="approverConfig.nodeUserList" type="org" :multiple="true"></select-show>
 
 				</template>
 				<template v-if="approverConfig.assignedType===8">
@@ -81,7 +82,7 @@
 				</template>
 				<template v-if="(
 					(approverConfig.multiple===true&&	approverConfig.assignedType===4)||
-				(approverConfig.assignedType===1&&approverConfig.nodeUserList.length>1)||
+				(approverConfig.assignedType===1)||
 				(approverConfig.assignedType===3)||
 				(approverConfig.assignedType===7&&approverConfig.deptLeaderLevel>1)||
 				(approverConfig.assignedType===8&&isMultiUserForm(approverConfig.formUserId))
@@ -119,7 +120,7 @@
 					<span style="font-size: 14px;margin-left: 5px;">级部门主管</span>
 				</template>
 
-				<el-divider/>
+
 
 				<h4>审批人为空时</h4>
 				<el-radio-group v-model="approverConfig.nobody.handler" class="ml-4">
@@ -132,51 +133,55 @@
 										 v-model:orgList="approverConfig.nobody.assignedUser" type="user"
 										 :multiple="false"></select-show>
 
-				<h4>操作权限</h4>
-				<ul>
-					<li>
-						<el-row>
-							<el-col :span="12">
-								<el-text tag="b">权限名字</el-text>
-							</el-col>
-							<el-col :span="12">
-								<el-text tag="b">按钮名字</el-text>
-							</el-col>
-						</el-row>
-					</li>
-					<li v-for="(item,index) in approverConfig.operList">
-						<el-row>
-							<el-col :span="12">
-								<el-checkbox v-model="item.checked" size="large">
-									{{ item.defaultName }}
-								</el-checkbox>
-							</el-col>
-							<el-col :span="12">
-								<el-text v-if="!item.edit" @click="clickOperBtnName(item,index)">
-									{{ item.name }}
-									<el-icon>
-										<EditPen/>
-									</el-icon>
-								</el-text>
-								<template v-else>
-									<el-input :id="'btnNameRef'+index"  @blur="operInputBlur(item)" v-model="item.name" placeholder="请输入按钮名字"/>
-								</template>
-							</el-col>
-						</el-row>
-
-
-					</li>
-
-				</ul>
 
 
 			</el-tab-pane>
+		<el-tab-pane label="操作权限">
+			<ul>
+				<li>
+					<el-row>
+						<el-col :span="12">
+							<el-text tag="b">权限名字</el-text>
+						</el-col>
+						<el-col :span="12">
+							<el-text tag="b">按钮名字</el-text>
+						</el-col>
+					</el-row>
+				</li>
+				<li v-for="(item,index) in approverConfig.operList">
+					<el-row>
+						<el-col :span="12">
+							<el-checkbox v-model="item.checked" size="large">
+								{{ item.defaultName }}
+							</el-checkbox>
+						</el-col>
+						<el-col :span="12">
+							<el-text v-if="!item.edit" @click="clickOperBtnName(item,index)">
+								{{ item.name }}
+								<el-icon>
+									<EditPen/>
+								</el-icon>
+							</el-text>
+							<template v-else>
+								<el-input :id="'btnNameRef'+index"  @blur="operInputBlur(item)" v-model="item.name" placeholder="请输入按钮名字"/>
+							</template>
+						</el-col>
+					</el-row>
+
+
+				</li>
+
+			</ul>
+
+
+		</el-tab-pane>
 			<el-tab-pane label="表单权限">
 
 				<form-perm :form-perm="approverConfig.formPerms"></form-perm>
 
 
 			</el-tab-pane>
+
 		</el-tabs>
 
 
