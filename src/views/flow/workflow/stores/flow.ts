@@ -7,7 +7,6 @@
 import {defineStore} from "pinia";
 import {FormConfigUserVO, FormVO} from "@/api/form/types";
 
-var adminList: FormConfigUserVO[] = reactive([])
 
 export const useFlowStore = defineStore("flow", {
 	state: () => {
@@ -17,7 +16,8 @@ export const useFlowStore = defineStore("flow", {
 				name: "",
 				flowId: "",
 				groupId: undefined,
-				admin: adminList,
+				admin: reactive([]),
+				rangeList: reactive([]),
 				remark: "",
 			},
 			step3:{

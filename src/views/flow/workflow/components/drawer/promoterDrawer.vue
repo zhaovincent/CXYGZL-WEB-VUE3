@@ -5,11 +5,7 @@
 						 :size="550" :before-close="savePromoter">
 		<div class="demo-drawer__content">
 			<el-tabs type="border-card">
-				<el-tab-pane label="设置发起人">
 
-			<select-show   v-model:orgList="starterConfig.nodeUserList" type="org"
-						   :multiple="true"></select-show>
-				</el-tab-pane>
 				<el-tab-pane label="表单权限">
 						<form-perm :form-perm="starterConfig.formPerms"></form-perm>
 

@@ -21,7 +21,7 @@
 						<el-input maxlength="20" v-model="form.remark"/>
 					</el-form-item>
 					<el-form-item label="分组" prop="groupId">
-						<el-select v-model="form.groupId" placeholder="请选择流程组">
+						<el-select style="width: 100%;" v-model="form.groupId" placeholder="请选择流程组">
 							<el-option
 									v-for="item in groupList"
 									:key="item.id"
@@ -30,6 +30,13 @@
 							/>
 						</el-select>
 					</el-form-item>
+					<el-form-item label="谁可以发起该流程（默认全员）" prop="rangeList">
+
+			  <select-show
+						    v-model:orgList="form.rangeList" type="org" :multiple="true"></select-show>
+
+					</el-form-item>
+
 					<el-form-item label="管理员" prop="admin">
 
 			  <select-show

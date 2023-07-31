@@ -186,6 +186,7 @@ onMounted(() => {
 			var {data} = res;
 
 			store.step1.admin = JSON.parse(data.admin)
+			store.step1.rangeList = (data.rangeList)
 			store.step1.name = data.name
 			store.step1.logo = data.logo
 			if (!cp || !(parseInt(cp) === 1)) {
