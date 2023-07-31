@@ -23,7 +23,7 @@ const formList = computed(() => {
 	let value = step2FormList.value;
 
 	let $deepCopy = proxy.$deepCopy(value.filter(res =>
-			res.type != 'MultiSelect' &&
+			// res.type != 'MultiSelect' &&
 			res.type != 'SelectMultiUser' &&
 			res.type != 'SelectMultiDept' &&
 			res.type != 'Description' &&
@@ -316,7 +316,7 @@ conditionTypeObj==='Score'
 
 		  />
           <el-select v-model="conditionSelectVal"
-                     v-if="conditionTypeObj==='SingleSelect'
+                     v-if="conditionTypeObj==='SingleSelect'||conditionTypeObj==='MultiSelect'
 "
                      style="width: 100%;margin-top: 20px"
                      multiple

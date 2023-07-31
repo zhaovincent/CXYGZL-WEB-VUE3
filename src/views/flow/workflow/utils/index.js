@@ -315,11 +315,17 @@ All.prototype = {
                             valueShow = value.map(res => res.name).join(",")
 
 						}
-					} else if (valueElement.type === 'SingleSelect') {
+					} else if (valueElement.type === 'SingleSelect'||valueElement.type === 'MultiSelect') {
+
+						if(expression.indexOf('empty')>=0){
+							valueShow = ''
+
+						}else{
+							valueShow =  value.map(res=>res.value).join(",")
+
+						}
 
 
-
-						valueShow =  value.map(res=>res.value).join(",")
 					} else if (valueElement.type === 'Area') {
 
                         if(expression.indexOf('empty')>=0){
