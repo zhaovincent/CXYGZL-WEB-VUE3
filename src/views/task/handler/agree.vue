@@ -57,6 +57,7 @@ const submit = () => {
 	}
 
 	formData[currentData.value.nodeId + '_approve_condition'] = true
+	formData.approveResult = true
 
 	var param = {
 		paramMap: formData,

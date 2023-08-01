@@ -163,14 +163,14 @@ const addType = (type) => {
 						key: 'frontJoin',
 						checked: false,
 						edit: false,
-						name: '前加签',
-						defaultName: '前加签'
+						name: '委派',
+						defaultName: '委派'
 					}, {
 						key: 'backJoin',
 						checked: false,
 						edit: false,
-						name: '后加签',
-						defaultName: '后加签'
+						name: '转办',
+						defaultName: '转办'
 					}
 				],
 

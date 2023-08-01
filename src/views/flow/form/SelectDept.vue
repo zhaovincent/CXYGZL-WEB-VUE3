@@ -45,11 +45,11 @@ const getValidateRule = () => {
 
 	var checkConfig = (rule: any, value: any, callback: any) => {
 		if (item.required) {
-			if (value.length==0) {
+			if (value?.length==0) {
 				return callback(new Error("请选择" + item.name))
 			}
 		}
-		if (value.length==0) {
+		if (value?.length==0) {
 
 			return callback()
 		}

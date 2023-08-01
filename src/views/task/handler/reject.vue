@@ -172,6 +172,7 @@ const submit = () => {
 	}
 
 	formData[currentData.value.nodeId + '_approve_condition'] = false
+	formData[currentData.value.nodeId + '_approve_condition'] = false
 
 	var param = {
 		paramMap: formData,
