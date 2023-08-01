@@ -140,6 +140,11 @@ const addType = (type) => {
 				sameAsStarter: {
 					handler: "TO_CONTINUE"
 				},
+				//审批人拒绝
+				refuse: {
+					handler: "TO_END",
+			nodeId:''
+				},
 				operList: [
 					{
 						key: 'pass',
@@ -152,7 +157,7 @@ const addType = (type) => {
 						checked: true,
 						edit: false,
 						name: '拒绝',
-						defaultName: '终止流程'
+						defaultName: '拒绝'
 					}, {
 						key: 'reject',
 						checked: false,

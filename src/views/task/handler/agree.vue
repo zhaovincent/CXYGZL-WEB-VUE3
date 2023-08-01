@@ -30,6 +30,7 @@ const submit = () => {
 	let value = currentOpenFlowForm.value;
 
 
+
 	var formData = {}
 	for (var item of value) {
 		formData[item.id] = item.props.value;
@@ -56,15 +57,14 @@ const submit = () => {
 
 	}
 
-	formData[currentData.value.nodeId + '_approve_condition'] = true
-	formData.approveResult = true
 
 	var param = {
 		paramMap: formData,
-		taskId: currentData.value.taskId,
-		taskLocalParamMap: {
-			approveDesc: submitDesc.value
-		}
+	  approveResult:true,
+	  processInstanceId:currentData.value.processInstanceId,
+	  approveDesc:submitDesc.value,
+
+		taskId: currentData.value.taskId
 
 	};
 

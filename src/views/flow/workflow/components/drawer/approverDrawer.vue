@@ -152,14 +152,30 @@
 				<h4>审批人为空时</h4>
 				<el-radio-group v-model="approverConfig.nobody.handler" class="ml-4">
 					<el-radio label="TO_PASS" size="large">自动通过</el-radio>
-					<el-radio label="TO_END" size="large">自动结束</el-radio>
+<!--					<el-radio label="TO_END" size="large">自动结束</el-radio>-->
+					<el-radio label="TO_REFUSE" size="large">自动拒绝</el-radio>
 					<el-radio label="TO_ADMIN" size="large">转交给管理员</el-radio>
 					<el-radio label="TO_USER" size="large">指定人员</el-radio>
 				</el-radio-group>
 				<select-show v-if="approverConfig.nobody.handler==='TO_USER'"
 										 v-model:orgList="approverConfig.nobody.assignedUser" type="user"
 										 :multiple="false"></select-show>
-
+				<template v-if="approverConfig.refuse?.handler">
+					<h4>审批被拒绝</h4>
+					<el-radio-group v-model="approverConfig.refuse.handler" class="ml-4">
+						<el-radio label="TO_END" size="large">直接结束流程</el-radio>
+						<el-radio label="TO_NODE" size="large">驳回到指定节点</el-radio>
+					</el-radio-group>
+					<el-select v-if="approverConfig.refuse.handler==='TO_NODE'" v-model="approverConfig.refuse.nodeId"
+										 placeholder="驳回节点" style="width: 100%;margin-bottom: 20px;">
+						<el-option
+								v-for="item in rejectNodeList"
+								:key="item.id"
+								:label="item.name"
+								:value="item.id"
+						/>
+					</el-select>
+				</template>
 
 			</el-tab-pane>
 			<el-tab-pane label="操作权限">
@@ -226,6 +242,104 @@ import {placeholderList, setTypes} from '../../utils/const'
 import {useStore} from '../../stores/index'
 import {useFlowStore} from '../../stores/flow'
 import {ElTable} from 'element-plus'
+
+
+var rejectNodeList = computed(() => {
+
+	//驳回节点列表
+	let values = []
+	const excType = [0, 1]
+
+	var arr = {}
+	var obj = {}
+
+
+	produceSerialNodeList(undefined, flowStore.step3, arr, obj, true)
+
+
+	var k = arr[approverConfig.value.id];
+
+	if (k == undefined) {
+		return []
+	}
+
+	for (var item of k) {
+		var type = obj[item].type;
+		// if(type===5||type===8){
+		// 	values=[];
+		// }
+		if (excType.indexOf(type) > -1 && obj[item].id != approverConfig.value.id) {
+			values.push({id: obj[item].id, name: obj[item].nodeName})
+		}
+	}
+
+
+	return values
+})
+
+function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch) {
+
+
+	if (!proxy.$isNode(process)) {
+		return;
+	}
+
+
+	var nodeId = process.id;
+
+	nodeObj[nodeId] = process;
+
+
+	if (!proxy.$isNotBlank(parentId)) {
+		var arr = []
+		arr.push(nodeId)
+		nodeArr[nodeId] = arr;
+	} else {
+		var p = nodeArr[parentId];
+
+		let parentType = nodeObj[parentId].type;
+
+		if ((parentType == 5 || parentType == 8) && !noBranch) {
+
+			nodeArr[nodeId] = [];
+		} else {
+			var arr1 = proxy.$deepCopy(p);
+			arr1.push(nodeId)
+			nodeArr[nodeId] = arr1;
+		}
+
+	}
+
+
+	var type = process.type;
+
+	var children = process.childNode;
+
+	if (type === 5 || type === 8 || type === 4) {
+
+		var branchs = process.conditionNodes;
+
+
+		for (var item of branchs) {
+
+			produceSerialNodeList(nodeId, item, nodeArr, nodeObj, false)
+
+		}
+
+		if (proxy.$isNode(children)) {
+
+			produceSerialNodeList(nodeId, children, nodeArr, nodeObj, true)
+
+		}
+
+	} else {
+		if (proxy.$isNode(children)) {
+			produceSerialNodeList(nodeId, children, nodeArr, nodeObj, true)
+		}
+	}
+
+}
+
 
 let flowStore = useFlowStore();
 
