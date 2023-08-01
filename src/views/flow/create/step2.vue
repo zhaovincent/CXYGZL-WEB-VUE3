@@ -2,7 +2,7 @@
 	<div>
 		<el-container>
 			<el-aside width="400px">
-				<div effect="dark">
+				<div effect="dark" style="background-color: white;margin-top: 0px;padding-top: 20px">
 					<h4 style="text-align: center">组件库</h4>
 					<template v-for="(item,index) in oriFormList">
 						<h5 style="padding-left: 60px">{{ item.name }}</h5>

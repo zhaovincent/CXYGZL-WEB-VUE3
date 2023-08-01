@@ -31,6 +31,7 @@
 			</div>
 		</div>
 
+			<div style="height: 5px;background-color: white;margin-bottom: 0px"></div>
 		<step1 v-show="activeStep === 0" :groupId="paramGroupId" ref="step1Ref"/>
 		<step2 v-show="activeStep === 1" ref="step2Ref"/>
 		<step3 v-show="activeStep === 2" :nodeConfigObj="step3NodeConfig" ref="step3Ref"/>
@@ -337,7 +338,7 @@ const submitFlow = () => {
 	height: 60px;
 	display: flex;
 	flex-direction: row;
-	margin-bottom: 40px;
+	//margin-bottom: 40px;
 
 	.f1 {
 		width: calc(100% / 2 - @f2_width / 2);

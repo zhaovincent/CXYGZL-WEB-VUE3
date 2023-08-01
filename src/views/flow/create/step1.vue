@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="container-div">
-			<el-card class="box-card" style="padding-right: 10%; padding-left: 10%">
+			<el-card class="box-card" style="padding-right: 10%; padding-left: 10%;margin-top: 20px">
 				<el-form
 						ref="ruleForm"
 						:model="form"
