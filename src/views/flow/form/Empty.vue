@@ -1,12 +1,9 @@
 <template>
-	<div style="text-align: center;padding-top: 15px;background-color: var(--el-fill-color-light)">
+	<div style="text-align: center;">
 
-		<el-text>
-			<el-icon>
-				<Plus/>
-			</el-icon>
-			请点击左侧组件拖拽到此处
-		</el-text>
+
+	  🍁请点击左侧组件拖拽到此处
+
 
 	</div>
 </template>
