@@ -38,49 +38,52 @@
 				<div style="display: flex;flex-direction: row">
 
 					<div class="f11">
-							<div
-					  class="drag-content"
+						<div
+								class="drag-content"
 
-							>
-									<div class="drag-content-inner">
-
-
-				  <el-form label-position="top">
-					  <draggable
-							  v-model="targetList"
-								style="min-height: 600px;background-color: var(--el-bg-color-page)"
-							  item-key="index"
-							  :sort="true"
-							  effect="dark"
-							  :group="{ name: 'dragFormList', pull: true, put: true }"
-					  >
-						  <template #item="{ element, index }">
-							  <div
-									  class="okcomponent border line " effect="dark"
-									  @click.stop="showCurrentPageConfigPanel(element.id)"
-							  >
+						>
+							<div style="text-align: center;font-size: 15px;font-weight: bold;margin-bottom: 20px">{{ flowName }}</div>
+							<div class="drag-content-inner">
 
 
-								  <el-icon v-if="element.type!='Empty'" class="deleteIcon" @click.stop="deleteForm(element.id)">
-									  <Delete/>
-								  </el-icon>
-								  <el-form-item :label="step2Object[element.id]?.name" :required="step2Object[element.id]?.required">
+								<el-form label-position="top">
+									<draggable
+											v-model="targetList"
+											style="min-height: 600px;background-color: var(--el-bg-color-page)"
+											item-key="index"
+											:sort="true"
+											effect="dark"
+											:group="{ name: 'dragFormList', pull: true, put: true }"
+									>
+										<template #item="{ element, index }">
+											<div
+													class="okcomponent border line  " effect="dark"
+													:class="{'active-component':isCurrentForm(element.id)}"
+													@click.stop="showCurrentPageConfigPanel(element.id)"
+											>
 
-									  <component style="width: 100%"
-												 @showPanel="showPanel"
-												 :index="index"
-												 :is="getFormWidget(element.type)"
-												 :id="element.id"
-												 v-model:form="step2Object[element.id]"
-									  ></component>
-								  </el-form-item>
 
-							  </div>
-						  </template>
-					  </draggable>
-				  </el-form>
-				  </div>
-			  </div>
+												<el-icon v-if="element.type!='Empty'" class="deleteIcon" @click.stop="deleteForm(element.id)">
+													<Delete/>
+												</el-icon>
+												<el-form-item :label="step2Object[element.id]?.name"
+																			:required="step2Object[element.id]?.required">
+
+													<component style="width: 100%"
+																		 @showPanel="showPanel"
+																		 :index="index"
+																		 :is="getFormWidget(element.type)"
+																		 :id="element.id"
+																		 v-model:form="step2Object[element.id]"
+													></component>
+												</el-form-item>
+
+											</div>
+										</template>
+									</draggable>
+								</el-form>
+							</div>
+						</div>
 
 					</div>
 					<div class="f22" v-if="currentForm">
@@ -145,6 +148,36 @@ var step2Object = computed(() => {
 import {Delete, Edit, Search, Share, Upload} from "@element-plus/icons-vue";
 import {useFlowStore} from "../workflow/stores/flow";
 
+const flowName = computed(() => {
+	let name1 = flowStore.step1.name;
+	if (proxy.$isBlank(name1)) {
+		return '未命名表单'
+	}
+	return name1
+})
+//判断是否选中当前表单显示边框
+var isCurrentForm = (fid) => {
+	console.log(fid,currentForm.value)
+	if (!currentForm.value) {
+		return false;
+	}
+	if (currentForm.value.id === fid) {
+		return true;
+	}
+
+	let step2 = flowStore.step2;
+
+
+	let list = step2.filter(res => res.type === 'Layout'&&res.id===fid);
+	for (var item of list) {
+		let value = item.props.value;
+		var valueList = value.filter(res => res.id === currentForm.value.id);
+		if (valueList.length > 0) {
+			return true
+		}
+	}
+	return false;
+}
 const cloneFunc = (el) => {
 	el.id = proxy.$getRandomId();
 	return el;
@@ -209,7 +242,6 @@ const dragEnd = (a) => {
 }
 
 
-
 import draggable from "vuedraggable";
 import {FormGroupVO, FormVO} from "@/api/form/types";
 import {formGroupConfig} from "@/api/form/data";
@@ -246,8 +278,6 @@ const validate = (f) => {
 		err.push("表单不能为空")
 	}
 	for (var form of formList) {
-
-
 
 
 		let formValidateDictElement = formValidateDict[form.type];
@@ -296,11 +326,13 @@ defineExpose({validate});
 	margin-left: calc(50% - (@center_width) / 2);
 	box-shadow: 0px 0px 10px grey;
 }
-.drag-content-inner{
+
+.drag-content-inner {
 	background-color: var(--el-bg-color-page);
 	border-radius: 5px;
 	padding: 5px;
 }
+
 .f11 {
 	width: calc(100% - @f22_width);
 
@@ -315,9 +347,14 @@ defineExpose({validate});
 	padding: 5px;
 	border-radius: 0px;
 	margin-bottom: 10px;
-	border: 0px solid var(--el-bg-color-page);
 	background-color: white;
+	border: 1px solid white;
 
+
+}
+
+.active-component {
+	border: 1px solid var(--el-color-primary);
 }
 
 .deleteIcon {
