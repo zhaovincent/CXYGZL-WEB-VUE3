@@ -77,11 +77,10 @@ const submit = () => {
 		paramMap: formData,
 		taskId: currentData.value.taskId,
 	  nodeId: nodeId.value,
+	  approveDesc:submitDesc.value,
 	  targetUserId:userList.value[0].id,
-	  processInstanceId: currentData.value.processInstanceId,
-		taskLocalParamMap: {
-			approveDesc: submitDesc.value
-		}
+	  processInstanceId: currentData.value.processInstanceId
+
 
 	};
 
