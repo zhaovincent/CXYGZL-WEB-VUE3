@@ -120,6 +120,10 @@ All.prototype = {
 		if (nodeConfig.nobody.handler === 'TO_USER' && nodeConfig.nobody.assignedUser.length == 0) {
 			return false;
 		}
+		//审批人拒绝
+		if (nodeConfig.refuse.handler === 'TO_NODE' && nodeConfig.refuse.nodeId?.length == 0) {
+			return false;
+		}
 		//操作权限
 		let operList = nodeConfig.operList;
 		let length = operList?.filter(res => res.checked).length;
