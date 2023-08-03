@@ -61,7 +61,7 @@ const deal = (taskId) => {
 		} else {
 			currentOpenFlowForm.value = data.formItems
 			let parse = JSON.parse(data.node);
-			operList.value = parse.operList;
+			operList.value = parse.operList.filter(res => res.checked);
 			nodeId.value = parse.id;
 			process.value = JSON.parse(data.process)
 
@@ -239,22 +239,29 @@ const subProcessStartFlowRef = ref()
 					</template>
 					<template v-else>
 
+						<template v-if="operList.length>2">
+							<template v-for="(item,index) in operList" >
+								<el-button v-if="index<=1" color="#33CCFF" size="large" :dark="true" @click="frontJoinTask">
+									{{ item.name }}
+								</el-button>
+							</template>
+						</template>
 
-						<el-button v-if="operBtnObj['frontJoin']" color="#33CCFF" size="large" :dark="true" @click="frontJoinTask">
-							{{ operBtnObj['frontJoin'].name }}
-						</el-button>
-						<el-button v-if="operBtnObj['backJoin']" size="large" color="#660099" @click="backJoinTask">
-							{{ operBtnObj['backJoin'].name }}
-						</el-button>
-						<el-button v-if="operBtnObj['reject']" size="large" color="#990066" @click="rejectTask">
-							{{ operBtnObj['reject'].name }}
-						</el-button>
-						<el-button v-if="operBtnObj['end']" size="large" type="danger" @click="refuseTask">
-							{{ operBtnObj['end'].name }}
-						</el-button>
-						<el-button v-if="operBtnObj['pass']" size="large" type="primary" @click="submitTask">
-							{{ operBtnObj['pass'].name }}
-						</el-button>
+<!--						<el-button v-if="operBtnObj['frontJoin']" color="#33CCFF" size="large" :dark="true" @click="frontJoinTask">-->
+<!--							{{ operBtnObj['frontJoin'].name }}-->
+<!--						</el-button>-->
+<!--						<el-button v-if="operBtnObj['backJoin']" size="large" color="#660099" @click="backJoinTask">-->
+<!--							{{ operBtnObj['backJoin'].name }}-->
+<!--						</el-button>-->
+<!--						<el-button v-if="operBtnObj['reject']" size="large" color="#990066" @click="rejectTask">-->
+<!--							{{ operBtnObj['reject'].name }}-->
+<!--						</el-button>-->
+<!--						<el-button v-if="operBtnObj['end']" size="large" type="danger" @click="refuseTask">-->
+<!--							{{ operBtnObj['end'].name }}-->
+<!--						</el-button>-->
+<!--						<el-button v-if="operBtnObj['pass']" size="large" type="primary" @click="submitTask">-->
+<!--							{{ operBtnObj['pass'].name }}-->
+<!--						</el-button>-->
 					</template>
 
 				</div>

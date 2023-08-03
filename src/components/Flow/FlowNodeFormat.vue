@@ -25,7 +25,7 @@ let props = defineProps({
 const {proxy} = getCurrentInstance();
 
 
-import {Check, Plus, Refresh} from "@element-plus/icons-vue";
+import {Check, Finished, Refresh,Clock} from "@element-plus/icons-vue";
 
 
 </script>
@@ -38,9 +38,8 @@ import {Check, Plus, Refresh} from "@element-plus/icons-vue";
 												:color="node.status!=2?(
         node.status==1?'pink':'green'
       ):'blue'"
-												:icon="node.status==2?Check:(node.status==1?Plus:Refresh)"
+												:icon="node.status==2?Finished:(node.status==1?Refresh:Clock)"
 			>
-
 				<template v-if="node.selectUser&&(!nodeUser[node.id]||nodeUser[node.id]?.length==0)">
 					<p style="color: red">{{ node.name }}
 						<template v-if="node.placeholder&&node.placeholder.length>0">[{{ node.placeholder }}]</template>
