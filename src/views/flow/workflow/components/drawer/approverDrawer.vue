@@ -41,10 +41,22 @@
             :multiple="true"
           ></select-show>
         </template>
+		  <template v-if="approverConfig.assignedType===9">
+			  <h4>部门控件</h4>
+			  <el-select v-model="formDeptIdComputed" clearable class="m-2" placeholder="请选择审批表单"
+						 size="large">
+				  <el-option
+						  v-for="item in step2FormDeptList"
+						  :key="item.id"
+						  :label="item.name"
+						  :value="item.id"
+				  />
+			  </el-select>
+		  </template>
         <template v-if="approverConfig.assignedType === 8">
           <h4>人员控件</h4>
           <el-select
-            v-model="approverConfig.formUserId"
+            v-model="formUserIdComputed"
             clearable
             class="m-2"
             placeholder="请选择审批表单"
@@ -82,6 +94,7 @@
           v-if="
             ((approverConfig.multiple === true &&
               approverConfig.assignedType === 4) ||
+              (approverConfig.assignedType === 9)||
               (approverConfig.assignedType === 1 &&
                 approverConfig.nodeUserList.length > 1) ||
               approverConfig.assignedType === 3 ||
@@ -160,6 +173,17 @@ let flowStore = useFlowStore();
 
 import FormPerm from './components/formPerm.vue'
 
+var formDeptIdComputed = computed({
+	get() {
+		return approverConfig.value.formUserId;
+	},
+	set(val) {
+		approverConfig.value.formUserId = val
+		approverConfig.value.formUserName = step2FormDeptList.value.filter(res => res.id === val)[0].name
+
+	}
+})
+
 
 const step2FormList = computed(() => {
 	let step2 = flowStore.step2;
@@ -171,6 +195,14 @@ const step2FormUserList = computed(() => {
 	return step2FormList.value.filter(res => res.type === 'SelectUser'|| res.type === 'SelectMultiUser');
 
 })
+
+
+const step2FormDeptList = computed(() => {
+
+
+	return step2FormList.value.filter(res => res.type === 'SelectDept' || res.type === 'SelectMultiDept');
+})
+
 
 const openEvent = () => {
 	let value = step2FormList.value;
@@ -229,22 +261,28 @@ const isMultiUserForm = (id) => {
 	let t = step2FormUserList.value.filter(res => res.id === id)[0].props.multi;
 	return t;
 }
-//监听用户选择表单值变化
-watch(() => approverConfig.value.formUserId, (val) => {
-	console.log("val=",val)
-	// approverConfig.value.multiple = false
-	// approverConfig.value.multipleMode = 1
-	if (proxy.$isNotBlank(val)) {
+
+
+var formUserIdComputed = computed({
+	get() {
+		return approverConfig.value.formUserId;
+	},
+	set(val) {
 		approverConfig.value.formUserName = step2FormUserList.value.filter(res => res.id === val)[0].name
+		approverConfig.value.formUserId = val
 
 	}
-
-
 })
+
+
+
+
 
 //审批人类型变化
 const assignedTypeChangeEvent = (e) => {
 	approverConfig.value.nodeUserList = [];
+	approverConfig.value.formUserId = ''
+	approverConfig.value.formUserName = ''
 }
 
 const saveApprover = () => {
