@@ -2,7 +2,7 @@
 	<div>
 		<el-container>
 			<el-aside width="400px">
-				<div effect="dark">
+				<div effect="dark" style="background-color: white;margin-top: 0px;padding-top: 20px">
 					<h4 style="text-align: center">组件库</h4>
 					<template v-for="(item,index) in oriFormList">
 						<h5 style="padding-left: 60px">{{ item.name }}</h5>
@@ -38,41 +38,52 @@
 				<div style="display: flex;flex-direction: row">
 
 					<div class="f11">
-						<el-form label-position="top">
-							<draggable
-									v-model="targetList"
-									class="drag-content"
-									item-key="index"
-									:sort="true"
-									effect="dark"
-									:group="{ name: 'dragFormList', pull: true, put: true }"
-									@change="dragChanged"
-							>
-								<template #item="{ element, index }">
-									<div
-											class="okcomponent border line " effect="dark"
-											@click.stop="showCurrentPageConfigPanel(element.id)"
+						<div
+								class="drag-content"
+
+						>
+							<div style="text-align: center;font-size: 15px;font-weight: bold;margin-bottom: 20px">{{ flowName }}</div>
+							<div class="drag-content-inner">
+
+
+								<el-form label-position="top">
+									<draggable
+											v-model="targetList"
+											style="min-height: 600px;background-color: var(--el-bg-color-page)"
+											item-key="index"
+											:sort="true"
+											effect="dark"
+											:group="{ name: 'dragFormList', pull: true, put: true }"
 									>
+										<template #item="{ element, index }">
+											<div
+													class="okcomponent border line  " effect="dark"
+													:class="{'active-component':isCurrentForm(element.id)}"
+													@click.stop="showCurrentPageConfigPanel(element.id)"
+											>
 
 
-										<el-icon v-if="element.type!='Empty'" class="deleteIcon" @click.stop="deleteForm(element.id)">
-											<Delete/>
-										</el-icon>
-										<el-form-item :label="step2Object[element.id]?.name" :required="step2Object[element.id]?.required">
+												<el-icon v-if="element.type!='Empty'" class="deleteIcon" @click.stop="deleteForm(element.id)">
+													<Delete/>
+												</el-icon>
+												<el-form-item :label="step2Object[element.id]?.name"
+																			:required="step2Object[element.id]?.required">
 
-											<component style="width: 100%"
-																 @showPanel="showPanel"
-																 :index="index"
-																 :is="getFormWidget(element.type)"
-																 :id="element.id"
-																 v-model:form="step2Object[element.id]"
-											></component>
-										</el-form-item>
+													<component style="width: 100%"
+																		 @showPanel="showPanel"
+																		 :index="index"
+																		 :is="getFormWidget(element.type)"
+																		 :id="element.id"
+																		 v-model:form="step2Object[element.id]"
+													></component>
+												</el-form-item>
 
-									</div>
-								</template>
-							</draggable>
-						</el-form>
+											</div>
+										</template>
+									</draggable>
+								</el-form>
+							</div>
+						</div>
 
 					</div>
 					<div class="f22" v-if="currentForm">
@@ -137,6 +148,27 @@ var step2Object = computed(() => {
 import {Delete, Edit, Search, Share, Upload} from "@element-plus/icons-vue";
 import {useFlowStore} from "../workflow/stores/flow";
 
+const flowName = computed(() => {
+	let name1 = flowStore.step1.name;
+	if (proxy.$isBlank(name1)) {
+		return '未命名表单'
+	}
+	return name1
+})
+//判断是否选中当前表单显示边框
+var isCurrentForm = (fid) => {
+	console.log(fid,currentForm.value)
+	if (!currentForm.value) {
+		return false;
+	}
+	if (currentForm.value.id === fid) {
+		return true;
+	}
+
+
+
+	return false;
+}
 const cloneFunc = (el) => {
 	el.id = proxy.$getRandomId();
 	return el;
@@ -195,15 +227,10 @@ const getFormConfigWidget = (name: string) => {
 const {proxy} = getCurrentInstance();
 
 const dragEnd = (a) => {
-
 	drag.value = false;
 	oriFormList.value = proxy.$deepCopy(oriFormList.value)
 
 }
-// 开始拖拽
-const dragChanged = (a) => {
-
-};
 
 
 import draggable from "vuedraggable";
@@ -212,7 +239,6 @@ import {formGroupConfig} from "@/api/form/data";
 import {computed} from "vue";
 
 let oriFormList = ref<FormGroupVO[]>(formGroupConfig);
-
 
 let targetList = computed({
 	get: () => {
@@ -228,7 +254,7 @@ let targetList = computed({
 	set: (v) => {
 
 		let value = v.filter(res => res.type != 'Empty');
-		flowStore.setStep2(value);
+		flowStore.setStep2(proxy.$deepCopy(value));
 
 	}
 })
@@ -243,8 +269,6 @@ const validate = (f) => {
 		err.push("表单不能为空")
 	}
 	for (var form of formList) {
-
-
 
 
 		let formValidateDictElement = formValidateDict[form.type];
@@ -285,13 +309,19 @@ defineExpose({validate});
 @center_width: 360px;
 .drag-content {
 	min-height: 640px;
-	border: 1px solid;
+	//border: 1px solid;
 	width: @center_width;
-	border-radius: 10px;
-	padding: 10px 10px;
-
+	border-radius: 20px;
+	padding: 30px 10px;
+	background-color: white;
 	margin-left: calc(50% - (@center_width) / 2);
+	box-shadow: 0px 0px 10px grey;
+}
 
+.drag-content-inner {
+	background-color: var(--el-bg-color-page);
+	border-radius: 5px;
+	padding: 5px;
 }
 
 .f11 {
@@ -306,14 +336,21 @@ defineExpose({validate});
 
 .okcomponent {
 	padding: 5px;
-	border-radius: 5px;
+	border-radius: 0px;
 	margin-bottom: 10px;
+	background-color: white;
+	border: 1px solid white;
 
+
+}
+
+.active-component {
+	border: 1px solid var(--el-color-primary);
 }
 
 .deleteIcon {
 	position: absolute;
-	margin-left: calc(@center_width - 50px);
+	margin-left: calc(@center_width - 60px);
 	z-index: 20;
 }
 

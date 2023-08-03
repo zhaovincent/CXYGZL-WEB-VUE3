@@ -1,7 +1,9 @@
 <template>
 	<div>
 		<div class="titlebar">
-			<div class="f1"></div>
+			<div class="f1">
+					<el-text tag="b" size="large" type="primary">{{flowName}}</el-text>
+			</div>
 			<div class="f2">
 
 
@@ -25,6 +27,7 @@
 			</div>
 		</div>
 
+			<div style="height: 5px;background-color: white;margin-bottom: 0px"></div>
 		<step1 v-show="activeStep === 0" :groupId="paramGroupId" ref="step1Ref"/>
 		<step2 v-show="activeStep === 1" ref="step2Ref"/>
 		<step3 v-show="activeStep === 2" :nodeConfigObj="step3NodeConfig" ref="step3Ref"/>
@@ -111,6 +114,14 @@ const step2Ref = ref();
 const step3Ref = ref();
 
 const validateErrMsg = ref([])
+
+const  flowName = computed(()=>{
+		let name1 = store.step1.name;
+		if(proxy.$isBlank(name1)){
+			return '未命名表单'
+		}
+		return name1
+})
 
 const activeStep = ref(0);
 const validateFlowStep = ref(0);
@@ -286,10 +297,12 @@ const submitFlow = () => {
 	height: 60px;
 	display: flex;
 	flex-direction: row;
-	margin-bottom: 40px;
+	//margin-bottom: 40px;
 
 	.f1 {
 		width: calc(100% / 2 - @f2_width / 2);
+		line-height: 46px;
+		padding-left: 20px;
 	}
 
 	.f2 {
