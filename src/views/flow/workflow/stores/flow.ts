@@ -12,8 +12,12 @@ var adminList: FormConfigUserVO[] = reactive([])
 export const useFlowStore = defineStore("flow", {
 	state: () => {
 		return {
+			step3:{
+
+			},
 			step1: {
 				logo: "",
+
 				name: "",
 				flowId: "",
 				groupId: undefined,
@@ -24,6 +28,9 @@ export const useFlowStore = defineStore("flow", {
 		};
 	},
 	actions: {
+		setStep3(p: any) {
+			this.step3 = p;
+		},
 		setStep2(p: FormVO[]) {
 			this.step2 = p;
 		},

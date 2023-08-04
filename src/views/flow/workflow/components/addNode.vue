@@ -90,7 +90,15 @@ const addType = (type) => {
 					handler: "TO_PASS",
 					assignedUser: []
 				},
-
+		  //审批人与发起人一致
+		  sameAsStarter: {
+			  handler: "TO_CONTINUE"
+		  },
+		  //审批人拒绝
+		  refuse: {
+			  handler: "TO_END",
+			  nodeId:''
+		  },
 				"childNode": props.childNodeP,
 				nodeUserList: []
 			}

@@ -59,6 +59,10 @@ app.config.globalProperties.$isBlank = function (s?: String) {
 app.config.globalProperties.$isNotBlank = function (s?: String) {
   return !this.$isBlank(s);
 };
+app.config.globalProperties.$isNode = function (obj:any) {
+	return this.$isNotBlank(obj)&& this.$isNotBlank(obj.id);
+
+};
 app.config.globalProperties.$getRandomId = function () {
   return `cxygzl_${new Date().getTime().toString().substring(5)}${Math.round(
     Math.random() * 9000 + 1000

@@ -84,6 +84,14 @@ const reErr = ({childNode}) => {
 		childNode = null;
 	}
 };
+import {useFlowStore} from "../workflow/stores/flow";
+
+let store = useFlowStore();
+
+
+watch(() => nodeConfig.value, (v) => {
+	store.setStep3(v)
+}, {deep: true})
 const getProcessData = async () => {
 
 	return nodeConfig.value
