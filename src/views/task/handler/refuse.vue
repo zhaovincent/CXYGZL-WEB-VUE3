@@ -9,8 +9,10 @@ const submitDesc = ref("");
 
 const currentData = ref();
 const currentOpenFlowForm = ref();
+const  dialogTitle=ref("");
 
-const handle = (row, formData) => {
+const handle = (row, formData,dialogTitle1) => {
+	dialogTitle.value=dialogTitle1;
 
 
 	currentData.value = row;
@@ -79,7 +81,7 @@ const submit = () => {
 	<div>
 		<el-dialog
 				v-model="dialogVisible"
-				title="拒绝审核"
+				:title="dialogTitle"
 				width="400px"
 
 		>

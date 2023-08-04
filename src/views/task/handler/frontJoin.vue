@@ -15,12 +15,13 @@ const currentOpenFlowForm = ref();
 
 const  nodeId=ref("");
 const  process=ref("");
+const  dialogTitle=ref("");
 
 const {proxy} = getCurrentInstance()
 
 
-const handle = (row, formData,n,p) => {
-
+const handle = (row, formData,n,p,dialogTitle1) => {
+	dialogTitle.value=dialogTitle1;
 
 	currentData.value = row;
 	currentOpenFlowForm.value = formData;
@@ -103,7 +104,7 @@ const userList=ref([])
 	<div>
 		<el-dialog
 				v-model="dialogVisible"
-				title="前加签"
+				:title="dialogTitle"
 				width="400px"
 
 		>

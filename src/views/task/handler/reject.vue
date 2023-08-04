@@ -15,6 +15,7 @@ const currentOpenFlowForm = ref();
 
 const  nodeId=ref("");
 const  process=ref("");
+const  dialogTitle=ref("");
 
 const {proxy} = getCurrentInstance()
 
@@ -124,8 +125,9 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj,noBranch) {
 
 }
 
-const handle = (row, formData,n,p) => {
+const handle = (row, formData,n,p,dialogTitle1) => {
 
+	dialogTitle.value=dialogTitle1;
 
 	currentData.value = row;
 	currentOpenFlowForm.value = formData;
@@ -200,7 +202,7 @@ const submit = () => {
 	<div>
 		<el-dialog
 				v-model="dialogVisible"
-				title="驳回"
+				:title="dialogTitle"
 				width="400px"
 
 		>

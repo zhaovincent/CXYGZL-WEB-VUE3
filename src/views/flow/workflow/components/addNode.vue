@@ -151,30 +151,41 @@ const addType = (type) => {
 						checked: true,
 						edit: false,
 						name: '通过',
+							type:'primary',
 						defaultName: '通过'
 					}, {
-						key: 'end',
+						key: 'refuse',
 						checked: true,
 						edit: false,
 						name: '拒绝',
+				type:'danger',
 						defaultName: '拒绝'
 					}, {
 						key: 'reject',
 						checked: false,
 						edit: false,
 						name: '驳回',
+				type:'danger',
+								icon: 'Back',
+
 						defaultName: '驳回'
 					}, {
 						key: 'frontJoin',
 						checked: false,
 						edit: false,
 						name: '委派',
+				type:'success',
+								icon:'CirclePlus',
+
 						defaultName: '委派'
 					}, {
 						key: 'backJoin',
 						checked: false,
 						edit: false,
 						name: '转办',
+				type:'warning',
+				icon:'Position',
+
 						defaultName: '转办'
 					}
 				],

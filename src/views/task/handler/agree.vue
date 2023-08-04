@@ -10,9 +10,10 @@ const submitDesc = ref("");
 const currentData = ref();
 const delegationTask = ref(false);
 const currentOpenFlowForm = ref();
+const  dialogTitle=ref("");
 
-const handle = (row, formData,dt) => {
-
+const handle = (row, formData,dt,dialogTitle1) => {
+	dialogTitle.value=dialogTitle1;
 	delegationTask.value=dt;
 	currentData.value = row;
 	currentOpenFlowForm.value = formData;
@@ -93,7 +94,7 @@ const submit = () => {
 	<div>
 		<el-dialog
 				v-model="dialogVisible"
-				title="提交审核"
+				:title="dialogTitle"
 				width="400px"
 
 		>

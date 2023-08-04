@@ -5,7 +5,7 @@ import { useUserStoreHook } from '@/store/modules/user';
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: 50000,
-  headers: { 'Content-Type': 'application/json;charset=utf-8' }
+  headers: { 'Content-Type': 'application/json;charset=utf-8','CxygzlVersion':import.meta.env.VITE_APP_VERSION }
 });
 
 // 请求拦截器

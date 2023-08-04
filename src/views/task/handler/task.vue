@@ -14,26 +14,10 @@ import {
 } from "@/api/task";
 
 import {getCurrentInstance} from "vue";
+import {ArrowDown, Plus} from '@element-plus/icons-vue'
 
 const rightDrawerVisible = ref(false)
 const operList = ref([])
-
-const operBtnObj = computed(() => {
-
-	if (!operList?.value) {
-		return {}
-	}
-
-	var obj = {};
-	for (var ite of operList.value) {
-		if (!ite.checked) {
-			continue
-		}
-		obj[ite.key] = ite
-	}
-	return obj
-
-})
 
 
 const currentData = ref({});
@@ -61,7 +45,10 @@ const deal = (taskId) => {
 		} else {
 			currentOpenFlowForm.value = data.formItems
 			let parse = JSON.parse(data.node);
-			operList.value = parse.operList.filter(res => res.checked);
+			if (parse.operList) {
+				operList.value = parse.operList?.filter(res => res.checked);
+
+			}
 			nodeId.value = parse.id;
 			process.value = JSON.parse(data.process)
 
@@ -123,13 +110,13 @@ const taskSubmitEvent = () => {
 /**
  * 提交任务
  */
-const submitTask = () => {
+const submitTask = (name) => {
 
 	formRenderRef.value.validate(function (valid) {
 
 		if (valid) {
 
-			agreeHandler.value.handle(currentData.value, currentOpenFlowForm.value, delegationTask.value);
+			agreeHandler.value.handle(currentData.value, currentOpenFlowForm.value, delegationTask.value,name);
 
 		}
 	})
@@ -139,12 +126,12 @@ const submitTask = () => {
 /**
  * 拒绝任务
  */
-const refuseTask = () => {
+const refuseTask = (name) => {
 
 	formRenderRef.value.validate(function (valid) {
 
 		if (valid) {
-			refuseHandler.value.handle(currentData.value, currentOpenFlowForm.value);
+			refuseHandler.value.handle(currentData.value, currentOpenFlowForm.value,name);
 		}
 	})
 
@@ -156,11 +143,11 @@ const formRenderRef = ref();
 /**
  * 驳回
  */
-const rejectTask = () => {
+const rejectTask = (name) => {
 	formRenderRef.value.validate(function (valid) {
 
 		if (valid) {
-			rejectHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value);
+			rejectHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value,name);
 		}
 	});
 
@@ -169,22 +156,22 @@ const rejectTask = () => {
 /**
  * 前加签
  */
-const frontJoinTask = () => {
+const frontJoinTask = (name) => {
 	formRenderRef.value.validate(function (valid) {
 
 		if (valid) {
-			frontJoinHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value);
+			frontJoinHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value,name);
 		}
 	});
 }
 /**
  * 后加签
  */
-const backJoinTask = () => {
+const backJoinTask = (name) => {
 	formRenderRef.value.validate(function (valid) {
 
 				if (valid) {
-					backJoinHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value);
+					backJoinHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value,name);
 				}
 			}
 	)
@@ -206,6 +193,33 @@ const formValue = computed(() => {
 	return obj;
 })
 const subProcessStartFlowRef = ref()
+
+const executeOperMethod = (op) => {
+
+	let name = operList.value.filter(res=>res.key===op)[0].name;
+
+	if (op === 'frontJoin') {
+		frontJoinTask(name);
+		return
+	}
+	if (op === 'backJoin') {
+		backJoinTask(name);
+		return
+	}
+	if (op === 'reject') {
+		rejectTask(name);
+		return
+	}
+	if (op === 'refuse') {
+		refuseTask(name);
+		return
+	}
+	if (op === 'pass') {
+		submitTask(name);
+		return
+	}
+}
+
 </script>
 
 <template>
@@ -233,35 +247,50 @@ const subProcessStartFlowRef = ref()
 				<div style="flex: auto">
 
 					<template v-if="delegationTask">
-						<el-button size="large" color="#9933FF" @click="submitTask">
+						<el-button size="large" color="#9933FF" @click="submitTask('完成任务')">
 							完成
 						</el-button>
 					</template>
 					<template v-else>
 
 						<template v-if="operList.length>2">
-							<template v-for="(item,index) in operList" >
-								<el-button v-if="index<=1" color="#33CCFF" size="large" :dark="true" @click="frontJoinTask">
+
+							<el-dropdown style="margin-right: 20px" @command="executeOperMethod">
+								<el-button :dark="true">
+									更多
+									<el-icon class="el-icon--right">
+										<arrow-down/>
+									</el-icon>
+								</el-button>
+								<template #dropdown>
+									<el-dropdown-menu>
+
+										<template v-for="(item,index) in operList">
+
+											<el-dropdown-item :command="item.key" :icon="$icon[item.icon]" v-if="index>1">{{ item.name }}
+											</el-dropdown-item>
+										</template>
+
+									</el-dropdown-menu>
+								</template>
+							</el-dropdown>
+
+							<template v-for="(item,index) in operList">
+								<!--									{{item}}-->
+								<el-button v-if="index<=1" :type="item.type" :dark="true" @click="executeOperMethod(item.key)">
 									{{ item.name }}
 								</el-button>
 							</template>
 						</template>
 
-<!--						<el-button v-if="operBtnObj['frontJoin']" color="#33CCFF" size="large" :dark="true" @click="frontJoinTask">-->
-<!--							{{ operBtnObj['frontJoin'].name }}-->
-<!--						</el-button>-->
-<!--						<el-button v-if="operBtnObj['backJoin']" size="large" color="#660099" @click="backJoinTask">-->
-<!--							{{ operBtnObj['backJoin'].name }}-->
-<!--						</el-button>-->
-<!--						<el-button v-if="operBtnObj['reject']" size="large" color="#990066" @click="rejectTask">-->
-<!--							{{ operBtnObj['reject'].name }}-->
-<!--						</el-button>-->
-<!--						<el-button v-if="operBtnObj['end']" size="large" type="danger" @click="refuseTask">-->
-<!--							{{ operBtnObj['end'].name }}-->
-<!--						</el-button>-->
-<!--						<el-button v-if="operBtnObj['pass']" size="large" type="primary" @click="submitTask">-->
-<!--							{{ operBtnObj['pass'].name }}-->
-<!--						</el-button>-->
+						<template v-else>
+							<template v-for="(item,index) in operList">
+								<el-button :type="item.type" :dark="true" @click="executeOperMethod(item.key)">
+									{{ item.name }}
+								</el-button>
+							</template>
+						</template>
+
 					</template>
 
 				</div>
