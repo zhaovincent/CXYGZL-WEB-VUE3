@@ -143,7 +143,7 @@ const addType = (type) => {
 				//审批人拒绝
 				refuse: {
 					handler: "TO_END",
-			nodeId:''
+					nodeId: ''
 				},
 				operList: [
 					{
@@ -151,22 +151,22 @@ const addType = (type) => {
 						checked: true,
 						edit: false,
 						name: '通过',
-							type:'primary',
+						type: 'primary',
 						defaultName: '通过'
 					}, {
 						key: 'refuse',
 						checked: true,
 						edit: false,
 						name: '拒绝',
-				type:'danger',
+						type: 'danger',
 						defaultName: '拒绝'
 					}, {
 						key: 'reject',
 						checked: false,
 						edit: false,
 						name: '驳回',
-				type:'danger',
-								icon: 'Back',
+						type: 'danger',
+						icon: 'Back',
 
 						defaultName: '驳回'
 					}, {
@@ -174,8 +174,8 @@ const addType = (type) => {
 						checked: false,
 						edit: false,
 						name: '委派',
-				type:'success',
-								icon:'CirclePlus',
+						type: 'success',
+						icon: 'CirclePlus',
 
 						defaultName: '委派'
 					}, {
@@ -183,8 +183,8 @@ const addType = (type) => {
 						checked: false,
 						edit: false,
 						name: '转办',
-				type:'warning',
-				icon:'Position',
+						type: 'warning',
+						icon: 'Position',
 
 						defaultName: '转办'
 					}
@@ -249,16 +249,16 @@ const addType = (type) => {
 				"type": type,
 				"parentId": props.currentNode.id,
 				"childNode": props.childNodeP,
-					list:[{
+				list: [{
 
-			  groupRelationMode: true,
-			  mode: true,
-			  error: true,
-			  nodeId: '',
-			  placeHolder: '',
-			  groupRelation: [],
-			  conditionList: []
-					}]
+					groupRelationMode: true,
+					mode: true,
+					error: true,
+					nodeId: '',
+					placeHolder: '',
+					groupRelation: [],
+					conditionList: []
+				}]
 			}
 		} else if (type == 9) {
 			//子流程
@@ -280,8 +280,8 @@ const addType = (type) => {
 				multipleMode: 1,
 				//多实例类型值
 				multipleModeValue: "",
-					//多项表单对应的子流程表单
-		  multipleSubFormId:'',
+				//多项表单对应的子流程表单
+				multipleSubFormId: '',
 				subFlowId: "",
 				subFlowName: "",
 				pcFormList: [],
@@ -598,6 +598,7 @@ const addType = (type) => {
 				color: #996633
 			}
 		}
+
 		&.route {
 			.item-wrapper {
 				color: #999900

@@ -38,6 +38,8 @@ const deal = (taskId) => {
 		currentData.value.nodeName = data.nodeName;
 		currentData.value.nodeId = data.nodeId;
 		currentData.value.taskExist = data.taskExist;
+		currentData.value.starterAvatarUrl = data.starterAvatarUrl;
+		currentData.value.startTime = data.startTime;
 		if (data.subProcessStarterTask && data.taskExist) {
 
 			//子流程发起人任务
@@ -228,10 +230,20 @@ const executeOperMethod = (op) => {
 		<!--			右侧抽屉-->
 		<el-drawer v-model="rightDrawerVisible" direction="rtl" size="500px">
 			<template #header>
-				<el-text size="large" tag="b" type="primary">{{ currentData?.processName }}</el-text>
-				<el-text size="large" tag="b" type="success"> {{ currentData?.nodeName }}</el-text>
+				<el-text size="large" tag="b" type="info">流程详情</el-text>
 			</template>
 			<template #default>
+					<el-card style="margin-bottom: 20px">
+							<div style="display: flex;flex-direction: row">
+									<div class="f11">
+					  <el-avatar shape="square" :size="50" :src="currentData.starterAvatarUrl" />
+									</div>
+									<div class="f22">
+											<div><el-text tag="b" size="large" type="primary">{{ currentData?.processName }}</el-text> </div>
+											<div><el-text size="small">{{ currentData.startTime }}</el-text></div>
+									</div>
+							</div>
+					</el-card>
 				<el-card class="box-card">
 					<form-render @addLayoutOneItem="addLayoutOneItem" @deleteLayoutOneItem="deleteLayoutOneItem"
 											 ref="formRenderRef" :form-list="currentOpenFlowForm"></form-render>
@@ -315,3 +327,11 @@ const executeOperMethod = (op) => {
 		<sub-process-start-flow @taskSubmitEvent="taskSubmitEvent" ref="subProcessStartFlowRef"></sub-process-start-flow>
 	</div>
 </template>
+<style scoped lang="less">
+	.f11{
+		width: 70px;
+	}
+	.f22{
+		width: calc(100% - 70px);
+	}
+</style>
