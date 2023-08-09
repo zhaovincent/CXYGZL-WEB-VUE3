@@ -25,7 +25,7 @@ let props = defineProps({
 const {proxy} = getCurrentInstance();
 
 
-import {Loading, Finished, Refresh,Clock} from "@element-plus/icons-vue";
+import {Loading, Finished, Refresh,Clock,CircleCloseFilled} from "@element-plus/icons-vue";
 
 
 </script>
@@ -36,9 +36,9 @@ import {Loading, Finished, Refresh,Clock} from "@element-plus/icons-vue";
 		<el-timeline :reverse="false">
 			<el-timeline-item v-for="(node, index) in row" :key="index" size="large"
 												:color="node.status!=2?(
-        node.status==1?'green':'grey'
+        node.status==1?'green':(node.status==3?'red':'grey')
       ):'blue'"
-												:icon="node.status==2?Finished:(node.status==1?Loading:Clock)"
+												:icon="node.status==2?Finished:(node.status==1?Loading:(node.status==3?CircleCloseFilled:Clock))"
 			>
 				<template v-if="node.selectUser&&(!nodeUser[node.id]||nodeUser[node.id]?.length==0)">
 					<p style="color: red">{{ node.name }}
