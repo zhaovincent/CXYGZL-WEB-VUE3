@@ -35,7 +35,7 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 		<el-timeline :reverse="false">
 			<el-timeline-item v-for="(node, index) in row" :key="index" size="large"
 												:type="node.status!=2?(
-        node.status==1?'success':(node.status==3?'danger':'info')
+        node.status==1?'success':(node.status==3?'warning':'info')
       ):'primary'"
 												:icon="node.status==2?Finished:(node.status==1?Loading:(node.status==3?CircleCloseFilled:Clock))"
 			>
@@ -67,7 +67,7 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 
 									<div style="height: 60px;padding-top: 20px;">
 										<el-badge :value="12" is-dot
-															:type="item1.status==1?'success':(item1.status==2?'primary':(item1.status==3?'danger':'info'))"
+															:type="item1.status==1?'success':(item1.status==2?'primary':(item1.status==3?'warning':'info'))"
 															class="item">
 
 											<el-avatar shape="square" :size="30" :src="item1.avatar"></el-avatar>
@@ -95,19 +95,20 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 
 				</div>
 				<!--					渲染审批评论-->
-				<template v-for="(item1,index1) in node.userVoList" :key="index1">
-					<template v-if="item1.approveDesc?.length>0">
+				<template v-for="(item1,index1) in node.approveDescList" :key="index1">
+
 
 						<div style="display: flex;flex-direction: row">
 							<div class="f1">
 
-								<el-avatar shape="square" :size="30" :src="item1.avatar"></el-avatar>
+								<el-avatar shape="square" :size="30" :src="item1.user.avatar"></el-avatar>
 
 
 							</div>
 							<div class="f2">
-
-								{{ item1.name }}
+				  <el-badge :value="item1.taskType" class="item">
+								{{ item1.user.name }}
+					</el-badge>
 							</div>
 
 							<div style="height:40px;line-height: 40px;font-size: 10px;" class="f4">
@@ -117,9 +118,9 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 						</div>
 						<div class="box-card"
 								 style="margin-bottom: 10px;padding: 5px;background-color:var(--el-fill-color-light)">
-							{{ item1.approveDesc }}
+							{{ item1.desc }}
 						</div>
-					</template>
+
 
 				</template>
 
