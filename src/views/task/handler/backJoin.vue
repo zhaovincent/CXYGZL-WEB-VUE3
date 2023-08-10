@@ -113,7 +113,7 @@ const userList=ref([])
 				<el-text type="primary"  >选择人员</el-text>
 
 		<select-show
-				v-model:orgList="userList" type="user" :multiple="false"></select-show>
+				v-model:orgList="userList" :select-self="false" type="user" :multiple="false"></select-show>
 
 			<el-input
 

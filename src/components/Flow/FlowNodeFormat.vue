@@ -95,10 +95,11 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 
 				</div>
 				<!--					渲染审批评论-->
-				<template v-for="(item1,index1) in node.approveDescList" :key="index1">
+				<div v-for="(item1,index1) in node.approveDescList" :key="index1" style="margin-top: 10px">
 
 
-						<div style="display: flex;flex-direction: row">
+
+						<div style="display: flex;flex-direction: row;">
 							<div class="f1">
 
 								<el-avatar shape="square" :size="30" :src="item1.user.avatar"></el-avatar>
@@ -106,9 +107,9 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 
 							</div>
 							<div class="f2">
-				  <el-badge :value="item1.taskType" class="item">
-								{{ item1.user.name }}
-					</el-badge>
+<!--				  <el-badge :value="item1.descTypeStr" class="item">-->
+								{{ item1.user.name }}  <el-tag  size="small" type="danger">{{item1.descTypeStr}}</el-tag>
+<!--					</el-badge>-->
 							</div>
 
 							<div style="height:40px;line-height: 40px;font-size: 10px;" class="f4">
@@ -116,13 +117,17 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 							</div>
 
 						</div>
+						<div v-if="!item1.sys"><el-text size="small" type="primary">添加了评论：</el-text></div>
 						<div class="box-card"
-								 style="margin-bottom: 10px;padding: 5px;background-color:var(--el-fill-color-light)">
-							{{ item1.desc }}
+								 style="padding: 5px;background-color:var(--el-fill-color-light)">
+							<el-tag v-if="item1.sys" type="success">系统</el-tag>
+<!--							<el-tag v-if="!item1.sys" type="warning">用户</el-tag>-->
+								<el-text  type="info">{{ item1.desc }}</el-text>
 						</div>
 
+						<el-divider v-if="index1!=node.approveDescList.length-1"/>
 
-				</template>
+				</div>
 
 
 				<!--					选择用户-->
@@ -160,6 +165,8 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 .f1 {
 	width: 40px;
 	text-align: center;
+
+	padding-top: 5px;
 }
 
 .f2 {
@@ -167,12 +174,14 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 	line-height: 40px;
 	font-size: 10px;
 	margin-left: 5px;
-	width: 80px;
+	width: 180px;
+
 }
 
 .f4 {
-	width: calc(100% - 125px);
+	width: calc(100% - 225px);
 	text-align: right;
+
 }
 
 .f00 {

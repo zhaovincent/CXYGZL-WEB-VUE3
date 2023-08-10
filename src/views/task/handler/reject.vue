@@ -173,8 +173,8 @@ const submit = () => {
 	  }
 	}
 
-	formData[currentData.value.nodeId + '_approve_condition'] = false
-	formData[currentData.value.nodeId + '_approve_condition'] = false
+	// formData[currentData.value.nodeId + '_approve_condition'] = false
+	// formData[currentData.value.nodeId + '_approve_condition'] = false
 
 	var param = {
 		paramMap: formData,
@@ -182,9 +182,9 @@ const submit = () => {
 	  nodeId: nodeId.value,
 	  targetNodeId: rejectNodeId.value,
 	  processInstanceId: currentData.value.processInstanceId,
-		taskLocalParamMap: {
-			approveDesc: submitDesc.value
-		}
+	  approveDesc: submitDesc.value
+
+
 
 	};
 
