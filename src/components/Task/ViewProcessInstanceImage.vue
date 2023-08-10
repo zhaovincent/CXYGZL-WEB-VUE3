@@ -3,6 +3,11 @@ import LogicFlow from '@logicflow/core';
 import '@logicflow/core/dist/style/index.css';
 import {NodeResize} from '@logicflow/extension';
 import '@logicflow/extension/lib/style/index.css'
+import { Control } from '@logicflow/extension';
+import '@logicflow/extension/lib/style/index.css'
+
+LogicFlow.use(Control);
+
 
 LogicFlow.use(NodeResize);
 import {showImage} from '@/api/task/index'
@@ -12,9 +17,6 @@ import {defineExpose} from "vue";
 const dialogVisible = ref(false);
 
 const lf =ref();
-const zoomFunc=(v)=>{
-	lf.value.zoom(v)
-}
 
 const view = (row) => {
 	dialogVisible.value = true
@@ -49,6 +51,7 @@ const view = (row) => {
 		lf.value.render(nodeData.value);
 
 
+
 	})
 
 
@@ -67,8 +70,6 @@ const nodeData = ref({nodes: [], edges: []});
 				title="查看流程图"
 				width="80%"
 		>
-				<el-button @click="zoomFunc(false)">缩小</el-button>
-				<el-button @click="zoomFunc(true)">放大</el-button>
 			<div style="display: block" id="container"></div>
 		</el-dialog>
 	</div>
