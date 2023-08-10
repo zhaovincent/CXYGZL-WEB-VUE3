@@ -117,7 +117,7 @@ const data = {
 				width="850px"
 		>
 				  <img :src="imgBase64" style="width: 100%;"/>
-			<div style="display: none" id="container"></div>
+			<div style="display: block" id="container"></div>
 		</el-dialog>
 	</div>
 </template>
