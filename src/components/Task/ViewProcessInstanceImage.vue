@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import LogicFlow from '@logicflow/core';
 import '@logicflow/core/dist/style/index.css';
-import {NodeResize} from '@logicflow/extension';
 import '@logicflow/extension/lib/style/index.css'
 import { Control } from '@logicflow/extension';
 import '@logicflow/extension/lib/style/index.css'
@@ -9,7 +8,10 @@ import '@logicflow/extension/lib/style/index.css'
 LogicFlow.use(Control);
 
 
-LogicFlow.use(NodeResize);
+import {CxygzlRectView,CxygzlRectModel} from './LogicFlow/CxygzlRectModel'
+import {CxygzlCircleView,CxygzlCircleModel} from './LogicFlow/CxygzlCircleModel'
+
+
 import {showImage} from '@/api/task/index'
 
 import {defineExpose} from "vue";
@@ -17,6 +19,8 @@ import {defineExpose} from "vue";
 const dialogVisible = ref(false);
 
 const lf =ref();
+
+
 
 const view = (row) => {
 	dialogVisible.value = true
@@ -36,18 +40,28 @@ const view = (row) => {
 			isSilentMode: true
 
 		});
-	  lf.value.setTheme({
-		  nodeText: { // 节点文本样式
-			  fontSize: 10,
-			  color: '#000000'
-		  },
-
-		  rect: {
-			  width: 50,
-			  height: 40,
-			  radius: 6
-		  },
-	  })
+		  lf.value.register({
+		  type: 'cxygzlRect',
+		  view: CxygzlRectView,
+		  model: CxygzlRectModel,
+	  });
+		  lf.value.register({
+		  type: 'cxygzlCircle',
+		  view: CxygzlCircleView,
+		  model: CxygzlCircleModel,
+	  });
+	  // lf.value.setTheme({
+		//   nodeText: { // 节点文本样式
+		// 	  fontSize: 10,
+		// 	  color: '#000000'
+		//   },
+		//
+		//   rect: {
+		// 	  width: 50,
+		// 	  height: 40,
+		// 	  radius: 6
+		//   },
+	  // })
 		lf.value.render(nodeData.value);
 
 
