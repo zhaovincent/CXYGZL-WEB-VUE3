@@ -39,7 +39,7 @@ const view = (row) => {
 	  lf.value.setTheme({
 		  nodeText: { // 节点文本样式
 			  fontSize: 10,
-			  color: 'green'
+			  color: '#000000'
 		  },
 
 		  rect: {
