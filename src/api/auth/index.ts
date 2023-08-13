@@ -10,7 +10,7 @@ import { CaptchaResult, LoginData, LoginResult } from './types';
  */
 export function loginApi(data: LoginData): AxiosPromise<LoginResult> {
   return request({
-    url: '/user/login',
+    url: '/login/login',
     method: 'post',
     data: data
   });
@@ -18,7 +18,7 @@ export function loginApi(data: LoginData): AxiosPromise<LoginResult> {
 
 export function loginByTokenApi(token: string): AxiosPromise<LoginResult> {
   return request({
-    url: '/user/loginByToken?token='+token,
+    url: '/login/loginByToken?token='+token,
     method: 'get'
   });
 }
@@ -28,7 +28,7 @@ export function loginByTokenApi(token: string): AxiosPromise<LoginResult> {
  */
 export function logoutApi() {
   return request({
-    url: '/user/logout',
+    url: '/login/logout',
     method: 'post'
   });
 }
