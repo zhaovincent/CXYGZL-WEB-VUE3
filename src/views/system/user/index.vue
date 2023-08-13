@@ -211,6 +211,9 @@ async function openDialog(userId?: number) {
 
 				data.deptId=''+data.deptId
 
+      console.log(data)
+
+
 			for (var item of data.userFieldDataList) {
 
 				rules[item.key] = [{required: item.required, message: item.name + "不能为空", trigger: "blur"}]
