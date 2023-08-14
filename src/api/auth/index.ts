@@ -40,7 +40,7 @@ export function logoutApi() {
  */
 export function getCaptchaApi(): AxiosPromise<CaptchaResult> {
   return request({
-    url: '/user/captcha',
+    url: '/login/captcha',
     method: 'get'
   });
 }
