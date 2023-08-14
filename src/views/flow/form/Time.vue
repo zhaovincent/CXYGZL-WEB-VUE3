@@ -64,26 +64,25 @@ const getValidateRule = () => {
 			return callback()
 		}
 
-		if (itemProps.minLength) {
-			if (value.length < itemProps.minLength) {
-				return callback(new Error("长度不能小于" + itemProps.minLength))
+    if (itemProps.min) {
+      let minDate = proxy.$moment(itemProps.min,"HH:mm:ss");
+      let valueDate = proxy.$moment(value,"HH:mm:ss");
+      if (valueDate.isBefore(minDate)) {
+        return callback(new Error("不能小于" + itemProps.min))
 
-			}
-		}
+      }
+    }
 
-		if (itemProps.maxLength) {
-			if (value.length > itemProps.maxLength) {
-				return callback(new Error("长度不能大于" + itemProps.maxLength))
+    if (itemProps.max) {
+      let maxDate = proxy.$moment(itemProps.max,"HH:mm:ss");
+      let valueDate = proxy.$moment(value,"HH:mm:ss");
+      if (maxDate.isBefore(valueDate)) {
 
-			}
-		}
-		if (proxy.$isNotBlank(itemProps.regex)) {
-			let regExp = new RegExp(itemProps.regex);
-			if (!regExp.test(value)) {
-				return callback(new Error(itemProps.regexDesc))
+        return callback(new Error("不能大于" + itemProps.max))
 
-			}
-		}
+      }
+    }
+
 		return callback()
 
 

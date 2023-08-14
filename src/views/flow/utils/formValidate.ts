@@ -70,6 +70,165 @@ export function descriptionValidate(configValue: any, proxy: any) {
 		valid: true
 	};
 }
+export function timeValidate(configValue: any, proxy: any) {
+
+	let min = configValue.props.min;
+	let max = configValue.props.max;
+	let defaultValue = configValue.props.value;
+
+
+	let format = "HH:mm:ss";
+	if (min&&max) {
+		let minDate = proxy.$moment(min,format);
+		let maxDate = proxy.$moment(max,format);
+		if (maxDate.isBefore(minDate)) {
+			return {
+				valid: false, msg: configValue.name + ':值范围设置错误'
+			}
+		}
+	}
+
+
+
+
+	if ((defaultValue)) {
+
+		let valueDate = proxy.$moment(defaultValue,format);
+		if (min) {
+			let minDate = proxy.$moment(min,format);
+
+			if (valueDate.isBefore(minDate)) {
+
+				return {
+					valid: false, msg: configValue.name + ':默认值不能小于' + min
+				}
+			}
+		}
+		if (max) {
+			let maxDate = proxy.$moment(max,format);
+
+			if (maxDate.isBefore(valueDate)) {
+
+
+				return {
+					valid: false, msg: configValue.name + ':默认值不能大于' + max
+				}
+			}
+		}
+
+
+	}
+
+	return {
+		valid: true
+	};
+}
+export function dateValidate(configValue: any, proxy: any) {
+
+	let min = configValue.props.min;
+	let max = configValue.props.max;
+	let defaultValue = configValue.props.value;
+
+
+	let format = "YYYY-MM-DD";
+	if (min&&max) {
+		let minDate = proxy.$moment(min,format);
+		let maxDate = proxy.$moment(max,format);
+		if (maxDate.isBefore(minDate)) {
+			return {
+				valid: false, msg: configValue.name + ':值范围设置错误'
+			}
+		}
+	}
+
+
+
+
+	if ((defaultValue)) {
+
+		let valueDate = proxy.$moment(defaultValue,format);
+		if (min) {
+			let minDate = proxy.$moment(min,format);
+
+			if (valueDate.isBefore(minDate)) {
+
+				return {
+					valid: false, msg: configValue.name + ':默认值不能小于' + min
+				}
+			}
+		}
+		if (max) {
+			let maxDate = proxy.$moment(max,format);
+
+			if (maxDate.isBefore(valueDate)) {
+
+
+				return {
+					valid: false, msg: configValue.name + ':默认值不能大于' + max
+				}
+			}
+		}
+
+
+	}
+
+	return {
+		valid: true
+	};
+}
+export function dateTimeValidate(configValue: any, proxy: any) {
+
+	let min = configValue.props.min;
+	let max = configValue.props.max;
+	let defaultValue = configValue.props.value;
+
+
+	let format = "YYYY-MM-DD HH:mm:ss";
+	if (min&&max) {
+		let minDate = proxy.$moment(min,format);
+		let maxDate = proxy.$moment(max,format);
+		if (maxDate.isBefore(minDate)) {
+			return {
+				valid: false, msg: configValue.name + ':值范围设置错误'
+			}
+		}
+	}
+
+
+
+
+	if ((defaultValue)) {
+
+		let valueDate = proxy.$moment(defaultValue,format);
+		if (min) {
+			let minDate = proxy.$moment(min,format);
+
+			if (valueDate.isBefore(minDate)) {
+
+				return {
+					valid: false, msg: configValue.name + ':默认值不能小于' + min
+				}
+			}
+		}
+		if (max) {
+			let maxDate = proxy.$moment(max,format);
+
+			if (maxDate.isBefore(valueDate)) {
+
+
+				return {
+					valid: false, msg: configValue.name + ':默认值不能大于' + max
+				}
+			}
+		}
+
+
+	}
+
+	return {
+		valid: true
+	};
+}
 export function numberValidate(configValue: any, proxy: any) {
 
 	let min = configValue.props.min;
@@ -243,6 +402,9 @@ export let formValidateDict={
 		'Number': numberValidate,
 		'Money': numberValidate,
 		'Description': descriptionValidate,
+		'Date': dateValidate,
+		'DateTime': dateTimeValidate,
+		'Time': timeValidate,
 		'SingleSelect': selectValidate,
 		'MultiSelect': selectValidate,
 		'UploadFile': fileValidate,

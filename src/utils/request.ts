@@ -9,7 +9,6 @@ const service = axios.create({
   timeout: 50000,
   headers: { 'Content-Type': 'application/json;charset=utf-8','CxygzlVersion':import.meta.env.VITE_APP_VERSION },
 	transformResponse: [ data => {
-		console.log("=============transformResponse=========================")
 		const json = JSONBIG({
 			storeAsString: true
 		})
