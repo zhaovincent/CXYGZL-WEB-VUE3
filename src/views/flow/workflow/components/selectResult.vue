@@ -49,7 +49,7 @@
 					<li v-for="item in data" :key="item.id">
 						<div style="display: flex;flex-direction: row">
 							<div class="f11">
-								<el-avatar shape="square" :size="20" :src="item.avatar"/>
+									<el-avatar shape="square" :size="20" :src="item.avatar">{{item.name.substring(0,1)}}</el-avatar>
 							</div>
 							<div class="f12">{{ item.name }}</div>
 							<div class="f13">
