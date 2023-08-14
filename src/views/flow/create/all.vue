@@ -171,7 +171,7 @@ onMounted(() => {
 
 
 	if (proxy.$isNotBlank(groupId)) {
-		paramGroupId.value = parseInt(groupId);
+		paramGroupId.value = (groupId);
 	}
 	if (proxy.$isNotBlank(flowId)) {
 

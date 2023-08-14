@@ -119,7 +119,7 @@ onMounted(() => {
 
 watch(() => props.groupId, (val) => {
 	if (!!val) {
-		form.value.groupId = parseInt(val);
+		form.value.groupId = (val);
 	}
 
 })

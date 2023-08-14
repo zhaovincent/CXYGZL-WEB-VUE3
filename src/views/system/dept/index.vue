@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {ref, watch} from "vue";
+import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
 
 defineOptions({
 	name: "Dept",
@@ -17,24 +18,30 @@ import {
 import employeesDialog from '@/views/flow/workflow/components/dialog/employeesDialog.vue'
 
 let selectUserDialogVisible = ref(false)
-let checkedUserList = ref([])
-const sureApprover = (data) => {
-		formData.leaderName=data[0].name
-		formData.leaderUserId=data[0].id
-		formData.leaderAvatar=data[0].avatar
-	selectUserDialogVisible.value = false;
 
-}
-const startSelectUser = () => {
-	checkedUserList.value = [{
-		id: formData.leaderUserId,
-		name: formData.leaderName,
-		avatar: formData.leaderAvatar,
-		type: 'user'
-	}]
-	selectUserDialogVisible.value = true;
-}
+const {proxy} = getCurrentInstance();
 
+const leaderData = computed({
+	get() {
+		if (proxy.$isNotBlank(formData.leaderUserId)) {
+			return [{
+				id: formData.leaderUserId,
+				name: formData.leaderName,
+				avatar: formData.leaderAvatar,
+				type: 'user'
+			}]
+		}
+		return [];
+
+	},
+	set(data) {
+
+		formData.leaderName = data[0].name
+		formData.leaderUserId = data[0].id
+		formData.leaderAvatar = data[0].avatar
+
+	}
+})
 
 
 import {DeptVO, DeptForm, DeptQuery} from "@/api/dept/types";
@@ -115,13 +122,12 @@ async function openDialog(parentId?: number, deptId?: number, row?: object) {
 		dialog.title = "修改部门";
 
 
-
 		Object.assign(formData, row);
 
 	} else {
 		dialog.title = "新增部门";
 		formData.parentId = parentId ?? 0;
-	  Object.assign(formData, {});
+		Object.assign(formData, {});
 	}
 }
 
@@ -324,7 +330,7 @@ onMounted(() => {
 					label-width="120px"
 			>
 				<el-form-item label="上级部门" prop="parentId"
-											v-if="(formData.parentId===undefined)||parseInt(formData.parentId)>0">
+											v-if="(formData.parentId===undefined)||(formData.parentId)>0">
 					<el-tree-select
 							v-model="formData.parentId"
 							placeholder="选择上级部门"
@@ -338,8 +344,12 @@ onMounted(() => {
 				<el-form-item label="部门名称" prop="name">
 					<el-input v-model="formData.name" placeholder="请输入部门名称"/>
 				</el-form-item>
-				<el-form-item label="部门负责人" prop="leaderName">
-					<el-input @click="startSelectUser" readonly v-model="formData.leaderName" placeholder="请选择部门负责人"/>
+				<el-form-item label="部门负责人1" prop="leaderName">
+					<!--					<el-input @click="startSelectUser" readonly v-model="formData.leaderName" placeholder="请选择部门负责人"/>-->
+					<select-show
+							:disabled="false" v-model:orgList="leaderData" type="user" :multiple="false">
+
+					</select-show>
 				</el-form-item>
 				<el-form-item label="显示排序" prop="sort">
 					<el-input-number
@@ -365,11 +375,11 @@ onMounted(() => {
 			</template>
 		</el-dialog>
 
-		<employees-dialog
-				v-model:visible="selectUserDialogVisible"
-				:data="checkedUserList"
-				:multiple="false"
-				@change="sureApprover"
-		/>
+		<!--		<employees-dialog-->
+		<!--				v-model:visible="selectUserDialogVisible"-->
+		<!--				:data="checkedUserList"-->
+		<!--				:multiple="false"-->
+		<!--				@change="sureApprover"-->
+		<!--		/>-->
 	</div>
 </template>

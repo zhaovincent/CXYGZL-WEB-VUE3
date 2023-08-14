@@ -528,13 +528,13 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
             @selection-change="handleSelectionChange"
           >
             <el-table-column type="selection" width="50" align="center" />
-            <el-table-column
-              key="id"
-              label="编号"
-              align="center"
-              prop="id"
-              width="60"
-            />
+<!--            <el-table-column-->
+<!--              key="id"-->
+<!--              label="编号"-->
+<!--              align="center"-->
+<!--              prop="id"-->
+<!--              width="60"-->
+<!--            />-->
 			  <el-table-column label="头像" width="180">
 				  <template #default="scope">
 			  <el-avatar v-if="scope.row.avatarUrl&&scope.row.avatarUrl.length>0" shape="square" :size="40" :src="scope.row.avatarUrl" />

@@ -64,7 +64,7 @@
 				<template v-if="elem.type === 'user'&&(type==='org'||type==='user')">
 					<li v-for="item in elem.data" :key="item.id" class="check_box">
 						<el-checkbox v-model="item.selected"
-												 :disabled="item.status==0||(!selectSelf&&(parseInt(currentUserId)===parseInt(item.id)))"
+												 :disabled="item.status==0||(!selectSelf&&((currentUserId)===(item.id)))"
 												 @change="changeEvent(item)">
 							<div style="display: flex;flex-direction: row">
 								<div class="f11">
