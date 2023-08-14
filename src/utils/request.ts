@@ -1,11 +1,22 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { useUserStoreHook } from '@/store/modules/user';
 
+import JSONBIG from "json-bigint";
+
 // 创建 axios 实例
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: 50000,
-  headers: { 'Content-Type': 'application/json;charset=utf-8','CxygzlVersion':import.meta.env.VITE_APP_VERSION }
+  headers: { 'Content-Type': 'application/json;charset=utf-8','CxygzlVersion':import.meta.env.VITE_APP_VERSION },
+	transformResponse: [ data => {
+		console.log("=============transformResponse=========================")
+		const json = JSONBIG({
+			storeAsString: true
+		})
+		const res = json.parse(data)
+
+		return res
+	}]
 });
 
 // 请求拦截器
@@ -28,12 +39,18 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response: AxiosResponse) => {
 
-    const { code, msg ,ok} = response.data;
+
+	  let data = response.data;
+
+
+
+
+    const { code, msg ,ok} = data;
     if (ok===true) {
-      return response.data;
+      return data;
     }
     // 响应数据为二进制流处理(Excel导出)
-    if (response.data instanceof ArrayBuffer) {
+    if (data instanceof ArrayBuffer) {
       return response;
     }
 

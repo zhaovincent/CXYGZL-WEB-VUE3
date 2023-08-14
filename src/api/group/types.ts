@@ -20,7 +20,7 @@ export interface GroupVO {
 	/**
 	 * 菜单ID
 	 */
-	id?: number;
+	id?: string;
 	/**
 	 * 菜单名称
 	 */

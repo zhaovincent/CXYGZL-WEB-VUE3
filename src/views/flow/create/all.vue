@@ -179,7 +179,7 @@ onMounted(() => {
 
 
 	if (proxy.$isNotBlank(groupId)) {
-		paramGroupId.value = parseInt(groupId);
+		paramGroupId.value = (groupId);
 	}
 	if (proxy.$isNotBlank(flowId)) {
 
@@ -224,7 +224,7 @@ onMounted(() => {
 })
 const step3NodeConfig =  ref()
 
-var paramGroupId = ref();
+var paramGroupId = ref('');
 
 
 const checkStep1 = () => {

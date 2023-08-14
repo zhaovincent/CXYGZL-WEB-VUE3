@@ -24,9 +24,9 @@
 						<el-select style="width: 100%;" v-model="form.groupId" placeholder="请选择流程组">
 							<el-option
 									v-for="item in groupList"
-									:key="item.id"
+									:key="item.id+''"
 									:label="item.groupName"
-									:value="item.id"
+									:value="item.id+''"
 							/>
 						</el-select>
 					</el-form-item>
@@ -126,14 +126,14 @@ onMounted(() => {
 
 watch(() => props.groupId, (val) => {
 	if (!!val) {
-		form.value.groupId = parseInt(val);
+		form.value.groupId = (val);
 	}
 
 })
 
 let props = defineProps({
 	groupId: {
-		type: Number,
+		type: String,
 		default: undefined,
 	},
 
