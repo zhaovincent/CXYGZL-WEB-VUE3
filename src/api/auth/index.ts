@@ -44,3 +44,24 @@ export function getCaptchaApi(): AxiosPromise<CaptchaResult> {
     method: 'get'
   });
 }
+
+/**
+ * 获取登录地址
+ */
+export function getLoginUrl(): AxiosPromise<CaptchaResult> {
+  return request({
+    url: '/login/getLoginUrl',
+    method: 'get'
+  });
+}
+
+
+/**
+ * 获取登录参数
+ */
+export function getLoginParam(): AxiosPromise<CaptchaResult> {
+  return request({
+    url: '/login/getLoginParam',
+    method: 'get'
+  });
+}

@@ -9,13 +9,13 @@ NProgress.configure({ showSpinner: false }); // 进度条
 const permissionStore = usePermissionStoreHook();
 
 // 白名单路由
-const whiteList = ["/login"];
+const whiteList = ["/login","/aplogin","/ddlogin"];
 
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
   const hasToken = localStorage.getItem("accessToken");
   if (hasToken) {
-    if (to.path === "/login") {
+    if (to.path === "/login"||to.path === "/ddlogin"||to.path === "/aplogin") {
       // 如果已登录，跳转首页
       next({ path: "/" });
       NProgress.done();
