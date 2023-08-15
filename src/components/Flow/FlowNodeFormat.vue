@@ -70,7 +70,7 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 															:type="item1.status==1?'success':(item1.status==2?'primary':(item1.status==3?'warning':'info'))"
 															class="item">
 
-											<el-avatar shape="square" :size="30" :src="item1.avatar"></el-avatar>
+											<el-avatar shape="square" :size="30" :src="item1.avatar">{{item1.name.substring(0,1)}}</el-avatar>
 
 										</el-badge>
 
@@ -102,7 +102,7 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 						<div style="display: flex;flex-direction: row;">
 							<div class="f1">
 
-								<el-avatar shape="square" :size="30" :src="item1.user.avatar"></el-avatar>
+								<el-avatar shape="square" :size="30" :src="item1.user.avatar">{{item1.user.name.substring(0,1)}}</el-avatar>
 
 
 							</div>

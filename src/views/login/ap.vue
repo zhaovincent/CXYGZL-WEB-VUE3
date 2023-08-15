@@ -175,11 +175,18 @@ onMounted(()=>{
 	const query: LocationQuery = route.query;
 
 	const redirect = (query.redirect as LocationQueryValue) ?? "/";
-	const token = (query.token as LocationQueryValue) ?? "";
+	var token = (query.token as LocationQueryValue) ?? "";
+	const authCode = (query.authCode as LocationQueryValue) ?? "";
+
+	console.log(authCode)
+
+	if(proxy.$isBlank(token)){
+		token=authCode;
+	}
 
 
 		if(proxy.$isNotBlank(token)){
-			console.log("-------------")
+
 
 		loading.value = true;
 		userStore

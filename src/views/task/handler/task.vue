@@ -39,6 +39,7 @@ const deal = (taskId) => {
 		currentData.value.nodeId = data.nodeId;
 		currentData.value.taskExist = data.taskExist;
 		currentData.value.starterAvatarUrl = data.starterAvatarUrl;
+		currentData.value.starterName = data.starterName;
 		currentData.value.startTime = data.startTime;
 		if (data.subProcessStarterTask && data.taskExist) {
 
@@ -236,7 +237,7 @@ const executeOperMethod = (op) => {
 					<el-card style="margin-bottom: 20px">
 							<div style="display: flex;flex-direction: row">
 									<div class="f11">
-					  <el-avatar shape="square" :size="50" :src="currentData.starterAvatarUrl" />
+                    <el-avatar shape="square" :size="50" :src="currentData.starterAvatarUrl" >{{currentData.starterName.substring(0,1)}}</el-avatar>
 									</div>
 									<div class="f22">
 											<div><el-text tag="b" size="large" type="primary">{{ currentData?.processName }}</el-text> </div>

@@ -1,48 +1,98 @@
 <template>
-  <div class="login-container">
+	<div class="login-container">
 
-  </div>
+	</div>
 </template>
 
 <script setup lang="ts">
 
-import { getLoginUrl } from "@/api/auth";
+import {getLoginUrl} from "@/api/auth";
 import {LocationQuery, LocationQueryValue, useRoute} from "vue-router";
 import router from "@/router";
+
+import {useUserStore} from "@/store/modules/user";
+import {getCurrentInstance} from "vue";
+
+const userStore = useUserStore();
 const route = useRoute();
 
-function  handleLogin(){
-	getLoginUrl().then(res=>{
-		console.log(res)
+function handleLogin() {
+	getLoginUrl().then(res => {
 
-	  const query: LocationQuery = route.query;
+		const query: LocationQuery = route.query;
 
-	  const otherQueryParams = Object.keys(query).reduce(
-		  (acc: any, cur: string) => {
-			  // if (cur !== "redirect") {
-			  acc[cur] = query[cur];
-			  // }
-			  return acc;
-		  },
-		  {}
-	  );
+		const otherQueryParams = Object.keys(query).reduce(
+				(acc: any, cur: string) => {
+					// if (cur !== "redirect") {
+					acc[cur] = query[cur];
+					// }
+					return acc;
+				},
+				{}
+		);
 
-	 router.push({ path: res.data, query: otherQueryParams });
+		let data = res.data;
+		if (data.innerUrl) {
+			router.push({path: data.url, query: otherQueryParams});
+
+		} else {
+			window.location.href = data.url
+		}
+
 
 	})
 }
 
-onMounted(()=>{
+const {proxy} = getCurrentInstance();
+
+onMounted(() => {
+
+	const query: LocationQuery = route.query;
+
+	const redirect = (query.redirect as LocationQueryValue) ?? "/";
+	var token = (query.token as LocationQueryValue) ?? "";
+	const authCode = (query.authCode as LocationQueryValue) ?? "";
+
+	console.log(authCode, token)
+
+	if (proxy.$isBlank(token)) {
+		token = authCode;
+	}
 
 
-	handleLogin();
+	if (proxy.$isNotBlank(token)) {
+
+
+		userStore
+				.loginByToken(token)
+				.then(() => {
+
+
+					const otherQueryParams = Object.keys(query).reduce(
+							(acc: any, cur: string) => {
+								if (cur !== "redirect") {
+									acc[cur] = query[cur];
+								}
+								return acc;
+							},
+							{}
+					);
+
+
+					router.push({path: redirect, query: otherQueryParams});
+				});
+	} else {
+		handleLogin();
+
+	}
+
 
 })
 
 </script>
 
 <style lang="less" scoped>
-.login-container{
+.login-container {
 	text-align: center;
 	padding-top: 20vh;
 }
