@@ -17,15 +17,7 @@ import {LocationQuery, LocationQueryValue, useRoute} from "vue-router";
 const route = useRoute();
 
 
-//
-// {
-// 	redirect_uri: encodeURIComponent('https://www.cxygzl.com/'),
-// 		client_id: 'dingezqymljhbrxguvs8',
-// 	scope: 'openid',
-// 	response_type: 'code',
-// 	// state: 'xxxxxxxxx',
-// 	prompt: 'consent'
-// }
+
 
 function init(p){
 	// STEP3：在需要的时候，调用 window.DTFrameLogin 方法构造登录二维码，并处理登录成功或失败的回调。
