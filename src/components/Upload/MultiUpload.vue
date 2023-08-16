@@ -140,6 +140,7 @@ function handleRemove(removeFile: UploadFile) {
  * 限制用户上传文件的格式和大小
  */
 function handleBeforeUpload(file: UploadRawFile) {
+  console.log(file)
 	let type = file.type;
 	if(type.indexOf("image")<0){
 		ElMessage.warning("请上传图片");

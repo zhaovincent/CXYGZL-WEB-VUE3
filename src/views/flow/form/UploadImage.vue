@@ -5,7 +5,8 @@
 					  :disabled="true"/>
       <multi-upload v-else
 					v-model="form.props.value"
-										:limit="form.props.maxSize"
+										:limit="form.props.max"
+										:maxSize="form.props.maxSize"
 					:disabled="form.perm === 'R'"
 			/>
   </div>
