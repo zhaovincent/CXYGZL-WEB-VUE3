@@ -10,8 +10,8 @@
 				:prefix-icon="Search"
 		/>
 		<p class="ellipsis tree_nav" v-if="!searchVal&&type!='role'">
-			<span @click="queryData(0)" class="ellipsis">根节点</span>
-			<span v-for="(item,index) in departments.titleDepartments" class="ellipsis"
+			<span @click="queryData(0)" class="ellipsis-node">根节点</span>
+			<span v-for="(item,index) in departments.titleDepartments" class="ellipsis-node"
 						:key="index+'a'" @click="queryData(item.id)">{{ item.name }}</span>
 		</p>
 
@@ -55,7 +55,7 @@
 							</div>
 							<div class="d22" @click="queryData(item.id)">
 
-								 下级
+								下级
 							</div>
 						</div>
 
@@ -68,7 +68,7 @@
 												 @change="changeEvent(item)">
 							<div style="display: flex;flex-direction: row">
 								<div class="f11">
-										<el-avatar shape="square" :size="20" :src="item.avatar" >{{item.name.substring(0,1)}}</el-avatar>
+									<el-avatar shape="square" :size="20" :src="item.avatar">{{ item.name.substring(0, 1) }}</el-avatar>
 								</div>
 								<div class="f12">{{ item.name }}</div>
 							</div>
@@ -342,14 +342,20 @@ watch(() => props.selectedList, (val) => {
 	line-height: 20px;
 }
 
-.d11{
-  width: calc(100% - 30px);
+.d11 {
+	width: calc(100% - 30px);
 }
 
-.d22{
+.d22 {
 	width: 30px;
 	line-height: 41px;
 	cursor: pointer;
+}
+
+.ellipsis-node {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 </style>
