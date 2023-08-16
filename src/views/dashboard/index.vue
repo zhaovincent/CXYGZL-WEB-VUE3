@@ -99,10 +99,11 @@ const  toStartProcess=()=>{
 			<el-card class="w-full">
 				<div class="flex justify-between flex-wrap">
 					<div class="flex items-center">
-						<img
-								class="user-avatar"
-								:src="userStore.avatar + '?imageView2/1/w/80/h/80'"
-						/>
+<!--						<img-->
+<!--								class="user-avatar"-->
+<!--								:src="userStore.avatar + '?imageView2/1/w/80/h/80'"-->
+<!--						/>-->
+							<el-avatar :size="40"  shape="square"	:src="userStore.avatar + '?imageView2/1/w/80/h/80'">{{userStore.nickname.substring(0,1)}}</el-avatar>
 						<span class="ml-[10px] text-[16px]">
               {{ userStore.nickname }}
             </span>

@@ -13,7 +13,7 @@
 				<div v-for="(flow,index1) in item.items" :key="index1" class="item  ">
 					<div class="f1">
 						<el-avatar shape="square" :size="50"
-											 :src="flow.logo"/>
+											 :src="flow.logo"></el-avatar>
 					</div>
 					<div class="f2">
 						<div>{{ flow.name }}</div>

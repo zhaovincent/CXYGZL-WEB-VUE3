@@ -68,7 +68,13 @@ function logout() {
       <div v-if="device !== 'mobile'" class="setting-container">
 		  <!-- 通知 -->
 		  <el-tooltip content="消息通知" effect="dark" placement="bottom">
-			  <msg-alert   style="margin-right: 30px" />
+		  <msg-alert   style="margin-right: 30px" />
+
+	  </el-tooltip>
+		  <!-- 同步数据 -->
+		  <el-tooltip content="同步数据" effect="dark" placement="bottom">
+		  <load-data  style="margin-right: 30px"  />
+
 		  </el-tooltip>
         <!--全屏 -->
         <div class="setting-item" @click="toggle">
@@ -88,7 +94,9 @@ function logout() {
       <!-- 用户头像 -->
       <el-dropdown trigger="click">
         <div class="avatar-container">
-          <img :src="userStore.avatar + '?imageView2/1/w/80/h/80'" />
+<!--          <img :src="userStore.avatar + '?imageView2/1/w/80/h/80'" />-->
+			<el-avatar shape="square" :size="40"
+								 :src="userStore.avatar + '?imageView2/1/w/80/h/80'" >{{userStore.nickname.substring(0,1)}}</el-avatar>
           <i-ep-caret-bottom class="w-3 h-3" />
         </div>
         <template #dropdown>

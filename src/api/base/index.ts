@@ -18,6 +18,16 @@ export function getIndexData() {
 }
 
 /**
+ * 同步数据
+ */
+export function loadRemoteData() {
+	return request({
+		url: '/base/loadRemoteData',
+		method: 'post'
+	});
+}
+
+/**
  * 获取地区列表
  */
 export function queryAreaList() {
