@@ -195,4 +195,10 @@ const formValue = computed(() => {
 	top: 0px;
 	right: 10px;
 }
+.f11{
+	width: 70px;
+}
+.f22{
+	width: calc(100% - 70px);
+}
 </style>

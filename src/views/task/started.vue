@@ -235,6 +235,12 @@ const formValue = computed(() => {
 	</div>
 </template>
 <style scoped>
+.f11{
+	width: 70px;
+}
+.f22{
+	width: calc(100% - 70px);
+}
 .iconclass {
 	width: 80px;
 	height: 64px;
