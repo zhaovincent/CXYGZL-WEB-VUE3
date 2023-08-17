@@ -1,35 +1,19 @@
 <script setup lang="ts">
-import FormRender from "@/views/flow/form/render/FormRender.vue";
 import ViewProcessInstanceImage from "@/components/Task/ViewProcessInstanceImage.vue";
-import AgreeHandle from "./handler/agree.vue"
-import RefuseHandle from "./handler/refuse.vue"
-import FlowNodeFormat from "@/components/Flow/FlowNodeFormatData.vue";
 
 
 import {
-	queryMineEndTask,
-	queryTask,
-	stopProcessInstance
+	queryMineEndTask
 } from "@/api/task";
 
 
-import {
-	detail
-} from "@/api/processInstance";
 
-function stop(row){
-	stopProcessInstance({
-		processInstanceId:row.processInstanceId}).then(res=>{
-		handleQuery();
-	})
-}
 
 import {RoleQuery} from "@/api/role/types";
+import TaskHandle from "@/views/task/handler/task.vue";
 
-const rightDrawerVisible = ref(false)
 
 const loading = ref(false);
-const ids = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<RoleQuery>({
@@ -40,27 +24,19 @@ const queryParams = reactive<RoleQuery>({
 const roleList = ref();
 
 
-const currentData = ref();
+const taskHandler = ref();
 /**
  * 点击开始处理
  * @param row
  */
 const deal = (row) => {
 
+	taskHandler.value.deal(row.taskId)
 
-	currentData.value = row;
-	queryTask(
-		row.taskId,true
-	).then(res=>{
 
-	  	currentOpenFlowForm.value = res.data.formItems
-	  	rightDrawerVisible.value = true;
-
-	})
 
 
 }
-const currentOpenFlowForm = ref();
 const viewImageRef = ref();
 
 
@@ -71,8 +47,6 @@ const viewImage = (row) => {
 	viewImageRef.value.view(row)
 }
 
-const agreeHandler = ref();
-const refuseHandler = ref();
 
 /**
  * 查询
@@ -89,41 +63,13 @@ function handleQuery() {
 		});
 }
 
-const taskSubmitEvent=()=>{
-	rightDrawerVisible.value=false;
-	handleQuery();
-}
-
-/**
- * 提交任务
- */
-const submitTask = () => {
-
-	agreeHandler.value.handle(currentData.value,currentOpenFlowForm.value);
 
 
-}
-/**
- * 拒绝任务
- */
-const refuseTask = () => {
-
-	refuseHandler.value.handle(currentData.value,currentOpenFlowForm.value);
-
-
-}
 onMounted(() => {
 	handleQuery();
 });
 
-const formValue = computed(() => {
-	var obj = {}
 
-	for (var item of currentOpenFlowForm.value) {
-		obj[item.id] = item.props.value
-	}
-	return obj;
-})
 
 </script>
 
@@ -185,25 +131,11 @@ const formValue = computed(() => {
 					@pagination="handleQuery"
 			/>
 		</el-card>
-		<!--			右侧抽屉-->
-		<el-drawer v-model="rightDrawerVisible" direction="rtl" size="400px">
-			<template #header>
-				<h3>{{ currentData?.processName }}</h3>
-			</template>
-			<template #default>
-				<el-card class="box-card">
-					<form-render ref="formRenderRef" :form-list="currentOpenFlowForm"></form-render>
 
-				</el-card>
-				<flow-node-format :disableSelect="true" :formData="formValue" :processInstanceId="currentData.processInstanceId"  :flow-id="currentData.flowId"
-								  ref="flowNodeFormatRef"></flow-node-format>
+	  <task-handle ref="taskHandler"    ></task-handle>
 
 
-			</template>
-
-		</el-drawer>
-
-		<!--			查看流程图-->
+	  <!--			查看流程图-->
 		<view-process-instance-image ref="viewImageRef"/>
 
 	</div>

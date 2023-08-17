@@ -14,9 +14,10 @@ import {
 	detail
 } from "@/api/processInstance";
 
-function stop(row){
+function stop(row) {
 	stopProcessInstance({
-		processInstanceId:row.processInstanceId}).then(res=>{
+		processInstanceId: row.processInstanceId
+	}).then(res => {
 		handleQuery();
 	})
 }
@@ -47,17 +48,17 @@ const deal = (row) => {
 
 	currentData.value = row;
 	detail({
-	  processInstanceId:row.processInstanceId
-	}).then(res=>{
-		console.log(res)
-	  	currentOpenFlowForm.value = res.data.formItems
-	  	rightDrawerVisible.value = true;
+		processInstanceId: row.processInstanceId
+	}).then(res => {
+
+		currentDetailData.value = res.data
+		rightDrawerVisible.value = true;
 
 	})
 
 
 }
-const currentOpenFlowForm = ref();
+const currentDetailData = ref();
 const viewImageRef = ref();
 
 
@@ -77,38 +78,21 @@ const refuseHandler = ref();
 function handleQuery() {
 	loading.value = true;
 	queryMineStarted(queryParams)
-		.then(({data}) => {
-			roleList.value = data.records;
-			total.value = data.total;
-		})
-		.finally(() => {
-			loading.value = false;
-		});
+			.then(({data}) => {
+				roleList.value = data.records;
+				total.value = data.total;
+			})
+			.finally(() => {
+				loading.value = false;
+			});
 }
 
-const taskSubmitEvent=()=>{
-	rightDrawerVisible.value=false;
+const taskSubmitEvent = () => {
+	rightDrawerVisible.value = false;
 	handleQuery();
 }
 
-/**
- * 提交任务
- */
-const submitTask = () => {
 
-	agreeHandler.value.handle(currentData.value,currentOpenFlowForm.value);
-
-
-}
-/**
- * 拒绝任务
- */
-const refuseTask = () => {
-
-	refuseHandler.value.handle(currentData.value,currentOpenFlowForm.value);
-
-
-}
 onMounted(() => {
 	handleQuery();
 });
@@ -116,7 +100,7 @@ onMounted(() => {
 const formValue = computed(() => {
 	var obj = {}
 
-	for (var item of currentOpenFlowForm.value) {
+	for (var item of currentDetailData.value.formItems) {
 		obj[item.id] = item.props.value
 	}
 	return obj;
@@ -141,22 +125,22 @@ const formValue = computed(() => {
 				<el-table-column label="流程" prop="name" width="150"/>
 				<el-table-column label="发起时间" prop="createTime" width="200"/>
 				<el-table-column label="结束时间" prop="endTime" width="200"/>
-					<el-table-column label="状态" prop="taskCreateTime" width="150">
-			  <template #default="scope">
-				<el-tag v-if="scope.row.status == 1" type="success">进行中</el-tag>
-				<el-tag v-else-if="scope.row.status == 3" type="danger">已撤销</el-tag>
-				<el-tag v-else>已结束</el-tag>
+				<el-table-column label="状态" prop="taskCreateTime" width="150">
+					<template #default="scope">
+						<el-tag v-if="scope.row.status == 1" type="success">进行中</el-tag>
+						<el-tag v-else-if="scope.row.status == 3" type="danger">已撤销</el-tag>
+						<el-tag v-else>已结束</el-tag>
 
-			  </template>
-					</el-table-column>
-					<el-table-column label="审批结果" prop="taskCreateTime" width="150">
-			  <template #default="scope">
-				<el-tag v-if="scope.row.result == 1" type="success">同意</el-tag>
-				<el-tag v-else-if="scope.row.result == 2" type="danger">拒绝</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column label="审批结果" prop="taskCreateTime" width="150">
+					<template #default="scope">
+						<el-tag v-if="scope.row.result == 1" type="success">同意</el-tag>
+						<el-tag v-else-if="scope.row.result == 2" type="danger">拒绝</el-tag>
 
 
-			  </template>
-					</el-table-column>
+					</template>
+				</el-table-column>
 
 
 				<el-table-column fixed="right" label="操作">
@@ -171,7 +155,7 @@ const formValue = computed(() => {
 							查看
 						</el-button>
 						<el-button
-										:disabled="scope.row.status != 1"
+								:disabled="scope.row.status != 1"
 								type="primary"
 								size="small"
 								link
@@ -206,15 +190,39 @@ const formValue = computed(() => {
 		<!--			右侧抽屉-->
 		<el-drawer v-model="rightDrawerVisible" direction="rtl" size="400px">
 			<template #header>
-				<h3>{{ currentData?.name }}</h3>
+				<el-text size="large" tag="b" type="info">流程详情</el-text>
 			</template>
 			<template #default>
-				<el-card class="box-card">
-					<form-render ref="formRenderRef" :form-list="currentOpenFlowForm"></form-render>
+				<el-card style="margin-bottom: 20px">
+					<div style="position: relative">
+
+						<div style="display: flex;flex-direction: row">
+							<div class="f11">
+								<el-avatar shape="square" :size="50" :src="currentDetailData.starterAvatarUrl">
+									{{ currentDetailData.starterName.substring(0, 1) }}
+								</el-avatar>
+							</div>
+							<div class="f22">
+								<div>
+									<el-text tag="b" size="large" type="primary">{{ currentDetailData?.processName }}</el-text>
+								</div>
+								<div>
+									<el-text size="small">{{ currentDetailData.startTime }}</el-text>
+								</div>
+							</div>
+						</div>
+						<img v-if="currentDetailData.processInstanceResult==1" class="iconclass" src="@/assets/images/pass.png"/>
+						<img v-if="currentDetailData.processInstanceResult==2" class="iconclass" src="@/assets/images/refuse.png"/>
+					</div>
 
 				</el-card>
-				<flow-node-format :disableSelect="true" :formData="formValue" :processInstanceId="currentData.processInstanceId"  :flow-id="currentData.flowId"
-								  ref="flowNodeFormatRef"></flow-node-format>
+				<el-card class="box-card">
+					<form-render ref="formRenderRef" :form-list="currentDetailData.formItems"></form-render>
+
+				</el-card>
+				<flow-node-format :disableSelect="true" :formData="formValue" :processInstanceId="currentData.processInstanceId"
+													:flow-id="currentData.flowId"
+													ref="flowNodeFormatRef"></flow-node-format>
 
 
 			</template>
@@ -226,3 +234,12 @@ const formValue = computed(() => {
 
 	</div>
 </template>
+<style scoped>
+.iconclass {
+	width: 80px;
+	height: 64px;
+	position: absolute;
+	top: 0px;
+	right: 10px;
+}
+</style>

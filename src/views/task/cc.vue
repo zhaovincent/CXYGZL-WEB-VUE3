@@ -37,12 +37,12 @@ const deal = (row) => {
 	currentData.value = row;
 
 	queryMineCCDetail({id:row.id}).then(res => {
-		currentOpenFlowForm.value = res.data.formItems
+		currentDetailData.value = res.data
 		rightDrawerVisible.value = true;
 	})
 
 }
-const currentOpenFlowForm = ref();
+const currentDetailData = ref();
 const viewImageRef = ref();
 
 
@@ -60,13 +60,13 @@ const viewImage = (row) => {
 function handleQuery() {
 	loading.value = true;
 	queryMineCC(queryParams)
-			.then(({data}) => {
-				roleList.value = data.records;
-				total.value = data.total;
-			})
-			.finally(() => {
-				loading.value = false;
-			});
+		.then(({data}) => {
+			roleList.value = data.records;
+			total.value = data.total;
+		})
+		.finally(() => {
+			loading.value = false;
+		});
 }
 
 const taskSubmitEvent=()=>{
@@ -83,7 +83,7 @@ onMounted(() => {
 const formValue = computed(() => {
 	var obj = {}
 
-	for (var item of currentOpenFlowForm.value) {
+	for (var item of currentDetailData.value.formItems) {
 		obj[item.id] = item.props.value
 	}
 	return obj;
@@ -147,16 +147,35 @@ const formValue = computed(() => {
 		</el-card>
 		<!--			右侧抽屉-->
 		<el-drawer v-model="rightDrawerVisible" direction="rtl" size="400px">
-			<template #header>
-				<h3>{{ currentData?.processName }}</h3>
-			</template>
+		<template #header>
+			<el-text size="large" tag="b" type="info">流程详情</el-text>
+		</template>
 			<template #default>
+		  <el-card style="margin-bottom: 20px">
+
+		  <div style="position: relative">
+
+			  <div style="display: flex;flex-direction: row">
+				  <div class="f11">
+					  <el-avatar shape="square" :size="50" :src="currentDetailData.starterAvatarUrl" >{{currentDetailData.starterName.substring(0,1)}}</el-avatar>
+				  </div>
+				  <div class="f22">
+					  <div><el-text tag="b" size="large" type="primary">{{ currentDetailData?.processName }}</el-text> </div>
+					  <div><el-text size="small">{{ currentDetailData.startTime }}</el-text></div>
+				  </div>
+			  </div>
+		  <img v-if="currentDetailData.processInstanceResult==1" class="iconclass" src="@/assets/images/pass.png"/>
+		  <img v-if="currentDetailData.processInstanceResult==2" class="iconclass" src="@/assets/images/refuse.png"/>
+	  </div>
+		  </el-card>
+
+
 				<el-card class="box-card">
-					<form-render ref="formRenderRef" :form-list="currentOpenFlowForm"></form-render>
+					<form-render ref="formRenderRef" :form-list="currentDetailData.formItems"></form-render>
 
 				</el-card>
-		  <flow-node-format :disableSelect="true" :formData="formValue" :processInstanceId="currentData.processInstanceId"  :flow-id="currentData.flowId"
-							ref="flowNodeFormatRef"></flow-node-format>
+				<flow-node-format :disableSelect="true" :formData="formValue" :processInstanceId="currentData.processInstanceId"  :flow-id="currentData.flowId"
+								  ref="flowNodeFormatRef"></flow-node-format>
 
 
 			</template>
@@ -168,3 +187,12 @@ const formValue = computed(() => {
 
 	</div>
 </template>
+<style scoped>
+.iconclass {
+	width: 80px;
+	height: 64px;
+	position: absolute;
+	top: 0px;
+	right: 10px;
+}
+</style>

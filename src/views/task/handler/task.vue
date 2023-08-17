@@ -41,6 +41,7 @@ const deal = (taskId) => {
 		currentData.value.starterAvatarUrl = data.starterAvatarUrl;
 		currentData.value.starterName = data.starterName;
 		currentData.value.startTime = data.startTime;
+		currentData.value.processInstanceResult = data.processInstanceResult;
 		if (data.subProcessStarterTask && data.taskExist) {
 
 			//子流程发起人任务
@@ -235,6 +236,8 @@ const executeOperMethod = (op) => {
 			</template>
 			<template #default>
 					<el-card style="margin-bottom: 20px">
+			  <div style="position: relative">
+
 							<div style="display: flex;flex-direction: row">
 									<div class="f11">
                     <el-avatar shape="square" :size="50" :src="currentData.starterAvatarUrl" >{{currentData.starterName.substring(0,1)}}</el-avatar>
@@ -244,6 +247,10 @@ const executeOperMethod = (op) => {
 											<div><el-text size="small">{{ currentData.startTime }}</el-text></div>
 									</div>
 							</div>
+			<img v-if="currentData.processInstanceResult==1" class="iconclass" src="@/assets/images/pass.png"/>
+			<img v-if="currentData.processInstanceResult==2" class="iconclass" src="@/assets/images/refuse.png"/>
+
+		</div>
 					</el-card>
 				<el-card class="box-card">
 					<form-render @addLayoutOneItem="addLayoutOneItem" @deleteLayoutOneItem="deleteLayoutOneItem"
@@ -335,4 +342,11 @@ const executeOperMethod = (op) => {
 	.f22{
 		width: calc(100% - 70px);
 	}
+  .iconclass {
+	width: 80px;
+	height: 64px;
+	position: absolute;
+	top: 0px;
+	right: 10px;
+  }
 </style>
