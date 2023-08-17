@@ -56,7 +56,8 @@ const submitProcess = (data) => {
 	paramMap['root_user_task_approve_condition']=true
 	var param = {
 		paramMap: paramMap,
-		taskId: currentOpenFlow.value.taskId
+		taskId: currentOpenFlow.value.taskId,
+	  approveResult:true
 
 	};
 
