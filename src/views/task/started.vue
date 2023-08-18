@@ -69,8 +69,7 @@ const viewImage = (row) => {
 	viewImageRef.value.view(row)
 }
 
-const agreeHandler = ref();
-const refuseHandler = ref();
+
 
 /**
  * 查询

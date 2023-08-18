@@ -8,13 +8,13 @@ const dialogVisible = ref(false);
 const submitDesc = ref("");
 
 const currentData = ref();
-const delegationTask = ref(false);
+const frontJoinTask = ref(false);
 const currentOpenFlowForm = ref();
 const  dialogTitle=ref("");
 
 const handle = (row, formData,dt,dialogTitle1) => {
 	dialogTitle.value=dialogTitle1;
-	delegationTask.value=dt;
+	frontJoinTask.value=dt;
 	currentData.value = row;
 	currentOpenFlowForm.value = formData;
 
@@ -69,7 +69,7 @@ const submit = () => {
 
 	};
 
-	if(delegationTask.value){
+	if(frontJoinTask.value){
 		//前加签
 	  resolveTask(param).then(res => {
 		dialogVisible.value = false;

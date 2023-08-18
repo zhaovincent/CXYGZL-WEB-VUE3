@@ -33,7 +33,6 @@ const deal = (row) => {
 }
 
 
-const currentOpenFlowForm = ref();
 const viewImageRef = ref();
 const {proxy} = getCurrentInstance()
 
