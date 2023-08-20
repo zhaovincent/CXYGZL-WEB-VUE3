@@ -19,14 +19,17 @@
 						   :disabled="form.perm === 'R'"
 						   :placeholder="form.placeholder"
 		  />
-		  <el-text>
-			大写：
+        <template v-if="form.props.showChinese">
+          <el-text>
+            大写：
 
-		  </el-text>
-		  <el-text type="info">
-			 {{convertCurrency(form.props.value)}}
+          </el-text>
+          <el-text type="info">
+            {{convertCurrency(form.props.value)}}
 
-		  </el-text>
+          </el-text>
+        </template>
+
 			</template>
 
 	</div>
