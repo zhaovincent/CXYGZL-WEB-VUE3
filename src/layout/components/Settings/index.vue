@@ -38,6 +38,9 @@ function changeThemeColor(color: string) {
 }
 
 onMounted(() => {
+	isDark.value=false
+	settingsStore.tagsView=false
+	settingsStore.sidebarLogo=false
   window.document.body.setAttribute("layout", settingsStore.layout);
 });
 </script>
