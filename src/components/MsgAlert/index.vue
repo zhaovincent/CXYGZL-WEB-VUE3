@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import {useAppStore} from '@/store/modules/app';
 import {getMessageUnreadNum} from "@/api/message/index";
 import {useRouter} from "vue-router";
 
-const appStore = useAppStore();
 
 const unreadNum = ref(0)
 

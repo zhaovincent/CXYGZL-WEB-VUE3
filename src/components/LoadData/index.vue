@@ -1,27 +1,15 @@
 <script setup lang="ts">
-import {useAppStore} from '@/store/modules/app';
-import {getMessageUnreadNum} from "@/api/message/index";
+
 import {useRouter} from "vue-router";
 import {loadRemoteData} from '@/api/base/index'
 
-const appStore = useAppStore();
 
-const unreadNum = ref(0)
 
-function handleQuery() {
-	getMessageUnreadNum().then(res => {
-		const {data} = res;
-		unreadNum.value = data;
-	})
-}
 const router = useRouter();
 
-setInterval(() => {
-	handleQuery()
-}, 5000)
 
 onMounted(() => {
-	handleQuery();
+
 })
 
 const goto=()=>{
