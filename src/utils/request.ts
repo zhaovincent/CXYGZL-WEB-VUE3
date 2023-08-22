@@ -24,7 +24,7 @@ var loadingFlag = undefined;
 service.interceptors.request.use(
 	(config: InternalAxiosRequestConfig) => {
 		console.log(config)
-		if (!loadingFlag&&config.url!="/message/unreadNum") {
+		if (!loadingFlag&&(config.url!="/message/unreadNum"&&config.url!='/process-instance/formatStartNodeShow')) {
 			loadingFlag = ElLoading.service({
 				lock: true,
 				text: 'Loading',
