@@ -9,10 +9,10 @@ const service = axios.create({
 	timeout: 50000,
 	headers: {'Content-Type': 'application/json;charset=utf-8', 'CxygzlVersion': import.meta.env.VITE_APP_VERSION},
 	transformResponse: [data => {
-		const json = JSONBIG({
-			storeAsString: true
-		})
-		const res = json.parse(data)
+		// const json = JSONBIG({
+		// 	storeAsString: true
+		// })
+		const res = JSON.parse(data)
 
 		return res
 	}]
@@ -23,7 +23,6 @@ var loadingFlag = undefined;
 // 请求拦截器
 service.interceptors.request.use(
 	(config: InternalAxiosRequestConfig) => {
-		console.log(config)
 		if (!loadingFlag&&(config.url!="/message/unreadNum"&&config.url!='/process-instance/formatStartNodeShow')) {
 			loadingFlag = ElLoading.service({
 				lock: true,
