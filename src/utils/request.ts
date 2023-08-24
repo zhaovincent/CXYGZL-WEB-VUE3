@@ -1,32 +1,45 @@
 import axios, {InternalAxiosRequestConfig, AxiosResponse} from 'axios';
 import {useUserStoreHook} from '@/store/modules/user';
 import {ElLoading} from 'element-plus'
-import JSONBIG from "json-bigint";
 
 // 创建 axios 实例
 const service = axios.create({
 	baseURL: import.meta.env.VITE_APP_BASE_API,
-	timeout: 50000,
+	timeout: 60000,
 	headers: {'Content-Type': 'application/json;charset=utf-8', 'CxygzlVersion': import.meta.env.VITE_APP_VERSION},
 	transformResponse: [data => {
-		// const json = JSONBIG({
-		// 	storeAsString: true
-		// })
 		const res = JSON.parse(data)
 
 		return res
 	}]
 });
 
+var unloadingUrlList=[
+	'message/unreadNum',
+	'process-instance/formatStartNodeShow'
+]
+
 var loadingFlag = undefined;
 
 // 请求拦截器
 service.interceptors.request.use(
 	(config: InternalAxiosRequestConfig) => {
-		if (!loadingFlag&&(config.url!="/message/unreadNum"&&config.url!='/process-instance/formatStartNodeShow')) {
+		debugger
+		let url = config.url;
+
+		var matchUrl=false;
+
+		//判断是否需要显示loading页面
+		for(var murl of unloadingUrlList){
+			if(url.indexOf(murl)>=0){
+				matchUrl=true;
+				break
+			}
+		}
+		if (!loadingFlag&&!matchUrl) {
 			loadingFlag = ElLoading.service({
 				lock: true,
-				text: 'Loading',
+				text: '加载中',
 				background: 'rgba(0, 0, 0, 0.7)',
 			})
 

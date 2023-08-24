@@ -157,7 +157,6 @@ const flowName = computed(() => {
 })
 //判断是否选中当前表单显示边框
 var isCurrentForm = (fid) => {
-	console.log(fid,currentForm.value)
 	if (!currentForm.value) {
 		return false;
 	}

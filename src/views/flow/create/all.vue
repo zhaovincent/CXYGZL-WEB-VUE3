@@ -101,6 +101,17 @@
 import {ref, computed} from "vue";
 import {Plus, WarnTriangleFilled} from "@element-plus/icons-vue";
 
+import { createRouter, createWebHashHistory,onBeforeRouteLeave , RouteRecordRaw } from "vue-router";
+
+// 监听路由离开
+onBeforeRouteLeave((to, from, next) => {
+
+	console.log('离开前',to,from)
+	store.$reset();
+	next()
+
+})
+
 const {proxy} = getCurrentInstance();
 
 import {
