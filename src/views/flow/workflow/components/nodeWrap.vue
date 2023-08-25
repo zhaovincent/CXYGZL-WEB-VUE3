@@ -358,7 +358,7 @@ const addTerm = () => {
 			id: proxy.$getRandomId(),
 			placeHolder: '满足条件',
 			parentId: props.nodeConfig.id,
-
+		"groupMode": true,
 			priorityLevel: len,
 			conditionList: [{
 
@@ -377,7 +377,7 @@ const addTerm = () => {
 		nodeName: "条件" + len,
 		type: 3,
 		parentId: props.nodeConfig.id,
-
+	  "groupMode": true,
 		id: proxy.$getRandomId(),
 		priorityLevel: len,
 		conditionList: [{

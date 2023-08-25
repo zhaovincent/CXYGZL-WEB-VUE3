@@ -29,10 +29,10 @@ onMounted(() => {
 
 		const {data} = res;
 
-		visitCount.value = data.pendingNum
-	  orderCount.value = data.completedNum;
-	  messageCount.value = data.copyNum;
-	  amount.value = data.startedNum;
+		visitCount.value = parseInt(data.pendingNum)
+	  orderCount.value =  parseInt(data.completedNum);
+	  messageCount.value =  parseInt(data.copyNum);
+	  amount.value =  parseInt(data.startedNum);
 	})
 })
 

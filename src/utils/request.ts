@@ -1,17 +1,13 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { useUserStoreHook } from '@/store/modules/user';
-import JSONBIG from 'json-bigint'
 // 创建 axios 实例
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: 50000,
   headers: { 'Content-Type': 'application/json;charset=utf-8' },
 	transformResponse: [ data => {
-		console.log("=============transformResponse=========================")
-		const json = JSONBIG({
-			storeAsString: true
-		})
-		const res = json.parse(data)
+
+		const res = JSON.parse(data)
 
 		return res
 	}]
