@@ -24,7 +24,7 @@ var loadingFlag = undefined;
 // 请求拦截器
 service.interceptors.request.use(
 	(config: InternalAxiosRequestConfig) => {
-		debugger
+		//debugger
 		let url = config.url;
 
 		var matchUrl=false;
