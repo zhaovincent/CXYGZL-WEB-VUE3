@@ -57,6 +57,8 @@ const afterSelectUser = (data) => {
   defaultValue.value = data;
   selectUserDialogVisible.value = false;
 };
+import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
+
 </script>
 
 <template>
@@ -77,15 +79,23 @@ const afterSelectUser = (data) => {
 <!--      />-->
 <!--    </el-form-item>-->
     <el-form-item label="默认值">
-      <el-button
-        circle
-        :icon="Plus"
-        @click.stop="selectUserDialogVisible = true"
-      ></el-button>
+		<div style="display: block;flex-grow: 1">
+			<div>
+				<el-switch
+						v-model="config.props.defaultRoot"
+						active-text="发起人"
+						inactive-text="自选"
+				/>
+			</div>
+			<div v-if="!config.props.defaultRoot">
+				<select-show
+						:disabled="false" v-model:orgList="defaultValue" type="dept" :multiple="true"
+						:selectSelf="config.props.self"></select-show>
 
-      <div style="width: 100%">
-        <org-item v-model:data="defaultValue" />
-      </div>
+			</div>
+
+		</div>
+
     </el-form-item>
   </div>
 </template>

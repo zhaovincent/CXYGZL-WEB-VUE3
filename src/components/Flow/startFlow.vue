@@ -25,7 +25,7 @@ const startFlowUiRef = ref();
 const startProcess = (f) => {
 
 
-	getFlowDetail(f.flowId).then(res => {
+	getFlowDetail(f.flowId,true).then(res => {
 		const {data} = res
 
 		const {formItems} = data;

@@ -1,6 +1,5 @@
 import request from '@/utils/request';
-import { AxiosPromise } from 'axios';
-
+import {AxiosPromise} from 'axios';
 
 
 /**
@@ -21,12 +20,16 @@ export function addFlow(data: any) {
  *
  * @param data
  */
-export function getFlowDetail(flowId: string) {
+export function getFlowDetail(flowId: string, handleForm: boolean) {
+	if (handleForm == undefined || handleForm == null) {
+		handleForm = false
+	}
 	return request({
-		url: '/process/getDetail?flowId='+flowId,
+		url: '/process/getDetail?flowId=' + flowId + "&handleForm=" + handleForm,
 		method: 'get'
 	});
 }
+
 /**
  * 停用流程
  *
@@ -34,10 +37,11 @@ export function getFlowDetail(flowId: string) {
  */
 export function disableFlow(flowId: string) {
 	return request({
-		url: '/process/update/'+flowId+"?type=stop",
+		url: '/process/update/' + flowId + "?type=stop",
 		method: 'put'
 	});
 }
+
 /**
  * 删除流程
  *
@@ -45,10 +49,11 @@ export function disableFlow(flowId: string) {
  */
 export function deleteFlow(flowId: string) {
 	return request({
-		url: '/process/update/'+flowId+"?type=delete",
+		url: '/process/update/' + flowId + "?type=delete",
 		method: 'put'
 	});
 }
+
 /**
  * 启用流程
  *
@@ -56,7 +61,7 @@ export function deleteFlow(flowId: string) {
  */
 export function enableFlow(flowId: string) {
 	return request({
-		url: '/process/update/'+flowId+"?type=using",
+		url: '/process/update/' + flowId + "?type=using",
 		method: 'put'
 	});
 }
@@ -66,10 +71,10 @@ export function enableFlow(flowId: string) {
  *
  * @param data
  */
-export function startFlow(obj:any) {
+export function startFlow(obj: any) {
 	return request({
 		url: '/process-instance/startProcessInstance',
 		method: 'post',
-		data:obj
+		data: obj
 	});
 }

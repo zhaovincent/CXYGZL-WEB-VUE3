@@ -197,7 +197,7 @@ const formGroupConfig: FormGroupVO[] = [
 
 				required: false,
 				props: {
-
+					defaultRoot:false,
 					multi: false,
 					self: false,
 					value: []
@@ -212,7 +212,7 @@ const formGroupConfig: FormGroupVO[] = [
 
 				required: false,
 				props: {
-
+					defaultRoot:false,
 					multi: true,
 					self: false,
 					value: []
@@ -226,6 +226,7 @@ const formGroupConfig: FormGroupVO[] = [
 				placeholder: "请选择",
 				required: false,
 				props: {
+					defaultRoot:false,
 					multi: false,
 					self: false,
 					value: []
@@ -239,6 +240,7 @@ const formGroupConfig: FormGroupVO[] = [
 				placeholder: "请选择",
 				required: false,
 				props: {
+					defaultRoot:false,
 					multi: true,
 					self: false,
 					value: []
