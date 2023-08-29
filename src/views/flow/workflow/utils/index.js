@@ -91,10 +91,10 @@ All.prototype = {
 	checkApproval(nodeConfig) {
 
 
-		if (nodeConfig.assignedType == 1) {
+		if (nodeConfig.assignedType == 1 || nodeConfig.assignedType == 10) {
 
 
-			//指定成员
+			//指定成员--指定部门主管
 			if (nodeConfig.nodeUserList.length == 0) {
 				return false;
 
@@ -110,8 +110,7 @@ All.prototype = {
 		} else if (nodeConfig.assignedType == 8 && nodeConfig.formUserId.length == 0) {
 			//表单-用户
 			return false;
-		}
-		else if (nodeConfig.assignedType == 9 && nodeConfig.formUserId.length == 0) {
+		} else if (nodeConfig.assignedType == 9 && nodeConfig.formUserId.length == 0) {
 			//表单-部门
 			return false;
 		}
@@ -147,6 +146,17 @@ All.prototype = {
 				return ""
 
 			}
+		} else if (nodeConfig.assignedType == 10) {
+
+
+			//指定部门主管
+			if (nodeConfig.nodeUserList.length >= 1) {
+				return '指定部门主管：'+nodeConfig.nodeUserList.map(res => res.name).join(",")
+
+			} else {
+				return ""
+
+			}
 		} else if (nodeConfig.assignedType == 3) {
 
 
@@ -172,9 +182,12 @@ All.prototype = {
 		} else if (nodeConfig.assignedType == 8 && nodeConfig.formUserId.length > 0) {
 			//表单-人员
 			return '表单人员：' + nodeConfig.formUserName
-		}else if (nodeConfig.assignedType == 9 && nodeConfig.formUserId.length > 0) {
+		} else if (nodeConfig.assignedType == 9 && nodeConfig.formUserId.length > 0) {
+
+			let deptUserType = nodeConfig.deptUserType;
+
 			//表单-部门
-			return '表单部门：' + nodeConfig.formUserName
+			return '表单部门：' + nodeConfig.formUserName+(deptUserType=='user'?' 的人员':' 的主管')
 		}
 		return "";
 	},
@@ -197,8 +210,8 @@ All.prototype = {
 
 		let groupRelation = conditionNode.groupRelation;
 
-		if(!groupRelationMode){
-			if(groupRelation.length==0){
+		if (!groupRelationMode) {
+			if (groupRelation.length == 0) {
 				return false;
 			}
 		}
@@ -216,11 +229,11 @@ All.prototype = {
 				}
 
 				for (var ite of it.conditionList) {
-					if(ite.keyType==='SelectUser'&&ite.userKey.indexOf('empty')>=0){
+					if (ite.keyType === 'SelectUser' && ite.userKey.indexOf('empty') >= 0) {
 						continue
 					}
-					if (!ite.key || ite.key.length == 0 || !ite.expression || ite.expression.length == 0 || ((ite.expression.indexOf('empty')<0) &&(!ite.value || ite.value.length == 0))
-					||(ite.keyType==='Area'&&(!ite.value?.value&&ite.expression.indexOf('empty')<0))) {
+					if (!ite.key || ite.key.length == 0 || !ite.expression || ite.expression.length == 0 || ((ite.expression.indexOf('empty') < 0) && (!ite.value || ite.value.length == 0))
+						|| (ite.keyType === 'Area' && (!ite.value?.value && ite.expression.indexOf('empty') < 0))) {
 						return false;
 					}
 				}
@@ -244,8 +257,8 @@ All.prototype = {
 
 		let groupRelation = conditionNode.groupRelation;
 
-		if(!groupRelationMode){
-			if(groupRelation.length==0){
+		if (!groupRelationMode) {
+			if (groupRelation.length == 0) {
 				return "请设置条件组关系";
 			}
 		}
@@ -283,76 +296,76 @@ All.prototype = {
 						let userKey = con.userKey;
 						let userKeyFieldList = con.userKeyFieldList;
 
-						let ele = userKeyFieldList.filter(r=>r.key===userKey)[0];
+						let ele = userKeyFieldList.filter(r => r.key === userKey)[0];
 
-                        let type = ele.type;
-                        if (type === 'SingleSelect') {
+						let type = ele.type;
+						if (type === 'SingleSelect') {
 
-							valueShow =  value.map(res=>res.value).join(",")
+							valueShow = value.map(res => res.value).join(",")
 
 
-						} else if(type&&type.length>0){
+						} else if (type && type.length > 0) {
 							if (!valueShow) {
-                                if(expression.indexOf('empty')>=0){
-                                    valueShow = ''
+								if (expression.indexOf('empty') >= 0) {
+									valueShow = ''
 
-                                }else{
-                                    valueShow = '?'
+								} else {
+									valueShow = '?'
 
-                                }
+								}
 							}
-						}else{
-                            valueShow = ''
+						} else {
+							valueShow = ''
 
 						}
 
 					} else if (valueElement.type === 'SelectDept') {
-						if(!value){
-                            if(expression.indexOf('empty')>=0){
-                                valueShow = ''
+						if (!value) {
+							if (expression.indexOf('empty') >= 0) {
+								valueShow = ''
 
-                            }else{
-                                valueShow = '?'
+							} else {
+								valueShow = '?'
 
-                            }
-						}else{
-                            valueShow = value.map(res => res.name).join(",")
+							}
+						} else {
+							valueShow = value.map(res => res.name).join(",")
 
 						}
-					} else if (valueElement.type === 'SingleSelect'||valueElement.type === 'MultiSelect') {
+					} else if (valueElement.type === 'SingleSelect' || valueElement.type === 'MultiSelect') {
 
-						if(expression.indexOf('empty')>=0){
+						if (expression.indexOf('empty') >= 0) {
 							valueShow = ''
 
-						}else{
-							valueShow =  value.map(res=>res.value).join(",")
+						} else {
+							valueShow = value.map(res => res.value).join(",")
 
 						}
 
 
 					} else if (valueElement.type === 'Area') {
 
-                        if(expression.indexOf('empty')>=0){
-                            valueShow = ''
+						if (expression.indexOf('empty') >= 0) {
+							valueShow = ''
 
-                        }else{
-                            if(value?.name){
-                                valueShow=value.name
+						} else {
+							if (value?.name) {
+								valueShow = value.name
 
-                            }else{
-                                valueShow = '?'
+							} else {
+								valueShow = '?'
 
-                            }
+							}
 
-                        }
+						}
 
 
 					} else {
 						if (!valueShow) {
-							if(expression.indexOf('empty')>=0){
+							if (expression.indexOf('empty') >= 0) {
 								valueShow = ''
 
-							}else{
+							} else {
 								valueShow = '?'
 
 							}
@@ -372,13 +385,12 @@ All.prototype = {
 
 						let userKey = con.userKey;
 						let userKeyFieldList = con.userKeyFieldList;
-						let ele = userKeyFieldList.filter(r=>r.key===userKey)[0];
+						let ele = userKeyFieldList.filter(r => r.key === userKey)[0];
 
 
+						conArr.push(name + ' ' + ele.name + ' ' + (expObj[expression] ? expObj[expression] : '') + " " + valueShow)
 
-						conArr.push(name + ' '+ele.name + ' ' + (expObj[expression]?expObj[expression]:'') + " " + valueShow)
-
-					}else{
+					} else {
 						conArr.push(name + ' ' + expObj[expression] + " " + valueShow)
 
 					}
@@ -408,13 +420,13 @@ All.prototype = {
 			if (groupConArr.length == 0) {
 				return '请设置条件';
 			}
-			var str='';
-			for(var itm of groupRelation){
-				str=str+itm.name;
+			var str = '';
+			for (var itm of groupRelation) {
+				str = str + itm.name;
 			}
 
 			for (var k = 0; k < groupConArr.length; k++) {
-				str = str.replaceAll('条件组' + (k + 1) , groupConArr[k]);
+				str = str.replaceAll('条件组' + (k + 1), groupConArr[k]);
 			}
 
 
@@ -537,21 +549,21 @@ All.prototype = {
 
 		return true;
 	},
-	routeStr(nodeConfig){
+	routeStr(nodeConfig) {
 		let b = this.routeOk(nodeConfig);
-		if(!b){
+		if (!b) {
 			return '请完善路由信息'
 		}
-		return  nodeConfig.list.length+'条动态路由'
+		return nodeConfig.list.length + '条动态路由'
 	},
-	routeOk(nodeConfig){
+	routeOk(nodeConfig) {
 
 		let list = nodeConfig.list;
-		if(list.length==0){
+		if (list.length == 0) {
 			return false;
 		}
-		let length = list.filter(res=>res.error||res.nodeId.length==0).length;
-		return length==0
+		let length = list.filter(res => res.error || res.nodeId.length == 0).length;
+		return length == 0
 	}
 }
 

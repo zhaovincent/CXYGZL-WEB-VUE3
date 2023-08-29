@@ -9,9 +9,9 @@ let props = defineProps({
 		type: String,
 		default: ''
 	},
-	disableSelect:{
-		type:Boolean,
-		default:false
+	disableSelect: {
+		type: Boolean,
+		default: false
 	},
 	taskId: {
 		type: String,
@@ -39,13 +39,15 @@ const queryData = (p) => {
 		flowId: props.flowId,
 		processInstanceId: props.processInstanceId,
 		paramMap: p,
-			taskId:props.taskId
+		taskId: props.taskId
 	}
 	formatStartNodeShow(data).then(res => {
 		row.value = res.data;
 	})
 }
-watch(()=>props.formData,(val)=>{
+watch(() => props.formData, (val) => {
+
+  console.log("表单数据：{}",val)
 
 	setTimeout(function () {
 		if (new Date().getTime() - formDataChangeTime.value > 500) {
@@ -54,14 +56,14 @@ watch(()=>props.formData,(val)=>{
 		}
 	}, 600);
 })
-const formDataChangeTime=ref();
+const formDataChangeTime = ref();
 onMounted(() => {
-	formDataChangeTime.value=new Date().getTime();
-	queryData({});
+	formDataChangeTime.value = new Date().getTime();
+	queryData(props.formData);
 
 })
 
-const validate=()=>{
+const validate = () => {
 
 
 	for (var k of props.selectUserNodeId) {
@@ -79,19 +81,19 @@ const validate=()=>{
 
 const nodeUser = ref({})
 
-const formatSelectNodeUser=()=>{
+const formatSelectNodeUser = () => {
 
-	var obj={}
+	var obj = {}
 
 	for (var k of props.selectUserNodeId) {
 		var d = nodeUser.value[k]
-		obj[k+'_assignee_select']=d
+		obj[k + '_assignee_select'] = d
 	}
 
 	return obj;
 }
 
-defineExpose({validate,formatSelectNodeUser});
+defineExpose({validate, formatSelectNodeUser});
 
 
 </script>
@@ -99,7 +101,7 @@ defineExpose({validate,formatSelectNodeUser});
 <template>
 
 	<flow-node-format :row="row" :node-user="nodeUser" :disableSelect="disableSelect"
-					  ref="flowNodeFormatRef"></flow-node-format>
+										ref="flowNodeFormatRef"></flow-node-format>
 </template>
 
 <style scoped lang="less">

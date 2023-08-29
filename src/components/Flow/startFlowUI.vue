@@ -90,6 +90,8 @@ const handle = (row,formIteamJsonArray,t) => {
 		}
 	}
 
+  console.log("表单:",formIteamJsonArray)
+
 	currentOpenFlowForm.value = formIteamJsonArray;
 
 
@@ -109,6 +111,7 @@ const selectUserNodeId = ref<String[]>([]);
 
 
 const formValue = computed(() => {
+  console.log("--------------")
 	var obj = {}
 
 	for (var item of currentOpenFlowForm.value) {

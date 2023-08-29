@@ -71,6 +71,17 @@
 								:value="item.id"
 						/>
 					</el-select>
+
+			<el-radio-group v-model="approverConfig.deptUserType" class="ml-4">
+				<el-radio label="allUser" size="large">部门人员</el-radio>
+				<el-radio label="leader" size="large">部门主管</el-radio>
+			</el-radio-group>
+
+				</template>
+				<template v-if="approverConfig.assignedType===10">
+					<h4>选择部门</h4>
+			<select-show v-model:orgList="approverConfig.nodeUserList" type="dept" :multiple="true"></select-show>
+
 				</template>
 				<template v-if="approverConfig.assignedType===7">
 
@@ -96,6 +107,7 @@
 					(approverConfig.multiple===true&&	approverConfig.assignedType===4)||
 				(approverConfig.assignedType===1)||
 				(approverConfig.assignedType===9)||
+				(approverConfig.assignedType===10)||
 				(approverConfig.assignedType===3)||
 				(approverConfig.assignedType===7&&approverConfig.deptLeaderLevel>1)||
 				(approverConfig.assignedType===8)

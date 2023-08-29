@@ -129,6 +129,8 @@ const addType = (type) => {
 				//人员选择
 				formUserId: "",
 				formUserName: "",
+					//部门下的选择
+					deptUserType:'allUser',
 				//表单权限
 				formPerms: {},
 				//审批人为空
