@@ -18,7 +18,7 @@
 				</div>
 
 				<div style="text-align: center">
-					<img src="@/assets/images/邀请二维码.png"/>
+					<img src="@/assets/images/yqcode.png"/>
 				</div>
 				<div style="text-align: center;font-size: 20px;font-weight: bold;color: red;padding-top: 20px;">
 						加入之后请添加作者微信<span style="color: blue">cxygzl666</span>处理，备注：<span style="color: blue">cxygzl</span>和<span style="color: blue">钉钉名字</span>
@@ -102,8 +102,12 @@ onMounted(() => {
 	script.src = 'https://g.alicdn.com/dingding/h5-dingtalk-login/0.21.0/ddlogin.js';
 	document.body.appendChild(script);
 
+	script.addEventListener('load', ev => { // when the js execute done
+		console.log("js文件加载完成")
+	  initQRCode();
+	});
 
-	initQRCode();
+
 
 })
 
