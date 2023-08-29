@@ -355,6 +355,33 @@ export let conditionExpression = ref(
 				key: "intersection",
 				name: "重合"
 			}
+		],
+		"Role": [
+            {
+                key: "empty",
+                name: "为空"
+            },
+            {
+                key: "notempty",
+                name: "不为空"
+            },
+			{
+				key: "in",
+				name: "属于"
+			}, {
+				key: "notin",
+				name: "不属于"
+			},
+			{
+				key: "contain",
+				name: "包含"
+			}, {
+				key: "notcontain",
+				name: "不包含"
+			}, {
+				key: "intersection",
+				name: "重合"
+			}
 		]
 	}
 )

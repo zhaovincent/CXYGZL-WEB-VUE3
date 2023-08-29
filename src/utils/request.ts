@@ -65,7 +65,19 @@ service.interceptors.request.use(
 service.interceptors.response.use(
 	(response: AxiosResponse) => {
 
-		if(loadingFlag){
+		let url = response.config.url;
+
+		var matchUrl=false;
+
+		//判断是否需要显示loading页面
+		for(var murl of unloadingUrlList){
+			if(url.indexOf(murl)>=0){
+				matchUrl=true;
+				break
+			}
+		}
+
+		if(loadingFlag&&!matchUrl){
 			loadingFlag.close();
 			loadingFlag=undefined;
 

@@ -304,6 +304,11 @@ All.prototype = {
 							valueShow = value.map(res => res.value).join(",")
 
 
+						} else if (type === 'Role') {
+
+							valueShow = value.map(res => res.name).join(",")
+
+
 						} else if (type && type.length > 0) {
 							if (!valueShow) {
 								if (expression.indexOf('empty') >= 0) {

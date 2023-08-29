@@ -81,6 +81,9 @@ onMounted(() => {
 		userFieldList.value.push({
 			key: 'notempty', type: '', name: '不为空'
 		})
+		userFieldList.value.push({
+			key: 'role', type: 'Role', name: '角色'
+		})
 
 		props.condition.userKeyFieldList = userFieldList.value;
 
@@ -335,6 +338,11 @@ conditionTypeObj==='Score'
 
               <select-show v-if="conditionTypeObj==='SelectDept'
 " v-model:orgList="condition.value" type="dept" :multiple="true"></select-show>
+          </div>
+          <div style="margin-top: 20px">
+
+              <select-show v-if="conditionTypeObj==='Role'
+" v-model:orgList="condition.value" type="role" :multiple="true"></select-show>
           </div>
 
           <div style="margin-top: 20px">
