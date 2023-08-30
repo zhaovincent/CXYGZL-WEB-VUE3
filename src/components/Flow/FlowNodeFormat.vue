@@ -102,19 +102,28 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 						<div style="display: flex;flex-direction: row;">
 							<div class="f1">
 
-								<el-avatar shape="square" :size="30" :src="item1.user.avatar">{{item1.user.name.substring(0,1)}}</el-avatar>
+								<el-avatar shape="square" :size="40" :src="item1.user.avatar">{{item1.user.name.substring(0,1)}}</el-avatar>
 
 
 							</div>
 							<div class="f2">
-<!--				  <el-badge :value="item1.descTypeStr" class="item">-->
-								{{ item1.user.name }}  <el-tag  size="small" type="danger">{{item1.descTypeStr}}</el-tag>
-<!--					</el-badge>-->
+                <div class="f211">
+
+                  {{ item1.user.name }}  <el-tag  size="small" type="danger">{{item1.descTypeStr}}</el-tag>
+
+
+                </div>
+                <div class="f212">
+
+                  {{ item1.showTimeStr }}
+
+
+                </div>
 							</div>
 
-							<div style="height:40px;line-height: 40px;font-size: 10px;" class="f4">
-								{{ item1.showTimeStr }}
-							</div>
+<!--							<div style="height:40px;line-height: 40px;font-size: 10px;color: red" class="f4">-->
+<!--								{{ item1.showTimeStr }}-->
+<!--							</div>-->
 
 						</div>
 						<div v-if="!item1.sys"><el-text size="small" type="primary">{{JSON.parse(item1.desc).title}}</el-text></div>
@@ -171,19 +180,21 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 }
 
 .f2 {
-	height: 40px;
-	line-height: 40px;
+	height: 50px;
 	font-size: 10px;
 	margin-left: 5px;
-	width: 180px;
+  width: calc(100% - 45px);
+  padding-top: 5px;
 
 }
 
-.f4 {
-	width: calc(100% - 225px);
-	text-align: right;
-
-}
+ .f211{
+   font-weight: bold;
+   font-size: 15px;
+ }
+ .f212{
+   font-size: 10px;
+ }
 
 .f00 {
 	width: 10px;
@@ -195,9 +206,10 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 
 }
 .f21{
-	width: calc(100% - 50px);
+	width: calc(100% - 100px);
 }
 .f22{
-	width: 50px;
+	width: 100px;
+  text-align: right;
 }
 </style>
