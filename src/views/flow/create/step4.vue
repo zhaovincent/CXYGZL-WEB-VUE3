@@ -4,6 +4,8 @@
 			<el-card class="box-card">
 
 
+					<el-card>
+
 				<h3>前置校验
 
 					<el-text type="info" size="small">
@@ -45,7 +47,7 @@
 							</el-col>
 							<el-col :span="6">
 								<el-switch
-										@change="modeChange('frontNotify','header',index)"
+										@change="modeChange('frontCheck','header',index)"
 										v-model="item.valueMode"
 										size="large"
 										active-text="固定值"
@@ -73,10 +75,10 @@
 								</el-form-item>
 							</el-col>
 							<el-col :span="1">
-								<el-button @click="delOneLine('frontNotify','header',index)" text :icon="$icon['Delete']"></el-button>
+								<el-button @click="delOneLine('frontCheck','header',index)" text :icon="$icon['Delete']"></el-button>
 							</el-col>
 						</el-row>
-						<el-button text type="primary" @click="addOneLine('frontNotify','header')" :icon="$icon['Plus']">添加一行
+						<el-button text type="primary" @click="addOneLine('frontCheck','header')" :icon="$icon['Plus']">添加一行
 						</el-button>
 					</el-form-item>
 					<el-form-item label="请求体">
@@ -96,7 +98,7 @@
 							</el-col>
 							<el-col :span="6">
 								<el-switch
-										@change="modeChange('frontNotify','body',index)"
+										@change="modeChange('frontCheck','body',index)"
 										v-model="item.valueMode"
 										size="large"
 										active-text="固定值"
@@ -124,10 +126,10 @@
 								</el-form-item>
 							</el-col>
 							<el-col :span="1">
-								<el-button @click="delOneLine('frontNotify','body',index)" text :icon="$icon['Delete']"></el-button>
+								<el-button @click="delOneLine('frontCheck','body',index)" text :icon="$icon['Delete']"></el-button>
 							</el-col>
 						</el-row>
-						<el-button text type="primary" @click="addOneLine('frontNotify','body')" :icon="$icon['Plus']">添加一行
+						<el-button text type="primary" @click="addOneLine('frontCheck','body')" :icon="$icon['Plus']">添加一行
 						</el-button>
 					</el-form-item>
 					<el-form-item label="返回值">
@@ -145,6 +147,8 @@
 
 
 				</el-form>
+		  </el-card>
+		  <el-card style="margin-top: 20px;">
 
 
 				<h3>前置通知
@@ -322,9 +326,12 @@
 
 
 				</el-form>
+	  </el-card>
+
+		  <el-card style="margin-top: 20px;">
 
 
-				<h3>后置通知
+		  <h3>后置通知
 
 					<el-text type="info" size="small">
 						<el-icon>
@@ -499,6 +506,7 @@
 
 
 				</el-form>
+	  </el-card>
 
 			</el-card>
 		</div>
