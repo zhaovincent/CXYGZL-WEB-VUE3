@@ -4,6 +4,149 @@
 			<el-card class="box-card">
 
 
+				<h3>前置校验
+
+					<el-text type="info" size="small">
+						<el-icon>
+							<Aim/>
+						</el-icon>
+						流程启动前触发
+					</el-text>
+					<el-switch
+							v-model="frontCheckForm.enable"
+							size="large"
+					/>
+				</h3>
+
+				<el-form v-if="frontCheckForm.enable" :model="frontCheckForm" ref="frontCheckForm" :rules="rules"
+								 label-width="120px" label-position="top">
+					<el-form-item label="请求地址" prop="url">
+						<el-alert type="warning" show-icon :closable="false">
+							<p>仅支持POST请求，以请求体方式接收参数</p>
+						</el-alert>
+						<el-input style="margin-top: 10px" :maxlength="100" v-model="frontCheckForm.url"
+											placeholder="http://www.cxygzl.com"/>
+					</el-form-item>
+
+					<el-form-item label="请求头">
+						<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontCheckForm.header">
+							<el-col :span="9">
+								<el-form-item
+										:prop="'header.' + index + '.field'"
+										:rules="[
+       	{required: true, message: '请填写字段名称', trigger: 'blur'},
+				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
+      ]"
+								>
+									<el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
+
+								</el-form-item>
+
+							</el-col>
+							<el-col :span="6">
+								<el-switch
+										@change="modeChange('frontNotify','header',index)"
+										v-model="item.valueMode"
+										size="large"
+										active-text="固定值"
+										inactive-text="表单"
+								/>
+							</el-col>
+							<el-col :span="8">
+								<el-form-item
+										:prop="'header.' + index + '.value'"
+										:rules="[
+       	{required: true, message: '请填写字段对应值', trigger: 'blur'},
+				  { min: 1, max: 50, message: '1<字段对应值长度<50', trigger: 'blur' },
+      ]"
+								>
+
+									<el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
+									<el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
+										<el-option
+												v-for="f in formListWithRoot"
+												:key="f.id"
+												:label="f.name"
+												:value="f.id"
+										/>
+									</el-select>
+								</el-form-item>
+							</el-col>
+							<el-col :span="1">
+								<el-button @click="delOneLine('frontNotify','header',index)" text :icon="$icon['Delete']"></el-button>
+							</el-col>
+						</el-row>
+						<el-button text type="primary" @click="addOneLine('frontNotify','header')" :icon="$icon['Plus']">添加一行
+						</el-button>
+					</el-form-item>
+					<el-form-item label="请求体">
+						<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontCheckForm.body">
+							<el-col :span="9">
+								<el-form-item
+										:prop="'body.' + index + '.field'"
+										:rules="[
+       	{required: true, message: '请填写字段名称', trigger: 'blur'},
+				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
+      ]"
+								>
+									<el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
+
+								</el-form-item>
+
+							</el-col>
+							<el-col :span="6">
+								<el-switch
+										@change="modeChange('frontNotify','body',index)"
+										v-model="item.valueMode"
+										size="large"
+										active-text="固定值"
+										inactive-text="表单"
+								/>
+							</el-col>
+							<el-col :span="8">
+								<el-form-item
+										:prop="'body.' + index + '.value'"
+										:rules="[
+       	{required: true, message: '请填写字段对应值', trigger: 'blur'},
+				  { min: 1, max: 50, message: '1<字段对应值长度<50', trigger: 'blur' },
+      ]"
+								>
+
+									<el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
+									<el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
+										<el-option
+												v-for="f in formListWithRoot"
+												:key="f.id"
+												:label="f.name"
+												:value="f.id"
+										/>
+									</el-select>
+								</el-form-item>
+							</el-col>
+							<el-col :span="1">
+								<el-button @click="delOneLine('frontNotify','body',index)" text :icon="$icon['Delete']"></el-button>
+							</el-col>
+						</el-row>
+						<el-button text type="primary" @click="addOneLine('frontNotify','body')" :icon="$icon['Plus']">添加一行
+						</el-button>
+					</el-form-item>
+					<el-form-item label="返回值">
+						<el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">
+							<p>接口返回校验结果，格式如下:</p>
+								<p>
+										{
+    									"ok": false,
+   										 "msg": "假期余额不足"
+										}
+								</p>
+						</el-alert>
+
+					</el-form-item>
+
+
+				</el-form>
+
+
 				<h3>前置通知
 
 					<el-text type="info" size="small">
@@ -386,55 +529,45 @@ const modeChange = (k1, k2, index) => {
 const validate = (f) => {
 	let backEnable = backNotifyForm.value.enable;
 	let frontEnable = frontNotifyForm.value.enable;
-	if (frontEnable) {
+	let frontCheckEnable = frontCheckForm.value.enable;
 
-		proxy.$refs.frontNotifyForm.validate((valid, fields) => {
-			var arr = [];
-			if (!valid) {
-				for (var err in fields) {
-					arr.push(fields[err][0].message)
-				}
-			}
-			if (backEnable) {
-
-
-				proxy.$refs.backNotifyForm.validate((valid1, fields1) => {
-
-					if (!valid1) {
-						for (var err in fields1) {
-							arr.push(fields1[err][0].message)
-						}
-					}
-
-
-					f(valid1&&valid, arr);
-				});
-
-
-			} else {
-
-
-				f(valid, arr);
-			}
-
-		});
-	} else if (backEnable) {
-		proxy.$refs.backNotifyForm.validate((valid, fields) => {
-			var arr = [];
-			if (!valid) {
-				for (var err in fields) {
-					arr.push(fields[err][0].message)
-				}
-			}
-
-
-			f(valid, arr);
-		});
-	} else {
-		f(true);
+	var list=[];
+	if(frontEnable){
+		list.push(proxy.$refs.frontNotifyForm)
+	}
+	if(backEnable){
+		list.push(proxy.$refs.backNotifyForm)
+	}
+	if(frontCheckEnable){
+		list.push(proxy.$refs.frontCheckForm)
 	}
 
+	circleValidate(0,list,f)
+
 };
+
+function circleValidate(idx, list, f) {
+
+	if (idx >= list.length) {
+		f(true)
+		return;
+	}
+
+	list[idx].validate((valid, fields) => {
+		if (!valid) {
+			var arr = [];
+
+			for (var err in fields) {
+				arr.push(fields[err][0].message)
+			}
+			f(valid, arr);
+		}else{
+			circleValidate(idx+1,list,f)
+		}
+
+
+	});
+}
 
 // 暴露方法和属性给父组件
 defineExpose({validate});
@@ -467,7 +600,7 @@ var step4Store = computed(() => {
 
 
 var formList = computed(() => {
-	return flowStore.step2.filter(res=>res.type!='Description');
+	return flowStore.step2.filter(res => res.type != 'Description');
 });
 
 var formListWithRoot = computed(() => {
@@ -482,6 +615,10 @@ var formListWithRoot = computed(() => {
 
 var frontNotifyForm = computed(() => {
 	return step4Store.value.frontNotify;
+});
+
+var frontCheckForm = computed(() => {
+	return step4Store.value.frontCheck;
 });
 
 var backNotifyForm = computed(() => {

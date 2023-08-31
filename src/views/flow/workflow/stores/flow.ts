@@ -25,6 +25,24 @@ export const useFlowStore = defineStore("flow", {
 			},
 			step2: [] as FormVO[],
 			step4: {
+				frontCheck: {
+					enable: false,
+					url: '',
+					header: [
+						// {
+						// 	field: '',
+						// 	valueMode: true,
+						// 	value: ''
+						// }
+					],
+					body: [
+						// {
+						// 	field: '',
+						// 	valueMode: true,
+						// 	value: ''
+						// }
+					]
+				},
 				frontNotify: {
 					enable: false,
 					url: '',
