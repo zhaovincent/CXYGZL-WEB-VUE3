@@ -111,7 +111,7 @@ const selectUserNodeId = ref<String[]>([]);
 
 
 const formValue = computed(() => {
-  console.log("--------------")
+
 	var obj = {}
 
 	for (var item of currentOpenFlowForm.value) {

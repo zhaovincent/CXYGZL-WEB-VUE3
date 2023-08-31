@@ -78,7 +78,8 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 
 
 									<div
-											style="font-size: 8px;text-align: center">
+					  style="font-size: 8px;text-align: center;text-overflow: ellipsis;white-space: nowrap;overflow: hidden">
+
 										{{ item1.name }}
 									</div>
 
@@ -121,16 +122,12 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
                 </div>
 							</div>
 
-<!--							<div style="height:40px;line-height: 40px;font-size: 10px;color: red" class="f4">-->
-<!--								{{ item1.showTimeStr }}-->
-<!--							</div>-->
 
 						</div>
 						<div v-if="!item1.sys"><el-text size="small" type="primary">{{JSON.parse(item1.desc).title}}</el-text></div>
 						<div class="box-card"
 								 style="padding: 5px;background-color:var(--el-fill-color-light)">
 							<el-tag v-if="item1.sys" type="success">系统</el-tag>
-<!--							<el-tag v-if="!item1.sys" type="warning">用户</el-tag>-->
 								<el-text  type="info">{{JSON.parse(item1.desc).content}}</el-text>
 
 						</div>
