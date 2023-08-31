@@ -96,7 +96,7 @@ onMounted(() => {
 
 
 
-				<el-table-column fixed="right" label="操作">
+				<el-table-column fixed="right" label="操作" width="200">
 					<template #default="scope">
 						<el-button
 								type="primary"
