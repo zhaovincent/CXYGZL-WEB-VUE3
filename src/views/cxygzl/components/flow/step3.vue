@@ -29,17 +29,18 @@
 </template>
 
 <script setup>
-import nodeWrap from "../workflow/components/nodeWrap.vue"
-import {ref, onMounted, defineExpose} from "vue";
-import promoterDrawer from "../workflow/components/drawer/promoterDrawer.vue";
-import approverDrawer from "../workflow/components/drawer/approverDrawer.vue";
-import copyerDrawer from "../workflow/components/drawer/copyerDrawer.vue";
-import triggerDrawer from "../workflow/components/drawer/triggerDrawer.vue";
-import delayDrawer from "../workflow/components/drawer/delayDrawer.vue";
-import subProcessDrawer from "../workflow/components/drawer/subProcessDrawer.vue";
-import conditionDrawer from "../workflow/components/drawer/conditionDrawer.vue";
-import routeDrawer from "../workflow/components/drawer/routeDrawer.vue";
+import nodeWrap from "../node/nodeWrap.vue"
+import {ref, defineExpose} from "vue";
+import promoterDrawer from "../drawer/promoterDrawer.vue";
+import approverDrawer from "../drawer/approverDrawer.vue";
+import copyerDrawer from "../drawer/copyerDrawer.vue";
+import triggerDrawer from "../drawer/triggerDrawer.vue";
+import delayDrawer from "../drawer/delayDrawer.vue";
+import subProcessDrawer from "../drawer/subProcessDrawer.vue";
+import conditionDrawer from "../drawer/conditionDrawer.vue";
+import routeDrawer from "../drawer/routeDrawer.vue";
 
+import {useFlowStore} from "../../stores/flow";
 
 let tipList = ref([]);
 let nowVal = ref(100);
@@ -116,7 +117,6 @@ const reErr = ({childNode}) => {
 		childNode = null;
 	}
 };
-import {useFlowStore} from "../workflow/stores/flow";
 
 let store = useFlowStore();
 
@@ -162,7 +162,7 @@ defineExpose({validate, getProcessData});
 
 </script>
 <style scoped>
-@import "../workflow/css/workflow.css";
+@import "../../css/workflow.css";
 
 .error-modal-list {
 	width: 455px;

@@ -517,11 +517,15 @@
 <script lang="ts" setup>
 import {Check, Plus, Aim, Link} from "@element-plus/icons-vue";
 
-import {ref, onMounted, defineExpose, toRaw} from "vue";
+import {ref, onMounted, reactive, computed} from "vue";
+import {useRoute} from "vue-router";
+import * as util from "../../utils/objutil";
 
 
 import type {FormInstance, FormRules} from "element-plus";
 
+
+import {useFlowStore} from "../../stores/flow";
 const {proxy} = getCurrentInstance();
 
 const addOneLine = (k1, k2) => {
@@ -585,7 +589,6 @@ const rules = reactive<FormRules>({
 	]
 });
 
-import {useRoute} from "vue-router";
 
 const route = useRoute();
 
@@ -596,9 +599,6 @@ onMounted(() => {
 });
 
 
-import {reactive, ref, computed} from "vue";
-
-import {useFlowStore} from "../workflow/stores/flow";
 
 let flowStore = useFlowStore();
 
@@ -612,7 +612,7 @@ var formList = computed(() => {
 });
 
 var formListWithRoot = computed(() => {
-	let step2 = proxy.$deepCopy(formList.value);
+	let step2 = util.deepCopy(formList.value);
 	step2.push({
 		id: 'root',
 		type: 'SelectUser',
