@@ -5,10 +5,10 @@
  * @FilePath: /Workflow-Vue3/src/components/dialog/common.js
  */
 
-import {getRoles} from '../../api/index.js'
-import {orgTree, orgTreeSearcheUser} from '@/api/dept/index.ts'
-import $func from '../../utils/index.js'
-import {ref, reactive} from 'vue'
+
+import {ref} from 'vue'
+import {orgTree, orgTreeSearcheUser} from "../api/dept/index.js";
+import $func from "./index.js";
 
 export let searchVal = ref('')
 export let departments = ref({
@@ -18,10 +18,7 @@ export let departments = ref({
 	employees: [],
 })
 export let roles = ref({})
-export let getRoleList = async () => {
-	let {data: {list}} = await getRoles()
-	roles.value = list;
-}
+
 export let getDepartmentList = async (parentId = 0,type='org') => {
 	// let { data } = await getDepartments({ parentId })
 
@@ -40,16 +37,12 @@ export let getDebounceData = (event, type = 1) => {
 				pageNum: 1,
 				pageSize: 30
 			}
-			if (type == 1) {
 				departments.value.childDepartments = [];
 				let res = await orgTreeSearcheUser(data)
 				departments.value.employees = res.data
-			} else {
-				let res = await getRoles(data)
-				roles.value = res.data.list
-			}
+
 		} else {
-			type == 1 ? await getDepartmentList() : await getRoleList();
+			  await getDepartmentList() ;
 		}
 	})()
 }
