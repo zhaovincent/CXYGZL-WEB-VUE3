@@ -26,12 +26,13 @@ const blurEvent = (index) => {
 	props.nodeConfig.nodeName = props.nodeConfig.nodeName || defaultText
 
 };
-import {bgColors, placeholderList} from "@/views/flow/workflow/utils/const";
+
+import {bgColors, placeholderList} from "../../../utils/const";
 import {computed} from "vue";
 import addNode from "../addNode.vue"
 
-import $func from "@/views/flow/workflow/utils";
-import {useStore} from "@/views/flow/workflow/stores";
+import $func from "../../../utils";
+import {useStore} from "../../../stores";
 
 let defaultText = computed(() => {
 	return placeholderList[props.nodeConfig.type]
@@ -136,7 +137,7 @@ const openConfigDrawer = () => {
 </template>
 
 <style scoped lang="less">
-@import "@/views/flow/workflow/css/workflow.css";
+@import "../../../css/workflow.css";
 
 .error_tip {
 	position: absolute;

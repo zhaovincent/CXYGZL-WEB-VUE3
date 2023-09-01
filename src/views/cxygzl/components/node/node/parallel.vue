@@ -1,12 +1,16 @@
 <script setup lang="ts">
 
-import {bgColors} from "@/views/flow/workflow/utils/const";
-import $func from "@/views/flow/workflow/utils";
-import NodeWrap from "@/views/flow/workflow/components/nodeWrap.vue";
-import addNode from "../addNode.vue"
+import NodeWrap from "../nodeWrap.vue";
+
 
 import {computed, getCurrentInstance, ref, watch} from "vue";
-import {useStore} from "@/views/flow/workflow/stores";
+
+import {bgColors, placeholderList} from "../../../utils/const";
+
+import addNode from "../addNode.vue"
+
+import {useStore} from "../../../stores";
+
 
 const {proxy} = getCurrentInstance();
 
