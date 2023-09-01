@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
 import {useFlowStore} from '../../../stores/flow'
-import {queryAll} from '@/api/userfield/index'
-import {getCurrentInstance, watch} from "vue";
-import {areaData} from "@/views/flow/workflow/utils/area";
+import {queryAll} from '../../../api/userfield/index'
+import {areaData} from "../../../utils/area";
 
+import * as util from '../../../utils/objutil'
 
 let flowStore = useFlowStore();
 
@@ -16,13 +16,12 @@ const step2FormList = computed(() => {
 })
 
 
-const {proxy} = getCurrentInstance();
 
 //表单
 const formList = computed(() => {
 	let value = step2FormList.value;
 
-	let $deepCopy = proxy.$deepCopy(value.filter(res =>
+	let $deepCopy = util.deepCopy(value.filter(res =>
 			// res.type != 'MultiSelect' &&
 			res.type != 'SelectMultiUser' &&
 			res.type != 'SelectMultiDept' &&
@@ -60,11 +59,11 @@ const formIdObj = computed(() => {
 })
 
 
-import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
+import selectShow from "../../orgselect/selectAndShow.vue";
 
 import {conditionExpression} from '../../../utils/const'
 import {computed} from "vue";
-import {getAreaValue} from "@/utils/area";
+import {getAreaValue} from "../../../utils/area/area";
 
 var areaList = areaData
 var userFieldList = ref([])
@@ -114,7 +113,7 @@ const conditionTypeObj = computed(() => {
 	if (type != 'SelectUser') {
 		return type;
 	}
-	if (proxy.$isBlank(props.condition.userKey)) {
+	if (util.isBlank(props.condition.userKey)) {
 		return ''
 	}
 	let filter = userFieldList.value.filter(res => res.key === props.condition.userKey);
@@ -135,7 +134,7 @@ const conditionOptionsObj = computed(() => {
 		return options;
 	}
 
-	if (proxy.$isBlank(props.condition.userKey)) {
+	if (util.isBlank(props.condition.userKey)) {
 		return []
 	}
 
@@ -155,7 +154,7 @@ const numberFormPrecision = computed(() => {
 		return valueElement.props.radixNum;
 	}
 
-	if (proxy.$isBlank(props.condition.userKey)) {
+	if (util.isBlank(props.condition.userKey)) {
 		return []
 	}
 

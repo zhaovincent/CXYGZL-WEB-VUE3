@@ -174,7 +174,7 @@ import {useRoute} from "vue-router";
 import {
 	getFlowDetail
 } from "@/api/flow";
-import {useUserStore} from "@/store/modules/user";
+import {useUserStore} from "@/views/cxygzl/stores/user";
 
 const userStore = useUserStore();
 

@@ -102,8 +102,8 @@ var props = defineProps({
 		default: true
 	}
 })
-//TODO
-import {useUserStore} from "@/store/modules/user";
+
+import {useUserStore} from "../../stores/user";
 import {Delete, Edit, Search, Share, OfficeBuilding, Grid} from "@element-plus/icons-vue";
 import {computed, reactive, watch, onMounted, defineExpose} from 'vue'
 
@@ -330,7 +330,7 @@ watch(() => props.selectedList, (val) => {
 }
 
 .check_box a.active::after {
-	background: url(@/assets/images/check_box.png) no-repeat center;
+	background: url(../../assets/images/check_box.png) no-repeat center;
 }
 
 .f11 {

@@ -104,7 +104,6 @@
 
 <script setup type="ts">
 import {ref, watch, computed, getCurrentInstance} from 'vue'
-import $func from '../../../utils/index'
 import {useStore} from '../../../stores/index'
 
 
@@ -190,8 +189,6 @@ const step2FormList = computed(() => {
 	return step2;
 })
 
-
-const {proxy} = getCurrentInstance();
 
 
 </script>

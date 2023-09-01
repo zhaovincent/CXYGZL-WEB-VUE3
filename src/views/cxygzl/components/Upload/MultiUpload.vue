@@ -29,7 +29,7 @@ import {
   UploadFile,
   UploadProps,
 } from "element-plus";
-import { uploadFileApi, deleteFileApi } from "@/api/file";
+import { uploadFileApi, deleteFileApi } from "../../api/file";
 
 const emit = defineEmits(["update:modelValue"]);
 

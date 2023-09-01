@@ -54,7 +54,6 @@
 import {ref, onMounted,computed,reactive} from "vue";
 
 import {queryGroupList} from "../../api/group";
-//TODO
 import SingleUpload from "../Upload/SingleUpload.vue";
 
 import type {FormInstance, FormRules} from "element-plus";

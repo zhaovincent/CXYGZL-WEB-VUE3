@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {useFlowStore} from "@/views/flow/workflow/stores/flow";
+import {useFlowStore} from "../../../stores/flow";
 
 let props = defineProps({
 
@@ -17,7 +17,6 @@ let props = defineProps({
 });
 let flowStore = useFlowStore();
 
-const {proxy} = getCurrentInstance();
 const step2FormList = computed(() => {
 	let step2 = flowStore.step2;
 

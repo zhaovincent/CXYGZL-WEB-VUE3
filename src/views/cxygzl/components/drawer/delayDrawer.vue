@@ -73,8 +73,8 @@ watch(delayConfigData, (val) => {
 	config.value = val.value;
 })
 
-const {proxy} = getCurrentInstance();
 
+import * as util from '../../utils/objutil'
 
 const changeMode = () => {
 
@@ -92,7 +92,7 @@ const saveDelay = () => {
 
 
 
-	config.value.error = proxy.$isBlank(config.value.value);
+	config.value.error = util.isBlank(config.value.value);
 	setDelayConfig({
 		value: config.value,
 		flag: true,

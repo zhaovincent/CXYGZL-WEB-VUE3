@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import NodeWrap from "../nodeWrap.vue";
-
 import {computed, getCurrentInstance, onMounted, ref, watch} from "vue";
 
 import {bgColors, placeholderList} from "../../../utils/const";
@@ -10,10 +8,8 @@ import addNode from "../addNode.vue"
 
 import $func from "../../../utils";
 import {useStore} from "../../../stores";
+import * as util from "../../../utils/objutil";
 
-
-
-const {proxy} = getCurrentInstance();
 
 let isInputList = ref([]);
 let props = defineProps({
@@ -162,7 +158,7 @@ const addTerm = () => {
 		mode: true,
 		"groupRelationMode": true,
 		"groupRelation": [],
-		id: proxy.$getRandomId(),
+		id: util.getRandomId(),
 		priorityLevel: len,
 		conditionList: [{
 			mode: true,

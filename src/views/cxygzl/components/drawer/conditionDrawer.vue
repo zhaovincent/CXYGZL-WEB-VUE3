@@ -96,8 +96,6 @@ watch(conditionsConfig1, (val) => {
 			? conditionsConfig.value.conditionNodes[val.priorityLevel - 1]
 			: {nodeUserList: [], conditionList: []}
 })
-const {proxy} = getCurrentInstance();
-
 
 const saveCondition = () => {
 	closeDrawer()

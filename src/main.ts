@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "@/router";
-import { setupStore } from "@/store";
+import { setupStore } from "@/views/cxygzl/stores/store";
 import { setupDirective } from "@/directive";
 
 import "@/permission";

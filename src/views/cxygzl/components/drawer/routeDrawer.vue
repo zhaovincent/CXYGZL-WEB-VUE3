@@ -100,7 +100,7 @@ var rejectNodeList = computed(() => {
 //查询下级节点
 function queryChildrenNode(curNodeId, childNodeArr, arr) {
 	let childNodeArrElement = childNodeArr[curNodeId];
-	if (proxy.$isBlank(childNodeArrElement)) {
+	if (util.isBlank(childNodeArrElement)) {
 		return
 	}
 	arr.push(childNodeArrElement);
@@ -111,7 +111,7 @@ function queryChildrenNode(curNodeId, childNodeArr, arr) {
 function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch, childNodeArr) {
 
 
-	if (!proxy.$isNode(process)) {
+	if (!util.isNode(process)) {
 		return;
 	}
 
@@ -123,7 +123,7 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch, ch
 	//子级
 
 
-	if (!proxy.$isNotBlank(parentId)) {
+	if (!util.isNotBlank(parentId)) {
 		var arr = []
 		arr.push(nodeId)
 		nodeArr[nodeId] = arr;
@@ -136,7 +136,7 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch, ch
 
 			nodeArr[nodeId] = [];
 		} else {
-			var arr1 = proxy.$deepCopy(p);
+			var arr1 = util.deepCopy(p);
 			arr1.push(nodeId)
 			nodeArr[nodeId] = arr1;
 		}
@@ -148,7 +148,7 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch, ch
 
 	var children = process.childNode;
 
-	if (proxy.$isNode(children)) {
+	if (util.isNode(children)) {
 		childNodeArr[nodeId] = children.id;
 
 	}
@@ -163,14 +163,14 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch, ch
 
 		}
 
-		if (proxy.$isNode(children)) {
+		if (util.isNode(children)) {
 
 			produceSerialNodeList(nodeId, children, nodeArr, nodeObj, true, childNodeArr)
 
 		}
 
 	} else {
-		if (proxy.$isNode(children)) {
+		if (util.isNode(children)) {
 			produceSerialNodeList(nodeId, children, nodeArr, nodeObj, true, childNodeArr)
 		}
 	}
@@ -211,7 +211,7 @@ var addCondition = (index) => {
 
 	dialogVisible.value = true;
 	currentIndex.value = index;
-	conditionDialogConfigTemp.value = proxy.$deepCopy(config.value.list[index])
+	conditionDialogConfigTemp.value = util.deepCopy(config.value.list[index])
 
 }
 //对话框确定条件
@@ -252,8 +252,8 @@ watch(delayConfigData, (val) => {
 
 }, {deep: true})
 
-const {proxy} = getCurrentInstance();
 
+import * as util from '../../utils/objutil'
 
 const openEvent = () => {
 

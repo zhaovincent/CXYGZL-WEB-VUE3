@@ -7,7 +7,7 @@ const inputVal = ref("初始内容");
 const topicMsgs = ref<string[]>(["接收到一条主题消息"]); // 主题消息列表
 const p2pMsgs = ref<string[]>(["接收到一条点对线消息"]); // 点对点消息列表
 
-import { useUserStore } from "@/store/modules/user";
+import { useUserStore } from "@/views/cxygzl/stores/user";
 
 const userId = useUserStore().userId;
 

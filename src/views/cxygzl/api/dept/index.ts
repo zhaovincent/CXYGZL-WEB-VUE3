@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request from '../../utils/request';
 import { AxiosPromise } from 'axios';
 import { DeptForm, DeptQuery, DeptVO } from './types';
 

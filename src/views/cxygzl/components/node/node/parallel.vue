@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import NodeWrap from "../nodeWrap.vue";
-
 
 import {computed, getCurrentInstance, ref, watch} from "vue";
 
@@ -11,8 +9,7 @@ import addNode from "../addNode.vue"
 
 import {useStore} from "../../../stores";
 
-
-const {proxy} = getCurrentInstance();
+import * as util from "../../../utils/objutil";
 
 let isInputList = ref([]);
 let props = defineProps({
@@ -111,7 +108,7 @@ const addTerm = () => {
 	props.nodeConfig.conditionNodes.push({
 		nodeName: "分支" + len,
 		type: 3,
-		id: proxy.$getRandomId(),
+		id: util.getRandomId(),
 		placeHolder: '满足条件',
 		parentId: props.nodeConfig.id,
 
@@ -189,7 +186,7 @@ const addTerm = () => {
 </template>
 
 <style scoped lang="less">
-@import "@/views/flow/workflow/css/workflow.css";
+@import "../../../css/workflow.css";
 
 .error_tip {
   position: absolute;

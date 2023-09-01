@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import { useAppStore } from "@/store/modules/app";
 import { useTagsViewStore } from "@/store/modules/tagsView";
-import { useUserStore } from "@/store/modules/user";
+import { useUserStore } from "@/views/cxygzl/stores/user";
 
 const appStore = useAppStore();
 const tagsViewStore = useTagsViewStore();

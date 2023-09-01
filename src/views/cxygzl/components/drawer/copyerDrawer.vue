@@ -21,7 +21,7 @@
 	</el-drawer>
 </template>
 <script setup>
-import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
+import selectShow from "../orgselect/selectAndShow.vue";
 
 import $func from '../../utils/index'
 import { useStore } from '../../stores/index'
@@ -29,7 +29,6 @@ import { ref, watch, computed } from 'vue'
 let copyerConfig = ref({})
 
 import {useFlowStore} from '../../stores/flow'
-import { ElTable } from 'element-plus'
 let flowStore = useFlowStore();
 
 import FormPerm from './components/formPerm.vue'

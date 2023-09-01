@@ -102,7 +102,7 @@ var props = defineProps({
 		default: true
 	}
 })
-import {useUserStore} from "@/store/modules/user";
+import {useUserStore} from "@/views/cxygzl/stores/user";
 
 const userStore = useUserStore();
 

@@ -101,7 +101,9 @@ let props = defineProps({
 		default: () => ({})
 	}
 })
-const {proxy} = getCurrentInstance();
+
+import * as util from '../../utils/objutil'
+
 
 let emits = defineEmits(['update:childNodeP'])
 let visible = ref(false)
@@ -111,7 +113,7 @@ const addType = (type) => {
 		var data;
 		if (type == 1) {
 			data = {
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"nodeName": "审批人",
 				"error": true,
 				"type": 1,
@@ -198,7 +200,7 @@ const addType = (type) => {
 		} else if (type == 6) {
 			//触发器
 			data = {
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"nodeName": "触发器",
 				"error": true,
 				"type": 6,
@@ -232,7 +234,7 @@ const addType = (type) => {
 		} else if (type == 7) {
 			//延时器
 			data = {
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"nodeName": "延时器",
 				error: true,
 				"type": 7,
@@ -245,7 +247,7 @@ const addType = (type) => {
 		} else if (type == 10) {
 			//路由节点
 			data = {
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"nodeName": "动态路由",
 				error: true,
 				"type": type,
@@ -265,7 +267,7 @@ const addType = (type) => {
 		} else if (type == 9) {
 			//子流程
 			data = {
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"nodeName": "子流程",
 				error: true,
 				"type": 9,
@@ -292,7 +294,7 @@ const addType = (type) => {
 			}
 		} else if (type == 2) {
 			data = {
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"parentId": props.currentNode.id,
 
 				"nodeName": "抄送人",
@@ -306,7 +308,7 @@ const addType = (type) => {
 		}
 		emits("update:childNodeP", data)
 	} else if (type == 4) {
-		let id = proxy.$getRandomId();
+		let id = util.getRandomId();
 		emits("update:childNodeP", {
 			"nodeName": "条件分支",
 			"type": 4,
@@ -315,7 +317,7 @@ const addType = (type) => {
 
 			"childNode": props.childNodeP,
 			"conditionNodes": [{
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"nodeName": "条件1",
 				"mode": true,
 				"groupRelationMode": true,
@@ -340,7 +342,7 @@ const addType = (type) => {
 				"type": 3,
 				"groupRelationMode": true,
 				"groupRelation": [],
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"mode": true,
 				"error": false,
 				parentId: id,
@@ -360,7 +362,7 @@ const addType = (type) => {
 			}]
 		})
 	} else if (type == 8) {
-		let id = proxy.$getRandomId();
+		let id = util.getRandomId();
 		emits("update:childNodeP", {
 			"nodeName": "包容分支",
 			"type": 8,
@@ -369,7 +371,7 @@ const addType = (type) => {
 
 			"childNode": props.childNodeP,
 			"conditionNodes": [{
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"nodeName": "条件1",
 				"mode": true,
 				"groupRelationMode": true,
@@ -393,7 +395,7 @@ const addType = (type) => {
 				"type": 3,
 				"groupRelationMode": true,
 				"groupRelation": [],
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"mode": true,
 				"error": false,
 				parentId: id,
@@ -412,7 +414,7 @@ const addType = (type) => {
 			}]
 		})
 	} else if (type == 5) {
-		let id = proxy.$getRandomId();
+		let id = util.getRandomId();
 		emits("update:childNodeP", {
 			"nodeName": "并行分支",
 			"type": 5,
@@ -421,7 +423,7 @@ const addType = (type) => {
 
 			"childNode": props.childNodeP,
 			"conditionNodes": [{
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				"nodeName": "分支1",
 				placeHolder: '满足条件',
 				parentId: id,
@@ -435,7 +437,7 @@ const addType = (type) => {
 			}, {
 				"nodeName": "分支2",
 				"type": 3,
-				"id": proxy.$getRandomId(),
+				"id": util.getRandomId(),
 				parentId: id,
 
 				"error": false,

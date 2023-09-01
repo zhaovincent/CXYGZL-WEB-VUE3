@@ -253,8 +253,8 @@ import $func from '../../utils/index'
 import {placeholderList, setTypes} from '../../utils/const'
 import {useStore} from '../../stores/index'
 import {useFlowStore} from '../../stores/flow'
-import {ElTable} from 'element-plus'
 
+import * as util from '../../utils/objutil'
 
 var rejectNodeList = computed(() => {
 
@@ -292,7 +292,7 @@ var rejectNodeList = computed(() => {
 function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch) {
 
 
-	if (!proxy.$isNode(process)) {
+	if (!util.isNode(process)) {
 		return;
 	}
 
@@ -302,7 +302,7 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch) {
 	nodeObj[nodeId] = process;
 
 
-	if (!proxy.$isNotBlank(parentId)) {
+	if (!util.isNotBlank(parentId)) {
 		var arr = []
 		arr.push(nodeId)
 		nodeArr[nodeId] = arr;
@@ -315,7 +315,7 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch) {
 
 			nodeArr[nodeId] = [];
 		} else {
-			var arr1 = proxy.$deepCopy(p);
+			var arr1 = util.deepCopy(p);
 			arr1.push(nodeId)
 			nodeArr[nodeId] = arr1;
 		}
@@ -338,14 +338,14 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch) {
 
 		}
 
-		if (proxy.$isNode(children)) {
+		if (util.isNode(children)) {
 
 			produceSerialNodeList(nodeId, children, nodeArr, nodeObj, true)
 
 		}
 
 	} else {
-		if (proxy.$isNode(children)) {
+		if (util.isNode(children)) {
 			produceSerialNodeList(nodeId, children, nodeArr, nodeObj, true)
 		}
 	}
@@ -389,7 +389,7 @@ const titleInputBlurEvent = () => {
 const operInputBlur = (item) => {
 
 	item.edit = false;
-	if (proxy.$isBlank(item.name)) {
+	if (util.isBlank(item.name)) {
 		item.name = item.defaultName
 	}
 }
@@ -438,9 +438,7 @@ const openEvent = () => {
 	approverConfig.value.formPerms = arr;
 }
 
-import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
-
-const {proxy} = getCurrentInstance();
+import selectShow from "../orgselect/selectAndShow.vue";
 
 
 let approverConfig = ref({})
@@ -463,7 +461,7 @@ watch(approverConfigData, (val) => {
 })
 //用户表单是否是多选
 const isMultiUserForm = (id) => {
-	if (proxy.$isBlank(id)) {
+	if (util.isBlank(id)) {
 		return false
 	}
 	let t = step2FormUserList.value.filter(res => res.id === id)[0].props.multi;

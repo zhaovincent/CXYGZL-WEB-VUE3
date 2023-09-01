@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import {useUserStore} from "@/store/modules/user";
+import {useUserStore} from "@/views/cxygzl/stores/user";
 
 const userStore = useUserStore();
 

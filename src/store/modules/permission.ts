@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from "vue-router";
 import { defineStore } from "pinia";
 import { constantRoutes } from "@/router";
-import { store } from "@/store";
+import { store } from "@/views/cxygzl/stores/store";
 import { listRoutes } from "@/api/menu";
 
 const modules = import.meta.glob("../../views/**/**.vue");

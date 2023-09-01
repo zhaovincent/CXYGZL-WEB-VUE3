@@ -185,23 +185,24 @@ import {
 	addGroup,
 	delGroup,
 	queryGroupFlowList
-} from "@/api/group";
+} from "../../api/group";
 
 import {
 	getFlowDetail
-} from "@/api/flow";
+} from "../../api/flow";
 
 
 import $func from '../../utils/index'
 import {useStore} from '../../stores/index'
 import {ref, watch, computed, reactive} from 'vue'
+import * as util from '../../utils/objutil'
 
 //多项表单单向变量传递  是否显示
 const multipleFormTransferComputed = computed(() => {
 
 	var v = config.value;
 
-	if (v.multiple && v.multipleMode == 3 && proxy.$isNotBlank(v.multipleModeValue)) {
+	if (v.multiple && v.multipleMode == 3 && util.isNotBlank(v.multipleModeValue)) {
 		return true
 	}
 	return false
@@ -275,7 +276,6 @@ watch(subProcessConfigData, (val) => {
 	config.value = val.value;
 })
 
-const {proxy} = getCurrentInstance();
 
 const subProcessFormItemList = ref([]);
 
@@ -288,7 +288,7 @@ const subProcessFormChange = (index) => {
 }
 
 const getMatchSubProcessFormList = (id) => {
-	if (proxy.$isBlank(id)) {
+	if (util.isBlank(id)) {
 		return [];
 	}
 	let filter = mainFormList.value.filter(res => res.id === id);
@@ -299,7 +299,7 @@ const getMatchSubProcessFormList = (id) => {
 	return subProcessFormItemList.value.filter(res => res.type === type);
 }
 const getMatchMainFormList = (id) => {
-	if (proxy.$isBlank(id)) {
+	if (util.isBlank(id)) {
 		return [];
 	}
 	let filter = subProcessFormItemList.value.filter(res => res.id === id);
@@ -397,7 +397,7 @@ const openEvent = () => {
 
 	})
 
-	if (proxy.$isNotBlank(config.value.subFlowId)) {
+	if (util.isNotBlank(config.value.subFlowId)) {
 
 		handleSubFlowIdChange(config.value.subFlowId, false)
 
@@ -412,7 +412,7 @@ watch(() => subFlowId.value, (v) => {
 
 	let filter = flowList.value.filter(res => res.flowId === v);
 	if (filter.length == 0) {
-		config.value.subFlowName = proxy.$isNotBlank(config.value.subFlowName) ? config.value.subFlowName : ''
+		config.value.subFlowName = util.isNotBlank(config.value.subFlowName) ? config.value.subFlowName : ''
 	} else {
 		config.value.subFlowName = filter[0].name;
 

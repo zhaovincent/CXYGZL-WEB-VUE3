@@ -10,7 +10,7 @@ import {getLoginUrl} from "@/api/auth";
 import {LocationQuery, LocationQueryValue, useRoute} from "vue-router";
 import router from "@/router";
 
-import {useUserStore} from "@/store/modules/user";
+import {useUserStore} from "@/views/cxygzl/stores/user";
 import {getCurrentInstance} from "vue";
 
 const userStore = useUserStore();

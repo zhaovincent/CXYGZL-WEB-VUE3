@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import employeesDialog from "@/views/flow/workflow/components/dialog/employeesDialog.vue";
-import orgItem from "@/views/flow/workflow/components/dialog/orgItem.vue";
-import {ref, watch} from "vue";
+import employeesDialog from "./employeesDialog.vue";
+import orgItem from "./orgItem.vue";
+import {ref, computed} from "vue";
 
 let selectUserDialogVisible = ref(false);
 const afterSelectUser = (data) => {

@@ -1,5 +1,4 @@
-import { MenuTypeEnum } from '@/enums/MenuTypeEnum';
-import {FlowVO} from "@/api/flow/types";
+import {FlowVO} from "../flow/types";
 
 /**
  * 菜单查询参数类型

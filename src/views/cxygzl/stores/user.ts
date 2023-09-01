@@ -1,12 +1,13 @@
 import { defineStore } from "pinia";
 
-import {loginApi, loginByTokenApi, logoutApi} from "@/api/auth";
-import { getUserInfo } from "@/api/user";
+import {loginApi, loginByTokenApi, logoutApi} from "../api/auth";
+import { getUserInfo } from "../api/user";
+//TODO
 import { resetRouter } from "@/router";
-import { store } from "@/store";
+import { store } from "./store.ts";
 
-import { LoginData } from "@/api/auth/types";
-import { UserInfo } from "@/api/user/types";
+import { LoginData } from "../api/auth/types";
+import { UserInfo } from "../api/user/types";
 
 import { useStorage } from "@vueuse/core";
 
@@ -87,6 +88,7 @@ export const useUserStore = defineStore("user", () => {
     return new Promise<void>((resolve, reject) => {
       logoutApi()
         .then(() => {
+            //TODO 修改这里  返回登录
           resetRouter();
           resetToken();
           location.reload(); // 清空路由

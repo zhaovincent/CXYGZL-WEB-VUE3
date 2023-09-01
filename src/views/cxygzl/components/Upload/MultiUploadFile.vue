@@ -25,8 +25,7 @@ import {
   UploadFile,
   UploadProps,
 } from "element-plus";
-import { uploadFileApi, deleteFileApi } from "@/api/file";
-import * as process from "process";
+import { uploadFileApi, deleteFileApi } from "../../api/file";
 
 const emit = defineEmits(["update:modelValue"]);
 

@@ -95,7 +95,7 @@ import LangSelect from "@/components/LangSelect/index.vue";
 import SvgIcon from "@/components/SvgIcon/index.vue";
 
 // 状态管理依赖
-import { useUserStore } from "@/store/modules/user";
+import { useUserStore } from "@/views/cxygzl/stores/user";
 
 // API依赖
 import { LocationQuery, LocationQueryValue, useRoute } from "vue-router";

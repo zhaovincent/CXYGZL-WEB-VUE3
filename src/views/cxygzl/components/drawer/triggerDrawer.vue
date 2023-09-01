@@ -200,12 +200,12 @@ watch(triggerConfigData, (val) => {
 	config.value = val.value;
 })
 
-const {proxy} = getCurrentInstance();
+import * as util from '../../utils/objutil'
 
 
 import {useFlowStore} from "../../stores/flow";
 import {FormRules} from "element-plus";
-import $func from "@/views/flow/workflow/utils";
+import $func from "../../utils";
 
 let flowStore = useFlowStore();
 
@@ -222,7 +222,7 @@ var formList = computed(() => {
 });
 
 var formListWithRoot = computed(() => {
-	let step2 = proxy.$deepCopy(formList.value);
+	let step2 = util.deepCopy(formList.value);
 	step2.push({
 		id: 'root',
 		type: 'SelectUser',

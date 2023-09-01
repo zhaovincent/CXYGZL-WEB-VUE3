@@ -1,5 +1,5 @@
 const gets = {} as any;
-const modules = import.meta.glob("../form/*.vue", { eager: true });
+const modules = import.meta.glob("../components/form/*.vue", { eager: true });
 
 for (let each in modules) {
   // var str = (modules[each] as any).default.__file;

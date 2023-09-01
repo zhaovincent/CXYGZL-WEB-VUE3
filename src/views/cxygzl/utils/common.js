@@ -7,7 +7,7 @@
 
 
 import {ref} from 'vue'
-import {orgTree, orgTreeSearcheUser} from "../api/dept/index.js";
+import {orgTree, orgTreeSearcheUser} from "../api/dept/index";
 import $func from "./index.js";
 
 export let searchVal = ref('')

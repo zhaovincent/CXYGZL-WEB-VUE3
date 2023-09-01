@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import {getCurrentInstance, onMounted, ref, watch} from "vue";
+import {getCurrentInstance, onMounted, ref,computed, watch} from "vue";
 
-const {proxy} = getCurrentInstance();
 let isInput = ref(false);
 
 let props = defineProps({
@@ -28,7 +27,6 @@ const blurEvent = (index) => {
 };
 
 import {bgColors, placeholderList} from "../../../utils/const";
-import {computed} from "vue";
 import addNode from "../addNode.vue"
 
 import $func from "../../../utils";

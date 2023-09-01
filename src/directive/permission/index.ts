@@ -1,4 +1,4 @@
-import { useUserStoreHook } from '@/store/modules/user';
+import { useUserStoreHook } from '@/views/cxygzl/stores/user';
 import { Directive, DirectiveBinding } from 'vue';
 
 /**

@@ -114,8 +114,8 @@ import Step3 from "../../components/flow/step3.vue";
 import Step4 from "../../components/flow/step4.vue";
 import {LocationQuery, LocationQueryValue,onBeforeRouteLeave, useRoute,useRouter} from "vue-router";
 
-//TODO 当前登录用户信息
-import {useUserStore} from "@/store/modules/user";
+
+import {useUserStore} from "../../stores/user";
 
 // 监听路由离开
 onBeforeRouteLeave((to, from, next) => {
@@ -330,8 +330,8 @@ const submitFlow = () => {
 
 		addFlow(flow).then(res => {
 			validateDialogShow.value = false;
-			store.$reset();
-			router.push("/flow/group")
+      //TODO 修改返回地址
+			router.push("/cxygzl/flow/group")
 		})
 
 

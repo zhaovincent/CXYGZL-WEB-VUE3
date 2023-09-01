@@ -17,7 +17,6 @@
 	</el-drawer>
 </template>
 <script setup>
-import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
 import {useFlowStore} from '../../stores/flow'
 
 import {useStore} from '../../stores/index'

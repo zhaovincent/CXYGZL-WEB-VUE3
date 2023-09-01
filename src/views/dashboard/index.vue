@@ -7,7 +7,7 @@ defineOptions({
 	inheritAttrs: false,
 });
 
-import {useUserStore} from "@/store/modules/user";
+import {useUserStore} from "@/views/cxygzl/stores/user";
 import {useTransition, TransitionPresets} from "@vueuse/core";
 
 import GithubCorner from "@/components/GithubCorner/index.vue";

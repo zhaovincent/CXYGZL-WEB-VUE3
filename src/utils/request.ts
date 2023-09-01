@@ -1,5 +1,5 @@
 import axios, {InternalAxiosRequestConfig, AxiosResponse} from 'axios';
-import {useUserStoreHook} from '@/store/modules/user';
+import {useUserStoreHook} from '@/views/cxygzl/stores/user';
 import {ElLoading} from 'element-plus'
 
 // 创建 axios 实例

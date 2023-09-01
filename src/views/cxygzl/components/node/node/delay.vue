@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {getCurrentInstance, onMounted, ref, watch} from "vue";
+import * as util from "../../../utils/objutil";
 
-const {proxy} = getCurrentInstance();
 let isInput = ref(false);
 
 onMounted(() => {
-		props.nodeConfig.error = proxy.$isBlank(props.nodeConfig.value);
+		props.nodeConfig.error = util.isBlank(props.nodeConfig.value);
 
 });
 let props = defineProps({
@@ -40,7 +40,6 @@ let defaultText = computed(() => {
 
 var placeHolder = computed(() => {
 
-	//TODO 1
 	return $func.delayStr(props.nodeConfig)
 
 })
@@ -143,7 +142,7 @@ const openConfigDrawer = () => {
 </template>
 
 <style scoped lang="less">
-@import "@/views/flow/workflow/css/workflow.css";
+@import "../../../css/workflow.css";
 
 .error_tip {
 	position: absolute;

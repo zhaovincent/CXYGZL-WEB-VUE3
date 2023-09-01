@@ -1,5 +1,5 @@
 import router from "@/router";
-import { useUserStoreHook } from "@/store/modules/user";
+import { useUserStoreHook } from "@/views/cxygzl/stores/user";
 import { usePermissionStoreHook } from "@/store/modules/permission";
 
 import NProgress from "nprogress";

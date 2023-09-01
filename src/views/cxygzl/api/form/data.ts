@@ -1,4 +1,4 @@
-import {FormGroupVO, FormVO} from "@/api/form/types";
+import {FormGroupVO, FormVO} from "./types";
 
 const formGroupConfig: FormGroupVO[] = [
 	{
