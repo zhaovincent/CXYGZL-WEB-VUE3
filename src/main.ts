@@ -17,7 +17,7 @@ import i18n from "@/lang/index";
 import { ElLoading } from 'element-plus'
 
 // 设置icon
-import installIcon from '@/utils/icon'
+import installIcon from '@/views/cxygzl/utils/icon'
 
 // 样式
 import "element-plus/theme-chalk/dark/css-vars.css";

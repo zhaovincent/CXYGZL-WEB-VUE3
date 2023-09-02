@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TaskHandle from "../../task/handler/task.vue"
+import TaskHandle from "../../cxygzl/components/task/handler/task.vue"
 
 defineOptions({
   name: "Role",

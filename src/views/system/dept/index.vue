@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref, watch} from "vue";
-import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
+import selectShow from "@/views/cxygzl/components/orgselect/selectAndShow.vue";
 
 defineOptions({
 	name: "Dept",

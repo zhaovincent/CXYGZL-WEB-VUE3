@@ -1,9 +1,4 @@
 import request from '@/utils/request';
-import { AxiosPromise } from 'axios';
-import http from "@/views/flow/workflow/utils/axios";
-import {areaData} from "@/views/flow/workflow/utils/area";
-
-let baseUrl = import.meta.env.BASE_URL
 
 
 
@@ -27,10 +22,4 @@ export function loadRemoteData() {
 	});
 }
 
-/**
- * 获取地区列表
- */
-export function queryAreaList() {
-	return areaData;
 
-}

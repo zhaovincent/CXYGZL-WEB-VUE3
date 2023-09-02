@@ -397,10 +397,7 @@ function closeImportDialog() {
 	excelFilelist.value = [];
 }
 
-const getFormWidget = (name: string) => {
-	//写的时候，组件的起名一定要与dragList中的element名字一模一样，不然会映射不上
-	return getFormName[name];
-};
+
 
 /**
  * 导出用户
@@ -429,7 +426,6 @@ onMounted(() => {
 });
 import {Plus} from '@element-plus/icons-vue'
 import type {UploadProps} from 'element-plus'
-import getFormName from "@/views/flow/utils/getFormWidget";
 //上传头像成功
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
 		response,

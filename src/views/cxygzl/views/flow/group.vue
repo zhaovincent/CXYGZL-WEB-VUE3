@@ -175,7 +175,7 @@ const router=useRouter()
 
 function toCreateFlow(id){
   //TODO 创建流程地址
-	let to = "/cxygzl/flow/create";
+	let to = "/flow/create";
 	if(!!id){
 		to=to+"?groupId="+id
 	}
@@ -184,14 +184,14 @@ function toCreateFlow(id){
 }
 function toEditFlow(flow){
   //TODO
-	let to = "/cxygzl/flow/create?flowId="+flow.flowId;
+	let to = "/flow/create?flowId="+flow.flowId;
 
 	router.push(to)
 
 }
 function toCopyFlow(flow){
   //TODO
-	let to = "/cxygzl/flow/create?cp=1&flowId="+flow.flowId;
+	let to = "/flow/create?cp=1&flowId="+flow.flowId;
 
 	router.push(to)
 

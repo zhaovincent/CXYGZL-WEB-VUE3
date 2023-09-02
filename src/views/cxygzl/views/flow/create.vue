@@ -331,7 +331,7 @@ const submitFlow = () => {
 		addFlow(flow).then(res => {
 			validateDialogShow.value = false;
       //TODO 修改返回地址
-			router.push("/cxygzl/flow/group")
+			router.push("/flow/group")
 		})
 
 
