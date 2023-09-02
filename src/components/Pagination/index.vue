@@ -6,7 +6,7 @@
       :background="background"
       :layout="layout"
       :page-sizes="pageSizes"
-      :total="total"
+      :total="parseInt(total)"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
