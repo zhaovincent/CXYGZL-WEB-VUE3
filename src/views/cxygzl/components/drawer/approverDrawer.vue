@@ -148,13 +148,13 @@
 
 
 				<template v-if="approverConfig.sameAsStarter?.handler">
-					<h4>审批人与发起人是同一人时</h4>
+					<h4>审批人包含发起人时（审批人可能是多个）</h4>
 					<el-radio-group v-model="approverConfig.sameAsStarter.handler">
 
-						<el-radio style="width: 30%" label="TO_CONTINUE" size="large">继续处理</el-radio>
-						<el-radio style="width: 30%" label="TO_PASS" size="large">自动通过</el-radio>
+						<el-radio style="width: 50%" label="TO_CONTINUE" size="large">发起人继续处理</el-radio>
+						<el-radio style="width: 30%" label="TO_PASS" size="large">发起人不用处理</el-radio>
 
-						<el-radio style="width: 30%" label="TO_DEPT_LEADER" size="large">转交给部门负责人处理</el-radio>
+						<el-radio style="width: 50%" label="TO_DEPT_LEADER" size="large">转交给发起人部门主管处理</el-radio>
 						<el-radio style="width: 30%" label="TO_ADMIN" size="large">转交给管理员处理</el-radio>
 
 

@@ -3,6 +3,7 @@ import FormRender from "../../components/form/render/FormRender.vue";
 import ViewProcessInstanceImage from "../../components/ViewProcessInstanceImage.vue";
 
 import FlowNodeFormat from "../../components/flow/FlowNodeFormatData.vue";
+import pagination from "../../components/pagination.vue";
 
 
 import {

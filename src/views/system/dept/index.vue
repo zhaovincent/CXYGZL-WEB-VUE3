@@ -70,7 +70,7 @@ const rules = reactive({
 	parentId: [{required: true, message: "上级部门不能为空", trigger: "blur"}],
 	name: [{required: true, message: "部门名称不能为空", trigger: "blur"}],
 	sort: [{required: true, message: "显示排序不能为空", trigger: "blur"}],
-	leaderName: [{required: true, message: "请选择部门负责人", trigger: "blur"}],
+	leaderName: [{required: true, message: "请选择部门主管", trigger: "blur"}],
 });
 
 /**
@@ -344,7 +344,7 @@ onMounted(() => {
 				<el-form-item label="部门名称" prop="name">
 					<el-input v-model="formData.name" placeholder="请输入部门名称"/>
 				</el-form-item>
-				<el-form-item label="部门负责人" prop="leaderName">
+				<el-form-item label="部门主管" prop="leaderName">
 					<!--					<el-input @click="startSelectUser" readonly v-model="formData.leaderName" placeholder="请选择部门负责人"/>-->
 					<select-show
 							:disabled="false" v-model:orgList="leaderData" type="user" :multiple="false">

@@ -12,6 +12,7 @@ import {
 import {RoleQuery} from "../../api/role/types";
 import TaskHandle from "../../components/task/handler/task.vue";
 
+import pagination from "../../components/pagination.vue";
 
 const loading = ref(false);
 const total = ref(0);

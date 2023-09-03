@@ -10,6 +10,7 @@ import {
 
 import {getCurrentInstance} from "vue";
 
+import pagination from "../../components/pagination.vue";
 
 
 const loading = ref(false);

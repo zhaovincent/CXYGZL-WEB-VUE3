@@ -13,6 +13,7 @@ import {
 import {
 	detail
 } from "../../api/processInstance";
+import pagination from "../../components/pagination.vue";
 
 function stop(row) {
 	stopProcessInstance({
