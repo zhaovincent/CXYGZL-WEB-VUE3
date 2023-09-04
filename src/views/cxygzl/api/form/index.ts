@@ -1,14 +1,18 @@
 import request from '../../utils/request';
-import { AxiosPromise } from 'axios';
+import {AxiosPromise} from 'axios';
 
 /**
- * 查询排除的表单
+ * 获取表单
  */
 
-export function getExcludeFormList():AxiosPromise {
-	return request({
-		url: '/form/getExcludeFormList',
-		method: 'get',
-		params:{}
-	});
+export function getFormList(d, handleForm): AxiosPromise {
+    if (handleForm == undefined) {
+        handleForm = false
+    }
+
+    return request({
+        url: '/form/getFormList?handleForm=' + handleForm,
+        method: 'post',
+        data: d
+    });
 }

@@ -49,8 +49,6 @@ const queryData = (p) => {
 }
 watch(() => props.formData, (val) => {
 
-  console.log("表单数据：{}",val)
-
 
 	$func.debounce(async () => {
 
