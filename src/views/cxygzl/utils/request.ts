@@ -16,6 +16,7 @@ const service = axios.create({
 
 var unloadingUrlList=[
 	'message/unreadNum',
+	"org/tree",
 	'process-instance/formatStartNodeShow'
 ]
 

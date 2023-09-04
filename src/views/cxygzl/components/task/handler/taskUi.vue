@@ -6,6 +6,7 @@ import RejectHandle from "./reject.vue"
 import FrontJoinHandle from "./frontJoin.vue"
 import BackJoinHandle from "./backJoin.vue"
 import AddAssigneeHandle from "./addAssignee.vue"
+import DelAssigneeHandle from "./delAssignee.vue"
 import FlowNodeFormat from "../../flow/FlowNodeFormatData.vue";
 import SubProcessStartFlow from "../../flow/subProcessStartFlow.vue";
 
@@ -82,6 +83,7 @@ const refuseHandler = ref();
 const rejectHandler = ref();
 const frontJoinHandler = ref();
 const addAssigneeHandler = ref();
+const delAssigneeHandler = ref();
 const backJoinHandler = ref();
 
 
@@ -162,6 +164,17 @@ const addAssigneeTask = (name) => {
 	});
 }
 /**
+ * 减签
+ */
+const delAssigneeTask = (name) => {
+	formRenderRef.value.validate(function (valid) {
+
+		if (valid) {
+		delAssigneeHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value, name);
+		}
+	});
+}
+/**
  * 后加签
  */
 const backJoinTask = (name) => {
@@ -217,6 +230,10 @@ const executeOperMethod = (op) => {
 	}
 	if (op === 'addAssignee') {
 	  addAssigneeTask(name);
+		return
+	}
+	if (op === 'delAssignee') {
+	  delAssigneeTask(name);
 		return
 	}
 }
@@ -333,6 +350,8 @@ const executeOperMethod = (op) => {
 		<front-join-handle @taskSubmitEvent="taskSubmitEvent" ref="frontJoinHandler"></front-join-handle>
 <!--			加签-->
 		<add-assignee-handle @taskSubmitEvent="taskSubmitEvent" ref="addAssigneeHandler"></add-assignee-handle>
+<!--			减签-->
+		<del-assignee-handle @taskSubmitEvent="taskSubmitEvent" ref="delAssigneeHandler"></del-assignee-handle>
 		<!--			后加签-->
 		<back-join-handle @taskSubmitEvent="taskSubmitEvent" ref="backJoinHandler"></back-join-handle>
 

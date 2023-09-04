@@ -197,9 +197,18 @@ const addType = (type) => {
 						edit: false,
 						name: '加签',
 						type: 'warning',
-						icon: 'Position',
+						icon: 'CirclePlusFilled',
 
 						defaultName: '加签'
+					}, {
+						key: 'delAssignee',
+						checked: false,
+						edit: false,
+						name: '减签',
+						type: 'warning',
+						icon: 'RemoveFilled',
+
+						defaultName: '减签'
 					}
 				],
 

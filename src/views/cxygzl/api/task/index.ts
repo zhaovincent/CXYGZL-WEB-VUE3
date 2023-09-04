@@ -137,6 +137,14 @@ export function addAssigneeTask(param:Object) {
 		data: param
 	})
 }
+// 减签任务
+export function delAssigneeTask(param:Object) {
+	return request({
+		url: 'task/delAssignee',
+		method: 'post',
+		data: param
+	})
+}
 
 // 格式化流程节点显示
 export function formatStartNodeShow(param:Object) {
