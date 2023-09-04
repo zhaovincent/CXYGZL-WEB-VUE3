@@ -2,7 +2,9 @@
 import FlowNodeFormat from "./FlowNodeFormat.vue";
 import {formatStartNodeShow} from "../../api/task";
 import {defineExpose, onMounted, ref, watch} from "vue";
-
+import $func from "../../utils/index.js";
+import {orgTreeSearcheUser} from "@/views/cxygzl/api/dept";
+import {departments, getDepartmentList} from "@/views/cxygzl/utils/common";
 let props = defineProps({
 
 	flowId: {
@@ -49,12 +51,11 @@ watch(() => props.formData, (val) => {
 
   console.log("表单数据：{}",val)
 
-	setTimeout(function () {
-		if (new Date().getTime() - formDataChangeTime.value > 500) {
-			formDataChangeTime.value = new Date().getTime();
-			queryData(val);
-		}
-	}, 600);
+
+	$func.debounce(async () => {
+
+	  await queryData(val);
+	})()
 })
 const formDataChangeTime = ref();
 onMounted(() => {
