@@ -41,6 +41,15 @@
             :multiple="true"
           ></select-show>
         </template>
+        <template v-if="approverConfig.assignedType === 10">
+          <h4>选择部门</h4>
+
+          <select-show
+            v-model:orgList="approverConfig.nodeUserList"
+            type="dept"
+            :multiple="true"
+          ></select-show>
+        </template>
 		  <template v-if="approverConfig.assignedType===9">
 			  <h4>部门控件</h4>
 			  <el-select v-model="formDeptIdComputed" clearable class="m-2" placeholder="请选择审批表单"
@@ -95,6 +104,7 @@
             ((approverConfig.multiple === true &&
               approverConfig.assignedType === 4) ||
               (approverConfig.assignedType === 9)||
+              (approverConfig.assignedType === 10)||
               (approverConfig.assignedType === 1 &&
                 approverConfig.nodeUserList.length > 1) ||
               approverConfig.assignedType === 3 ||

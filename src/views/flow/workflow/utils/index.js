@@ -90,7 +90,7 @@ All.prototype = {
 	checkApproval(nodeConfig) {
 
 
-		if (nodeConfig.assignedType == 1) {
+		if (nodeConfig.assignedType == 1||nodeConfig.assignedType == 10) {
 
 
 			//指定成员
@@ -131,6 +131,17 @@ All.prototype = {
 
 
 			//指定成员
+			if (nodeConfig.nodeUserList.length >= 1) {
+				return nodeConfig.nodeUserList.map(res => res.name).join(",")
+
+			} else {
+				return ""
+
+			}
+		} else if (nodeConfig.assignedType == 10) {
+
+
+			//指定部门主管
 			if (nodeConfig.nodeUserList.length >= 1) {
 				return nodeConfig.nodeUserList.map(res => res.name).join(",")
 
