@@ -175,8 +175,15 @@ All.prototype = {
 			//表单-人员
 			return '表单人员：' + nodeConfig.formUserName
 		}else if (nodeConfig.assignedType == 9 && nodeConfig.formUserId.length > 0) {
+
+			let deptUserType = nodeConfig.deptUserType;
+			let deptUserTypeShow='主管'
+			if(deptUserType==='allUser'){
+				deptUserTypeShow='所有人员'
+			}
+
 			//表单-部门
-			return '表单部门：' + nodeConfig.formUserName
+			return '表单部门：' + nodeConfig.formUserName+" 的"+deptUserTypeShow
 		}
 		return "";
 	},

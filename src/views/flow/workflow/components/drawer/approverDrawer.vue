@@ -61,7 +61,13 @@
 						  :value="item.id"
 				  />
 			  </el-select>
-		  </template>
+
+		  <el-radio-group v-model="approverConfig.deptUserType" class="ml-4">
+			  <el-radio label="allUser" size="large">部门人员</el-radio>
+			  <el-radio label="leader" size="large">部门主管</el-radio>
+		  </el-radio-group>
+
+	  </template>
         <template v-if="approverConfig.assignedType === 8">
           <h4>人员控件</h4>
           <el-select
