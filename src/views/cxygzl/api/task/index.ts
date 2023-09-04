@@ -129,6 +129,14 @@ export function frontJoinTask(param:Object) {
 		data: param
 	})
 }
+// 加签任务
+export function addAssigneeTask(param:Object) {
+	return request({
+		url: 'task/addAssignee',
+		method: 'post',
+		data: param
+	})
+}
 
 // 格式化流程节点显示
 export function formatStartNodeShow(param:Object) {

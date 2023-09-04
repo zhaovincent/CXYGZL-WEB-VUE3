@@ -5,12 +5,11 @@ import RefuseHandle from "./refuse.vue"
 import RejectHandle from "./reject.vue"
 import FrontJoinHandle from "./frontJoin.vue"
 import BackJoinHandle from "./backJoin.vue"
+import AddAssigneeHandle from "./addAssignee.vue"
 import FlowNodeFormat from "../../flow/FlowNodeFormatData.vue";
 import SubProcessStartFlow from "../../flow/subProcessStartFlow.vue";
 
 
-
-import {getCurrentInstance} from "vue";
 import {ArrowDown, Plus} from '@element-plus/icons-vue'
 
 const rightDrawerVisible = ref(false)
@@ -82,6 +81,7 @@ const agreeHandler = ref();
 const refuseHandler = ref();
 const rejectHandler = ref();
 const frontJoinHandler = ref();
+const addAssigneeHandler = ref();
 const backJoinHandler = ref();
 
 
@@ -151,6 +151,17 @@ const frontJoinTask = (name) => {
 	});
 }
 /**
+ * 加签
+ */
+const addAssigneeTask = (name) => {
+	formRenderRef.value.validate(function (valid) {
+
+		if (valid) {
+		addAssigneeHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value, name);
+		}
+	});
+}
+/**
  * 后加签
  */
 const backJoinTask = (name) => {
@@ -202,6 +213,10 @@ const executeOperMethod = (op) => {
 	}
 	if (op === 'pass') {
 		submitTask(name);
+		return
+	}
+	if (op === 'addAssignee') {
+	  addAssigneeTask(name);
 		return
 	}
 }
@@ -316,6 +331,8 @@ const executeOperMethod = (op) => {
 		<reject-handle @taskSubmitEvent="taskSubmitEvent" ref="rejectHandler"></reject-handle>
 		<!--			前加签-->
 		<front-join-handle @taskSubmitEvent="taskSubmitEvent" ref="frontJoinHandler"></front-join-handle>
+<!--			加签-->
+		<add-assignee-handle @taskSubmitEvent="taskSubmitEvent" ref="addAssigneeHandler"></add-assignee-handle>
 		<!--			后加签-->
 		<back-join-handle @taskSubmitEvent="taskSubmitEvent" ref="backJoinHandler"></back-join-handle>
 
