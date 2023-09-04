@@ -191,6 +191,15 @@ const addType = (type) => {
 						icon: 'Position',
 
 						defaultName: '转办'
+					}, {
+						key: 'addAssignee',
+						checked: false,
+						edit: false,
+						name: '加签',
+						type: 'warning',
+						icon: 'Position',
+
+						defaultName: '加签'
 					}
 				],
 
