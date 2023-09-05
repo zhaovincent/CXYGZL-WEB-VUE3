@@ -11,7 +11,7 @@ const currentOpenFlowForm = ref();
 const  dialogTitle=ref("");
 const processInstanceId = ref("");
 const taskId = ref("");
-const handle = (pid, tid,, formData,dialogTitle1) => {
+const handle = (pid, tid, formData,dialogTitle1) => {
 	dialogTitle.value=dialogTitle1;
 
 	processInstanceId.value = pid

@@ -15,3 +15,15 @@ export function formatStartNodeShow(d) {
 }
 
 
+/**
+ * 查询头部显示数据
+ */
+export function queryHeaderShow(d) {
+	return request({
+		url: '/base/queryHeaderShow',
+		method: 'post',
+		data:d
+	});
+}
+
+

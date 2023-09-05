@@ -8,7 +8,7 @@ const dialogVisible = ref(false);
 const submitDesc = ref("");
 
 const frontJoinTask = ref(false);
-const currentOpenFlowForm = ref();
+const formValue = ref();
 const dialogTitle = ref("");
 const processInstanceId = ref("");
 const taskId = ref("");
@@ -17,7 +17,7 @@ const handle = (pid, tid,  formData, dt, dialogTitle1) => {
 	dialogTitle.value = dialogTitle1;
 	frontJoinTask.value = dt;
 
-	currentOpenFlowForm.value = formData;
+	formValue.value = formData;
 
 	processInstanceId.value = pid
 	taskId.value = tid
@@ -30,40 +30,8 @@ const emit = defineEmits(["taskSubmitEvent"]);
 
 
 const submit = () => {
-
-
-	let value = currentOpenFlowForm.value;
-
-
-	var formData = {}
-	for (var item of value) {
-		formData[item.id] = item.props.value;
-
-		if (item.type === 'Layout') {
-
-
-			let subList = item.props.value;
-
-			var d = []
-			for (var array of subList) {
-				var v = {}
-
-				for (var subItem of array) {
-					let value = subItem.props.value;
-					v[subItem.id] = value;
-				}
-				d.push(v)
-
-			}
-			formData[item.id] = d;
-
-		}
-
-	}
-
-
 	var param = {
-		paramMap: formData,
+		paramMap: formValue.value,
 		approveResult: true,
 		processInstanceId: processInstanceId.value,
 		approveDesc: submitDesc.value,
