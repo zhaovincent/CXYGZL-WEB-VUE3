@@ -12,13 +12,13 @@ const currentData = ref({});
 /**
  * 点击开始处理
  */
-const deal = (taskId) => {
+const deal = (row) => {
 
 
-	currentData.value.taskId = taskId;
+	currentData.value.taskId = row.taskId;
 
 
-	queryTask(taskId, false).then(res => {
+	queryTask(row.taskId, false).then(res => {
 		let data = res.data;
 		currentData.value.processInstanceId = data.processInstanceId;
 		currentData.value.flowId = data.flowId;
@@ -32,7 +32,7 @@ const deal = (taskId) => {
 		currentData.value.processInstanceResult = data.processInstanceResult;
 
 
-	  taskUiHandler.value.deal(taskId,currentData.value,data.subProcessStarterTask,
+	  taskUiHandler.value.deal(row.taskId,currentData.value,data.subProcessStarterTask,
 				data.taskExist,data.flowId,data.formItems,data.node,data.process,data.frontJoinTask)
 	})
 

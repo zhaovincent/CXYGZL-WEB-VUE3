@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {defineExpose, getCurrentInstance} from "vue";
+import {defineExpose} from "vue";
 import {delAssigneeTask} from "../../../api/task";
 import selectShow from "../../orgselect/selectAndShow.vue";
 
@@ -9,23 +9,22 @@ const dialogVisible = ref(false);
 const submitDesc = ref("");
 
 
-const currentData = ref();
 const currentOpenFlowForm = ref();
 
 
-const  nodeId=ref("");
-const  process=ref("");
+
 const  dialogTitle=ref("");
 
+const processInstanceId = ref("");
+const taskId = ref("");
 
-
-const handle = (row, formData,n,p,dialogTitle1) => {
+const handle = (pid,tid, formData, dialogTitle1) => {
 	dialogTitle.value=dialogTitle1;
 
-	currentData.value = row;
 	currentOpenFlowForm.value = formData;
-	nodeId.value=n
-	process.value=p
+
+	processInstanceId.value = pid
+	taskId.value = tid
 
 	dialogVisible.value = true;
 }
@@ -75,12 +74,12 @@ const submit = () => {
 
 	var param = {
 		paramMap: formData,
-		taskId: currentData.value.taskId,
-	  nodeId: nodeId.value,
+		taskId:  taskId.value,
+
 	  approveDesc:submitDesc.value,
 
 	  targetUserIdList:userList.value.map(res=>res.id),
-	  processInstanceId: currentData.value.processInstanceId
+	  processInstanceId:  processInstanceId.value
 
 	};
 

@@ -2,19 +2,20 @@
 
 import StartFlowUi from './startFlowUI.vue'
 import {ref} from "vue";
-import {FormVO} from "../../api/form/types";
-import {queryTask} from "../../api/task";
+
 import {completeTask} from "../../api/task";
 
 
-const currentOpenFlow = ref<FormVO[]>([]);
+const taskId = ref();
 
-const handle = (flowId,taskId) => {
+const handle = (flowId,taskId,processInstanceId) => {
 
-	var row={flowId:flowId,taskId:taskId}
-	currentOpenFlow.value = row;
+	taskId.value = taskId;
 
-	startProcess(row);
+
+
+	startFlowUiRef.value.handle(flowId,taskId,processInstanceId)
+
 }
 
 defineExpose({handle});
@@ -22,23 +23,6 @@ defineExpose({handle});
 const startFlowUiRef = ref();
 
 
-const startProcess = (f) => {
-
-	console.log("子流程发起数据：",f)
-
-
-	queryTask(f.taskId,false).then(res => {
-		const {data} = res
-
-		const {formItems,selectUserNodeId,nodeId} = data;
-		currentOpenFlow.value.nodeId=nodeId
-
-
-		startFlowUiRef.value.handle(f, formItems, selectUserNodeId)
-
-
-	})
-}
 
 
 
@@ -50,7 +34,7 @@ const submitProcess = (data) => {
 	paramMap['root_user_task_approve_condition']=true
 	var param = {
 		paramMap: paramMap,
-		taskId: currentOpenFlow.value.taskId,
+		taskId: taskId.value,
 	  approveResult:true
 
 	};

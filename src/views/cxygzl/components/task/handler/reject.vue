@@ -9,10 +9,10 @@ const submitDesc = ref("");
 const rejectNodeId = ref("");
 
 
-const currentData = ref();
 const currentOpenFlowForm = ref();
 
-
+const processInstanceId = ref("");
+const taskId = ref("");
 const  nodeId=ref("");
 const  process=ref("");
 const  dialogTitle=ref("");
@@ -125,11 +125,13 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj,noBranch) {
 
 }
 
-const handle = (row, formData,n,p,dialogTitle1) => {
+const handle = (pid,tid, formData,n,p,dialogTitle1) => {
 
 	dialogTitle.value=dialogTitle1;
 
-	currentData.value = row;
+	processInstanceId.value = pid
+	taskId.value = tid
+
 	currentOpenFlowForm.value = formData;
 	nodeId.value=n
 	process.value=p
@@ -173,15 +175,13 @@ const submit = () => {
 	  }
 	}
 
-	// formData[currentData.value.nodeId + '_approve_condition'] = false
-	// formData[currentData.value.nodeId + '_approve_condition'] = false
 
 	var param = {
 		paramMap: formData,
-		taskId: currentData.value.taskId,
+		taskId: taskId.value,
 	  nodeId: nodeId.value,
 	  targetNodeId: rejectNodeId.value,
-	  processInstanceId: currentData.value.processInstanceId,
+	  processInstanceId: processInstanceId.value,
 	  approveDesc: submitDesc.value
 
 

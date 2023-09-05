@@ -7,15 +7,16 @@ const dialogVisible = ref(false);
 
 const submitDesc = ref("");
 
-const currentData = ref();
 const currentOpenFlowForm = ref();
 const  dialogTitle=ref("");
-
-const handle = (row, formData,dialogTitle1) => {
+const processInstanceId = ref("");
+const taskId = ref("");
+const handle = (pid, tid,, formData,dialogTitle1) => {
 	dialogTitle.value=dialogTitle1;
 
+	processInstanceId.value = pid
+	taskId.value = tid
 
-	currentData.value = row;
 	currentOpenFlowForm.value = formData;
 
 	dialogVisible.value = true;
@@ -61,9 +62,9 @@ const submit = () => {
 	var param = {
 		paramMap: formData,
 	  approveResult:false,
-	  processInstanceId:currentData.value.processInstanceId,
+	  processInstanceId:processInstanceId.value,
 	  approveDesc:submitDesc.value,
-		taskId: currentData.value.taskId
+		taskId: taskId.value
 
 	};
 

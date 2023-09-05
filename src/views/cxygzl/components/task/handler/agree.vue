@@ -7,16 +7,20 @@ const dialogVisible = ref(false);
 
 const submitDesc = ref("");
 
-const currentData = ref();
 const frontJoinTask = ref(false);
 const currentOpenFlowForm = ref();
-const  dialogTitle=ref("");
+const dialogTitle = ref("");
+const processInstanceId = ref("");
+const taskId = ref("");
 
-const handle = (row, formData,dt,dialogTitle1) => {
-	dialogTitle.value=dialogTitle1;
-	frontJoinTask.value=dt;
-	currentData.value = row;
+const handle = (pid, tid,  formData, dt, dialogTitle1) => {
+	dialogTitle.value = dialogTitle1;
+	frontJoinTask.value = dt;
+
 	currentOpenFlowForm.value = formData;
+
+	processInstanceId.value = pid
+	taskId.value = tid
 
 	dialogVisible.value = true;
 }
@@ -29,7 +33,6 @@ const submit = () => {
 
 
 	let value = currentOpenFlowForm.value;
-
 
 
 	var formData = {}
@@ -61,29 +64,28 @@ const submit = () => {
 
 	var param = {
 		paramMap: formData,
-	  approveResult:true,
-	  processInstanceId:currentData.value.processInstanceId,
-	  approveDesc:submitDesc.value,
-
-		taskId: currentData.value.taskId
+		approveResult: true,
+		processInstanceId: processInstanceId.value,
+		approveDesc: submitDesc.value,
+		taskId: taskId.value
 
 	};
 
-	if(frontJoinTask.value){
+	if (frontJoinTask.value) {
 		//前加签
-	  resolveTask(param).then(res => {
-		dialogVisible.value = false;
+		resolveTask(param).then(res => {
+			dialogVisible.value = false;
 
 
-		emit("taskSubmitEvent")
-	})
-	}else{
-	  completeTask(param).then(res => {
-		  dialogVisible.value = false;
+			emit("taskSubmitEvent")
+		})
+	} else {
+		completeTask(param).then(res => {
+			dialogVisible.value = false;
 
 
-		  emit("taskSubmitEvent")
-	  })
+			emit("taskSubmitEvent")
+		})
 	}
 
 }

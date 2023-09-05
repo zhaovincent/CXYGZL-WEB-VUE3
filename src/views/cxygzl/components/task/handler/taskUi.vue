@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import FormRender from "../../form/render/FormRender.vue";
 import AgreeHandle from "./agree.vue"
 import RefuseHandle from "./refuse.vue"
 import RejectHandle from "./reject.vue"
@@ -9,6 +8,9 @@ import AddAssigneeHandle from "./addAssignee.vue"
 import DelAssigneeHandle from "./delAssignee.vue"
 import FlowNodeFormat from "../../flow/FlowNodeFormatData.vue";
 import SubProcessStartFlow from "../../flow/subProcessStartFlow.vue";
+
+
+import FormUI from "./formUI.vue";
 
 
 import {ArrowDown, Plus} from '@element-plus/icons-vue'
@@ -21,14 +23,20 @@ const currentData = ref({});
 /**
  * 点击开始处理
  */
-const deal = (taskId, d, subProcessStarterTask, taskExist, flowId, formItems, node, process1, frontJoinTask) => {
+const deal = (tId, d, subProcessStarterTask, taskExist, fId, formItems, node, process1, frontJoinTask) => {
 	currentData.value = d;
 
+	taskId.value=tId
+	flowId.value=fId
+	processInstanceId.value=d.processInstanceId
+
+
+		//////////////////////////////////////////////////////////////////
 
 	if (taskExist && subProcessStarterTask) {
 
 		//子流程发起人任务
-		subProcessStartFlowRef.value.handle(flowId, taskId)
+		subProcessStartFlowRef.value.handle(fId, tId,d.processInstanceId)
 	} else {
 		currentOpenFlowForm.value = formItems
 		let parse = JSON.parse(node);
@@ -51,30 +59,9 @@ const deal = (taskId, d, subProcessStarterTask, taskExist, flowId, formItems, no
 const delegationTask = ref(false);
 
 const currentOpenFlowForm = ref();
-const addLayoutOneItem = (id) => {
 
-	for (var item of currentOpenFlowForm.value) {
-		if (item.id !== id) {
-			continue;
-		}
-		let value = item.props.value;
-		let oriForm = item.props.oriForm;
-		value.push(util.deepCopy(oriForm));
-		item.props.value = value;
 
-	}
-}
-const deleteLayoutOneItem = (id, index) => {
-
-	for (var item of currentOpenFlowForm.value) {
-		if (item.id !== id) {
-			continue;
-		}
-		item.props.value.splice(index, 1);
-
-	}
-}
-import * as util from "../../../utils/objutil";
+import {ref} from "vue";
 
 
 
@@ -104,7 +91,7 @@ const submitTask = (name) => {
 
 		if (valid) {
 
-			agreeHandler.value.handle(currentData.value, currentOpenFlowForm.value, delegationTask.value, name);
+			agreeHandler.value.handle(processInstanceId.value,taskId.value, currentOpenFlowForm.value, delegationTask.value, name);
 
 		}
 	})
@@ -119,7 +106,7 @@ const refuseTask = (name) => {
 	formRenderRef.value.validate(function (valid) {
 
 		if (valid) {
-			refuseHandler.value.handle(currentData.value, currentOpenFlowForm.value, name);
+			refuseHandler.value.handle(processInstanceId.value,taskId.value, currentOpenFlowForm.value, name);
 		}
 	})
 
@@ -135,7 +122,7 @@ const rejectTask = (name) => {
 	formRenderRef.value.validate(function (valid) {
 
 		if (valid) {
-			rejectHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value, name);
+			rejectHandler.value.handle(processInstanceId.value,taskId.value, currentOpenFlowForm.value, nodeId.value, process.value, name);
 		}
 	});
 
@@ -148,7 +135,7 @@ const frontJoinTask = (name) => {
 	formRenderRef.value.validate(function (valid) {
 
 		if (valid) {
-			frontJoinHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value, name);
+			frontJoinHandler.value.handle(processInstanceId.value,taskId.value, currentOpenFlowForm.value,  name);
 		}
 	});
 }
@@ -159,7 +146,7 @@ const addAssigneeTask = (name) => {
 	formRenderRef.value.validate(function (valid) {
 
 		if (valid) {
-		addAssigneeHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value, name);
+		addAssigneeHandler.value.handle(processInstanceId.value,taskId.value, currentOpenFlowForm.value,  name);
 		}
 	});
 }
@@ -170,7 +157,7 @@ const delAssigneeTask = (name) => {
 	formRenderRef.value.validate(function (valid) {
 
 		if (valid) {
-		delAssigneeHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value, name);
+		delAssigneeHandler.value.handle(processInstanceId.value,taskId.value, currentOpenFlowForm.value,   name);
 		}
 	});
 }
@@ -181,7 +168,7 @@ const backJoinTask = (name) => {
 	formRenderRef.value.validate(function (valid) {
 
 				if (valid) {
-					backJoinHandler.value.handle(currentData.value, currentOpenFlowForm.value, nodeId.value, process.value, name);
+					backJoinHandler.value.handle(processInstanceId.value,taskId.value, currentOpenFlowForm.value, name);
 				}
 			}
 	)
@@ -194,14 +181,7 @@ onMounted(() => {
 });
 const emit = defineEmits(["taskSubmitEvent"]);
 
-const formValue = computed(() => {
-	var obj = {}
 
-	for (var item of currentOpenFlowForm.value) {
-		obj[item.id] = item.props.value
-	}
-	return obj;
-})
 const subProcessStartFlowRef = ref()
 
 const executeOperMethod = (op) => {
@@ -238,6 +218,17 @@ const executeOperMethod = (op) => {
 	}
 }
 
+
+const formValueChange = (v) => {
+
+
+	flowNodeFormatRef.value.queryData(v)
+
+}
+const flowNodeFormatRef=ref();
+const flowId = ref('');
+const taskId = ref('');
+const processInstanceId = ref('');
 </script>
 
 <template>
@@ -273,16 +264,18 @@ const executeOperMethod = (op) => {
 					</div>
 				</el-card>
 				<el-card class="box-card">
-					<form-render @addLayoutOneItem="addLayoutOneItem" @deleteLayoutOneItem="deleteLayoutOneItem"
-											 ref="formRenderRef" :form-list="currentOpenFlowForm"></form-render>
+
+			<form-u-i :task-id="taskId" :process-instance-id="processInstanceId" :flow-id="flowId" @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
+
 
 				</el-card>
-				<flow-node-format :disableSelect="true" :formData="formValue" :task-id="currentData.taskId"
-													:processInstanceId="currentData.processInstanceId" :flow-id="currentData.flowId"
-													ref="flowNodeFormatRef"></flow-node-format>
+
+		  <flow-node-format   :flow-id="flowId" :task-id="taskId" :process-instance-id="processInstanceId"
+							  ref="flowNodeFormatRef"></flow-node-format>
 
 
-			</template>
+
+	  </template>
 			<template v-if="currentData.taskExist" #footer>
 				<div style="flex: auto">
 
