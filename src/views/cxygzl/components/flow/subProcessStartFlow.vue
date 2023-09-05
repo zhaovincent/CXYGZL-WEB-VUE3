@@ -4,7 +4,6 @@ import StartFlowUi from './startFlowUI.vue'
 import {ref} from "vue";
 import {FormVO} from "../../api/form/types";
 import {queryTask} from "../../api/task";
-import {getCurrentInstance} from "vue";
 import {completeTask} from "../../api/task";
 
 
@@ -25,6 +24,8 @@ const startFlowUiRef = ref();
 
 const startProcess = (f) => {
 
+	console.log("子流程发起数据：",f)
+
 
 	queryTask(f.taskId,false).then(res => {
 		const {data} = res
@@ -43,11 +44,6 @@ const startProcess = (f) => {
 
 const submitProcess = (data) => {
 
-
-
-	// startFlow(data).then(res => {
-	// 	startFlowUiRef.value.complete(res);
-	// })
 
 	let paramMap = data.paramMap;
 	paramMap.subProcessStartHandle=false

@@ -7,8 +7,6 @@ import {
 	queryTask
 } from "../../../api/task";
 
-import {getCurrentInstance} from "vue";
-
 
 const currentData = ref({});
 /**

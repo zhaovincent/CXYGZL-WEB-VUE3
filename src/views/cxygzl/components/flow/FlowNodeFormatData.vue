@@ -1,20 +1,14 @@
 <script setup lang="ts">
 import FlowNodeFormat from "./FlowNodeFormat.vue";
-import {formatStartNodeShow} from "../../api/task";
+import {formatStartNodeShow} from "../../api/base";
 import {defineExpose, onMounted, ref, watch} from "vue";
-import $func from "../../utils/index.js";
-import {orgTreeSearcheUser} from "@/views/cxygzl/api/dept";
-import {departments, getDepartmentList} from "@/views/cxygzl/utils/common";
 let props = defineProps({
 
 	flowId: {
 		type: String,
 		default: ''
 	},
-	disableSelect: {
-		type: Boolean,
-		default: false
-	},
+
 	taskId: {
 		type: String,
 		default: ''
@@ -22,19 +16,12 @@ let props = defineProps({
 	processInstanceId: {
 		type: String,
 		default: ''
-	},
-	formData: {
-		type: Object,
-		dafault: () => {
-		}
-	},
-	selectUserNodeId: {
-		type: Array,
-		dafault: () => []
 	}
 
 });
 const row = ref([]);
+const selectUserNodeIdList = ref([]);
+const disableSelect = ref(true);
 
 const queryData = (p) => {
 	var data = {
@@ -44,33 +31,29 @@ const queryData = (p) => {
 		taskId: props.taskId
 	}
 	formatStartNodeShow(data).then(res => {
-		row.value = res.data;
+		row.value = res.data.processNodeShowDtoList;
+	  disableSelect.value=res.data.disableSelectUser
+	  selectUserNodeIdList.value=res.data.selectUserNodeIdList
 	})
 }
-watch(() => props.formData, (val) => {
 
-
-	$func.debounce(async () => {
-
-	  await queryData(val);
-	})()
-})
-const formDataChangeTime = ref();
 onMounted(() => {
-	formDataChangeTime.value = new Date().getTime();
-	queryData(props.formData);
 
 })
 
 const validate = () => {
 
 
-	for (var k of props.selectUserNodeId) {
+	for (var k of selectUserNodeIdList.value) {
 		var d = nodeUser.value[k]
 		if (d && d.length > 0) {
 
 		} else {
-			return false;
+
+		ElMessage.warning("请选择节点执行人");
+
+
+		return false;
 		}
 	}
 
@@ -84,7 +67,7 @@ const formatSelectNodeUser = () => {
 
 	var obj = {}
 
-	for (var k of props.selectUserNodeId) {
+	for (var k of selectUserNodeIdList.value) {
 		var d = nodeUser.value[k]
 		obj[k + '_assignee_select'] = d
 	}
@@ -92,7 +75,7 @@ const formatSelectNodeUser = () => {
 	return obj;
 }
 
-defineExpose({validate, formatSelectNodeUser});
+defineExpose({validate, formatSelectNodeUser,queryData});
 
 
 </script>

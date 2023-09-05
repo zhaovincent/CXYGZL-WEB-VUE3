@@ -2,9 +2,10 @@
 
 import {computed, getCurrentInstance, onMounted, ref, watch} from "vue";
 
-import {bgColors, placeholderList} from "../../../utils/const";
+import {bgColors} from "../../../utils/const";
 
 import addNode from "../addNode.vue"
+import nodeWrap from "../nodeWrap.vue"
 
 import $func from "../../../utils";
 import {useStore} from "../../../stores";

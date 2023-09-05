@@ -10,61 +10,60 @@ const dialogTableVisible = ref<Boolean>(false);
 const formUIRef = ref();
 const submitProcess = () => {
 
-  let validate = flowNodeFormatRef.value.validate();
+	let validate = flowNodeFormatRef.value.validate();
 
 
-  if (!validate) {
-    ElMessage.warning("请选择节点执行人");
+	if (!validate) {
+		return;
+	}
 
-    return;
-  }
-
-  let param = flowNodeFormatRef.value.formatSelectNodeUser();
+	let param = flowNodeFormatRef.value.formatSelectNodeUser();
 
 
-  formUIRef.value.validate(function (valid, fv) {
+	formUIRef.value.validate(function (valid, fv) {
 
-    if (valid) {
+		if (valid) {
 
-      var data = {
-        flowId: flowId.value,
-        paramMap: {...param, ...fv}
-      }
-      emit('complete', data)
-    }
-  })
+			var data = {
+				flowId: flowId.value,
+				paramMap: {...param, ...fv}
+			}
+			emit('complete', data)
+		}
+	})
 
 
 }
 const emit = defineEmits(["complete"])
 
 const complete = () => {
-  dialogTableVisible.value = false
+	dialogTableVisible.value = false
 }
 const flowId = ref('');
-const handle = (row, formIteamJsonArray, t) => {
+const taskId = ref('');
+const processInstanceId = ref('');
+const handle = (fId,tId,pId) => {
 
 
-  flowId.value = row.flowId
+	flowId.value = fId
+	taskId.value = tId
+	processInstanceId.value = pId
 
-  selectUserNodeId.value = t;
 
-
-  dialogTableVisible.value = true
+	dialogTableVisible.value = true
 
 }
 
 defineExpose({handle, complete});
 
-const selectUserNodeId = ref<String[]>([]);
 
-
-const formValue = ref({});
 
 const formValueChange = (v) => {
-  formValue.value = v;
-}
 
+
+	flowNodeFormatRef.value.queryData(v)
+
+}
 
 
 const flowNodeFormatRef = ref();
@@ -73,31 +72,31 @@ const flowNodeFormatRef = ref();
 </script>
 
 <template>
-  <div>
-    <el-dialog v-model="dialogTableVisible" title="发起流程" width="800px" destroy-on-close>
-      <el-row>
-        <el-col :span="12">
+	<div>
+		<el-dialog v-model="dialogTableVisible" title="发起流程" width="800px" destroy-on-close>
+			<el-row>
+				<el-col :span="12">
 
 
-          <form-u-i :flow-id="flowId" @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
+					<form-u-i :task-id="taskId" :process-instance-id="processInstanceId" :flow-id="flowId" @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
 
-          <div style="text-align: center">
-            <el-button @click="dialogTableVisible = false">取消</el-button>
-            <el-button type="primary" @click="submitProcess">
-              提交
-            </el-button>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <flow-node-format :formData="formValue" :selectUserNodeId="selectUserNodeId" :flow-id="flowId"
-                            ref="flowNodeFormatRef"></flow-node-format>
+					<div style="text-align: center">
+						<el-button @click="dialogTableVisible = false">取消</el-button>
+						<el-button type="primary" @click="submitProcess">
+							提交
+						</el-button>
+					</div>
+				</el-col>
+				<el-col :span="12">
+					<flow-node-format   :flow-id="flowId" :task-id="taskId" :process-instance-id="processInstanceId"
+														ref="flowNodeFormatRef"></flow-node-format>
 
-        </el-col>
-      </el-row>
+				</el-col>
+			</el-row>
 
-    </el-dialog>
+		</el-dialog>
 
-  </div>
+	</div>
 </template>
 
 <style scoped lang="less">
