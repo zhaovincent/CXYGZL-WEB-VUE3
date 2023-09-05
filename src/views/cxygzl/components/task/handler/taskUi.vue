@@ -113,7 +113,7 @@ const processInstanceId = ref('');
 
 
 			</template>
-			<template v-if="currentData.taskExist" #footer>
+			<template   #footer>
 
 		  <oper-u-i @taskSubmitEvent="taskSubmitEvent" @validateForm="validateForm" :flow-id="flowId" :task-id="taskId"
 					:process-instance-id="processInstanceId"></oper-u-i>

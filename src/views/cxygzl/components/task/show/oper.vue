@@ -30,12 +30,13 @@ let props = defineProps({
 	}
 
 });
-
+const taskExist=ref(false)
 onMounted(() => {
 	queryTask(props.taskId, true).then(res => {
 
 		let data = res.data;
 		nodeId.value = data.nodeId;
+	  taskExist.value = data.taskExist;
 		process.value = data.process;
 	  let parse = JSON.parse(data.node);
 	  if (parse.operList) {
@@ -194,7 +195,7 @@ const backJoinHandler = ref();
 		<!--			后加签-->
 		<back-join-handle @taskSubmitEvent="taskSubmitEvent" ref="backJoinHandler"></back-join-handle>
 
-		<div style="flex: auto">
+		<div style="flex: auto" v-if="taskExist">
 
 			<template v-if="delegationTask">
 				<el-button size="large" color="#9933FF" @click="executeOperMethod('pass')">
