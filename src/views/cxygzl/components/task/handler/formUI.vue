@@ -6,7 +6,7 @@ import $func from "../../../utils";
 
 import {getFormList} from '../../../api/form'
 
-import {ref, onMounted, watch,computed} from 'vue'
+import {ref, onMounted, watch, computed} from 'vue'
 
 const formList = ref([])
 
@@ -25,7 +25,9 @@ let props = defineProps({
 });
 onMounted(() => {
   getFormList({
-    flowId: props.flowId
+    flowId: props.flowId,
+    processInstanceId: props.processInstanceId,
+    taskId: props.taskId
   }, true).then(res => {
     let data = res.data;
 
@@ -79,7 +81,7 @@ const validate = (f) => {
 
   formRenderRef.value.validate(function (valid) {
 
-    f(valid,formValue.value)
+    f(valid, formValue.value)
   })
 }
 
@@ -119,14 +121,12 @@ defineExpose({validate});
 const emits = defineEmits(["formValueChange"]);
 
 
-
-watch(()=>formValue.value,(v)=>{
-
+watch(() => formValue.value, (v) => {
 
 
   $func.debounce(async () => {
 
-    emits('formValueChange',v)
+    emits('formValueChange', v)
 
   })()
 

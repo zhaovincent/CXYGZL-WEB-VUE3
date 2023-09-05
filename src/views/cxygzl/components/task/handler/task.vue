@@ -13,6 +13,8 @@ import {
  */
 const deal = (row) => {
 
+
+	console.log('数据',row)
 	//
 	// queryTask(row.taskId, false).then(res => {
 	// 	let data = res.data;

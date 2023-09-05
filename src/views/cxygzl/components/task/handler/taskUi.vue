@@ -19,6 +19,7 @@ const rightDrawerVisible = ref(false)
  * 点击开始处理
  */
 const deal = (tId, pId,  fId) => {
+	console.log(tId,pId,fId)
 
 	taskId.value = tId
 	flowId.value = fId

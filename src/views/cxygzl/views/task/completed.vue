@@ -32,7 +32,7 @@ const taskHandler = ref();
  */
 const deal = (row) => {
 
-	taskHandler.value.deal(row.taskId)
+	taskHandler.value.deal(row)
 
 
 
