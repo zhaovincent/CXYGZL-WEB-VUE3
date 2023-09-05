@@ -194,7 +194,6 @@ const backJoinHandler = ref();
 		<!--			后加签-->
 		<back-join-handle @taskSubmitEvent="taskSubmitEvent" ref="backJoinHandler"></back-join-handle>
 
-
 		<div style="flex: auto">
 
 			<template v-if="delegationTask">
@@ -245,6 +244,7 @@ const backJoinHandler = ref();
 			</template>
 
 		</div>
+
 	</div>
 </template>
 

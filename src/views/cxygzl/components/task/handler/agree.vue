@@ -13,7 +13,7 @@ const dialogTitle = ref("");
 const processInstanceId = ref("");
 const taskId = ref("");
 
-const handle = (pid, tid,  formData, dt, dialogTitle1) => {
+const handle = (pid, tid, formData, dt, dialogTitle1) => {
 	dialogTitle.value = dialogTitle1;
 	frontJoinTask.value = dt;
 
@@ -68,6 +68,12 @@ const submit = () => {
 				width="400px"
 
 		>
+
+			<template #header="{ close, titleId, titleClass }">
+				<div style="text-align: left;font-size: 20px;font-weight: bold">
+					{{ dialogTitle }}
+				</div>
+			</template>
 			<el-input
 
 					v-model="submitDesc"
