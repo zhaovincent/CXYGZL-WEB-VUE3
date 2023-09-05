@@ -18,7 +18,7 @@ const rightDrawerVisible = ref(false)
 /**
  * 点击开始处理
  */
-const deal = (tId, pId, subProcessStarterTask, taskExist, fId) => {
+const deal = (tId, pId,  fId) => {
 
 	taskId.value = tId
 	flowId.value = fId
@@ -27,17 +27,17 @@ const deal = (tId, pId, subProcessStarterTask, taskExist, fId) => {
 
 	//////////////////////////////////////////////////////////////////
 
-	if (taskExist && subProcessStarterTask) {
-
-		//子流程发起人任务
-		subProcessStartFlowRef.value.handle(fId, tId, pId)
-	} else {
+	// if (taskExist && subProcessStarterTask) {
+	//
+	// 	//子流程发起人任务
+	// 	subProcessStartFlowRef.value.handle(fId, tId, pId)
+	// } else {
 
 
 		rightDrawerVisible.value = true;
 
 
-	}
+	// }
 
 
 }

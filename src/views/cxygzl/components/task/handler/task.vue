@@ -13,13 +13,12 @@ import {
  */
 const deal = (row) => {
 
+	//
+	// queryTask(row.taskId, false).then(res => {
+	// 	let data = res.data;
 
-	queryTask(row.taskId, false).then(res => {
-		let data = res.data;
-
-	  taskUiHandler.value.deal(row.taskId, data.processInstanceId,data.subProcessStarterTask,
-				data.taskExist,data.flowId)
-	})
+	  taskUiHandler.value.deal(row.taskId, row.processInstanceId,row.flowId)
+	// })
 
 }
 
