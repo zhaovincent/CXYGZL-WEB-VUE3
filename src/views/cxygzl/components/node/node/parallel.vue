@@ -6,6 +6,7 @@ import {computed, getCurrentInstance, ref, watch} from "vue";
 import {bgColors, placeholderList} from "../../../utils/const";
 
 import addNode from "../addNode.vue"
+import nodeWrap from "../nodeWrap.vue"
 
 import {useStore} from "../../../stores";
 
