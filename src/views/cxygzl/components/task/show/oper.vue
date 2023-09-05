@@ -16,39 +16,24 @@ defineExpose({handle});
 
 
 const delegationTask = ref(false);
-let props = defineProps({
 
-	flowId: {
-		type: String,
-		default: ''
-	},
+const taskId=ref();
+const processInstanceId=ref();
 
-	taskId: {
-		type: String,
-		default: ''
-	},
-	processInstanceId: {
-		type: String,
-		default: ''
-	}
-
-});
 const taskExist=ref(false)
-onMounted(() => {
-})
 
-watch(()=>props.taskId,(v)=>{
 
-		if(v&&v.length>0){
-			handle(v)
-		}
-})
+function handle(tId){
+  if(!tId||tId.length==0){
+    return;
+  }
 
-function handle(taskId){
+	queryTask(tId, false).then(res => {
+    let data = res.data;
 
-	queryTask(taskId, false).then(res => {
+    taskId.value=tId;
+    processInstanceId.value=data.processInstanceId;
 
-		let data = res.data;
 		nodeId.value = data.nodeId;
 		taskExist.value = data.taskExist;
 		process.value = data.process;
@@ -71,7 +56,7 @@ const process = ref();
 const submitTask = (name,fv) => {
 
 
-	agreeHandler.value.handle(props.processInstanceId, props.taskId, fv, delegationTask.value, name);
+	agreeHandler.value.handle(processInstanceId.value, taskId.value, fv, delegationTask.value, name);
 
 
 }
@@ -81,7 +66,7 @@ const submitTask = (name,fv) => {
  */
 const frontJoinTask = (name,fv) => {
 
-	frontJoinHandler.value.handle(props.processInstanceId, props.taskId, fv, name);
+	frontJoinHandler.value.handle(processInstanceId.value, taskId.value, fv, name);
 
 }
 /**
@@ -89,7 +74,7 @@ const frontJoinTask = (name,fv) => {
  */
 const addAssigneeTask = (name,fv) => {
 
-	addAssigneeHandler.value.handle(props.processInstanceId, props.taskId, fv, name);
+	addAssigneeHandler.value.handle(processInstanceId.value, taskId.value, fv, name);
 
 }
 /**
@@ -97,7 +82,7 @@ const addAssigneeTask = (name,fv) => {
  */
 const delAssigneeTask = (name,fv) => {
 
-	delAssigneeHandler.value.handle(props.processInstanceId, props.taskId, fv, name);
+	delAssigneeHandler.value.handle(processInstanceId.value, taskId.value, fv, name);
 
 }
 /**
@@ -105,7 +90,7 @@ const delAssigneeTask = (name,fv) => {
  */
 const backJoinTask = (name,fv) => {
 
-	backJoinHandler.value.handle(props.processInstanceId, props.taskId, fv, name);
+	backJoinHandler.value.handle(processInstanceId.value, taskId.value, fv, name);
 
 
 }
@@ -114,7 +99,7 @@ const backJoinTask = (name,fv) => {
  */
 const rejectTask = (name,fv) => {
 
-	rejectHandler.value.handle(props.processInstanceId, props.taskId, fv, nodeId.value, process.value, name);
+	rejectHandler.value.handle(processInstanceId.value, taskId.value, fv, nodeId.value, process.value, name);
 
 
 }
@@ -124,7 +109,7 @@ const rejectTask = (name,fv) => {
 const refuseTask = (name,fv) => {
 
 
-	refuseHandler.value.handle(props.processInstanceId, props.taskId,fv, name);
+	refuseHandler.value.handle(processInstanceId.value, taskId.value,fv, name);
 
 
 }

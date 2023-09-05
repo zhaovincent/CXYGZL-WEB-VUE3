@@ -4,64 +4,16 @@ import FormRender from "../../form/render/FormRender.vue";
 import * as util from "../../../utils/objutil";
 import $func from "../../../utils";
 
-import {getFormList} from '../../../api/form'
 
-import {ref, onMounted, watch, computed} from 'vue'
+import {ref, defineExpose, watch, computed} from 'vue'
 
 const formList = ref([])
 
-let props = defineProps({
 
 
-  taskId: {
-    type: String
-  },
-  flowId: {
-    type: String
-  },
-  processInstanceId: {
-    type: String
-  },
-  ccId: {
-    type: Number
-  }
-});
 
-const keyValue = computed(()=>{
-    return props.taskId??''+props.flowId??''+props.processInstanceId??''+props.ccId??'';
-})
-watch(()=>keyValue.value,(v)=>{
-  console.log("数值变化了",v)
-  loadData()
-})
-
-onMounted(() => {
-  loadData()
-})
-function loadData(){
-
-  getFormList({
-    flowId: props.flowId,
-    processInstanceId: props.processInstanceId,
-    taskId: props.taskId,
-    ccId:props.ccId
-  }, true).then(res => {
-    let data = res.data;
-
-    for (var fi of data) {
-      if (fi.type === 'Layout') {
-        var arr = [];
-        let value = fi.props.value;
-        arr.push(value);
-        fi.props.value = arr;
-        fi.props.oriForm = util.deepCopy(value);
-      }
-    }
-
-    formList.value = data;
-
-
-  })
+function loadData(d){
+  formList.value=d;
 }
 
 
@@ -134,7 +86,7 @@ const formValue = computed(() => {
   return obj;
 })
 
-defineExpose({validate});
+defineExpose({validate,loadData});
 const emits = defineEmits(["formValueChange"]);
 
 

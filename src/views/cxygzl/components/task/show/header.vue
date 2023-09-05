@@ -1,76 +1,49 @@
 <script setup lang="ts">
 import {
-	queryHeaderShow
+  queryHeaderShow
 } from "../../../api/base";
 
 import {onMounted} from 'vue'
-import {computed, watch} from "vue";
-
-let props = defineProps({
+import {ref, defineExpose} from "vue";
 
 
-	taskId: {
-		type: String
-	},
-	flowId: {
-		type: String
-	},
-	processInstanceId: {
-		type: String
-	},
-  ccId: {
-    type: Number
-  }
-});
-const keyValue = computed(()=>{
-  return props.taskId??''+props.flowId??''+props.processInstanceId??''+props.ccId??'';
-})
-watch(()=>keyValue.value,(v)=>{
 
-  loadData()
-})
+defineExpose({loadData})
 
-function loadData(){
-  queryHeaderShow({
-    processInstanceId: props.processInstanceId,
-    taskId: props.taskId,
-    flowId: props.flowId,
-    ccId: props.ccId
-  }).then(res => {
-    console.log(res)
-    currentData.value = res.data;
-  })
+
+function loadData(d) {
+    currentData.value=d;
 }
 
 const currentData = ref({})
 
 onMounted(() => {
-	loadData()
+
 });
 </script>
 
 <template>
-	<div style="position: relative">
+  <div style="position: relative">
 
-		<div style="display: flex;flex-direction: row">
-			<div class="f11">
-				<el-avatar shape="square" :size="50" :src="currentData.starterAvatarUrl">
-					{{ currentData?.starterName?.substring(0, 1) }}
-				</el-avatar>
-			</div>
-			<div class="f22">
-				<div>
-					<el-text tag="b" size="large" type="primary">{{ currentData?.processName }}</el-text>
-				</div>
-				<div>
-					<el-text size="small">{{ currentData.startTime }}</el-text>
-				</div>
-			</div>
-		</div>
-		<img v-if="currentData.processInstanceResult==1" class="iconclass" src="../../../assets/images/pass.png"/>
-		<img v-if="currentData.processInstanceResult==2" class="iconclass" src="../../../assets/images/refuse.png"/>
+    <div style="display: flex;flex-direction: row">
+      <div class="f11">
+        <el-avatar shape="square" :size="50" :src="currentData.starterAvatarUrl">
+          {{ currentData?.starterName?.substring(0, 1) }}
+        </el-avatar>
+      </div>
+      <div class="f22">
+        <div>
+          <el-text tag="b" size="large" type="primary">{{ currentData?.processName }}</el-text>
+        </div>
+        <div>
+          <el-text size="small">{{ currentData.startTime }}</el-text>
+        </div>
+      </div>
+    </div>
+    <img v-if="currentData.processInstanceResult==1" class="iconclass" src="../../../assets/images/pass.png"/>
+    <img v-if="currentData.processInstanceResult==2" class="iconclass" src="../../../assets/images/refuse.png"/>
 
-	</div>
+  </div>
 
 </template>
 
@@ -82,6 +55,7 @@ onMounted(() => {
 .f22 {
   width: calc(100% - 70px);
 }
+
 .iconclass {
   width: 80px;
   height: 64px;

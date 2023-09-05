@@ -2,33 +2,17 @@
 import FlowNodeFormat from "./FlowNodeFormat.vue";
 import {formatStartNodeShow} from "../../api/base";
 import {defineExpose, onMounted, ref, watch} from "vue";
-let props = defineProps({
 
-	flowId: {
-		type: String,
-		default: ''
-	},
-
-	taskId: {
-		type: String,
-		default: ''
-	},
-	processInstanceId: {
-		type: String,
-		default: ''
-	}
-
-});
 const row = ref([]);
 const selectUserNodeIdList = ref([]);
 const disableSelect = ref(true);
 
-const queryData = (p) => {
+const queryData = (p,fid,pid,tid) => {
 	var data = {
-		flowId: props.flowId,
-		processInstanceId: props.processInstanceId,
+		flowId: fid,
+		processInstanceId:pid,
 		paramMap: p,
-		taskId: props.taskId
+		taskId:tid
 	}
 	formatStartNodeShow(data).then(res => {
 		row.value = res.data.processNodeShowDtoList;

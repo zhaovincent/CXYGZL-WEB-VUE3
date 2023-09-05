@@ -5,6 +5,8 @@ import {ref} from "vue";
 
 
 import FormUI from '../task/handler/formUI.vue'
+import {getFormList} from "@/views/cxygzl/api/form";
+import * as util from "@/views/cxygzl/utils/objutil";
 
 const dialogTableVisible = ref<Boolean>(false);
 const formUIRef = ref();
@@ -49,6 +51,27 @@ const handle = (fId,tId,pId) => {
 	taskId.value = tId
 	processInstanceId.value = pId
 
+  getFormList({
+    flowId: fId,
+    processInstanceId: pId,
+    taskId: tId
+  }, true).then(res => {
+    let data = res.data;
+
+    for (var fi of data) {
+      if (fi.type === 'Layout') {
+        var arr = [];
+        let value = fi.props.value;
+        arr.push(value);
+        fi.props.value = arr;
+        fi.props.oriForm = util.deepCopy(value);
+      }
+    }
+
+
+    formUIRef.value.loadData(data)
+
+  })
 
 	dialogTableVisible.value = true
 
@@ -60,8 +83,9 @@ defineExpose({handle, complete});
 
 const formValueChange = (v) => {
 
+  console.log("================",v)
 
-	flowNodeFormatRef.value.queryData(v)
+	flowNodeFormatRef.value.queryData(v,flowId.value,processInstanceId.value,taskId.value)
 
 }
 
@@ -78,7 +102,7 @@ const flowNodeFormatRef = ref();
 				<el-col :span="12">
 
 
-					<form-u-i :task-id="taskId" :process-instance-id="processInstanceId" :flow-id="flowId" @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
+					<form-u-i   @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
 
 					<div style="text-align: center">
 						<el-button @click="dialogTableVisible = false">取消</el-button>
@@ -88,7 +112,7 @@ const flowNodeFormatRef = ref();
 					</div>
 				</el-col>
 				<el-col :span="12">
-					<flow-node-format   :flow-id="flowId" :task-id="taskId" :process-instance-id="processInstanceId"
+					<flow-node-format
 														ref="flowNodeFormatRef"></flow-node-format>
 
 				</el-col>
