@@ -14,13 +14,9 @@ import {
 const deal = (row) => {
 
 
-	console.log('数据',row)
-	//
-	// queryTask(row.taskId, false).then(res => {
-	// 	let data = res.data;
 
-	  taskUiHandler.value.deal(row.taskId, row.processInstanceId,row.flowId)
-	// })
+	  taskUiHandler.value.deal(row.taskId, row.processInstanceId,row.flowId,row.ccId)
+
 
 }
 

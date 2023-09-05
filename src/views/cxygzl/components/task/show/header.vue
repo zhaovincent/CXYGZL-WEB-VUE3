@@ -4,6 +4,7 @@ import {
 } from "../../../api/base";
 
 import {onMounted} from 'vue'
+import {computed, watch} from "vue";
 
 let props = defineProps({
 
@@ -16,20 +17,35 @@ let props = defineProps({
 	},
 	processInstanceId: {
 		type: String
-	}
+	},
+  ccId: {
+    type: Number
+  }
 });
+const keyValue = computed(()=>{
+  return props.taskId??''+props.flowId??''+props.processInstanceId??''+props.ccId??'';
+})
+watch(()=>keyValue.value,(v)=>{
+
+  loadData()
+})
+
+function loadData(){
+  queryHeaderShow({
+    processInstanceId: props.processInstanceId,
+    taskId: props.taskId,
+    flowId: props.flowId,
+    ccId: props.ccId
+  }).then(res => {
+    console.log(res)
+    currentData.value = res.data;
+  })
+}
 
 const currentData = ref({})
 
 onMounted(() => {
-	queryHeaderShow({
-		processInstanceId: props.processInstanceId,
-		taskId: props.taskId,
-		flowId: props.flowId
-	}).then(res => {
-		console.log(res)
-		currentData.value = res.data;
-	})
+	loadData()
 });
 </script>
 

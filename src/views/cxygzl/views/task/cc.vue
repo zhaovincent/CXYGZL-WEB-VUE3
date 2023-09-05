@@ -12,11 +12,11 @@ import {
 } from "../../api/task";
 
 import {RoleQuery} from "../../api/role/types";
+import TaskHandle from "@/views/cxygzl/components/task/handler/task.vue";
 
 const rightDrawerVisible = ref(false)
 
 const loading = ref(false);
-const ids = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<RoleQuery>({
@@ -28,19 +28,24 @@ const roleList = ref();
 
 
 const currentData = ref();
+
+const taskHandler = ref();
+
 /**
  * 点击开始处理
  * @param row
  */
 const deal = (row) => {
 
+  console.log(row)
 
 	currentData.value = row;
+  taskHandler.value.deal({
+    ccId:row.id,
+    flowId:row.flowId,
+    processInstanceId:row.processInstanceId
+  })
 
-	queryMineCCDetail({id:row.id}).then(res => {
-		currentDetailData.value = res.data
-		rightDrawerVisible.value = true;
-	})
 
 }
 const currentDetailData = ref();
@@ -182,6 +187,7 @@ const formValue = computed(() => {
 			</template>
 
 		</el-drawer>
+    <task-handle ref="taskHandler"  @taskSubmitEvent="handleQuery" ></task-handle>
 
 		<!--			查看流程图-->
 		<view-process-instance-image ref="viewImageRef"/>

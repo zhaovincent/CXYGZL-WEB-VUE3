@@ -38,7 +38,7 @@ onMounted(() => {
 })
 
 watch(()=>props.taskId,(v)=>{
-	console.log('任务id',v)
+
 		if(v&&v.length>0){
 			handle(v)
 		}

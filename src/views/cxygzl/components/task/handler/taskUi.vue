@@ -18,12 +18,12 @@ const rightDrawerVisible = ref(false)
 /**
  * 点击开始处理
  */
-const deal = (tId, pId,  fId) => {
-	console.log(tId,pId,fId)
+const deal = (tId, pId,  fId,ccId) => {
 
 	taskId.value = tId
 	flowId.value = fId
 	processInstanceId.value = pId
+	copyId.value = ccId
 
 
 	//////////////////////////////////////////////////////////////////
@@ -86,6 +86,7 @@ const flowNodeFormatRef = ref();
 const operUIRef = ref();
 const flowId = ref('');
 const taskId = ref('');
+const copyId = ref();
 const processInstanceId = ref('');
 </script>
 
@@ -99,11 +100,11 @@ const processInstanceId = ref('');
 			</template>
 			<template #default>
 				<el-card style="margin-bottom: 20px">
-					<header-u-i :task-id="taskId" :process-instance-id="processInstanceId" :flow-id="flowId"></header-u-i>
+					<header-u-i :cc-id="copyId" :task-id="taskId" :process-instance-id="processInstanceId" :flow-id="flowId"></header-u-i>
 				</el-card>
 				<el-card class="box-card">
 
-					<form-u-i :task-id="taskId" :process-instance-id="processInstanceId" :flow-id="flowId"
+					<form-u-i :cc-id="copyId" :task-id="taskId" :process-instance-id="processInstanceId" :flow-id="flowId"
 										@formValueChange="formValueChange" ref="formUIRef"></form-u-i>
 
 

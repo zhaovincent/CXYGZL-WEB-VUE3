@@ -24,11 +24,11 @@ function stop(row) {
 }
 
 import {RoleQuery} from "../../api/role/types";
+import TaskHandle from "@/views/cxygzl/components/task/handler/task.vue";
 
 const rightDrawerVisible = ref(false)
 
 const loading = ref(false);
-const ids = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<RoleQuery>({
@@ -48,14 +48,8 @@ const deal = (row) => {
 
 
 	currentData.value = row;
-	detail({
-		processInstanceId: row.processInstanceId
-	}).then(res => {
 
-		currentDetailData.value = res.data
-		rightDrawerVisible.value = true;
-
-	})
+  taskHandler.value.deal(row)
 
 
 }
@@ -93,6 +87,7 @@ const taskSubmitEvent = () => {
 }
 
 
+const taskHandler = ref();
 onMounted(() => {
 	handleQuery();
 });
@@ -228,6 +223,7 @@ const formValue = computed(() => {
 			</template>
 
 		</el-drawer>
+    <task-handle ref="taskHandler"  @taskSubmitEvent="handleQuery" ></task-handle>
 
 		<!--			查看流程图-->
 		<view-process-instance-image ref="viewImageRef"/>
