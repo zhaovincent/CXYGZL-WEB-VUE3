@@ -15,16 +15,14 @@ import OperUI from "../show/oper.vue";
 const rightDrawerVisible = ref(false)
 
 
-const currentData = ref({});
 /**
  * 点击开始处理
  */
-const deal = (tId, d, subProcessStarterTask, taskExist, fId, formItems, node, process1, frontJoinTask) => {
-	currentData.value = d;
+const deal = (tId, pId, subProcessStarterTask, taskExist, fId) => {
 
 	taskId.value = tId
 	flowId.value = fId
-	processInstanceId.value = d.processInstanceId
+	processInstanceId.value = pId
 
 
 	//////////////////////////////////////////////////////////////////
@@ -32,11 +30,12 @@ const deal = (tId, d, subProcessStarterTask, taskExist, fId, formItems, node, pr
 	if (taskExist && subProcessStarterTask) {
 
 		//子流程发起人任务
-		subProcessStartFlowRef.value.handle(fId, tId, d.processInstanceId)
+		subProcessStartFlowRef.value.handle(fId, tId, pId)
 	} else {
 
 
 		rightDrawerVisible.value = true;
+
 
 	}
 
@@ -83,6 +82,7 @@ const formValueChange = (v) => {
 
 }
 const flowNodeFormatRef = ref();
+const operUIRef = ref();
 const flowId = ref('');
 const taskId = ref('');
 const processInstanceId = ref('');
@@ -115,7 +115,7 @@ const processInstanceId = ref('');
 			</template>
 			<template   #footer>
 
-		  <oper-u-i @taskSubmitEvent="taskSubmitEvent" @validateForm="validateForm" :flow-id="flowId" :task-id="taskId"
+		  <oper-u-i ref="operUIRef" @taskSubmitEvent="taskSubmitEvent" @validateForm="validateForm" :flow-id="flowId" :task-id="taskId"
 					:process-instance-id="processInstanceId"></oper-u-i>
 			</template>
 		</el-drawer>

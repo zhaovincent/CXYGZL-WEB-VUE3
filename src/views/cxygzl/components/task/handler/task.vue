@@ -8,32 +8,17 @@ import {
 } from "../../../api/task";
 
 
-const currentData = ref({});
 /**
  * 点击开始处理
  */
 const deal = (row) => {
 
 
-	currentData.value.taskId = row.taskId;
-
-
 	queryTask(row.taskId, false).then(res => {
 		let data = res.data;
-		currentData.value.processInstanceId = data.processInstanceId;
-		currentData.value.flowId = data.flowId;
-		currentData.value.processName = data.processName;
-		currentData.value.nodeName = data.nodeName;
-		currentData.value.nodeId = data.nodeId;
-		currentData.value.taskExist = data.taskExist;
-		currentData.value.starterAvatarUrl = data.starterAvatarUrl;
-		currentData.value.starterName = data.starterName;
-		currentData.value.startTime = data.startTime;
-		currentData.value.processInstanceResult = data.processInstanceResult;
 
-
-	  taskUiHandler.value.deal(row.taskId,currentData.value,data.subProcessStarterTask,
-				data.taskExist,data.flowId,data.formItems,data.node,data.process,data.frontJoinTask)
+	  taskUiHandler.value.deal(row.taskId, data.processInstanceId,data.subProcessStarterTask,
+				data.taskExist,data.flowId)
 	})
 
 }

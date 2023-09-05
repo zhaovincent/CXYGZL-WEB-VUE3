@@ -2,7 +2,7 @@
 
 import {ArrowDown} from "@element-plus/icons-vue";
 
-import {ref, onMounted} from 'vue'
+import {ref, onMounted,defineExpose,watch} from 'vue'
 import DelAssigneeHandle from "../handler/delAssignee.vue";
 import BackJoinHandle from "../handler/backJoin.vue";
 import RefuseHandle from "../handler/refuse.vue";
@@ -11,6 +11,9 @@ import AgreeHandle from "../handler/agree.vue";
 import AddAssigneeHandle from "../handler/addAssignee.vue";
 import RejectHandle from "../handler/reject.vue";
 import {queryTask} from "../../../api/task";
+
+defineExpose({handle});
+
 
 const delegationTask = ref(false);
 let props = defineProps({
@@ -32,21 +35,32 @@ let props = defineProps({
 });
 const taskExist=ref(false)
 onMounted(() => {
-	queryTask(props.taskId, true).then(res => {
+})
+
+watch(()=>props.taskId,(v)=>{
+	console.log('任务id',v)
+		if(v&&v.length>0){
+			handle(v)
+		}
+})
+
+function handle(taskId){
+
+	queryTask(taskId, false).then(res => {
 
 		let data = res.data;
 		nodeId.value = data.nodeId;
-	  taskExist.value = data.taskExist;
+		taskExist.value = data.taskExist;
 		process.value = data.process;
-	  let parse = JSON.parse(data.node);
-	  if (parse.operList) {
-		  operList.value = parse.operList?.filter(res => res.checked);
+		let parse = JSON.parse(data.node);
+		if (parse.operList) {
+			operList.value = parse.operList?.filter(res => res.checked);
 
-	  }
-	  process.value = JSON.parse(data.process)
+		}
+		process.value = JSON.parse(data.process)
 
 	})
-})
+}
 
 const nodeId = ref();
 const process = ref();
