@@ -7,8 +7,7 @@ import pagination from "../../components/pagination.vue";
 
 
 import {
-	queryMineCC,
-	queryMineCCDetail
+	queryMineCC
 } from "../../api/task";
 
 import {RoleQuery} from "../../api/role/types";

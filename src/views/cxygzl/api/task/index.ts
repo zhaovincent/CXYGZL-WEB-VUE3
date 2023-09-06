@@ -1,14 +1,7 @@
 import request from '../../utils/request';
 
 
-// 查询抄送详细信息
-export function queryMineCCDetail(param:any) {
-	return request({
-		url: 'processCopy/querySingleDetail',
-		method: 'get',
-		params: param
-	})
-}
+
 
 /**
  * 抄送给我的

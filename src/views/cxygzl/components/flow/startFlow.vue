@@ -3,7 +3,7 @@
 import StartFlowUi from './startFlowUI.vue'
 import {ref} from "vue";
 import {FormVO} from "../../api/form/types";
-import {getFlowDetail, startFlow} from "../../api/flow";
+import { startFlow} from "../../api/flow";
 
 
 const currentOpenFlow = ref<FormVO[]>([]);
