@@ -69,6 +69,10 @@ const submit = () => {
 const userList=ref([])
 
 
+const dialogClosed=()=>{
+  submitDesc.value=''
+  userList.value=[]
+}
 </script>
 
 <template>
@@ -78,6 +82,8 @@ const userList=ref([])
 				:title="dialogTitle"
 				width="400px"
 
+        destroy-on-close
+        @closed="dialogClosed"
 		>
 		<template #header="{ close, titleId, titleClass }">
 			<div style="text-align: left;font-size: 20px;font-weight: bold">

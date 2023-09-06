@@ -47,7 +47,9 @@ const submit = () => {
 		emit("taskSubmitEvent")
 	})
 }
-
+const dialogClosed=()=>{
+  submitDesc.value=''
+}
 </script>
 
 <template>
@@ -56,7 +58,8 @@ const submit = () => {
 				v-model="dialogVisible"
 				:title="dialogTitle"
 				width="400px"
-
+        destroy-on-close
+        @closed="dialogClosed"
 		>
 		<template #header="{ close, titleId, titleClass }">
 			<div style="text-align: left;font-size: 20px;font-weight: bold">

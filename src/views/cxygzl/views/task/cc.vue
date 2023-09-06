@@ -11,7 +11,7 @@ import {
 } from "../../api/task";
 
 import {RoleQuery} from "../../api/role/types";
-import TaskHandle from "@/views/cxygzl/components/task/handler/task.vue";
+import TaskHandle from "../../components/task/handler/task.vue";
 
 const rightDrawerVisible = ref(false)
 
@@ -35,8 +35,6 @@ const taskHandler = ref();
  * @param row
  */
 const deal = (row) => {
-
-  console.log(row)
 
 	currentData.value = row;
   taskHandler.value.deal({

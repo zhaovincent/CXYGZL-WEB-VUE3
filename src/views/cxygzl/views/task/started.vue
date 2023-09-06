@@ -24,7 +24,7 @@ function stop(row) {
 }
 
 import {RoleQuery} from "../../api/role/types";
-import TaskHandle from "@/views/cxygzl/components/task/handler/task.vue";
+import TaskHandle from "../../components/task/handler/task.vue";
 
 const rightDrawerVisible = ref(false)
 

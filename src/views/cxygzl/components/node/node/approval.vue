@@ -128,7 +128,7 @@ const openConfigDrawer = () => {
 		value: {
 			...JSON.parse(JSON.stringify(props.nodeConfig)),
 			...{assignedType: props.nodeConfig.assignedType ? props.nodeConfig.assignedType : 1},
-			...{multiple: false},
+			...{multiple: props.nodeConfig.multiple},
 		},
 		flag: false,
 		id: _uid,

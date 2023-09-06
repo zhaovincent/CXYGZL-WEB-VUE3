@@ -5,8 +5,8 @@ import {ref} from "vue";
 
 
 import FormUI from '../task/handler/formUI.vue'
-import {getFormList} from "@/views/cxygzl/api/form";
-import * as util from "@/views/cxygzl/utils/objutil";
+import {getFormList} from "../../api/form";
+import * as util from "../../utils/objutil";
 
 const dialogTableVisible = ref<Boolean>(false);
 const formUIRef = ref();
@@ -83,7 +83,6 @@ defineExpose({handle, complete});
 
 const formValueChange = (v) => {
 
-  console.log("================",v)
 
 	flowNodeFormatRef.value.queryData(v,flowId.value,processInstanceId.value,taskId.value)
 

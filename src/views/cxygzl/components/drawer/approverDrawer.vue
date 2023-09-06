@@ -501,6 +501,7 @@ const assignedTypeChangeEvent = (e) => {
 
 const saveApprover = () => {
 
+
 	approverConfig.value.error = !$func.checkApproval(approverConfig.value);
 	setApproverConfig({
 		value: approverConfig.value,

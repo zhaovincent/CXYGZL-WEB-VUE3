@@ -57,7 +57,9 @@ const submit = () => {
 	}
 
 }
-
+const dialogClosed=()=>{
+  submitDesc.value=''
+}
 </script>
 
 <template>
@@ -66,7 +68,8 @@ const submit = () => {
 				v-model="dialogVisible"
 				:title="dialogTitle"
 				width="400px"
-
+        destroy-on-close
+        @closed="dialogClosed"
 		>
 
 			<template #header="{ close, titleId, titleClass }">

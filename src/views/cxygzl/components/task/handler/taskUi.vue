@@ -87,7 +87,7 @@ const deal = (tId, pId, fId, ccId) => {
 
 
 import {ref} from "vue";
-import * as util from "@/views/cxygzl/utils/objutil";
+import * as util from "../../../utils/objutil";
 
 
 defineExpose({deal});
