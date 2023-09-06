@@ -3,10 +3,6 @@
 import TaskUIHandle from "./taskUi.vue"
 
 
-import {
-	queryTask
-} from "../../../api/task";
-
 
 /**
  * 点击开始处理
