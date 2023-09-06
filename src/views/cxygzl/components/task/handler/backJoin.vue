@@ -46,34 +46,8 @@ const submit = () => {
 
 
 
-	var formData = {}
-	for (var item of value) {
-		formData[item.id] = item.props.value;
-
-	  if (item.type === 'Layout') {
-
-
-		  let subList = item.props.value;
-
-		  var d = []
-		  for (var array of subList) {
-			  var v = {}
-
-			  for (var subItem of array) {
-				  let value = subItem.props.value;
-				  v[subItem.id] = value;
-			  }
-			  d.push(v)
-
-		  }
-		  formData[item.id] = d;
-
-	  }
-	}
-
-
 	var param = {
-		paramMap: formData,
+		paramMap: value,
 		taskId: taskId.value,
 	  approveDesc:submitDesc.value,
 	  targetUserId:userList.value[0].id,
@@ -105,12 +79,18 @@ const userList=ref([])
 				width="400px"
 
 		>
+		<template #header="{ close, titleId, titleClass }">
+			<div style="text-align: left;font-size: 20px;font-weight: bold">
+				{{ dialogTitle }}
+			</div>
+		</template>
+		<div style="text-align: left">
 
 				<el-text type="primary"  >选择人员</el-text>
 
 		<select-show
 				v-model:orgList="userList" :select-self="false" type="user" :multiple="false"></select-show>
-
+		</div>
 			<el-input
 
 							style="margin-top: 20px;"

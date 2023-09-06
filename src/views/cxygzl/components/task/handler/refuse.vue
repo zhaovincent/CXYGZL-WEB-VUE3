@@ -7,17 +7,18 @@ const dialogVisible = ref(false);
 
 const submitDesc = ref("");
 
-const currentOpenFlowForm = ref();
+const formValue = ref();
 const  dialogTitle=ref("");
 const processInstanceId = ref("");
 const taskId = ref("");
+
 const handle = (pid, tid, formData,dialogTitle1) => {
 	dialogTitle.value=dialogTitle1;
 
 	processInstanceId.value = pid
 	taskId.value = tid
 
-	currentOpenFlowForm.value = formData;
+	formValue.value = formData;
 
 	dialogVisible.value = true;
 }
@@ -29,38 +30,9 @@ const emit = defineEmits(["taskSubmitEvent"]);
 const submit = () => {
 
 
-	let value = currentOpenFlowForm.value;
-
-
-
-	var formData = {}
-	for (var item of value) {
-		formData[item.id] = item.props.value;
-
-	  if (item.type === 'Layout') {
-
-
-		  let subList = item.props.value;
-
-		  var d = []
-		  for (var array of subList) {
-			  var v = {}
-
-			  for (var subItem of array) {
-				  let value = subItem.props.value;
-				  v[subItem.id] = value;
-			  }
-			  d.push(v)
-
-		  }
-		  formData[item.id] = d;
-
-	  }
-	}
-
 
 	var param = {
-		paramMap: formData,
+		paramMap: formValue.value,
 	  approveResult:false,
 	  processInstanceId:processInstanceId.value,
 	  approveDesc:submitDesc.value,
@@ -86,6 +58,11 @@ const submit = () => {
 				width="400px"
 
 		>
+		<template #header="{ close, titleId, titleClass }">
+			<div style="text-align: left;font-size: 20px;font-weight: bold">
+				{{ dialogTitle }}
+			</div>
+		</template>
 			<el-input
 
 			  v-model="submitDesc"

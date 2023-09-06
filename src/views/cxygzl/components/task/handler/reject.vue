@@ -150,34 +150,9 @@ const submit = () => {
 
 
 
-	var formData = {}
-	for (var item of value) {
-		formData[item.id] = item.props.value;
-
-	  if (item.type === 'Layout') {
-
-
-		  let subList = item.props.value;
-
-		  var d = []
-		  for (var array of subList) {
-			  var v = {}
-
-			  for (var subItem of array) {
-				  let value = subItem.props.value;
-				  v[subItem.id] = value;
-			  }
-			  d.push(v)
-
-		  }
-		  formData[item.id] = d;
-
-	  }
-	}
-
 
 	var param = {
-		paramMap: formData,
+		paramMap: value,
 		taskId: taskId.value,
 	  nodeId: nodeId.value,
 	  targetNodeId: rejectNodeId.value,
@@ -206,7 +181,11 @@ const submit = () => {
 				width="400px"
 
 		>
-
+		<template #header="{ close, titleId, titleClass }">
+			<div style="text-align: left;font-size: 20px;font-weight: bold">
+				{{ dialogTitle }}
+			</div>
+		</template>
 		<el-select  v-model="rejectNodeId"  placeholder="驳回节点"   style="width: 100%;margin-bottom: 20px;">
 			<el-option
 					v-for="item in rejectNodeList"

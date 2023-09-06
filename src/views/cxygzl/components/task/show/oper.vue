@@ -10,12 +10,11 @@ import FrontJoinHandle from "../handler/frontJoin.vue";
 import AgreeHandle from "../handler/agree.vue";
 import AddAssigneeHandle from "../handler/addAssignee.vue";
 import RejectHandle from "../handler/reject.vue";
-import {queryTask} from "../../../api/task";
 import {queryTaskOperData} from "../../../api/base";
 
 defineExpose({handle});
 
-
+//是否是委派任务
 const delegationTask = ref(false);
 
 const taskId = ref();
@@ -36,6 +35,7 @@ function handle(tId) {
 		processInstanceId.value = data.processInstanceId;
 
 		nodeId.value = data.nodeId;
+		delegationTask.value = data.frontJoinTask;
 		taskExist.value = data.taskExist;
 		process.value = data.process;
 		let node = (data.node);
@@ -195,7 +195,7 @@ const backJoinHandler = ref();
 		<div style="flex: auto" v-if="taskExist">
 
 			<template v-if="delegationTask">
-				<el-button size="large" color="#9933FF" @click="executeOperMethod('pass')">
+				<el-button size="large"  type="primary" @click="executeOperMethod('pass')">
 					完成
 				</el-button>
 			</template>
