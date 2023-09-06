@@ -27,3 +27,16 @@ export function queryHeaderShow(d) {
 }
 
 
+
+/**
+ * 查询操作数据
+ */
+export function queryTaskOperData(d) {
+	return request({
+		url: '/base/queryTaskOperData',
+		method: 'get',
+		params:{taskId:d}
+	});
+}
+
+

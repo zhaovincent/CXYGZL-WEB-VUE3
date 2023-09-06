@@ -2,7 +2,7 @@
 
 import {ArrowDown} from "@element-plus/icons-vue";
 
-import {ref, onMounted,defineExpose,watch} from 'vue'
+import {ref, onMounted, defineExpose, watch} from 'vue'
 import DelAssigneeHandle from "../handler/delAssignee.vue";
 import BackJoinHandle from "../handler/backJoin.vue";
 import RefuseHandle from "../handler/refuse.vue";
@@ -11,39 +11,37 @@ import AgreeHandle from "../handler/agree.vue";
 import AddAssigneeHandle from "../handler/addAssignee.vue";
 import RejectHandle from "../handler/reject.vue";
 import {queryTask} from "../../../api/task";
+import {queryTaskOperData} from "../../../api/base";
 
 defineExpose({handle});
 
 
 const delegationTask = ref(false);
 
-const taskId=ref();
-const processInstanceId=ref();
+const taskId = ref();
+const processInstanceId = ref();
 
-const taskExist=ref(false)
+const taskExist = ref(false)
 
 
-function handle(tId){
-  if(!tId||tId.length==0){
-    return;
-  }
+function handle(tId) {
+	if (!tId || tId.length == 0) {
+		return;
+	}
+	taskId.value = tId;
 
-	queryTask(tId, false).then(res => {
-    let data = res.data;
+	queryTaskOperData(tId).then(res => {
+		let data = res.data;
 
-    taskId.value=tId;
-    processInstanceId.value=data.processInstanceId;
+		processInstanceId.value = data.processInstanceId;
 
 		nodeId.value = data.nodeId;
 		taskExist.value = data.taskExist;
 		process.value = data.process;
-		let parse = JSON.parse(data.node);
-		if (parse.operList) {
-			operList.value = parse.operList?.filter(res => res.checked);
-
+		let node = (data.node);
+		if (node?.operList) {
+			operList.value = node.operList.filter(k => k.checked);
 		}
-		process.value = JSON.parse(data.process)
-
 	})
 }
 
@@ -53,7 +51,7 @@ const process = ref();
 /**
  * 提交任务
  */
-const submitTask = (name,fv) => {
+const submitTask = (name, fv) => {
 
 
 	agreeHandler.value.handle(processInstanceId.value, taskId.value, fv, delegationTask.value, name);
@@ -64,7 +62,7 @@ const submitTask = (name,fv) => {
 /**
  * 前加签
  */
-const frontJoinTask = (name,fv) => {
+const frontJoinTask = (name, fv) => {
 
 	frontJoinHandler.value.handle(processInstanceId.value, taskId.value, fv, name);
 
@@ -72,7 +70,7 @@ const frontJoinTask = (name,fv) => {
 /**
  * 加签
  */
-const addAssigneeTask = (name,fv) => {
+const addAssigneeTask = (name, fv) => {
 
 	addAssigneeHandler.value.handle(processInstanceId.value, taskId.value, fv, name);
 
@@ -80,7 +78,7 @@ const addAssigneeTask = (name,fv) => {
 /**
  * 减签
  */
-const delAssigneeTask = (name,fv) => {
+const delAssigneeTask = (name, fv) => {
 
 	delAssigneeHandler.value.handle(processInstanceId.value, taskId.value, fv, name);
 
@@ -88,7 +86,7 @@ const delAssigneeTask = (name,fv) => {
 /**
  * 后加签
  */
-const backJoinTask = (name,fv) => {
+const backJoinTask = (name, fv) => {
 
 	backJoinHandler.value.handle(processInstanceId.value, taskId.value, fv, name);
 
@@ -97,7 +95,7 @@ const backJoinTask = (name,fv) => {
 /**
  * 驳回
  */
-const rejectTask = (name,fv) => {
+const rejectTask = (name, fv) => {
 
 	rejectHandler.value.handle(processInstanceId.value, taskId.value, fv, nodeId.value, process.value, name);
 
@@ -106,10 +104,10 @@ const rejectTask = (name,fv) => {
 /**
  * 拒绝任务
  */
-const refuseTask = (name,fv) => {
+const refuseTask = (name, fv) => {
 
 
-	refuseHandler.value.handle(processInstanceId.value, taskId.value,fv, name);
+	refuseHandler.value.handle(processInstanceId.value, taskId.value, fv, name);
 
 
 }
@@ -118,37 +116,37 @@ const refuseTask = (name,fv) => {
 const operList = ref([]);
 const executeOperMethod = (op) => {
 
-	emit('validateForm', function (valid,fv) {
+	emit('validateForm', function (valid, fv) {
 		if (valid) {
 
 			let name = operList.value.filter(res => res.key === op)[0].name;
 
 			if (op === 'frontJoin') {
-				frontJoinTask(name,fv);
+				frontJoinTask(name, fv);
 				return
 			}
 			if (op === 'backJoin') {
-				backJoinTask(name,fv);
+				backJoinTask(name, fv);
 				return
 			}
 			if (op === 'reject') {
-				rejectTask(name,fv);
+				rejectTask(name, fv);
 				return
 			}
 			if (op === 'refuse') {
-				refuseTask(name,fv);
+				refuseTask(name, fv);
 				return
 			}
 			if (op === 'pass') {
-				submitTask(name,fv);
+				submitTask(name, fv);
 				return
 			}
 			if (op === 'addAssignee') {
-				addAssigneeTask(name,fv);
+				addAssigneeTask(name, fv);
 				return
 			}
 			if (op === 'delAssignee') {
-				delAssigneeTask(name,fv);
+				delAssigneeTask(name, fv);
 				return
 			}
 		}
