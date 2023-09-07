@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import {
-  queryHeaderShow
-} from "../../../api/base";
 
 import {onMounted} from 'vue'
 import {ref, defineExpose} from "vue";
