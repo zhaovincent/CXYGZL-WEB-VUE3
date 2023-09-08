@@ -3,17 +3,25 @@
 import FormRender from "../../form/render/FormRender.vue";
 import * as util from "../../../utils/objutil";
 import $func from "../../../utils";
+import {dynamicFormList} from '../../../api/form'
 
 
 import {ref, defineExpose, watch, computed} from 'vue'
+import {sameJson} from "../../../utils/objutil";
+
 
 const formList = ref([])
 
 
+const formUniqueId = ref();
+const flowId = ref();
+const nodeId = ref();
 
-
-function loadData(d){
-  formList.value=d;
+function loadData(d, fid, nId) {
+  formUniqueId.value = util.getRandomId();
+  formList.value = d;
+  flowId.value = fid;
+  nodeId.value = nId;
 }
 
 
@@ -54,11 +62,10 @@ const validate = (f) => {
   })
 }
 
-const formValue = computed(() => {
-
+function getFormValueObj(v) {
   var obj = {}
 
-  for (var item of formList.value) {
+  for (var item of v) {
     obj[item.id] = item.props.value
 
     if (item.type === 'Layout') {
@@ -84,18 +91,49 @@ const formValue = computed(() => {
 
   }
   return obj;
+}
+
+const formValue = computed(() => {
+
+  return getFormValueObj(formList.value);
 })
 
-defineExpose({validate,loadData});
+defineExpose({validate, loadData});
 const emits = defineEmits(["formValueChange"]);
 
+//判断是否触发表单变化
+const triggerChange = ref(true)
 
+///监控表单变化
 watch(() => formValue.value, (v) => {
 
 
   $func.debounce(async () => {
+    if (!triggerChange.value) {
+      triggerChange.value = true;
+      return;
+    }
 
-    emits('formValueChange', v)
+    dynamicFormList({
+      flowId: flowId.value,
+      nodeId: nodeId.value,
+      paramMap: formValue.value,
+      formUniqueId: formUniqueId.value,
+      formItemVOList: formList.value
+    }).then(res => {
+
+      if (!util.sameJson(formList.value, res.data)) {
+        triggerChange.value = false;
+        formList.value = res.data;
+        console.log(res.data)
+        emits('formValueChange', v)
+
+      } else {
+        emits('formValueChange', v)
+
+      }
+    })
+
 
   })()
 

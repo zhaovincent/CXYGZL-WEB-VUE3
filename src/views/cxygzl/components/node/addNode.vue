@@ -135,6 +135,23 @@ const addType = (type) => {
 					deptUserType:'allUser',
 				//表单权限
 				formPerms: {},
+        //动态表单
+        dynamicFormConfig:{
+          url:'',
+          header:[
+
+          ],
+          body:[
+
+          ],
+          result:[
+            {
+              field: '',
+              contentConfig: '',
+              value: ''
+            }
+          ]
+        },
 				//审批人为空
 				nobody: {
 					handler: "TO_PASS",

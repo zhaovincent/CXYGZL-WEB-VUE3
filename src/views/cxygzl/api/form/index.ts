@@ -16,3 +16,17 @@ export function getFormList(d, handleForm): AxiosPromise {
         data: d
     });
 }
+
+/**
+ * 获取动态表单
+ */
+
+export function dynamicFormList(d): AxiosPromise {
+
+
+    return request({
+        url: '/form/dynamicFormList',
+        method: 'post',
+        data: d
+    });
+}

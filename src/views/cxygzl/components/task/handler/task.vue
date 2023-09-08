@@ -11,7 +11,7 @@ const deal = (row) => {
 
 
 
-	  taskUiHandler.value.deal(row.taskId, row.processInstanceId,row.flowId,row.ccId)
+	  taskUiHandler.value.deal(row.taskId, row.processInstanceId,row.flowId,row.ccId,row.nodeId)
 
 
 }

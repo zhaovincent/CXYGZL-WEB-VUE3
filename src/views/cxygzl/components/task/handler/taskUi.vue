@@ -24,7 +24,7 @@ const headerUIRef = ref();
 /**
  * 点击开始处理
  */
-const deal = (tId, pId, fId, ccId) => {
+const deal = (tId, pId, fId, ccId,nId) => {
 
   taskId.value = tId
   flowId.value = fId
@@ -72,7 +72,7 @@ const deal = (tId, pId, fId, ccId) => {
     }
 
 
-    formUIRef.value.loadData(data)
+    formUIRef.value.loadData(data,fId,nId)
 
     operUIRef.value.handle(tId);
   })
@@ -143,6 +143,7 @@ const operUIRef = ref();
 const flowId = ref('');
 const taskId = ref('');
 const copyId = ref();
+
 const processInstanceId = ref('');
 </script>
 
