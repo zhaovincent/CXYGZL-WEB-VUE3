@@ -6,7 +6,7 @@ import { reactive } from 'vue'
 import {
 	CloseBold,
 	Close,
-	Plus,AlarmClock,
+	Plus,AlarmClock,CopyDocument,
 	Star,ChatLineSquare,
 	Delete,Calendar,
 	UserFilled,StarFilled,ArrowDown,
@@ -23,7 +23,7 @@ import {
 	User,
 	Upload,
 	FolderOpened,
-	CollectionTag,
+	CollectionTag,DocumentAdd,
 	FirstAidKit
 } from '@element-plus/icons-vue'
 
@@ -32,10 +32,12 @@ const dictIcon = reactive({
 	'Close': Close,
 	'ChatLineSquare': ChatLineSquare,
 	'Calendar': Calendar,
+	'CopyDocument': CopyDocument,
 	'CirclePlusFilled': CirclePlusFilled,
 	'ArrowDown': ArrowDown,
 	'EditPen': EditPen,
 	'RemoveFilled': RemoveFilled,
+	'DocumentAdd': DocumentAdd,
 	'CirclePlus': CirclePlus,
 	'Timer': Timer,
 	'Position': Position,

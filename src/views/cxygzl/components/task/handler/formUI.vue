@@ -16,6 +16,7 @@ const formList = ref([])
 const formUniqueId = ref();
 const flowId = ref();
 const nodeId = ref();
+const handleForm = ref(false);
 
 function loadData(d, fid, nId) {
   formUniqueId.value = util.getRandomId();
@@ -113,6 +114,12 @@ watch(() => formValue.value, (v) => {
       triggerChange.value = true;
       return;
     }
+
+    if(!handleForm.value){
+      emits('formValueChange', v)
+      return
+    }
+
 
     dynamicFormList({
       flowId: flowId.value,
