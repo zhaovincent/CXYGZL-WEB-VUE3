@@ -41,7 +41,6 @@ export function deepCopy(s) {
 export function sameJson(o1, o2) {
 	o1=deepCopy(o1)
 	o2=deepCopy(o2)
-	console.log(typeof  o1,o1,typeof o2,o2)
     if (typeof o1 != typeof o2) {
         return false;
     }

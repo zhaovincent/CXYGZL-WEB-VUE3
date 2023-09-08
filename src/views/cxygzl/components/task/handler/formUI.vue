@@ -55,7 +55,7 @@ const formRenderRef = ref()
 
 //验证表单参数
 const validate = (f) => {
-
+  formRenderRef.value.handleFormRule();
   formRenderRef.value.validate(function (valid) {
 
     f(valid, formValue.value)
@@ -125,7 +125,8 @@ watch(() => formValue.value, (v) => {
       if (!util.sameJson(formList.value, res.data)) {
         triggerChange.value = false;
         formList.value = res.data;
-        console.log(res.data)
+        //修改验证规则
+        formRenderRef.value.handleFormRule();
         emits('formValueChange', v)
 
       } else {
