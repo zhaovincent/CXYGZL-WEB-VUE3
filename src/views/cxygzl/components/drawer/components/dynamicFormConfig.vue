@@ -112,7 +112,7 @@ const copy = async () => {
 				active-text="启用"
 				inactive-text="关闭"
 		/>
-		<template v-if="frontNotifyForm.enable">
+		<template v-if="frontNotifyForm?.enable">
 		<el-divider/>
 
 			<el-button text type="danger" @click="copy" :icon="$icon['CopyDocument']">复制当前配置
