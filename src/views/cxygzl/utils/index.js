@@ -94,7 +94,7 @@ All.prototype = {
 
 		//动态表单检查
 		let dynamicFormConfig = nodeConfig.dynamicFormConfig;
-		if (dynamicFormConfig.enable) {
+		if (dynamicFormConfig?.enable) {
 			let url = dynamicFormConfig.url;
 			if (!util.isUrl(url)) {
 				return false;
@@ -167,7 +167,7 @@ All.prototype = {
 
 		//动态表单检查
 		let dynamicFormConfig = nodeConfig.dynamicFormConfig;
-		if (dynamicFormConfig.enable) {
+		if (dynamicFormConfig?.enable) {
 			let url = dynamicFormConfig.url;
 			if (!util.isUrl(url)) {
 				return false;
