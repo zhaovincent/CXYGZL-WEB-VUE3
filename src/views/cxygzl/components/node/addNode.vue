@@ -137,6 +137,7 @@ const addType = (type) => {
 				formPerms: {},
         //动态表单
         dynamicFormConfig:{
+					enable:false,
           url:'',
           header:[
 

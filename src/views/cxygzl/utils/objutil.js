@@ -16,6 +16,16 @@ export function isNode(obj) {
     return isNotBlank(obj) && isNotBlank(obj.id);
 
 }
+export function isUrl(obj) {
+	if(isBlank(obj)){
+		return false;
+	}
+
+	var regUrl = /^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/;
+
+	return regUrl.test(obj);
+
+}
 
 export function getRandomId() {
     return `cxygzl_${new Date().getTime().toString().substring(5)}${Math.round(

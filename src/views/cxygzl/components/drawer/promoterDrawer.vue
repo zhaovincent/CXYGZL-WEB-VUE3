@@ -33,6 +33,7 @@ import FormPerm from './components/formPerm.vue'
 
 let store = useStore()
 import DynamicFormConfig from "./components/dynamicFormConfig.vue";
+import $func from "@/views/cxygzl/utils/index.js";
 
 
 let starterConfig = ref({})
@@ -40,7 +41,6 @@ let flowStore = useFlowStore();
 
 let starterConfigData = computed(() => store.starterConfigData)
 watch(starterConfigData, (val) => {
-  console.log("发起人配置",val)
 	starterConfig.value = val.value
 })
 const step2FormList = computed(() => {
@@ -53,8 +53,6 @@ const  openEvent=()=>{
 	let value = step2FormList.value;
 	var arr={};
 	let formPerms = starterConfig.value.formPerms;
-	console.log(formPerms)
-
 	for(var item of value){
 		arr[item.id]="E"
 
@@ -93,6 +91,9 @@ watch(starterConfigData, (val) => {
 
 
 const savePromoter = () => {
+
+
+	starterConfig.value.error = !$func.checkStarter(starterConfig.value);
 	setStarterConfig({
 		value: starterConfig.value,
 		flag: true,

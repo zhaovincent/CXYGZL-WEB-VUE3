@@ -72,7 +72,7 @@ const deal = (tId, pId, fId, ccId,nId) => {
     }
 
 
-    formUIRef.value.loadData(data,fId,nId)
+    formUIRef.value.loadData(data,fId,nId,pId,tId,ccId)
 
     operUIRef.value.handle(tId);
   })

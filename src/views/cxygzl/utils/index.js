@@ -5,6 +5,8 @@ function All() {
 import {useFlowStore} from '../stores/flow'
 import {delayUnitOpts, conditionExpression} from '../utils/const.js'
 
+import * as util from './objutil.js'
+
 
 let flowStore = useFlowStore();
 const step2FormList = computed(() => {
@@ -88,6 +90,39 @@ All.prototype = {
 		});
 		arr.splice(includesIndex, 1);
 	},
+	checkStarter(nodeConfig){
+
+		//动态表单检查
+		let dynamicFormConfig = nodeConfig.dynamicFormConfig;
+		if (dynamicFormConfig.enable) {
+			let url = dynamicFormConfig.url;
+			if (!util.isUrl(url)) {
+				return false;
+			}
+			//请求头
+			let header = dynamicFormConfig.header;
+			for(var it of header){
+				if(util.isBlank(it.value)||util.isBlank(it.field)){
+					return false
+				}
+			}
+			//请求头体
+			let body = dynamicFormConfig.body;
+			for(var it of body){
+				if(util.isBlank(it.value)||util.isBlank(it.field)){
+					return false
+				}
+			}
+			//请求结果
+			let result = dynamicFormConfig.result;
+			for(var it of result){
+				if(util.isBlank(it.value)||util.isBlank(it.field)||util.isBlank(it.contentConfig)){
+					return false
+				}
+			}
+		}
+		return true;
+	},
 	checkApproval(nodeConfig) {
 
 
@@ -130,6 +165,35 @@ All.prototype = {
 			return false;
 		}
 
+		//动态表单检查
+		let dynamicFormConfig = nodeConfig.dynamicFormConfig;
+		if (dynamicFormConfig.enable) {
+			let url = dynamicFormConfig.url;
+			if (!util.isUrl(url)) {
+				return false;
+			}
+			//请求头
+			let header = dynamicFormConfig.header;
+			for(var it of header){
+				if(util.isBlank(it.value)||util.isBlank(it.field)){
+					return false
+				}
+			}
+			//请求头体
+			let body = dynamicFormConfig.body;
+			for(var it of body){
+				if(util.isBlank(it.value)||util.isBlank(it.field)){
+					return false
+				}
+			}
+			//请求结果
+			let result = dynamicFormConfig.result;
+			for(var it of result){
+				if(util.isBlank(it.value)||util.isBlank(it.field)||util.isBlank(it.contentConfig)){
+					return false
+				}
+			}
+		}
 		return true;
 	},
 	setApproverStr(nodeConfig) {
@@ -151,7 +215,7 @@ All.prototype = {
 
 			//指定部门主管
 			if (nodeConfig.nodeUserList.length >= 1) {
-				return '指定部门主管：'+nodeConfig.nodeUserList.map(res => res.name).join(",")
+				return '指定部门主管：' + nodeConfig.nodeUserList.map(res => res.name).join(",")
 
 			} else {
 				return ""
@@ -187,7 +251,7 @@ All.prototype = {
 			let deptUserType = nodeConfig.deptUserType;
 
 			//表单-部门
-			return '表单部门：' + nodeConfig.formUserName+(deptUserType=='user'?' 的人员':' 的主管')
+			return '表单部门：' + nodeConfig.formUserName + (deptUserType == 'user' ? ' 的人员' : ' 的主管')
 		}
 		return "";
 	},
@@ -456,9 +520,8 @@ All.prototype = {
 
 		let url = nodeConfig.httpSetting.url;
 
-		var regUrl = /^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/;
 
-		return regUrl.test(url);
+		return util.isUrl(url)
 
 
 	},
