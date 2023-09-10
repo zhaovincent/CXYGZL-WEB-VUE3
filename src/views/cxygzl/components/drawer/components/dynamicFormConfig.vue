@@ -234,7 +234,9 @@ const copy = async () => {
 				</el-form-item>
 				<el-form-item label="返回值">
 					<el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">
-						<p>通过接口可以修改表单值：左侧表单表示要修改的表单值，右侧字段是指接口返回的字段名</p>
+						<p>
+								  <el-link type="primary" href="https://www.cxygzl.com/guide/flow/node/approve.html" target="_blank">具体请查看官网文档</el-link>
+						</p>
 					</el-alert>
 					<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontNotifyForm.result">
 						<el-col :span="7">
