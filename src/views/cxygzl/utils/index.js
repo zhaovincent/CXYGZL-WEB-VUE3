@@ -221,6 +221,12 @@ All.prototype = {
 				return ""
 
 			}
+		}else if (nodeConfig.assignedType == 11) {
+
+
+			//系统自动拒绝
+			return '系统自动拒绝'
+
 		} else if (nodeConfig.assignedType == 3) {
 
 
