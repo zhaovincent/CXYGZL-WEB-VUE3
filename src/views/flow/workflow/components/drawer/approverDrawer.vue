@@ -22,7 +22,6 @@
           </el-row>
         </el-radio-group>
 
-        <el-divider />
         <template v-if="approverConfig.assignedType === 3">
           <h4>选择角色</h4>
 
@@ -155,22 +154,25 @@
           <span style=" margin-left: 5px;font-size: 14px">级部门主管</span>
         </template>
 
-        <el-divider />
 
-        <h4>审批人为空时</h4>
-        <el-radio-group v-model="approverConfig.nobody.handler" class="ml-4">
-          <el-radio label="TO_PASS" size="large">自动通过</el-radio>
-<!--          <el-radio label="TO_END" size="large">自动结束</el-radio>-->
-			<el-radio label="TO_REFUSE" size="large">自动拒绝</el-radio>
-          <el-radio label="TO_ADMIN" size="large">转交给管理员</el-radio>
-          <el-radio label="TO_USER" size="large">指定人员</el-radio>
-        </el-radio-group>
-        <select-show
-          v-if="approverConfig.nobody.handler === 'TO_USER'"
-          v-model:orgList="approverConfig.nobody.assignedUser"
-          type="user"
-          :multiple="false"
-        ></select-show>
+					<template v-if="approverConfig.assignedType != 11">
+			  <h4>审批人为空时</h4>
+			  <el-radio-group v-model="approverConfig.nobody.handler" class="ml-4">
+				  <el-radio label="TO_PASS" size="large">自动通过</el-radio>
+				  <!--          <el-radio label="TO_END" size="large">自动结束</el-radio>-->
+				  <el-radio label="TO_REFUSE" size="large">自动拒绝</el-radio>
+				  <el-radio label="TO_ADMIN" size="large">转交给管理员</el-radio>
+				  <el-radio label="TO_USER" size="large">指定人员</el-radio>
+			  </el-radio-group>
+			  <select-show
+					  v-if="approverConfig.nobody.handler === 'TO_USER'"
+					  v-model:orgList="approverConfig.nobody.assignedUser"
+					  type="user"
+					  :multiple="false"
+			  ></select-show>
+					</template>
+
+
 		  <template v-if="approverConfig.refuse?.handler">
 			  <h4>审批被拒绝</h4>
 			  <el-radio-group v-model="approverConfig.refuse.handler" class="ml-4">
