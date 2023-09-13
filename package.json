@@ -60,6 +60,7 @@
     "pinia": "^2.0.33",
     "screenfull": "^6.0.0",
     "vue": "^3.3.1",
+    "vue-clipboard3": "^2.0.0",
     "vue-i18n": "9.2.2",
     "vue-router": "^4.2.0",
     "vuedraggable": "^4.1.0"

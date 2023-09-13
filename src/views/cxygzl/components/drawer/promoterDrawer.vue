@@ -10,6 +10,13 @@
 						<form-perm :form-perm="starterConfig.formPerms"></form-perm>
 
 				</el-tab-pane>
+
+
+				<el-tab-pane label="动态表单">
+
+          <dynamic-form-config :config="starterConfig"></dynamic-form-config>
+
+				</el-tab-pane>
 			</el-tabs>
 
 
@@ -25,6 +32,8 @@ import {computed, ref, watch} from 'vue'
 import FormPerm from './components/formPerm.vue'
 
 let store = useStore()
+import DynamicFormConfig from "./components/dynamicFormConfig.vue";
+import $func from "@/views/cxygzl/utils/index.js";
 
 
 let starterConfig = ref({})
@@ -44,8 +53,6 @@ const  openEvent=()=>{
 	let value = step2FormList.value;
 	var arr={};
 	let formPerms = starterConfig.value.formPerms;
-	console.log(formPerms)
-
 	for(var item of value){
 		arr[item.id]="E"
 
@@ -84,6 +91,9 @@ watch(starterConfigData, (val) => {
 
 
 const savePromoter = () => {
+
+
+	starterConfig.value.error = !$func.checkStarter(starterConfig.value);
 	setStarterConfig({
 		value: starterConfig.value,
 		flag: true,

@@ -46,6 +46,8 @@ const getValidateRule = () => {
 	var itemProps = item.props
 
 
+
+
 	var checkConfig = (rule: any, value: any, callback: any) => {
 
 		if (item.required) {
@@ -85,6 +87,7 @@ const getValidateRule = () => {
 	let ruleArray = [{
 		validator: checkConfig, trigger: 'blur'
 	}];
+  console.log('表单校验',item.required,props.form.required)
 	if (item.required) {
 		ruleArray.push(
 			{required: true, message: '请填写' + item.name, trigger: 'blur'}

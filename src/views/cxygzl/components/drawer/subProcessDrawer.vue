@@ -9,9 +9,9 @@
 		<el-form label-width="120px" label-position="top">
 
 			<el-form-item label="🌺选择子流程">
-				<el-select @change="subFlowIdChange" v-model="config.subFlowId" placeholder="请选择子流程">
-					<el-option v-for="item in flowList" :label="item.name" :value="item.flowId"/>
-				</el-select>
+
+
+				<el-cascader v-model="config.subFlowId" :options="flowListTree" @change="subFlowIdChange"/>
 			</el-form-item>
 
 			<el-form-item label="👉主→子变量传递">
@@ -311,7 +311,7 @@ const getMatchMainFormList = (id) => {
 }
 
 const subFlowIdChange = (a) => {
-	handleSubFlowIdChange(a, true)
+	handleSubFlowIdChange(a[1], true)
 }
 
 const handleSubFlowIdChange = (a, clearForm) => {
@@ -384,15 +384,27 @@ var mainFormList = computed(() => {
 	return flowStore.step2.filter(res => res.type !== 'Description');
 });
 
-var flowList = ref([]);
+var flowListTree = ref([]);
 const openEvent = () => {
 	queryGroupFlowList(false).then(res => {
 
 		const {data} = res;
-
+		flowListTree.value = [];
 
 		for (var g of data) {
-			flowList.value = flowList.value.concat(g.items)
+			var obj = {
+				value: g.id, label: g.name
+			}
+			var arr = []
+			for (var h of g.items) {
+				arr.push({
+					value: h.flowId,
+					label: h.name
+				})
+			}
+			obj.children = arr;
+			flowListTree.value.push(obj)
+
 		}
 
 	})
@@ -410,14 +422,18 @@ const subFlowId = computed(() => {
 
 watch(() => subFlowId.value, (v) => {
 
-	let filter = flowList.value.filter(res => res.flowId === v);
-	if (filter.length == 0) {
-		config.value.subFlowName = util.isNotBlank(config.value.subFlowName) ? config.value.subFlowName : ''
-	} else {
-		config.value.subFlowName = filter[0].name;
 
+	for (var item of flowListTree.value) {
+		let filter = item.children.filter(res => res.value === v);
+		if (filter.length > 0) {
+			config.value.subFlowName = filter[0].name;
+			break
+		} else {
+			config.value.subFlowName = util.isNotBlank(config.value.subFlowName) ? config.value.subFlowName : ''
+		}
 	}
-})
+
+ })
 
 
 const step2FormList = computed(() => {

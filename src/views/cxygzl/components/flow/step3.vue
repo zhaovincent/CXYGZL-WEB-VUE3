@@ -53,7 +53,20 @@ let nodeConfig = ref({
 	"nodeUserList": [],
 	"childNode": {},
 	multipleMode: 1,
-
+  "dynamicFormConfig": {
+    "url": '',
+    "header": [
+    ],
+    "body": [
+    ],
+    "result": [
+      {
+        "field": '',
+        "contentConfig": '',
+        "value": ''
+      }
+    ]
+  },
 	"operList": [
 		{
 			"key": "pass",

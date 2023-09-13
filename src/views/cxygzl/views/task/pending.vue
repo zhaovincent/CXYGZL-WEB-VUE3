@@ -8,7 +8,6 @@ import {
 	queryMineTask
 } from "../../api/task";
 
-import {getCurrentInstance} from "vue";
 
 import pagination from "../../components/pagination.vue";
 
@@ -30,7 +29,8 @@ const taskHandler = ref();
  * @param row
  */
 const deal = (row) => {
-	taskHandler.value.deal(row.taskId)
+
+	taskHandler.value.deal(row)
 }
 
 

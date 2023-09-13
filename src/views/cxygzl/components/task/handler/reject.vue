@@ -9,10 +9,10 @@ const submitDesc = ref("");
 const rejectNodeId = ref("");
 
 
-const currentData = ref();
 const currentOpenFlowForm = ref();
 
-
+const processInstanceId = ref("");
+const taskId = ref("");
 const  nodeId=ref("");
 const  process=ref("");
 const  dialogTitle=ref("");
@@ -125,11 +125,13 @@ function produceSerialNodeList(parentId, process, nodeArr, nodeObj,noBranch) {
 
 }
 
-const handle = (row, formData,n,p,dialogTitle1) => {
+const handle = (pid,tid, formData,n,p,dialogTitle1) => {
 
 	dialogTitle.value=dialogTitle1;
 
-	currentData.value = row;
+	processInstanceId.value = pid
+	taskId.value = tid
+
 	currentOpenFlowForm.value = formData;
 	nodeId.value=n
 	process.value=p
@@ -148,40 +150,13 @@ const submit = () => {
 
 
 
-	var formData = {}
-	for (var item of value) {
-		formData[item.id] = item.props.value;
-
-	  if (item.type === 'Layout') {
-
-
-		  let subList = item.props.value;
-
-		  var d = []
-		  for (var array of subList) {
-			  var v = {}
-
-			  for (var subItem of array) {
-				  let value = subItem.props.value;
-				  v[subItem.id] = value;
-			  }
-			  d.push(v)
-
-		  }
-		  formData[item.id] = d;
-
-	  }
-	}
-
-	// formData[currentData.value.nodeId + '_approve_condition'] = false
-	// formData[currentData.value.nodeId + '_approve_condition'] = false
 
 	var param = {
-		paramMap: formData,
-		taskId: currentData.value.taskId,
+		paramMap: value,
+		taskId: taskId.value,
 	  nodeId: nodeId.value,
 	  targetNodeId: rejectNodeId.value,
-	  processInstanceId: currentData.value.processInstanceId,
+	  processInstanceId: processInstanceId.value,
 	  approveDesc: submitDesc.value
 
 
@@ -196,6 +171,10 @@ const submit = () => {
 	})
 }
 
+const dialogClosed=()=>{
+  submitDesc.value=''
+  rejectNodeId.value=''
+}
 </script>
 
 <template>
@@ -204,9 +183,14 @@ const submit = () => {
 				v-model="dialogVisible"
 				:title="dialogTitle"
 				width="400px"
-
+        destroy-on-close
+        @closed="dialogClosed"
 		>
-
+		<template #header="{ close, titleId, titleClass }">
+			<div style="text-align: left;font-size: 20px;font-weight: bold">
+				{{ dialogTitle }}
+			</div>
+		</template>
 		<el-select  v-model="rejectNodeId"  placeholder="驳回节点"   style="width: 100%;margin-bottom: 20px;">
 			<el-option
 					v-for="item in rejectNodeList"

@@ -21,20 +21,21 @@ let props = defineProps({
 });
 
 onMounted(() => {
-	let formList = props.formList;
-	for (var item of formList) {
-		let id = item.id;
-		if ((proxy.$refs['form' + id])?.length > 0) {
-			let validateRule = (proxy.$refs['form' + id])[0].getValidateRule();
-
-
-			rules[id] = validateRule;
-		}
-
-
-	}
-
+    handleFormRule();
 })
+
+const handleFormRule=()=>{
+
+  let formList = props.formList;
+  for (var item of formList) {
+    let id = item.id;
+    if ((proxy.$refs['form' + id])?.length > 0) {
+      let validateRule = (proxy.$refs['form' + id])[0].getValidateRule();
+      rules[id] = validateRule;
+    }
+  }
+}
+
 const emit = defineEmits(["addLayoutOneItem","deleteLayoutOneItem"])
 
 const addLayoutOneItem=(id)=>{
@@ -53,7 +54,7 @@ const validate = (f) => {
 		f(valid);
 	})
 }
-defineExpose({validate});
+defineExpose({validate,handleFormRule});
 
 const formValue = computed(() => {
 	var obj = {}

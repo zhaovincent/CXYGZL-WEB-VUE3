@@ -1,14 +1,7 @@
 import request from '../../utils/request';
 
 
-// 查询抄送详细信息
-export function queryMineCCDetail(param:any) {
-	return request({
-		url: 'processCopy/querySingleDetail',
-		method: 'get',
-		params: param
-	})
-}
+
 
 /**
  * 抄送给我的
@@ -125,6 +118,22 @@ export function rejectTask(param:Object) {
 export function frontJoinTask(param:Object) {
 	return request({
 		url: 'task/delegateTask',
+		method: 'post',
+		data: param
+	})
+}
+// 加签任务
+export function addAssigneeTask(param:Object) {
+	return request({
+		url: 'task/addAssignee',
+		method: 'post',
+		data: param
+	})
+}
+// 减签任务
+export function delAssigneeTask(param:Object) {
+	return request({
+		url: 'task/delAssignee',
 		method: 'post',
 		data: param
 	})

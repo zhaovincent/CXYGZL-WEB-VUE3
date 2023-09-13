@@ -108,8 +108,14 @@ const currentData = ref();
  */
 function handleDeal(row){
 
+  console.log(row)
+
 	currentData.value=row;
-	taskHandler.value.deal(row.uniqueId)
+	taskHandler.value.deal({
+    taskId:row.uniqueId,
+    processInstanceId:row.processInstanceId,
+    flowId:row.flowId
+  })
 
 }
 

@@ -7,16 +7,20 @@ const dialogVisible = ref(false);
 
 const submitDesc = ref("");
 
-const currentData = ref();
 const frontJoinTask = ref(false);
-const currentOpenFlowForm = ref();
-const  dialogTitle=ref("");
+const formValue = ref();
+const dialogTitle = ref("");
+const processInstanceId = ref("");
+const taskId = ref("");
 
-const handle = (row, formData,dt,dialogTitle1) => {
-	dialogTitle.value=dialogTitle1;
-	frontJoinTask.value=dt;
-	currentData.value = row;
-	currentOpenFlowForm.value = formData;
+const handle = (pid, tid, formData, dt, dialogTitle1) => {
+	dialogTitle.value = dialogTitle1;
+	frontJoinTask.value = dt;
+
+	formValue.value = formData;
+
+	processInstanceId.value = pid
+	taskId.value = tid
 
 	dialogVisible.value = true;
 }
@@ -26,68 +30,36 @@ const emit = defineEmits(["taskSubmitEvent"]);
 
 
 const submit = () => {
-
-
-	let value = currentOpenFlowForm.value;
-
-
-
-	var formData = {}
-	for (var item of value) {
-		formData[item.id] = item.props.value;
-
-		if (item.type === 'Layout') {
-
-
-			let subList = item.props.value;
-
-			var d = []
-			for (var array of subList) {
-				var v = {}
-
-				for (var subItem of array) {
-					let value = subItem.props.value;
-					v[subItem.id] = value;
-				}
-				d.push(v)
-
-			}
-			formData[item.id] = d;
-
-		}
-
-	}
-
-
 	var param = {
-		paramMap: formData,
-	  approveResult:true,
-	  processInstanceId:currentData.value.processInstanceId,
-	  approveDesc:submitDesc.value,
-
-		taskId: currentData.value.taskId
+		paramMap: formValue.value,
+		approveResult: true,
+		processInstanceId: processInstanceId.value,
+		approveDesc: submitDesc.value,
+		taskId: taskId.value
 
 	};
 
-	if(frontJoinTask.value){
+	if (frontJoinTask.value) {
 		//前加签
-	  resolveTask(param).then(res => {
-		dialogVisible.value = false;
+		resolveTask(param).then(res => {
+			dialogVisible.value = false;
 
 
-		emit("taskSubmitEvent")
-	})
-	}else{
-	  completeTask(param).then(res => {
-		  dialogVisible.value = false;
+			emit("taskSubmitEvent")
+		})
+	} else {
+		completeTask(param).then(res => {
+			dialogVisible.value = false;
 
 
-		  emit("taskSubmitEvent")
-	  })
+			emit("taskSubmitEvent")
+		})
 	}
 
 }
-
+const dialogClosed=()=>{
+  submitDesc.value=''
+}
 </script>
 
 <template>
@@ -96,8 +68,15 @@ const submit = () => {
 				v-model="dialogVisible"
 				:title="dialogTitle"
 				width="400px"
-
+        destroy-on-close
+        @closed="dialogClosed"
 		>
+
+			<template #header="{ close, titleId, titleClass }">
+				<div style="text-align: left;font-size: 20px;font-weight: bold">
+					{{ dialogTitle }}
+				</div>
+			</template>
 			<el-input
 
 					v-model="submitDesc"

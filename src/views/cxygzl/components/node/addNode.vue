@@ -135,6 +135,24 @@ const addType = (type) => {
 					deptUserType:'allUser',
 				//表单权限
 				formPerms: {},
+        //动态表单
+        dynamicFormConfig:{
+					enable:false,
+          url:'',
+          header:[
+
+          ],
+          body:[
+
+          ],
+          result:[
+            {
+              field: '',
+              contentConfig: '',
+              value: ''
+            }
+          ]
+        },
 				//审批人为空
 				nobody: {
 					handler: "TO_PASS",
@@ -191,6 +209,24 @@ const addType = (type) => {
 						icon: 'Position',
 
 						defaultName: '转办'
+					}, {
+						key: 'addAssignee',
+						checked: false,
+						edit: false,
+						name: '加签',
+						type: 'warning',
+						icon: 'CirclePlusFilled',
+
+						defaultName: '加签'
+					}, {
+						key: 'delAssignee',
+						checked: false,
+						edit: false,
+						name: '减签',
+						type: 'warning',
+						icon: 'RemoveFilled',
+
+						defaultName: '减签'
 					}
 				],
 

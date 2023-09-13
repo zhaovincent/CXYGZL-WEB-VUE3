@@ -37,7 +37,7 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
       ):'primary'"
 												:icon="node.status==2?Finished:(node.status==1?Loading:(node.status==3?CircleCloseFilled:Clock))"
 			>
-				<template v-if="node.selectUser&&(!nodeUser[node.id]||nodeUser[node.id]?.length==0)">
+				<template v-if="!disableSelect&&node.selectUser&&(!nodeUser[node.id]||nodeUser[node.id]?.length==0)">
 					<p style="color: red">{{ node.name }}
 						<template v-if="node.placeholder&&node.placeholder.length>0">[{{ node.placeholder }}]</template>
 					</p>
@@ -136,7 +136,7 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 
 
 				<!--					选择用户-->
-				<template v-if="node.selectUser">
+				<template v-if="node.selectUser&&!disableSelect">
 
 
 					<select-show :disabled="disableSelect" v-model:orgList="nodeUser[node.id]" type="user"

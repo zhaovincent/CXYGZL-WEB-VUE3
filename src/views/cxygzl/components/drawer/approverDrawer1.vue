@@ -72,15 +72,15 @@
 						/>
 					</el-select>
 
-					<el-radio-group v-model="approverConfig.deptUserType" class="ml-4">
-						<el-radio label="allUser" size="large">部门人员</el-radio>
-						<el-radio label="leader" size="large">部门主管</el-radio>
-					</el-radio-group>
+			<el-radio-group v-model="approverConfig.deptUserType" class="ml-4">
+				<el-radio label="allUser" size="large">部门人员</el-radio>
+				<el-radio label="leader" size="large">部门主管</el-radio>
+			</el-radio-group>
 
 				</template>
 				<template v-if="approverConfig.assignedType===10">
 					<h4>选择部门</h4>
-					<select-show v-model:orgList="approverConfig.nodeUserList" type="dept" :multiple="true"></select-show>
+			<select-show v-model:orgList="approverConfig.nodeUserList" type="dept" :multiple="true"></select-show>
 
 				</template>
 				<template v-if="approverConfig.assignedType===7">
@@ -147,7 +147,7 @@
 				</template>
 
 
-				<template v-if="approverConfig.sameAsStarter?.handler&&approverConfig.assignedType!=11">
+				<template v-if="approverConfig.sameAsStarter?.handler">
 					<h4>审批人包含发起人时（审批人可能是多个）</h4>
 					<el-radio-group v-model="approverConfig.sameAsStarter.handler">
 
@@ -161,20 +161,17 @@
 					</el-radio-group>
 				</template>
 
-				<template v-if="approverConfig.assignedType!=11">
-					<h4>审批人为空时</h4>
-					<el-radio-group v-model="approverConfig.nobody.handler" class="ml-4">
-						<el-radio label="TO_PASS" size="large">自动通过</el-radio>
-						<!--					<el-radio label="TO_END" size="large">自动结束</el-radio>-->
-						<el-radio label="TO_REFUSE" size="large">自动拒绝</el-radio>
-						<el-radio label="TO_ADMIN" size="large">转交给管理员</el-radio>
-						<el-radio label="TO_USER" size="large">指定人员</el-radio>
-					</el-radio-group>
-					<select-show v-if="approverConfig.nobody.handler==='TO_USER'"
-											 v-model:orgList="approverConfig.nobody.assignedUser" type="user"
-											 :multiple="false"></select-show>
-				</template>
-
+				<h4>审批人为空时</h4>
+				<el-radio-group v-model="approverConfig.nobody.handler" class="ml-4">
+					<el-radio label="TO_PASS" size="large">自动通过</el-radio>
+<!--					<el-radio label="TO_END" size="large">自动结束</el-radio>-->
+					<el-radio label="TO_REFUSE" size="large">自动拒绝</el-radio>
+					<el-radio label="TO_ADMIN" size="large">转交给管理员</el-radio>
+					<el-radio label="TO_USER" size="large">指定人员</el-radio>
+				</el-radio-group>
+				<select-show v-if="approverConfig.nobody.handler==='TO_USER'"
+										 v-model:orgList="approverConfig.nobody.assignedUser" type="user"
+										 :multiple="false"></select-show>
 				<template v-if="approverConfig.refuse?.handler">
 					<h4>审批被拒绝</h4>
 					<el-radio-group v-model="approverConfig.refuse.handler" class="ml-4">
@@ -241,8 +238,42 @@
 			</el-tab-pane>
 
 			<el-tab-pane label="动态表单">
-				<dynamic-form-config :config="approverConfig"></dynamic-form-config>
 
+        <el-card class="box-card" v-for="(item,index) in approverConfig.dynamicFormList" style="margin-bottom: 20px">
+          <template #header>
+            <div class="card-header">
+              <span>配置{{ index + 1 }}</span>
+
+
+              <el-button class="button" type="danger" text @click="deleteRoute(index)">删除</el-button>
+            </div>
+          </template>
+          <div>
+            <el-text tag="b">{{ item.placeHolder }}</el-text>
+          </div>
+          <div style="margin-top: 20px">
+
+            <el-button type="danger" @click="addCondition(index)">添加条件</el-button>
+          </div>
+        </el-card>
+
+        <el-button text type="primary" @click="addRoute">添加配置</el-button>
+
+        <el-dialog
+            v-model="dialogVisible"
+            width="500px"
+        >
+          <condtion-group v-model:data="conditionDialogConfigTemp"></condtion-group>
+
+          <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirmCondition">
+          确定
+        </el-button>
+      </span>
+          </template>
+        </el-dialog>
 
 			</el-tab-pane>
 
@@ -257,15 +288,13 @@
 
 import {Check, Plus, EditPen} from "@element-plus/icons-vue";
 
-import {ref, watch, computed, reactive, nextTick} from 'vue'
+import {ref, watch, computed, onMounted, nextTick} from 'vue'
 import $func from '../../utils/index'
 import {placeholderList, setTypes} from '../../utils/const'
 import {useStore} from '../../stores/index'
 import {useFlowStore} from '../../stores/flow'
 
 import * as util from '../../utils/objutil'
-
-import DynamicFormConfig from "./components/dynamicFormConfig.vue";
 
 var rejectNodeList = computed(() => {
 
@@ -299,6 +328,62 @@ var rejectNodeList = computed(() => {
 
 	return values
 })
+/////////////////////////动态表单/////////////////////////////////////////
+var dialogVisible=ref(false)
+var currentIndex = ref()
+// 对话框条件
+var conditionDialogConfigTemp = ref();
+//删除路由
+var deleteRoute = (index) => {
+  approverConfig.value.dynamicFormList.splice(index, 1);
+}
+//添加路由
+var addRoute = () => {
+  approverConfig.value.dynamicFormList.push({
+    groupRelationMode: true,
+    mode: true,
+    error: true,
+    nodeId: '',
+    placeHolder: '',
+    groupRelation: [],
+    conditionList: []
+  })
+}
+//点击添加条件
+var addCondition = (index) => {
+
+  dialogVisible.value = true;
+  currentIndex.value = index;
+  conditionDialogConfigTemp.value = util.deepCopy(approverConfig.value.dynamicFormList[index])
+
+}
+//对话框确定条件
+var confirmCondition = () => {
+  conditionDialogConfigTemp.value.error = !$func.checkCondition({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0);
+  if (!$func.checkCondition({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0)) {
+    ElMessage.warning("请完善条件");
+
+    return
+
+  }
+
+  console.log("条件数据", conditionDialogConfigTemp.value)
+  dialogVisible.value = false
+  //提示语
+  let conditionStr = $func.conditionStr({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0);
+  conditionDialogConfigTemp.value.placeHolder = conditionStr
+  //是否错误
+  approverConfig.value.dynamicFormList[currentIndex.value] = conditionDialogConfigTemp.value
+
+}
+
+//////////////////////////////////////////////////////////////////
+
+
+
+
+
+
 
 
 function produceSerialNodeList(parentId, process, nodeArr, nodeObj, noBranch) {
@@ -451,6 +536,7 @@ const openEvent = () => {
 }
 
 import selectShow from "../orgselect/selectAndShow.vue";
+import CondtionGroup from "@/views/cxygzl/components/drawer/components/conditionGroup.vue";
 
 
 let approverConfig = ref({})
@@ -509,10 +595,10 @@ const assignedTypeChangeEvent = (e) => {
 	approverConfig.value.nodeUserList = [];
 	approverConfig.value.formUserId = ''
 	approverConfig.value.formUserName = ''
-	console.log('选择审批人选项变化了', e)
 }
 
 const saveApprover = () => {
+
 
 	approverConfig.value.error = !$func.checkApproval(approverConfig.value);
 	setApproverConfig({

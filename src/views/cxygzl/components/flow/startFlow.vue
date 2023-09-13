@@ -3,8 +3,7 @@
 import StartFlowUi from './startFlowUI.vue'
 import {ref} from "vue";
 import {FormVO} from "../../api/form/types";
-import {getFlowDetail, startFlow} from "../../api/flow";
-import {getCurrentInstance } from "vue";
+import { startFlow} from "../../api/flow";
 
 
 const currentOpenFlow = ref<FormVO[]>([]);
@@ -23,22 +22,7 @@ const startFlowUiRef = ref();
 
 
 const startProcess = (f) => {
-
-
-	getFlowDetail(f.flowId,true).then(res => {
-		const {data} = res
-
-		const {formItems} = data;
-
-		let formIteamJsonArray = JSON.parse(formItems);
-
-
-
-		startFlowUiRef.value.handle(f, formIteamJsonArray, data.selectUserNodeId)
-
-    //
-
-	})
+	startFlowUiRef.value.handle(f.flowId,undefined,undefined)
 }
 
 

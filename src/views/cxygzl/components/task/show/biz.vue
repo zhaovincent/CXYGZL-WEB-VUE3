@@ -1,22 +1,25 @@
 <script setup lang="ts">
 
-import TaskUIHandle from "./taskUi.vue"
+import {onMounted, ref} from 'vue'
 
 
+const taskId = ref();
+const flowId = ref();
+const processInstanceId = ref();
 
 /**
  * 点击开始处理
  */
 const deal = (row) => {
 
+	console.log('任务显示数据', row)
 
-
-	  taskUiHandler.value.deal(row.taskId, row.processInstanceId,row.flowId,row.ccId,row.nodeId)
+	taskId.value = row.taskId;
+	flowId.value = row.flowId;
+	processInstanceId.value = row.processInstanceId;
 
 
 }
-
-
 
 
 defineExpose({deal});
@@ -27,20 +30,16 @@ const taskSubmitEvent = () => {
 }
 
 
-
 onMounted(() => {
 
 });
 const emit = defineEmits(["taskSubmitEvent"]);
 
-const taskUiHandler=ref();
 
 </script>
 
 <template>
-	<div >
-
-			<task-u-i-handle  @taskSubmitEvent="taskSubmitEvent" ref="taskUiHandler"></task-u-i-handle>
+	<div>
 
 	</div>
 </template>

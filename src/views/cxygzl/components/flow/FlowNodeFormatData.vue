@@ -1,77 +1,43 @@
 <script setup lang="ts">
 import FlowNodeFormat from "./FlowNodeFormat.vue";
-import {formatStartNodeShow} from "../../api/task";
+import {formatStartNodeShow} from "../../api/base";
 import {defineExpose, onMounted, ref, watch} from "vue";
 
-let props = defineProps({
-
-	flowId: {
-		type: String,
-		default: ''
-	},
-	disableSelect: {
-		type: Boolean,
-		default: false
-	},
-	taskId: {
-		type: String,
-		default: ''
-	},
-	processInstanceId: {
-		type: String,
-		default: ''
-	},
-	formData: {
-		type: Object,
-		dafault: () => {
-		}
-	},
-	selectUserNodeId: {
-		type: Array,
-		dafault: () => []
-	}
-
-});
 const row = ref([]);
+const selectUserNodeIdList = ref([]);
+const disableSelect = ref(true);
 
-const queryData = (p) => {
+const queryData = (p,fid,pid,tid) => {
 	var data = {
-		flowId: props.flowId,
-		processInstanceId: props.processInstanceId,
+		flowId: fid,
+		processInstanceId:pid,
 		paramMap: p,
-		taskId: props.taskId
+		taskId:tid
 	}
 	formatStartNodeShow(data).then(res => {
-		row.value = res.data;
+		row.value = res.data.processNodeShowDtoList;
+	  disableSelect.value=res.data.disableSelectUser
+	  selectUserNodeIdList.value=res.data.selectUserNodeIdList
 	})
 }
-watch(() => props.formData, (val) => {
 
-  console.log("表单数据：{}",val)
-
-	setTimeout(function () {
-		if (new Date().getTime() - formDataChangeTime.value > 500) {
-			formDataChangeTime.value = new Date().getTime();
-			queryData(val);
-		}
-	}, 600);
-})
-const formDataChangeTime = ref();
 onMounted(() => {
-	formDataChangeTime.value = new Date().getTime();
-	queryData(props.formData);
 
 })
 
 const validate = () => {
 
 
-	for (var k of props.selectUserNodeId) {
+	for (var k of selectUserNodeIdList.value) {
 		var d = nodeUser.value[k]
 		if (d && d.length > 0) {
 
 		} else {
-			return false;
+
+		ElMessage.warning("请选择节点执行人");
+
+
+		return false;
 		}
 	}
 
@@ -85,7 +51,7 @@ const formatSelectNodeUser = () => {
 
 	var obj = {}
 
-	for (var k of props.selectUserNodeId) {
+	for (var k of selectUserNodeIdList.value) {
 		var d = nodeUser.value[k]
 		obj[k + '_assignee_select'] = d
 	}
@@ -93,7 +59,7 @@ const formatSelectNodeUser = () => {
 	return obj;
 }
 
-defineExpose({validate, formatSelectNodeUser});
+defineExpose({validate, formatSelectNodeUser,queryData});
 
 
 </script>

@@ -19,6 +19,7 @@ export let setTypes = [
   {value: 8, label: '表单人员'},
   {value: 9, label: '表单部门'},
   {value: 10, label: '指定部门主管'},
+  {value: 11, label: '系统自动拒绝'},
 ]
 
 
