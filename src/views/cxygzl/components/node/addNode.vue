@@ -76,9 +76,9 @@
 						<p>子流程</p>
 					</a>
 
-					<a class="add-node-popover-item subProcess" @click="addType(11)">
+					<a class="add-node-popover-item asynTrigger" @click="addType(11)">
 						<div class="item-wrapper">
-							<i class="icon icon-icon_pc_sharelink1 iconfont"></i>
+							<i class="icon icon-icondatafill iconfont"></i>
 
 
 						</div>
@@ -679,6 +679,12 @@ const addType = (type) => {
 		&.subProcess {
 			.item-wrapper {
 				color: #996633
+			}
+		}
+
+		&.asynTrigger {
+			.item-wrapper {
+				color: #ff3300
 			}
 		}
 

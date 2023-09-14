@@ -120,53 +120,10 @@
 			  <el-button text type="primary" @click="addOneLine('frontNotify','body')" :icon="$icon['Plus']">添加一行
 			  </el-button>
 		  </el-form-item>
-		  <el-form-item label="返回值">
-			  <el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">
-				  <p>通过接口可以修改表单值：左侧表单表示要修改的表单值，右侧字段是指接口返回的字段名</p>
-			  </el-alert>
-			  <el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontNotifyForm.result">
-				  <el-col :span="10">
-					  <el-form-item
-							  :prop="'result.' + index + '.value'"
-							  :rules="[
-       	{required: true, message: '请选择表单', trigger: 'blur'}
-      ]"
-					  >
 
-
-						  <el-select v-model="item.value" placeholder="选择表单" style="width: 100%">
-							  <el-option
-									  v-for="f in formList"
-									  :key="f.id"
-									  :label="f.name"
-									  :value="f.id"
-							  />
-						  </el-select>
-					  </el-form-item>
-				  </el-col>
-				  <el-col :span="13">
-					  <el-form-item
-							  :prop="'result.' + index + '.field'"
-							  :rules="[
-       	{required: true, message: '请填写字段名称', trigger: 'blur'},
-				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
-      ]"
-					  >
-						  <el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
-
-					  </el-form-item>
-
-				  </el-col>
-
-
-				  <el-col :span="1">
-					  <el-button @click="delOneLine('frontNotify','result',index)" text :icon="$icon['Delete']"></el-button>
-				  </el-col>
-			  </el-row>
-			  <el-button text type="primary" @click="addOneLine('frontNotify','result')" :icon="$icon['Plus']">添加一行
-			  </el-button>
-		  </el-form-item>
-
+<!--		<el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">-->
+<!--			<p>通过接口可以修改表单值：左侧表单表示要修改的表单值，右侧字段是指接口返回的字段名</p>-->
+<!--		</el-alert>-->
 
 	  </el-form>
 
