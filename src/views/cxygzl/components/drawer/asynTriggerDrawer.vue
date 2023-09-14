@@ -121,9 +121,12 @@
 			  </el-button>
 		  </el-form-item>
 
-<!--		<el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">-->
-<!--			<p>通过接口可以修改表单值：左侧表单表示要修改的表单值，右侧字段是指接口返回的字段名</p>-->
-<!--		</el-alert>-->
+		<el-alert type="info" show-icon :closable="false" style="margin-bottom: 10px;">
+			<p>
+		  <el-link type="primary" href="https://www.cxygzl.com/guide/flow/node/asyntrigger.html" target="_blank">点击此处查看文档</el-link>
+
+					</p>
+		</el-alert>
 
 	  </el-form>
 
