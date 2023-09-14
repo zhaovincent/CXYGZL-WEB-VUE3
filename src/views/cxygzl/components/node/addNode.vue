@@ -76,6 +76,15 @@
 						<p>子流程</p>
 					</a>
 
+					<a class="add-node-popover-item subProcess" @click="addType(11)">
+						<div class="item-wrapper">
+							<i class="icon icon-icon_pc_sharelink1 iconfont"></i>
+
+
+						</div>
+						<p>异步触发器</p>
+					</a>
+
 				</div>
 				<template #reference>
 					<button class="btn" type="button">
@@ -240,6 +249,40 @@ const addType = (type) => {
 				"nodeName": "触发器",
 				"error": true,
 				"type": 6,
+				"parentId": props.currentNode.id,
+				"childNode": props.childNodeP,
+				httpSetting: {
+					url: '',
+					header: [
+						{
+							field: '',
+							valueMode: true,
+							value: ''
+						}
+					],
+					body: [
+						{
+							field: '',
+							valueMode: true,
+							value: ''
+						}
+					],
+					result: [
+						{
+							field: '',
+							valueMode: true,
+							value: ''
+						}
+					]
+				}
+			}
+		}else if (type == 11) {
+			//异步触发器
+			data = {
+				"id": util.getRandomId(),
+				"nodeName": "异步触发器",
+				"error": true,
+				"type": 11,
 				"parentId": props.currentNode.id,
 				"childNode": props.childNodeP,
 				httpSetting: {
