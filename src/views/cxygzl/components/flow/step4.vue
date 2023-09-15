@@ -5,8 +5,23 @@
 
 
 					<el-card>
+			  <h3>是否开启数据统计
 
-				<h3>前置校验
+
+				  <el-switch
+									:disabled="dbRecord.oldEnable"
+						  v-model="dbRecord.enable"
+						  size="large"
+				  />
+			  </h3>
+            <el-alert v-if="dbRecord.enable" type="warning" show-icon :closable="false">
+              <p>开启之后则无法关闭，后续编辑流程无法修改表单相关信息</p>
+            </el-alert>
+					</el-card>
+		  <el-card style="margin-top: 20px;">
+
+
+		  <h3>前置校验
 
 					<el-text type="info" size="small">
 						<el-icon>
@@ -621,6 +636,9 @@ var formListWithRoot = computed(() => {
 	return step2;
 });
 
+var dbRecord = computed(() => {
+	return step4Store.value.dbRecord;
+});
 var frontNotifyForm = computed(() => {
 	return step4Store.value.frontNotify;
 });

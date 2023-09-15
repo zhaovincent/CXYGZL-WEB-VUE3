@@ -7,6 +7,7 @@
 					<template v-for="(item,index) in oriFormList">
 						<h5 style="padding-left: 60px">{{ item.name }}</h5>
 						<draggable
+                    disabled
 								v-model="item.formList"
 								ghost-class="ghost" :force-fallback="true"
 								item-key="index"
@@ -48,12 +49,13 @@
 
 								<el-form label-position="top">
 									<draggable
+                          disabled
 											v-model="targetList"
 											style="min-height: 600px;background-color: var(--el-bg-color-page)"
 											item-key="index"
 											:sort="true"
 											effect="dark"
-											:group="{ name: 'dragFormList', pull: true, put: true }"
+											:group="{ name: 'dragFormList', pull: true, put: !step4.dbRecord.oldEnable }"
 									>
 										<template #item="{ element, index }">
 											<div
@@ -63,7 +65,7 @@
 											>
 
 
-												<el-icon v-if="element.type!='Empty'" class="deleteIcon" @click.stop="deleteForm(element.id)">
+												<el-icon v-if="element.type!='Empty'&&!step4.dbRecord.oldEnable" class="deleteIcon" @click.stop="deleteForm(element.id)">
 													<Delete/>
 												</el-icon>
 												<el-form-item :label="step2Object[element.id]?.name"
@@ -148,6 +150,10 @@ var step2List = computed(() => {
 	let step2 = flowStore.step2;
 	return step2;
 });
+var step4 = computed(() => {
+	let step2 = flowStore.step4;
+	return step2;
+});
 var step2Object = computed(() => {
 	var obj = {}
 
@@ -218,6 +224,9 @@ const currentForm = ref<FormVO>();
 const drawer = ref(false);
 
 const showCurrentPageConfigPanel = (id) => {
+    if(step4.value.dbRecord.oldEnable){
+        return
+		}
 	currentForm.value = flowStore.step2.filter(res => res.id === id)[0];
 	drawer.value = true;
 };
