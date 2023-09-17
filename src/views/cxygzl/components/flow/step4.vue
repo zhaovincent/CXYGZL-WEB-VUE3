@@ -9,13 +9,18 @@
 
 
 				  <el-switch
-									:disabled="dbRecord.oldEnable"
+									:disabled="dbRecord.oldEnable&&!dbRecord.enable"
 						  v-model="dbRecord.enable"
 						  size="large"
 				  />
 			  </h3>
             <el-alert v-if="dbRecord.enable" type="warning" show-icon :closable="false">
               <p>开启之后则无法关闭，后续编辑流程无法修改表单相关信息</p>
+            </el-alert>
+            <el-alert v-if="!dbRecord.enable&&dbRecord.oldEnable" type="error" show-icon :closable="false">
+              <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
+              <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
+              <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
             </el-alert>
 					</el-card>
 		  <el-card style="margin-top: 20px;">

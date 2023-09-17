@@ -55,7 +55,7 @@
 											item-key="index"
 											:sort="true"
 											effect="dark"
-											:group="{ name: 'dragFormList', pull: true, put: !step4.dbRecord.oldEnable }"
+											:group="{ name: 'dragFormList', pull: true, put: !step4.dbRecord.enable }"
 									>
 										<template #item="{ element, index }">
 											<div
@@ -65,7 +65,7 @@
 											>
 
 
-												<el-icon v-if="element.type!='Empty'&&!step4.dbRecord.oldEnable" class="deleteIcon" @click.stop="deleteForm(element.id)">
+												<el-icon v-if="element.type!='Empty'&&!step4.dbRecord.enable" class="deleteIcon" @click.stop="deleteForm(element.id)">
 													<Delete/>
 												</el-icon>
 												<el-form-item :label="step2Object[element.id]?.name"
@@ -224,7 +224,7 @@ const currentForm = ref<FormVO>();
 const drawer = ref(false);
 
 const showCurrentPageConfigPanel = (id) => {
-    if(step4.value.dbRecord.oldEnable){
+    if(step4.value.dbRecord.enable){
         return
 		}
 	currentForm.value = flowStore.step2.filter(res => res.id === id)[0];

@@ -13,7 +13,7 @@
           item-key="index"
           :sort="true"
           effect="dark"
-          :group="{ name: 'dragFormList', pull: false, put: !step4.dbRecord.oldEnable }"
+          :group="{ name: 'dragFormList', pull: false, put: !step4.dbRecord.enable }"
 
       >
         <template #item="{ element, index }">
@@ -24,7 +24,7 @@
           >
 
 
-            <el-icon v-if="element.type!='Empty'&&!step4.dbRecord.oldEnable" class="deleteIcon"
+            <el-icon v-if="element.type!='Empty'&&!step4.dbRecord.enable" class="deleteIcon"
                      @click.stop="deleteForm(element.id)">
               <Delete/>
             </el-icon>
@@ -128,7 +128,7 @@ const deleteOneItem = (index) => {
 
 
 const showConfigPanel = (id) => {
-  if (step4.value.dbRecord.oldEnable) {
+  if (step4.value.dbRecord.enable) {
     return
   }
 
