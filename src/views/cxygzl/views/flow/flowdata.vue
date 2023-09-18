@@ -1,19 +1,14 @@
 <script setup lang="ts">
-import FormRender from "../../components/form/render/FormRender.vue";
-import ViewProcessInstanceImage from "../../components/ViewProcessInstanceImage.vue";
 
-import FlowNodeFormat from "../../components/flow/FlowNodeFormatData.vue";
 import pagination from "../../components/pagination.vue";
 
 
 import {
-	queryMineCC
-} from "../../api/task";
+	queryFlowDataList
+} from "../../api/flow";
 
 import {RoleQuery} from "../../api/role/types";
-import TaskHandle from "../../components/task/handler/task.vue";
 
-const rightDrawerVisible = ref(false)
 
 const loading = ref(false);
 const total = ref(0);
@@ -23,47 +18,30 @@ const queryParams = reactive<RoleQuery>({
 	pageSize: 10,
 });
 
-const roleList = ref();
+const roleList = ref([]);
+const headList = ref([]);
 
 
-const currentData = ref();
-
-const taskHandler = ref();
-
-/**
- * 点击开始处理
- * @param row
- */
-const deal = (row) => {
-
-	currentData.value = row;
-  taskHandler.value.deal({
-    ccId:row.id,
-    flowId:row.flowId,
-    processInstanceId:row.processInstanceId
-  })
 
 
-}
-const currentDetailData = ref();
-const viewImageRef = ref();
+import { LocationQuery, LocationQueryValue, useRoute } from "vue-router";
 
-
-/**
- * 点击查看流程图
- */
-const viewImage = (row) => {
-	viewImageRef.value.view(row)
-}
-
+const route = useRoute();
 
 /**
  * 查询
  */
 function handleQuery() {
+
+  const query: LocationQuery = route.query;
+
+  const flowId = (query.flowId as LocationQueryValue) ?? "/";
+  queryParams.flowId=flowId;
+
 	loading.value = true;
-	queryMineCC(queryParams)
+	queryFlowDataList(queryParams)
 		.then(({data}) => {
+      headList.value = data.headList;
 			roleList.value = data.records;
 			total.value = data.total;
 		})
@@ -72,25 +50,13 @@ function handleQuery() {
 		});
 }
 
-const taskSubmitEvent=()=>{
-	rightDrawerVisible.value=false;
-	handleQuery();
-}
-
 
 
 onMounted(() => {
 	handleQuery();
 });
 
-const formValue = computed(() => {
-	var obj = {}
 
-	for (var item of currentDetailData.value.formItems) {
-		obj[item.id] = item.props.value
-	}
-	return obj;
-})
 
 </script>
 
@@ -107,37 +73,67 @@ const formValue = computed(() => {
 					highlight-current-row
 					border
 			>
-				<el-table-column label="分组" prop="groupName" width="100"/>
-				<el-table-column label="流程" prop="processName" width="150"/>
-				<el-table-column label="发起人" prop="startUserName" width="150"/>
-				<el-table-column label="发起时间" prop="startTime" width="200"/>
-				<el-table-column label="节点" prop="nodeName" width="200"/>
-				<el-table-column label="抄送时间" prop="nodeTime" width="200"/>
+        <template  v-for="(item,index) in headList">
+          <template v-if="item.type==='SingleSelect'||item.type==='MultiSelect'">
+            <el-table-column  :label="item.name" :prop="item.id"  >
+              <template #default="scope">
+                {{JSON.parse(scope.row[item.id]).map(res=>res.value).join(",")}}
+
+              </template>
+            </el-table-column>
+
+          </template>
+          <template v-else-if="item.type==='UploadImage'">
+            <el-table-column  :label="item.name" :prop="item.id"  >
+              <template #default="scope">
+
+                <el-image v-for="a in JSON.parse(scope.row[item.id])" style="width: 50px; height: 50px" :src="a.url" fit="contain" />
+              </template>
+            </el-table-column>
+
+          </template>
+          <template v-else-if="item.type==='UploadFile'">
+            <el-table-column  :label="item.name" :prop="item.id"  >
+              <template #default="scope">
+
+                <el-link v-for="a in JSON.parse(scope.row[item.id])" style="width: 50px; height: 50px" :href="a.url" target="_blank" >{{a.name}}</el-link>
+              </template>
+            </el-table-column>
+
+          </template>
+          <template v-else-if="item.type==='Area'">
+            <el-table-column  :label="item.name" :prop="item.id" >
+              <template #default="scope">
+ {{JSON.parse(scope.row[item.id]).name}}
+              </template>
+            </el-table-column>
+
+          </template>
+          <template v-else-if="item.type==='SelectMultiUser'||item.type==='SelectMultiDept'||item.type==='SelectUser'||item.type==='SelectDept'">
+            <el-table-column  :label="item.name" :prop="item.id" >
+              <template #default="scope">
 
 
-				<el-table-column fixed="right" label="操作">
-					<template #default="scope">
-						<el-button
-								type="primary"
-								size="small"
-								link
-								@click="deal(scope.row)"
-						>
-							<i-ep-position/>
-							查看
-						</el-button>
-						<el-button
-								type="primary"
-								size="small"
-								link
-								@click="viewImage(scope.row)"
-						>
-							<i-ep-picture/>
-							流程图
-						</el-button>
+                <el-tag
+                    v-for="(item1, index) in JSON.parse(scope.row[item.id])" style=" margin-right: 5px;margin-top: 5px;"
+                    :key="item1.id"
+                    :closable="false"
+                    :type="item1.type==='dept'?'primary':(item1.type==='user'?'warning':'success')" size="large"
+                >
+                  {{ item1.name }}
+                </el-tag>
+              </template>
+            </el-table-column>
 
-					</template>
-				</el-table-column>
+          </template>
+          <template v-else>
+            <el-table-column  :label="item.name" :prop="item.id" width="100"/>
+
+          </template>
+
+        </template>
+
+
 			</el-table>
 
 			<pagination
@@ -148,61 +144,11 @@ const formValue = computed(() => {
 					@pagination="handleQuery"
 			/>
 		</el-card>
-		<!--			右侧抽屉-->
-		<el-drawer v-model="rightDrawerVisible" direction="rtl" size="400px">
-		<template #header>
-			<el-text size="large" tag="b" type="info">流程详情</el-text>
-		</template>
-			<template #default>
-		  <el-card style="margin-bottom: 20px">
-
-		  <div style="position: relative">
-
-			  <div style="display: flex;flex-direction: row">
-				  <div class="f11">
-					  <el-avatar shape="square" :size="50" :src="currentDetailData.starterAvatarUrl" >{{currentDetailData.starterName.substring(0,1)}}</el-avatar>
-				  </div>
-				  <div class="f22">
-					  <div><el-text tag="b" size="large" type="primary">{{ currentDetailData?.processName }}</el-text> </div>
-					  <div><el-text size="small">{{ currentDetailData.startTime }}</el-text></div>
-				  </div>
-			  </div>
-		  <img v-if="currentDetailData.processInstanceResult==1" class="iconclass" src="../../assets/images/pass.png"/>
-		  <img v-if="currentDetailData.processInstanceResult==2" class="iconclass" src="../../assets/images/refuse.png"/>
-	  </div>
-		  </el-card>
 
 
-				<el-card class="box-card">
-					<form-render ref="formRenderRef" :form-list="currentDetailData.formItems"></form-render>
-
-				</el-card>
-				<flow-node-format :disableSelect="true" :formData="formValue" :processInstanceId="currentData.processInstanceId"  :flow-id="currentData.flowId"
-								  ref="flowNodeFormatRef"></flow-node-format>
-
-
-			</template>
-
-		</el-drawer>
-    <task-handle ref="taskHandler"  @taskSubmitEvent="handleQuery" ></task-handle>
-
-		<!--			查看流程图-->
-		<view-process-instance-image ref="viewImageRef"/>
 
 	</div>
 </template>
 <style scoped>
-.iconclass {
-	width: 80px;
-	height: 64px;
-	position: absolute;
-	top: 0px;
-	right: 10px;
-}
-.f11{
-	width: 70px;
-}
-.f22{
-	width: calc(100% - 70px);
-}
+
 </style>
