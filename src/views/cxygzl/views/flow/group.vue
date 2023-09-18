@@ -97,7 +97,7 @@
 					content="查看统计数据"
 					placement="top"
 			>
-				<el-button text @click="showDeleteConfirm(flow)" :icon="Histogram" circle/>
+				<el-button text @click="toViewFlowData(flow)" :icon="Histogram" circle/>
 			</el-tooltip>
 			  <el-tooltip v-if="!flow.stop"
 					  class="box-item"
@@ -198,6 +198,13 @@ function toCreateFlow(id){
 function toEditFlow(flow){
   //TODO
 	let to = "/flow/create?flowId="+flow.flowId;
+
+	router.push(to)
+
+}
+function toViewFlowData(flow){
+  //TODO
+	let to = "/flow/data?flowId="+flow.flowId;
 
 	router.push(to)
 
