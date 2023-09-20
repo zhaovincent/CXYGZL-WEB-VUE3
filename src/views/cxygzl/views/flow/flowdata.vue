@@ -91,7 +91,7 @@ function handleQuery() {
 									//每个值占几个格子
 									let number = lcm / length;
 									obj[head.id] = jsonVal[Math.floor(lcmIndex / number)]
-									if (lcmIndex == 0) {
+									if (lcmIndex % number == 0) {
 										spanColArray.push({
 											rowspan: number,
 											colspan: 1
