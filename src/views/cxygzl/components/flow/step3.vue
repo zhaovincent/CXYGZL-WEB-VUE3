@@ -22,6 +22,7 @@
 		<copyerDrawer/>
 		<conditionDrawer/>
 		<triggerDrawer/>
+		<asynTriggerDrawer/>
 		<delayDrawer/>
 		<subProcessDrawer/>
 		<route-drawer/>
@@ -35,6 +36,7 @@ import promoterDrawer from "../drawer/promoterDrawer.vue";
 import approverDrawer from "../drawer/approverDrawer.vue";
 import copyerDrawer from "../drawer/copyerDrawer.vue";
 import triggerDrawer from "../drawer/triggerDrawer.vue";
+import asynTriggerDrawer from "../drawer/asynTriggerDrawer.vue";
 import delayDrawer from "../drawer/delayDrawer.vue";
 import subProcessDrawer from "../drawer/subProcessDrawer.vue";
 import conditionDrawer from "../drawer/conditionDrawer.vue";

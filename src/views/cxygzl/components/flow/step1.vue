@@ -119,7 +119,6 @@ const rules = reactive<FormRules>({
 	],
 });
 
-const route = useRoute();
 
 
 const groupList = ref<GroupVO[]>([]);

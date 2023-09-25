@@ -88,6 +88,17 @@
 						<el-button text @click="toCopyFlow(flow)"  :icon="DocumentCopy" circle/>
 					</el-tooltip>
 
+
+
+
+			<el-tooltip v-if="flow.dbRecordEnable"
+					class="box-item"
+					effect="dark"
+					content="查看统计数据"
+					placement="top"
+			>
+				<el-button text @click="toViewFlowData(flow)" :icon="Histogram" circle/>
+			</el-tooltip>
 			  <el-tooltip v-if="!flow.stop"
 					  class="box-item"
 					  effect="dark"
@@ -115,6 +126,7 @@
 					>
 						<el-button text @click="showDeleteConfirm(flow)" :icon="Delete" circle/>
 					</el-tooltip>
+
 				</div>
 			</div>
 		</el-card>
@@ -129,8 +141,9 @@ import {
 	DocumentCopy,
 	Hide,
 	View,
-	Search,
-	Star,
+	PieChart,
+	Histogram,
+		SwitchButton
 } from '@element-plus/icons-vue'
 
 import {
@@ -185,6 +198,13 @@ function toCreateFlow(id){
 function toEditFlow(flow){
   //TODO
 	let to = "/flow/create?flowId="+flow.flowId;
+
+	router.push(to)
+
+}
+function toViewFlowData(flow){
+  //TODO
+	let to = "/flow/data?flowId="+flow.flowId;
 
 	router.push(to)
 

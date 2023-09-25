@@ -25,6 +25,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     meta: { hidden: true },
   },
 
+
   {
     path: "/ddlogin",
     component: () => import("@/views/login/dd.vue"),
@@ -53,6 +54,11 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/error-page/401.vue"),
         meta: { hidden: true },
       },
+      // {
+      //   path: "flow/data",
+      //   component: () => import("@/views/cxygzl/views/flow/flowdata.vue"),
+      //   meta: { hidden: true },
+      // },
       {
         path: "404",
         component: () => import("@/views/error-page/404.vue"),

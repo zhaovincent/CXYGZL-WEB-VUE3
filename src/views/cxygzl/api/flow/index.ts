@@ -1,5 +1,14 @@
 import request from '../../utils/request';
 
+//  流程数据列表
+export function queryFlowDataList(param:any) {
+	return request({
+		url: '/process/queryDataList',
+		method: 'post',
+		data: param
+	})
+}
+
 
 /**
  * 创建流程

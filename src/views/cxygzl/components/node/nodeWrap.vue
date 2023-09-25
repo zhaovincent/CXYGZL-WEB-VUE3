@@ -4,6 +4,7 @@
 		<starter @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==0" :nodeConfig="nodeConfig"></starter>
 		<c-c @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==2" :nodeConfig="nodeConfig"></c-c>
 		<trigger @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==6" :nodeConfig="nodeConfig"></trigger>
+		<asyn-trigger @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==11" :nodeConfig="nodeConfig"></asyn-trigger>
 		<delay @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==7" :nodeConfig="nodeConfig"></delay>
 		<sub-process @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==9" :nodeConfig="nodeConfig"></sub-process>
 		<route @updateData="nodeConfigUpdate" v-else-if="nodeConfig.type==10" :nodeConfig="nodeConfig"></route>
@@ -18,6 +19,7 @@ import Approval from "./node/approval.vue"
 import Starter from "./node/starter.vue"
 import CC from "./node/cc.vue"
 import Trigger from "./node/trigger.vue"
+import asynTrigger from "./node/asynTrigger.vue"
 import Delay from "./node/delay.vue"
 import SubProcess from "./node/subProcess.vue"
 import Route from "./node/route.vue"
