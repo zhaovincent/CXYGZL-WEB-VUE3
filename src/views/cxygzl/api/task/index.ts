@@ -114,6 +114,14 @@ export function rejectTask(param:Object) {
 		data: param
 	})
 }
+// 撤回任务
+export function revokeTask(param:Object) {
+	return request({
+		url: 'task/revoke',
+		method: 'post',
+		data: param
+	})
+}
 // 前加签任务
 export function frontJoinTask(param:Object) {
 	return request({

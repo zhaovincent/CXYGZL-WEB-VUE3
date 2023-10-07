@@ -7,8 +7,6 @@ import {
 } from "../../api/task";
 
 
-
-
 import {RoleQuery} from "../../api/role/types";
 import TaskHandle from "../../components/task/handler/task.vue";
 
@@ -21,6 +19,9 @@ const queryParams = reactive<RoleQuery>({
 	pageNum: 1,
 	pageSize: 10,
 });
+
+import {revokeTask} from "../../api/task";
+
 
 const roleList = ref();
 
@@ -35,7 +36,20 @@ const deal = (row) => {
 	taskHandler.value.deal(row)
 
 
+}
+/**
+ * 撤回
+ * @param row
+ */
+const revoke = (row) => {
 
+	var param = {
+		processInstanceId: row.processInstanceId,
+		executionId: row.executionId
+	};
+	revokeTask(param).then(res => {
+		handleQuery();
+	})
 
 }
 const viewImageRef = ref();
@@ -55,21 +69,19 @@ const viewImage = (row) => {
 function handleQuery() {
 	loading.value = true;
 	queryMineEndTask(queryParams)
-		.then(({data}) => {
-			roleList.value = data.records;
-			total.value = data.total;
-		})
-		.finally(() => {
-			loading.value = false;
-		});
+			.then(({data}) => {
+				roleList.value = data.records;
+				total.value = data.total;
+			})
+			.finally(() => {
+				loading.value = false;
+			});
 }
-
 
 
 onMounted(() => {
 	handleQuery();
 });
-
 
 
 </script>
@@ -96,7 +108,6 @@ onMounted(() => {
 				<el-table-column label="任务结束时间" prop="taskEndTime" width="200"/>
 
 
-
 				<el-table-column fixed="right" label="操作" width="200">
 					<template #default="scope">
 						<el-button
@@ -107,6 +118,15 @@ onMounted(() => {
 						>
 							<i-ep-position/>
 							查看
+						</el-button>
+						<el-button
+								type="danger"
+								size="small"
+								link
+								@click="revoke(scope.row)"
+						>
+							<i-ep-refresh-left/>
+							撤回
 						</el-button>
 
 
@@ -133,10 +153,10 @@ onMounted(() => {
 			/>
 		</el-card>
 
-	  <task-handle ref="taskHandler"    ></task-handle>
+		<task-handle ref="taskHandler"></task-handle>
 
 
-	  <!--			查看流程图-->
+		<!--			查看流程图-->
 		<view-process-instance-image ref="viewImageRef"/>
 
 	</div>
