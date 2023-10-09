@@ -12,9 +12,9 @@
     <el-button type="primary">选择文件</el-button>
   </el-upload>
 
-  <el-dialog v-model="dialogVisible">
-    <img w-full :src="previewImgUrl" alt="Preview Image" />
-  </el-dialog>
+<!--  <el-dialog v-model="dialogVisible">-->
+<!--    <img w-full :src="previewImgUrl" alt="Preview Image" />-->
+<!--  </el-dialog>-->
 </template>
 
 <script setup lang="ts">
@@ -26,6 +26,7 @@ import {
   UploadProps,
 } from "element-plus";
 import { uploadFileApi, deleteFileApi } from "../../api/file";
+import { Base64 } from "js-base64";
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -149,7 +150,11 @@ function handleBeforeUpload(file: UploadRawFile) {
  * 预览图片
  */
 const previewImg: UploadProps["onPreview"] = (uploadFile) => {
-  previewImgUrl.value = uploadFile.url!;
-  dialogVisible.value = true;
+	console.log("==========1=========")
+ // previewImgUrl.value = uploadFile.url!;
+  // dialogVisible.value = true;
+
+    let s = Base64.encode(uploadFile.url);
+    window.open("http://127.0.0.1:8012/onlinePreview?url="+ s)
 };
 </script>

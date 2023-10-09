@@ -11,6 +11,8 @@
 </template>
 <script lang="ts" setup>
 
+import MultiUploadFile from "../Upload/MultiUploadFile.vue";
+
 import {defineExpose} from "vue";
 
 let props = defineProps({
