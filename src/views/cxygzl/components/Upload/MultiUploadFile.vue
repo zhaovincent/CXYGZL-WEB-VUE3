@@ -120,7 +120,7 @@ function handleRemove(removeFile: UploadFile) {
   const filePath = removeFile.url;
 
   if (filePath) {
-    deleteFileApi(filePath).then(() => {
+    // deleteFileApi(filePath).then(() => {
       // 删除成功回调
       emit(
         "update:modelValue",
@@ -131,7 +131,7 @@ function handleRemove(removeFile: UploadFile) {
 			}
 				})
       );
-    });
+    // });
   }
 }
 
