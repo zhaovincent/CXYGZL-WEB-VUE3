@@ -10,6 +10,11 @@
     :disabled="disabled"
   >
     <el-button type="primary">选择文件</el-button>
+    <template #tip v-if="suffixArray?.length>0">
+      <div class="el-upload__tip">
+        只支持文件格式：{{suffixArray.join(",")}}
+      </div>
+    </template>
   </el-upload>
 
 
@@ -23,7 +28,7 @@ import {
   UploadFile,
   UploadProps,
 } from "element-plus";
-import { uploadFileApi, deleteFileApi } from "../../api/file";
+import { uploadFileApi } from "../../api/file";
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -31,6 +36,13 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * 后缀
+   */
+  suffixArray:{
+    type:Array,
+    default:()=>[]
   },
   /**
    * 文件路径集合
@@ -134,6 +146,17 @@ function handleRemove(removeFile: UploadFile) {
  * 限制用户上传文件的格式和大小
  */
 function handleBeforeUpload(file: UploadRawFile) {
+
+  console.log(file,props.suffixArray)
+
+  let name = file.name;
+  var suffix = name.substring(name.lastIndexOf(".") + 1);
+  if (props.suffixArray.indexOf(suffix) < 0) {
+    ElMessage.warning("表单不支持文件格式："+ suffix);
+    return false
+
+  }
+
   if (file.size > props.maxSize * 1048 * 1048) {
     ElMessage.warning("上传文件不能大于"+props.maxSize+"M");
     return false;

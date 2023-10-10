@@ -5,6 +5,7 @@
 											 :disabled="true"/>
 		<multi-upload-file v-else
 											 v-model="form.props.value"
+                       :suffix-array="form.props.suffixArray"
 											 :disabled="form.perm === 'R'"
 		/>
 	</div>
