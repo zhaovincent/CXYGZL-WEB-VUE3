@@ -38,7 +38,7 @@
 				<template v-if="elem.type === 'dept'&&(type==='org'||type==='dept'||type==='user')">
 					<li v-for="item in elem.data" :key="item.id">
 
-						<div style="display: flex;flex-direction: row">
+						<div style="display: flex;flex-direction: row;border: 0px solid blue;">
 							<div class="d11">
 								<el-checkbox v-model="item.selected" @change="changeEvent(item)"
 														 :disabled="(!(type==='org'||type==='dept'))||(item.status==0)"
@@ -55,7 +55,9 @@
 							</div>
 							<div class="d22" @click="queryData(item.id)">
 
-								下级
+                <el-icon style="font-size: 20px;color: #1e83e9">
+                  <Guide/>
+                </el-icon>
 							</div>
 						</div>
 
@@ -104,7 +106,7 @@ var props = defineProps({
 })
 
 import {useUserStore} from "../../stores/user";
-import {Delete, Edit, Search, Share, OfficeBuilding, Grid} from "@element-plus/icons-vue";
+import {Delete, Edit, Search, Share, Guide, Grid} from "@element-plus/icons-vue";
 import {computed, reactive, watch, onMounted, defineExpose} from 'vue'
 
 import {departments, getDebounceData, getDepartmentList, searchVal} from '../../utils/common'
@@ -241,29 +243,6 @@ watch(() => props.selectedList, (val) => {
 	li {
 		padding: 5px 0;
 
-		//i {
-		//	float: right;
-		//	padding-left: 24px;
-		//	padding-right: 10px;
-		//	color: #3195f8;
-		//	font-size: 12px;
-		//	cursor: pointer;
-		//	background: url(../assets/images/next_level_active.png) no-repeat 10px center;
-		//	border-left: 1px solid rgb(238, 238, 238);
-		//}
-
-		//
-		//a.active+i {
-		//  color: rgb(197, 197, 197);
-		//  background-image: url(../assets/images/next_level.png);
-		//  pointer-events: none;
-		//}
-
-		img {
-			//width: 14px;
-			//vertical-align: middle;
-			//margin-right: 5px;
-		}
 	}
 }
 
@@ -335,22 +314,29 @@ watch(() => props.selectedList, (val) => {
 
 .f11 {
 	width: 30px;
+
 }
 
 .f12 {
 	width: calc(100% - 30px);
-	height: 20px;
-	line-height: 20px;
+  padding-top: 5px;
+  border: 0px solid red;
+
 }
 
 .d11 {
 	width: calc(100% - 30px);
+  border: 0px solid red;
+  line-height: 41px;
 }
 
 .d22 {
 	width: 30px;
-	line-height: 41px;
+	 padding-top: 10px;
+  text-align: center;
 	cursor: pointer;
+  border: 0px solid red;
+
 }
 
 .ellipsis-node {
