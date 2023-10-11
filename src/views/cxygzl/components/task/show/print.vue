@@ -30,7 +30,7 @@ const dialogTableVisible=ref(false)
 const printObj=ref({
   id: "printDivTag", // 这里是要打印元素的ID
   popTitle: "&nbsp", // 打印的标题
-  extraCss: "http://localhost:3000/print.css", // 打印可引入外部的一个 css 文件
+  extraCss: "/print.css", // 打印可引入外部的一个 css 文件
   extraHead: "", // 打印头部文字
   preview: false, // 是否启动预览模式，默认是false
   previewTitle: '打印客户账单', // 打印预览的标题

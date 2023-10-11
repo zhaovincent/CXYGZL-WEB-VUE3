@@ -82,7 +82,6 @@ watch(
         return;
       }
 
-      console.log(newVal,fileList.value)
       //判断url
       if(fileList.value.length==newVal.length){
         var match = true;
@@ -99,7 +98,6 @@ watch(
         }
       }
 
-      console.log("文件列表", fileList.value, newVal)
       fileList.value = newVal.map((filePath) => {
         return {url: filePath.url, name: filePath.name} as UploadUserFile;
       });
