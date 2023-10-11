@@ -132,6 +132,10 @@ export function momentFunc(a, b) {
 	return moment(a, b)
 
 }
+export function momentFormat(a, b) {
+	return moment(a).format(b)
+
+}
 
 //最大公约数
 function getGcd(a, b) {

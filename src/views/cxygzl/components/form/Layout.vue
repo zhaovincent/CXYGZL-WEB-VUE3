@@ -50,6 +50,8 @@
                        :icon="$icon['Delete']" text></el-button>
           </div>
         </template>
+
+
         <form-render ref="formRenderRefLayout" :form-list="item"></form-render>
 
       </el-card>

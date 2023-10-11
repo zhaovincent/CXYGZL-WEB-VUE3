@@ -24,7 +24,12 @@ import "element-plus/theme-chalk/dark/css-vars.css";
 import "@/styles/index.scss";
 import "uno.css";
 
+//打印
+import print  from 'vue3-print-nb'
+
+
 const app = createApp(App);
+app.use(print)
 // 全局注册 自定义指令(directive)
 setupDirective(app);
 // 全局注册 状态管理(store)

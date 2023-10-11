@@ -3,6 +3,8 @@
 import {onMounted} from 'vue'
 import {ref, defineExpose} from "vue";
 
+import {Check, Plus, Printer} from "@element-plus/icons-vue";
+import Print from "./print.vue";
 
 
 defineExpose({loadData})
@@ -17,10 +19,24 @@ const currentData = ref({})
 onMounted(() => {
 
 });
+
+const openPrintDialog=()=>{
+  console.log(currentData.value)
+  printRef.value.show(currentData.value.processInstanceId);
+}
+
+const printRef=ref();
+
 </script>
 
 <template>
   <div style="position: relative">
+
+<!--    打印表格-->
+
+
+    <print ref="printRef"></print>
+
 
     <div style="display: flex;flex-direction: row">
       <div class="f11">
@@ -29,8 +45,12 @@ onMounted(() => {
         </el-avatar>
       </div>
       <div class="f22">
-        <div>
-          <el-text tag="b" size="large" type="primary">{{ currentData?.processName }}</el-text>
+        <div style="display: flex;flex-direction: row">
+          <div class="f01"> <el-text tag="b" size="large" type="primary">{{ currentData?.processName }}</el-text> </div>
+          <div class="f02">
+            <el-icon @click="openPrintDialog"><Printer /></el-icon>
+          </div>
+
         </div>
         <div>
           <el-text size="small">{{ currentData.startTime }}</el-text>
@@ -59,5 +79,14 @@ onMounted(() => {
   position: absolute;
   top: 0px;
   right: 10px;
+}
+@f02_width:30px;
+
+.f01{
+  width: calc(100% - @f02_width);
+}
+.f02{
+  width: @f02_width;
+  cursor: pointer;
 }
 </style>
