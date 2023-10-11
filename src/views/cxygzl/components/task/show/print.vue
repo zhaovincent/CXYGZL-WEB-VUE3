@@ -30,7 +30,7 @@ const dialogTableVisible=ref(false)
 const printObj=ref({
   id: "printDivTag", // 这里是要打印元素的ID
   popTitle: "&nbsp", // 打印的标题
-  extraCss: "", // 打印可引入外部的一个 css 文件
+  extraCss: "http://localhost:3000/print.css", // 打印可引入外部的一个 css 文件
   extraHead: "", // 打印头部文字
   preview: false, // 是否启动预览模式，默认是false
   previewTitle: '打印客户账单', // 打印预览的标题
@@ -47,7 +47,7 @@ const printObj=ref({
 
 <template>
   <el-dialog v-model="dialogTableVisible"  >
-    <div id="printDivTag">
+    <div id="printDivTag" style="border: 1px solid #ffffff;">
         <h2 style="text-align: center">{{ allData.processName }}</h2>
         <div style="text-align: right;font-size: 15px;">打印人员：{{userStore.nickname}}</div>
         <div style="display: flex;justify-content: space-between;font-size: 15px;">
@@ -97,7 +97,16 @@ const printObj=ref({
       <div style="text-align: center" class="border">
         <h4>流程节点</h4>
       </div>
+		<div style="display: flex;flex-direction: row" v-for="it1 of allData.approveList" >
+			<div class="title border" style="width:25%;">{{ it1.nodeName }}</div>
+			<div class="content border"  :style="{width:(it1.comment.length>0)?'40%':'75%'}">{{ it1.userName }} / {{it1.taskTypeShow}} / {{it1.date}}</div>
+			<div class="content border" style="width: 35%;" v-if="it1.comment.length>0">
+					<div v-for="c in it1.comment">
+						{{JSON.parse(c.message).content}}
+					</div>
+			</div>
 
+		</div>
 
     </div>
 

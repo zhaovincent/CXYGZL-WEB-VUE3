@@ -78,9 +78,9 @@ const printRef=ref();
   height: 64px;
   position: absolute;
   top: 0px;
-  right: 10px;
+  right: 30px;
 }
-@f02_width:30px;
+@f02_width:20px;
 
 .f01{
   width: calc(100% - @f02_width);
