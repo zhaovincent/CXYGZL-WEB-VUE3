@@ -84,7 +84,7 @@ const printObj=ref({
         </div>
         <template v-else>
           <template v-for="(it ,index) in JSON.parse(item.formValueShow)">
-            <div class="border">明细{{index+1}}</div>
+            <div class="border" style="font-weight: bold">明细{{index+1}}</div>
             <div style="display: flex;flex-direction: row" v-for="it1 of it" >
               <div class="title border" style="width:25%;">{{ it1.formName }}</div>
               <div class="content border" style="width: 75%;">{{ it1.formValueShow }}</div>
