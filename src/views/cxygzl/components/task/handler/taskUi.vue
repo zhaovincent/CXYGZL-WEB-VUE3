@@ -63,10 +63,10 @@ const deal = (tId, pId, fId, ccId,nId) => {
 
     for (var fi of data) {
       if (fi.type === 'Layout') {
-        var arr = [];
+        //var arr = [];
         let value = fi.props.value;
-        arr.push(value);
-        fi.props.value = arr;
+        //arr.push(value);
+        fi.props.value = value;
         fi.props.oriForm = util.deepCopy(value);
       }
     }

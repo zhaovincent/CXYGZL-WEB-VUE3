@@ -97,8 +97,10 @@ const formValue = computed(() => {
 
 		<template v-for="(item,index) in formList">
 
+
 			<el-form-item v-if="item.perm!='H'" :label="item.name+(item.props.unit?'('+item.props.unit+')':'')"
 										:prop="!item?'':item.id" :required="!item?false:item.required">
+
 
 
 				<component style="width: 100%" @addLayoutOneItem="addLayoutOneItem"

@@ -12,6 +12,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import MultiUpload from "../Upload/MultiUpload.vue";
 
 import {defineExpose} from "vue";
 

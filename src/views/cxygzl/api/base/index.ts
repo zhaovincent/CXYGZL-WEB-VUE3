@@ -40,3 +40,15 @@ export function queryTaskOperData(d) {
 }
 
 
+/**
+ * 查询流程打印数据
+ */
+export function queryPrintData(d) {
+	return request({
+		url: '/base/queryPrintData',
+		method: 'get',
+		params:{processInstanceId:d}
+	});
+}
+
+

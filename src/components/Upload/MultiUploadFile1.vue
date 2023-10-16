@@ -150,6 +150,8 @@ function handleBeforeUpload(file: UploadRawFile) {
  * 预览图片
  */
 const previewImg: UploadProps["onPreview"] = (uploadFile) => {
+	console.log("==========1=========")
+	
   previewImgUrl.value = uploadFile.url!;
   dialogVisible.value = true;
 };

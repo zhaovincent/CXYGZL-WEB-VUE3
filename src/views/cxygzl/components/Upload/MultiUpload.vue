@@ -79,6 +79,22 @@ watch(
       return;
     }
 
+	  //判断url
+	  if(fileList.value.length==newVal.length){
+		  var match = true;
+		  let urlArray1 = fileList.value.map(w => w.url).sort();
+		  let urlArray2 = newVal.map(w => w.url).sort();
+		  for (var k = 0; k < urlArray1.length; k++) {
+			  if (urlArray1[k] != urlArray2[k]) {
+				  match = false;
+				  break
+			  }
+		  }
+		  if (match) {
+			  return;
+		  }
+	  }
+
     fileList.value = newVal.map((filePath) => {
       return { url: filePath.url,name:filePath.name } as UploadUserFile;
     });
@@ -100,10 +116,12 @@ async function handleUpload(options: UploadRequestOptions): Promise<any> {
     (file) => file.uid == (options.file as any).uid
   );
 
-  fileList.value.splice(fileIndex, 1, {
-    name: options.file.name,
-    url: fileInfo,
-  } as UploadUserFile);
+	fileList.value[fileIndex].url = fileInfo;
+  //
+  // fileList.value.splice(fileIndex, 1, {
+  //   name: options.file.name,
+  //   url: fileInfo,
+  // } as UploadUserFile);
 
   emit(
     "update:modelValue",

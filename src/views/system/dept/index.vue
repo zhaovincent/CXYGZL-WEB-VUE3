@@ -15,9 +15,6 @@ import {
 	listDepts,
 } from "@/api/dept";
 
-import employeesDialog from '@/views/flow/workflow/components/dialog/employeesDialog.vue'
-
-let selectUserDialogVisible = ref(false)
 
 const {proxy} = getCurrentInstance();
 
