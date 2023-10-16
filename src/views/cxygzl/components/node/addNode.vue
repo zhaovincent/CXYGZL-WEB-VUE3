@@ -366,6 +366,7 @@ const addType = (type) => {
 				//多项表单对应的子流程表单
 				multipleSubFormId: '',
 				subFlowId: "",
+		   subFlowIdArray:[],
 				subFlowName: "",
 				pcFormList: [],
 				cpFormList: []

@@ -2,16 +2,16 @@
 	<el-drawer :append-to-body="true" title="子流程设置" v-model="visible"
 
 
-						 @open="openEvent"
+			   @open="openEvent"
 
-						 class="set_copyer" :show-close="false" :size="550" :before-close="saveDelay">
+			   class="set_copyer" :show-close="false" :size="550" :before-close="saveDelay">
 
 		<el-form label-width="120px" label-position="top">
 
 			<el-form-item label="🌺选择子流程">
 
 
-				<el-cascader v-model="config.subFlowId" :options="flowListTree" @change="subFlowIdChange"/>
+				<el-cascader v-model="config.subFlowIdArray" :options="flowListTree" @change="subFlowIdChange"/>
 			</el-form-item>
 
 			<el-form-item label="👉主→子变量传递">
@@ -27,7 +27,7 @@
 							>
 
 								<el-select v-model="item.field" @change="mainProcessFormChange(index)" placeholder="选择主流程表单"
-													 style="width: 100%">
+										   style="width: 100%">
 									<el-option
 											v-for="f in mainFormList"
 											:key="f.id"
@@ -80,8 +80,8 @@
 			<el-form-item label="🤲完成比例(%)" v-if="config.multiple">
 
 				<el-input-number v-model="config.completeRate" :precision="2" value-on-clear="max" controls-position="right"
-												 :min="0.01"
-												 :step="0.01" :max="100"/>
+								 :min="0.01"
+								 :step="0.01" :max="100"/>
 
 			</el-form-item>
 			<el-form-item label="👏多实例来源" v-if="config.multiple">
@@ -95,7 +95,7 @@
 			<el-form-item label="✍固定数量" v-if="config.multiple&&config.multipleMode==1">
 
 				<el-input-number v-model="config.multipleModeValue" value-on-clear="min" controls-position="right" :min="1"
-												 :step="1" :max="100"/>
+								 :step="1" :max="100"/>
 
 			</el-form-item>
 			<el-form-item label="✍数字表单" v-if="config.multiple&&config.multipleMode==2">
@@ -139,7 +139,7 @@
 							>
 
 								<el-select v-model="item.field" @change="subProcessFormChange(index)" placeholder="选择子流程表单"
-													 style="width: 100%">
+										   style="width: 100%">
 									<el-option
 											v-for="f in subProcessFormItemList"
 											:key="f.id"
@@ -311,10 +311,12 @@ const getMatchMainFormList = (id) => {
 }
 
 const subFlowIdChange = (a) => {
+
 	handleSubFlowIdChange(a[1], true)
 }
 
 const handleSubFlowIdChange = (a, clearForm) => {
+	console.log("流程id=", a)
 	getFlowDetail(a).then(res => {
 		const {data} = res;
 
@@ -346,10 +348,10 @@ var formNumberList = computed(() => {
 //多项表单列表
 var formMultiListComputed = computed(() => {
 	return mainFormList.value.filter(res =>
-			res.type === 'SelectMultiUser'
-			|| res.type === 'SelectMultiDept'
-			|| res.type === 'UploadImage'
-			|| res.type === 'UploadFile'
+		res.type === 'SelectMultiUser'
+		|| res.type === 'SelectMultiDept'
+		|| res.type === 'UploadImage'
+		|| res.type === 'UploadFile'
 	);
 });
 //多项表单下的子级单项表单
@@ -357,7 +359,7 @@ const subProcessSingeFormComputed = computed(() => {
 	var v = config.value;
 	let parentFormId = v.multipleModeValue;
 	let array = mainFormList.value.filter(res =>
-			res.id === parentFormId
+		res.id === parentFormId
 	);
 	if (array.length == 0) {
 		return [];
@@ -409,31 +411,37 @@ const openEvent = () => {
 
 	})
 
-	if (util.isNotBlank(config.value.subFlowId)) {
+	let s = config.value.subFlowIdArray;
+	if (util.isNotBlank(s) && s.length == 2) {
 
-		handleSubFlowIdChange(config.value.subFlowId, false)
+		handleSubFlowIdChange(s[1], false)
 
 	}
 }
 
 const subFlowId = computed(() => {
-	return config.value.subFlowId;
+	return config.value.subFlowIdArray;
 })
 
 watch(() => subFlowId.value, (v) => {
 
+	console.log("子流程id变化了", v)
+
 
 	for (var item of flowListTree.value) {
-		let filter = item.children.filter(res => res.value === v);
+
+		let filter = item.children.filter(res => res.value === v[1]);
 		if (filter.length > 0) {
-			config.value.subFlowName = filter[0].name;
+			config.value.subFlowName = filter[0].label;
+			config.value.subFlowId = filter[0].value;
 			break
 		} else {
 			config.value.subFlowName = util.isNotBlank(config.value.subFlowName) ? config.value.subFlowName : ''
+			config.value.subFlowId = ''
 		}
 	}
 
- })
+})
 
 
 const step2FormList = computed(() => {
