@@ -1,32 +1,32 @@
 <template>
-	<div class="app-container">
+  <div class="app-container">
 
-		<div class="fd-nav-content">
-			<section class="dingflow-design">
-				<div class="zoom">
-					<div class="zoom-out" :class="nowVal == 50 && 'disabled'" @click="zoomSize(1)"></div>
-					<span>{{ nowVal }}%</span>
-					<div class="zoom-in" :class="nowVal == 300 && 'disabled'" @click="zoomSize(2)"></div>
-				</div>
-				<div class="box-scale" :style="`transform: scale(${ nowVal / 100});`">
-					<nodeWrap v-model:nodeConfig="nodeConfig"/>
-					<div class="end-node">
-						<div class="end-node-circle"></div>
-						<div class="end-node-text">流程结束</div>
-					</div>
-				</div>
-			</section>
-		</div>
-		<promoterDrawer/>
-		<approverDrawer/>
-		<copyerDrawer/>
-		<conditionDrawer/>
-		<triggerDrawer/>
-		<asynTriggerDrawer/>
-		<delayDrawer/>
-		<subProcessDrawer/>
-		<route-drawer/>
-	</div>
+    <div class="fd-nav-content">
+      <section class="dingflow-design">
+        <div class="zoom">
+          <div class="zoom-out" :class="nowVal == 50 && 'disabled'" @click="zoomSize(1)"></div>
+          <span>{{ nowVal }}%</span>
+          <div class="zoom-in" :class="nowVal == 300 && 'disabled'" @click="zoomSize(2)"></div>
+        </div>
+        <div class="box-scale" :style="`transform: scale(${ nowVal / 100});`">
+          <nodeWrap v-model:nodeConfig="nodeConfig"/>
+          <div class="end-node">
+            <div class="end-node-circle"></div>
+            <div class="end-node-text">流程结束</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <promoterDrawer/>
+    <approverDrawer/>
+    <copyerDrawer/>
+    <conditionDrawer/>
+    <triggerDrawer/>
+    <asynTriggerDrawer/>
+    <delayDrawer/>
+    <subProcessDrawer/>
+    <route-drawer/>
+  </div>
 </template>
 
 <script setup>
@@ -48,19 +48,18 @@ let tipList = ref([]);
 let nowVal = ref(100);
 let nodeConfig = ref({
 
-	"nodeName": "发起人",
-	"type": 0,
-	"id": "root",
-	"formPerms": {},
-	"nodeUserList": [],
-	"childNode": {},
-	multipleMode: 1,
+  "nodeName": "发起人",
+  "type": 0,
+  "id": "root",
+  "error": false,
+  "formPerms": {},
+  "nodeUserList": [],
+  "childNode": {},
+  multipleMode: 1,
   "dynamicFormConfig": {
     "url": '',
-    "header": [
-    ],
-    "body": [
-    ],
+    "header": [],
+    "body": [],
     "result": [
       {
         "field": '',
@@ -69,109 +68,103 @@ let nodeConfig = ref({
       }
     ]
   },
-	"operList": [
-		{
-			"key": "pass",
-			"checked": true,
-			"edit": false,
-			"name": "完成",
-			"defaultName": "完成"
-		}
-	]
+  "operList": [
+    {
+      "key": "pass",
+      "checked": true,
+      "edit": false,
+      "name": "完成",
+      "defaultName": "完成"
+    }
+  ]
 });
 
 let props = defineProps({
 
 
-	nodeConfigObj: {
-		type: Object,
-		default: () => {
-		}
-	}
+  nodeConfigObj: {
+    type: Object,
+    default: () => {
+    }
+  }
 });
 
 
 watch(() => props.nodeConfigObj, (val) => {
-	nodeConfig.value = val
+  nodeConfig.value = val
 }, {deep: true})
 
-const reErr = ({childNode}) => {
-	if (childNode) {
+const reErr = (childNode) => {
+  if (childNode) {
 
-		let {type, error, nodeName, conditionNodes} = childNode;
+    let {type, error, nodeName, conditionNodes} = childNode;
 
-		if (type == 1 || type == 2) {
-			if (error) {
+    if (type == 3) {
+      reErr(childNode.childNode);
+    } else if (type == 4 || type == 8) {
+      reErr(childNode.childNode);
+      for (var i = 0; i < conditionNodes.length; i++) {
+        if (conditionNodes[i].error) {
+          tipList.value.push('请设置' + conditionNodes[i].nodeName + '的条件');
+        }
+        reErr(conditionNodes[i].childNode);
+      }
+    } else if (type == 5) {
+      reErr(childNode.childNode);
+      for (var i = 0; i < conditionNodes.length; i++) {
+        reErr(conditionNodes[i].childNode);
+      }
+    } else {
+      if (error) {
 
-				tipList.value.push(nodeName + " 未设置人员");
-			}
-			reErr(childNode);
-		} else if (type == 3) {
-			reErr(childNode);
-		} else if (type == 4 || type == 8) {
-			reErr(childNode);
-			for (var i = 0; i < conditionNodes.length; i++) {
-				if (conditionNodes[i].error) {
-					tipList.value.push('请设置' + conditionNodes[i].nodeName + '的条件');
-				}
-				reErr(conditionNodes[i]);
-			}
-		} else if (type == 5) {
-			reErr(childNode);
-			for (var i = 0; i < conditionNodes.length; i++) {
-				reErr(conditionNodes[i]);
-			}
-		} else {
-			if (error) {
-
-				tipList.value.push(nodeName + " ：未配置完成");
-			}
-			reErr(childNode);
-		}
-	} else {
-		childNode = null;
-	}
+        tipList.value.push(nodeName + " ：未配置完成");
+      }
+      reErr(childNode.childNode);
+    }
+  } else {
+    childNode = null;
+  }
 };
 
 let store = useFlowStore();
 
 
 watch(() => nodeConfig.value, (v) => {
-	store.setStep3(v)
+  store.setStep3(v)
 }, {deep: true})
 const getProcessData = async () => {
 
-	return nodeConfig.value
+  return nodeConfig.value
 };
 const zoomSize = (type) => {
-	if (type == 1) {
-		if (nowVal.value == 50) {
-			return;
-		}
-		nowVal.value -= 10;
-	} else {
-		if (nowVal.value == 300) {
-			return;
-		}
-		nowVal.value += 10;
-	}
+  if (type == 1) {
+    if (nowVal.value == 50) {
+      return;
+    }
+    nowVal.value -= 10;
+  } else {
+    if (nowVal.value == 300) {
+      return;
+    }
+    nowVal.value += 10;
+  }
 };
 const validate = (f) => {
 
 
-	tipList.value = [];
+  tipList.value = [];
 
-	if (nodeConfig.value.childNode == undefined || nodeConfig.value.childNode.id === undefined) {
-		tipList.value = ['请完善流程节点']
-	}
+  if (nodeConfig.value.childNode == undefined || nodeConfig.value.childNode.id === undefined) {
+    tipList.value = ['请完善流程节点']
+  }
 
 
-	reErr(nodeConfig.value);
-	if (tipList.value.length != 0) {
-		f(false, tipList.value)
-		return
-	}
-	f(true)
+  reErr(nodeConfig.value);
+  if (tipList.value.length != 0) {
+    f(false, tipList.value)
+    return
+  }
+  f(true)
 }
 defineExpose({validate, getProcessData});
 
@@ -180,6 +173,6 @@ defineExpose({validate, getProcessData});
 @import "../../css/workflow.css";
 
 .error-modal-list {
-	width: 455px;
+  width: 455px;
 }
 </style>
