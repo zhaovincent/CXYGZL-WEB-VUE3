@@ -111,6 +111,7 @@
 								></component>
 								<el-form-item label="其他">
 									<el-checkbox v-model="currentForm.required" label="必填"/>
+									<el-checkbox v-model="currentForm.printable" label="打印"/>
 								</el-form-item>
 							</el-form>
 

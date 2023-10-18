@@ -11,6 +11,7 @@ const formGroupConfig: FormGroupVO[] = [
 				icon: "EditPen",
 				placeholder: "请填写",
 				required: false,
+				printable: true,
 				props: {
 					value: "",
 					regex: "",
@@ -26,6 +27,7 @@ const formGroupConfig: FormGroupVO[] = [
 				typeName: "多行文本",
 				placeholder: "请填写",
 				required: false,
+				printable: true,
 				props: {
 
 					value: ""
@@ -39,6 +41,7 @@ const formGroupConfig: FormGroupVO[] = [
 				typeName: "说明",
 				placeholder: "请填写",
 				required: false,
+				printable: true,
 				props: {
 
 					value: ""
@@ -57,6 +60,7 @@ const formGroupConfig: FormGroupVO[] = [
 				typeName: "数字",
 				placeholder: "请填写",
 				required: false,
+				printable: true,
 				props: {
 					radixNum: 0
 
@@ -71,6 +75,7 @@ const formGroupConfig: FormGroupVO[] = [
 				typeName: "金额",
 				placeholder: "请填写",
 				required: false,
+				printable: true,
 				props: {
 					radixNum: 0
 				},
@@ -86,6 +91,7 @@ const formGroupConfig: FormGroupVO[] = [
 				typeName: "日期",
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					radixNum: 0
 
@@ -99,6 +105,7 @@ const formGroupConfig: FormGroupVO[] = [
 				typeName: "日期时间",
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					radixNum: 0
 
@@ -112,6 +119,7 @@ const formGroupConfig: FormGroupVO[] = [
 				typeName: "时间",
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					radixNum: 0
 
@@ -131,6 +139,7 @@ const formGroupConfig: FormGroupVO[] = [
 				typeName: "单选",
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					options: [
 						{
@@ -147,6 +156,7 @@ const formGroupConfig: FormGroupVO[] = [
 				icon: "Finished",
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					value: [],
 					options: [
@@ -171,6 +181,7 @@ const formGroupConfig: FormGroupVO[] = [
 
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					value: [], min: 1, max: 10, maxSize: 10
 				},
@@ -184,6 +195,7 @@ const formGroupConfig: FormGroupVO[] = [
 				icon: "Upload",
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					value: [], min: 1, max: 10, maxSize: 10, suffixArray: []
 				},
@@ -196,6 +208,7 @@ const formGroupConfig: FormGroupVO[] = [
 				icon: "User",
 
 				required: false,
+				printable: true,
 				props: {
 					defaultRoot:false,
 					multi: false,
@@ -211,6 +224,7 @@ const formGroupConfig: FormGroupVO[] = [
 				icon: "User",
 
 				required: false,
+				printable: true,
 				props: {
 					defaultRoot:false,
 					multi: true,
@@ -225,6 +239,7 @@ const formGroupConfig: FormGroupVO[] = [
 				typeName: "单部门",
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					defaultRoot:false,
 					multi: false,
@@ -239,6 +254,7 @@ const formGroupConfig: FormGroupVO[] = [
 				typeName: "多部门",
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					defaultRoot:false,
 					multi: true,
@@ -252,6 +268,7 @@ const formGroupConfig: FormGroupVO[] = [
 				icon: "Position",
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					value: {}
 				},
@@ -262,6 +279,7 @@ const formGroupConfig: FormGroupVO[] = [
 				icon: "StarFilled",
 				placeholder: "请评分",
 				required: false,
+				printable: true,
 				props: {
 					value: 0, min: 1, max: 10,halfSelect:false,radixNum:1
 				},
@@ -272,6 +290,7 @@ const formGroupConfig: FormGroupVO[] = [
 				icon: "ShoppingBag",
 				placeholder: "请选择",
 				required: false,
+				printable: true,
 				props: {
 					value: [], min: 1, max: 10
 				},
