@@ -76,13 +76,7 @@ const printObj=ref({
         <h4>表单内容</h4>
       </div>
       <template v-for="item in allData.formList">
-
-        <div style="display: flex;flex-direction: row" v-if="item.formType!='Layout'" >
-          <div class="title border" style="width:25%;">{{ item.formName }}</div>
-          <div class="content border" style="width: 75%;">{{ item.formValueShow }}</div>
-
-        </div>
-        <template v-else>
+        <template  v-if="item.formType=='Layout'">
           <template v-for="(it ,index) in JSON.parse(item.formValueShow)">
             <div class="border" style="font-weight: bold">明细{{index+1}}</div>
             <div style="display: flex;flex-direction: row" v-for="it1 of it" >
@@ -93,6 +87,19 @@ const printObj=ref({
           </template>
           <div class="border" style="height: 15px;"></div>
         </template>
+        <div style="display: flex;flex-direction: row"  v-else-if="item.formType=='Signature'">
+          <div class="title border" style="width:25%;">{{ item.formName }}</div>
+          <div class="content border" style="width: 75%;">
+            <img height="200" :src="item.formValue" />
+          </div>
+
+        </div>
+        <div v-else style="display: flex;flex-direction: row" >
+          <div class="title border" style="width:25%;">{{ item.formName }}</div>
+          <div class="content border" style="width: 75%;">{{ item.formValueShow }}</div>
+
+        </div>
+
       </template>
       <div style="text-align: center" class="border">
         <h4>流程节点</h4>
