@@ -294,6 +294,17 @@ const formGroupConfig: FormGroupVO[] = [
 				props: {
 					value: [], min: 1, max: 10
 				},
+			},{
+				name: "签名",
+				type: "Signature",
+				typeName: "签名",
+				icon: "EditPen",
+				placeholder: "请录入",
+				required: false,
+				printable: true,
+				props: {
+					 lastContent:false
+				},
 			}
 		]
 	}
