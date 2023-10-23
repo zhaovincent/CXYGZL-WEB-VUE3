@@ -52,3 +52,17 @@ export function queryPrintData(d) {
 }
 
 
+
+
+/**
+ * 修改前端版本号
+ */
+export function setWebVersion(d) {
+	return request({
+		url: '/base/setWebVersion',
+		method: 'post',
+		data:{versionNo:d}
+	});
+}
+
+
