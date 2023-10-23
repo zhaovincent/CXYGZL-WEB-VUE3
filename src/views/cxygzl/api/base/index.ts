@@ -66,3 +66,15 @@ export function setWebVersion(d) {
 }
 
 
+
+/**
+ * 获取前端版本号
+ */
+export function getWebVersion() {
+	return request({
+		url: '/base/getWebVersion',
+		method: 'get'
+	});
+}
+
+

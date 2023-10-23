@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import {ref, getCurrentInstance, onMounted, watch} from 'vue'
 
-import {setWebVersion} from '../../api/base/index'
+import {setWebVersion,getWebVersion} from '../../api/base/index'
 
 const version = ref('')
 const onSubmit=()=>{
@@ -9,6 +10,13 @@ const onSubmit=()=>{
 
 		})
 }
+
+onMounted(()=>{
+	getWebVersion().then(res=>{
+			version.value=res.data;
+	})
+})
+
 </script>
 
 <template>
