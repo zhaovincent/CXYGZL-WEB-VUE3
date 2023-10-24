@@ -56,7 +56,7 @@ const configOK = (t) => {
 <!--		<el-form-item label="">-->
 <!--      <el-checkbox v-model="config.props.readonly" label="不可编辑" size="large" />-->
 <!--		</el-form-item>-->
-		<el-form-item label="公式">
+		<el-form-item label="公式" required>
 
 			<el-button @click="toEdit">点击编辑</el-button>
 
