@@ -295,15 +295,27 @@ const formGroupConfig: FormGroupVO[] = [
 					value: [], min: 1, max: 10
 				},
 			},{
-				name: "签名",
+				name: "手写签名",
 				type: "Signature",
-				typeName: "签名",
+				typeName: "手写签名",
 				icon: "EditPen",
 				placeholder: "请录入",
 				required: false,
 				printable: true,
 				props: {
 					 lastContent:false
+				},
+			},{
+				name: "计算公式",
+				type: "Formula",
+				typeName: "计算公式",
+				icon: "Histogram",
+				placeholder: "请填写",
+				required: false,
+				printable: true,
+				props: {
+					unit:'',
+					expList:[]
 				},
 			}
 		]

@@ -85,6 +85,8 @@ const formValue = computed(() => {
 })
 
 
+
+
 </script>
 
 <template>
@@ -103,7 +105,7 @@ const formValue = computed(() => {
 
 
 
-				<component style="width: 100%" @addLayoutOneItem="addLayoutOneItem"
+				<component style="width: 100%" @addLayoutOneItem="addLayoutOneItem" :formValue="formValue"
 									 @deleteLayoutOneItem="deleteLayoutOneItem"
 									 :is="getFormWidget(item.type)"
 									 mode="RUN" :ref="'form'+item.id"
