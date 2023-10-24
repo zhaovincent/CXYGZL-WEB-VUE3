@@ -168,6 +168,35 @@ export let conditionExpression = ref(
 				name: "小于等于"
 			}
 		],
+		"Formula": [
+			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
+			{
+				key: "==",
+				name: "等于"
+			}, {
+				key: "!=",
+				name: "不等于"
+			}, {
+				key: ">",
+				name: "大于"
+			}, {
+				key: ">=",
+				name: "大于等于"
+			}, {
+				key: "<",
+				name: "小于"
+			}, {
+				key: "<=",
+				name: "小于等于"
+			}
+		],
 		"Date": [
 			{
 				key: "empty",

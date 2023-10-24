@@ -253,6 +253,7 @@ conditionTypeObj==='Textarea'
 						   v-if="conditionTypeObj==='Money'
 										 ||
 conditionTypeObj==='Number'			 ||
+conditionTypeObj==='Formula'			 ||
 conditionTypeObj==='Score'
 "
 						   :precision="numberFormPrecision"

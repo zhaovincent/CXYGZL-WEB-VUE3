@@ -315,6 +315,7 @@ const formGroupConfig: FormGroupVO[] = [
 				printable: true,
 				props: {
 					unit:'',
+					readonly:true,
 					expList:[]
 				},
 			}

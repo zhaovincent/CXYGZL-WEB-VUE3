@@ -53,6 +53,9 @@ const configOK = (t) => {
 		<el-form-item label="单位">
 			<el-input v-model="config.props.unit" style="width: 100%" maxlength="10"/>
 		</el-form-item>
+<!--		<el-form-item label="">-->
+<!--      <el-checkbox v-model="config.props.readonly" label="不可编辑" size="large" />-->
+<!--		</el-form-item>-->
 		<el-form-item label="公式">
 
 			<el-button @click="toEdit">点击编辑</el-button>
