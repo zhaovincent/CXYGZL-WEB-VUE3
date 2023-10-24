@@ -135,7 +135,10 @@ watch(conditionsConfig1, (condition) => {
 
 let _uid = getCurrentInstance().uid;
 
-const openConfigDrawer = (priorityLevel) => {
+const openConfigDrawer = (priorityLevel,index) => {
+	if(index>=props.nodeConfig.conditionNodes.length-1){
+		return
+	}
 
 
 	setConditionsConfig({
@@ -251,7 +254,7 @@ watch(() => step2FormList.value, (val) => {
 									/>
 									<span v-else class="editable-title" :style="`color: rgb(${bgColors[nodeConfig.type]});`"
 												@click="clickEvent(index)">{{ item.nodeName }}</span>
-									<span class="priority-title" @click="openConfigDrawer(item.priorityLevel)">优先级{{
+									<span class="priority-title" @click="openConfigDrawer(item.priorityLevel,index)">优先级{{
 											item.priorityLevel
 										}}</span>
 									<i class="anticon anticon-close close" @click="delTerm(index)"></i>
@@ -259,10 +262,9 @@ watch(() => step2FormList.value, (val) => {
 								<div class="sort-right" v-if="index != nodeConfig.conditionNodes.length - 1"
 										 @click="arrTransfer(index)">&gt;
 								</div>
-								<div class="content" v-if="index<nodeConfig.conditionNodes.length-1"
-										 @click="openConfigDrawer(item.priorityLevel)">{{ $func.conditionStr(nodeConfig, index) }}
+								<div class="content"
+										 @click="openConfigDrawer(item.priorityLevel,index)">{{ $func.conditionStr(nodeConfig, index) }}
 								</div>
-								<div class="content" v-else>{{ $func.conditionStr(nodeConfig, index) }}</div>
 								<div class="error_tip" v-if="item.error">
 									<i class="anticon anticon-exclamation-circle"></i>
 								</div>
