@@ -25,6 +25,7 @@ const handleClearSign = () => {
 
 import {Delete} from "@element-plus/icons-vue";
 import {uploadFileApi} from "../../../api/file";
+import {createSignatureRecord} from "../../../api/signatureRecord";
 
 // 绘制起点
 let startX = 0,
@@ -147,6 +148,8 @@ const handleToFile = async () => {
 
 
   console.log("签名图片:",data)
+
+		await  createSignatureRecord({url:data})
 
   dialogTableVisible.value=false;
 
