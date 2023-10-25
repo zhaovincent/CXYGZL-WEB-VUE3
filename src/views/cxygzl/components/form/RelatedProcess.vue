@@ -20,7 +20,7 @@ import  RelatedProcessDialog from './render/RelatedProcess.vue'
 
 const relatedProcessRef=ref()
 const showDialog=()=>{
-  relatedProcessRef.value.show(props.form.name);
+  relatedProcessRef.value.show(props.form.name,props.form.props.options);
 }
 
 let props = defineProps({
