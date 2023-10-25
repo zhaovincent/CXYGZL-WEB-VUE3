@@ -318,6 +318,17 @@ const formGroupConfig: FormGroupVO[] = [
 					readonly:true,
 					expList:[]
 				},
+			},{
+				name: "关联流程",
+				type: "RelatedProcess",
+				typeName: "关联流程",
+				icon: "Connection",
+				placeholder: "请选择",
+				required: false,
+				printable: true,
+				props: {
+					options:[]
+				},
 			}
 		]
 	}
