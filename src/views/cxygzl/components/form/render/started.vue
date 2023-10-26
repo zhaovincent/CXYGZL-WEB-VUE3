@@ -51,7 +51,16 @@ const  clear=()=>{
 }
 
 const  getData=()=>{
-  return multipleSelection.value
+  let value = multipleSelection.value;
+    var arr=[]
+  for(var it of value){
+    arr.push({
+      processInstanceId:it.processInstanceId,
+      processName:it.name,
+      flowId:it.flowId
+    })
+  }
+  return arr
 }
 defineExpose({clear,getData});
 

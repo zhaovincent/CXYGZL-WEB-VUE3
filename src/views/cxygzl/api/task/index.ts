@@ -15,6 +15,19 @@ export function queryMineCC(data: any) {
 		data: data
 	});
 }
+
+/**
+ * 抄送给我的流程实例
+ *
+ * @param data
+ */
+export function queryMineCCInstance(data: any) {
+	return request({
+		url: '/process-instance/queryMineCCProcessInstance',
+		method: 'post',
+		data: data
+	});
+}
 /**
  * 查询待办任务
  *
@@ -54,6 +67,14 @@ export function queryMineStarted(data: any) {
 export function queryMineEndTask(param) {
 	return request({
 		url: 'process-instance/queryMineEndTask',
+		method: 'post',
+		data: param
+	})
+}
+// 查询当前用户已办任务的流程实例
+export function queryMineDoneProcessInstance(param) {
+	return request({
+		url: 'process-instance/queryMineDoneProcessInstance',
 		method: 'post',
 		data: param
 	})
