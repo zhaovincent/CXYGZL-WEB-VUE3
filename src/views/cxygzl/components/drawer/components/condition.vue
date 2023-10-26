@@ -27,6 +27,7 @@ const formList = computed(() => {
 			res.type != 'SelectMultiDept' &&
 			res.type != 'Description' &&
 			res.type != 'Signature' &&
+			res.type != 'RelatedProcess' &&
 			res.type != 'Layout' &&
 			res.type != 'UploadImage' &&
 			res.type != 'UploadFile'
