@@ -53,7 +53,7 @@ const confirm = () => {
 
     console.log(data)
 
-	emits('ok', itemList.value)
+	emits('ok', data)
 	dialogTableVisible.value = false;
 }
 
@@ -87,12 +87,12 @@ const clickTab=()=>{
 		  <el-tab-pane label="我的发起" name="first">
 					<started-list :flowIdList="flowIdList" ref="firstRef"></started-list>
 			</el-tab-pane>
-		  <el-tab-pane label="我的已办" name="second">
-					<completed-list :flowIdList="flowIdList" ref="secondRef"> </completed-list>
-			</el-tab-pane>
-		  <el-tab-pane label="抄送给我" name="third">
-					<c-c-list :flowIdList="flowIdList" ref="thirdRef"></c-c-list>
-			</el-tab-pane>
+<!--		  <el-tab-pane label="我的已办" name="second">-->
+<!--					<completed-list :flowIdList="flowIdList" ref="secondRef"> </completed-list>-->
+<!--			</el-tab-pane>-->
+<!--		  <el-tab-pane label="抄送给我" name="third">-->
+<!--					<c-c-list :flowIdList="flowIdList" ref="thirdRef"></c-c-list>-->
+<!--			</el-tab-pane>-->
 	  </el-tabs>
 
 		<template #footer>

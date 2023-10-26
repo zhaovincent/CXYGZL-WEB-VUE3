@@ -10,17 +10,31 @@
     />
     <template v-else>
       <el-button @click="showDialog" :disabled="form.perm === 'R'" >选择流程</el-button>
-      <related-process-dialog ref="relatedProcessRef"></related-process-dialog>
+      <related-process-dialog @ok="selectFinished" ref="relatedProcessRef"></related-process-dialog>
+				<template v-for="(item,index) in form.props.value"  >
+						<div style="display: flex;flex-direction: row;margin-top: 5px;border: 1px solid lightgray;border-radius: 5px;padding: 5px 10px;">
+								<div style="width: 80%;font-size: 12px;">{{ item.name }}</div>
+								<div v-if="form.perm != 'R'" style="width: 20%;text-align: right;cursor: pointer" @click="delSelectedProcess(index)"><el-icon><Close /></el-icon></div>
+						</div>
+				</template>
     </template>
 
   </div>
 </template>
 <script lang="ts" setup>
 import  RelatedProcessDialog from './render/RelatedProcess.vue'
+import {Check, Plus, Close} from "@element-plus/icons-vue";
 
 const relatedProcessRef=ref()
 const showDialog=()=>{
   relatedProcessRef.value.show(props.form.name,props.form.props.options);
+}
+
+const selectFinished=(d)=>{
+	props.form.props.value=d;
+}
+const delSelectedProcess=(d)=>{
+	 props.form.props.value.splice(d,1)
 }
 
 let props = defineProps({
@@ -62,8 +76,8 @@ const getValidateRule = () => {
   var checkConfig = (rule: any, value: any, callback: any) => {
 
     if (item.required) {
-      if (!(value)) {
-        return callback(new Error("请填写" + item.name))
+      if (!(value)||value.length<1) {
+        return callback(new Error("请选择" + item.name))
       }
     }
     if (!(value)) {
