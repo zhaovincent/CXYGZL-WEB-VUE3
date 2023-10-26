@@ -117,12 +117,7 @@ onMounted(() => {
 
 });
 
-watch(() => props.groupId, (val) => {
-	if (!!val) {
-		form.value.groupId = (val);
-	}
 
-})
 
 let props = defineProps({
 	groupId: {
@@ -132,6 +127,14 @@ let props = defineProps({
 
 
 });
+
+
+watch(() => props.groupId, (val) => {
+	if (!!val) {
+		form.value.groupId = (val);
+	}
+
+})
 
 import {reactive, ref, computed} from "vue";
 import {GroupVO} from "@/api/group/types";
