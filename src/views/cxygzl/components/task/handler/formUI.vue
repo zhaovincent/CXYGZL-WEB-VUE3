@@ -35,12 +35,14 @@ function loadData(d, fid, nId, pId, tId, cId) {
 const addLayoutOneItem = (id) => {
 
 
+
 	for (var item of formList.value) {
 		if (item.id !== id) {
 			continue;
 		}
 		let value = item.props.value;
 		let oriForm = item.props.oriForm;
+    console.log(oriForm,"原始表单")
 		value.push(util.deepCopy(oriForm));
 		item.props.value = value;
 
@@ -70,6 +72,7 @@ const validate = (f) => {
 }
 
 function getFormValueObj(v) {
+
 	var obj = {}
 
 	for (var item of v) {
@@ -82,6 +85,7 @@ function getFormValueObj(v) {
 
 			var d = []
 			for (var array of subList) {
+
 				var v = {}
 
 				for (var subItem of array) {

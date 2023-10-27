@@ -30,7 +30,7 @@
             </el-icon>
             <el-form-item :label="step2Object[element.id]?.name" :required="step2Object[element.id]?.required">
 
-              <component style="width: 100%"
+              <component style="width: 100%" :formValue="formValue"
                          :is="getFormWidget(element.type)"
                          :id="element.id"
                          v-model:form="step2Object[element.id]"
@@ -52,7 +52,7 @@
         </template>
 
 
-        <form-render ref="formRenderRefLayout" :form-list="item"></form-render>
+        <form-render :index="index" ref="formRenderRefLayout" :form-list="item"></form-render>
 
       </el-card>
       <div style="text-align: center;padding: 15px;">
@@ -166,7 +166,11 @@ let props = defineProps({
     type: String,
     default: ''
   },
+	formValue:{
+	  type: Object, default: () => {
 
+	  }
+	},
   index: {
     type: Number,
     default: undefined

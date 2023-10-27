@@ -16,7 +16,28 @@ const step2FormList = computed(() => {
 
 const numberFormList = computed(() => {
 
-	return step2FormList.value.filter(res =>
+  var c=undefined;
+
+  let step2 = flowStore.step2;
+  var idObjList = step2.filter(res => res.id === formId.value);
+  if (idObjList.length > 0) {
+    c= step2;
+  }else{
+    let list = step2.filter(res => res.type === 'Layout');
+    for (var item of list) {
+      let value = item.props.value;
+      var valueList = value.filter(res => res.id === formId.value);
+      if (valueList.length > 0) {
+        c= value.concat(step2);
+
+        break
+      }
+    }
+  }
+
+
+
+  return c.filter(res =>
 			res.type === 'Number'
 			||
 			res.type === 'Money'
@@ -25,10 +46,15 @@ const numberFormList = computed(() => {
 	);
 })
 
+const formId=ref('')
 
 const dialogTableVisible = ref(false);
 
-const show = (title1,d) => {
+const show = (title1,d,fId) => {
+
+  console.log("公式表单id",fId)
+
+  formId.value=fId;
 
 	title.value = title1;
 
@@ -72,6 +98,13 @@ const clearItemList = () => {
 	itemList.value = []
 }
 
+const clearLastItem = () => {
+  if(itemList.value.length>0){
+    itemList.value .splice(itemList.value.length-1,1)
+
+  }
+}
+
 const addItem = (value, name, tagtype,type) => {
 	itemList.value.push({
 		value: value,
@@ -91,9 +124,13 @@ const addItem = (value, name, tagtype,type) => {
 				{{ item.name }}
 			</el-tag>
 
-			<el-button style="position: absolute;bottom: 20px;right: 10px; " type="primary" :icon="Delete" text size="small"
+			<el-button style="position: absolute;bottom: 20px;right: 10px; " type="danger" :icon="Delete" text size="small"
 								 @click="clearItemList">
 				清除
+			</el-button>
+			<el-button style="position: absolute;bottom: 20px;right: 80px; " type="primary" :icon="Delete" text size="small"
+								 @click="clearLastItem">
+				后退
 			</el-button>
 		</div>
 		<div style="display: flex;flex-direction: row;margin-top: 20px;">

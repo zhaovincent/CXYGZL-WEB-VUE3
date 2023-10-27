@@ -64,7 +64,8 @@ const handle = (fId,tId,pId) => {
         let value = fi.props.value;
         arr.push(value);
         fi.props.value = arr;
-        fi.props.oriForm = util.deepCopy(value);
+
+         fi.props.oriForm = util.deepCopy(value);
       }
     }
 

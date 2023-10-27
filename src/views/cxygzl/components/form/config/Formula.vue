@@ -36,7 +36,11 @@ var config = computed(() => {
 const formulaRenderRef = ref();
 
 const toEdit = () => {
-	formulaRenderRef.value.show("公式",config.value.props.expList);
+
+
+
+
+	formulaRenderRef.value.show("公式",config.value.props.expList,props.id);
 }
 
 const configOK = (t) => {

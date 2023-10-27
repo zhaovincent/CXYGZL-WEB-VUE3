@@ -20,12 +20,57 @@
 </template>
 <script lang="ts" setup>
 import {isBlank} from "../../utils/objutil";
+import {useFlowStore} from "../../stores/flow";
+
+let flowStore = useFlowStore();
+
+var formValueStore = computed(() => {
+  return flowStore.formValue;
+});
+
+
+const getFormValue = (formId, index) => {
+
+
+  let e = formValueStore.value[formId];
+  if (index < 0) {
+    return e
+  } else {
+    if (e) {
+      return e;
+    }
+
+    for (var k in formValueStore.value) {
+      let valueElement = formValueStore.value[k];
+      if (valueElement && (valueElement instanceof Array)) {
+        if (valueElement.length > index) {
+          let valueElementElementElement = valueElement[index][formId];
+          if (valueElementElementElement) {
+            return valueElementElementElement
+
+          }
+        }
+      }
+    }
+
+
+  }
+
+  return undefined;
+
+}
 
 let props = defineProps({
 
   mode: {
     type: String,
     default: 'D'
+  },
+
+
+  index: {
+    type: Number,
+    default: 0
   },
 
 
@@ -51,12 +96,13 @@ const fValue = computed(
 
 
         let expList = props.form.props.expList;
-        console.log(expList, '--------------')
+
 
         var exp = "";
         for (var it of expList) {
           if (it.type === 'form') {
-            let v = props.formValue[it.value];
+            let v = getFormValue(it.value, props.index);
+
             if (isBlank(v) || !v) {
               props.form.props.value = '';
 
@@ -68,7 +114,6 @@ const fValue = computed(
           }
         }
 
-        console.log(exp, "公示表达式")
 
         props.form.props.value = eval(exp);
 

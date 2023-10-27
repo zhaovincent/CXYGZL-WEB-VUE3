@@ -11,6 +11,9 @@ import {FormConfigUserVO, FormVO} from "../api/form/types";
 export const useFlowStore = defineStore("flow", {
     state: () => {
         return {
+			formValue:{
+
+			},
             step1: {
                 logo: "",
                 name: "",
@@ -100,6 +103,9 @@ export const useFlowStore = defineStore("flow", {
         };
     },
     actions: {
+		setFormValue(v){
+			this.formValue=v;
+		},
         setStep2(p: FormVO[]) {
             this.step2 = p;
         },

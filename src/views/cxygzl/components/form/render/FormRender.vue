@@ -2,6 +2,7 @@
 import getFormName from "../../../utils/getFormWidget";
 import {onMounted, reactive, ref} from 'vue'
 import type {FormRules} from 'element-plus'
+import {computed} from "vue";
 
 const getFormWidget = (name: string) => {
 	//写的时候，组件的起名一定要与dragList中的element名字一模一样，不然会映射不上
@@ -12,7 +13,13 @@ const {proxy} = getCurrentInstance();
 let props = defineProps({
 
 
-	formList: {
+  index: {
+    type: Number,
+    default: -1
+  },
+
+
+  formList: {
 		type: Object, default: () => {
 
 		}
@@ -85,6 +92,16 @@ const formValue = computed(() => {
 })
 
 
+import {useFlowStore} from "../../../stores/flow";
+
+let flowStore = useFlowStore();
+
+
+
+watch(()=>formValue.value,(v)=>{
+    flowStore.setFormValue(v)
+})
+
 
 
 </script>
@@ -107,7 +124,7 @@ const formValue = computed(() => {
 
 				<component style="width: 100%" @addLayoutOneItem="addLayoutOneItem" :formValue="formValue"
 									 @deleteLayoutOneItem="deleteLayoutOneItem"
-									 :is="getFormWidget(item.type)"
+									 :is="getFormWidget(item.type)" :index="props.index>=0?props.index:-1"
 									 mode="RUN" :ref="'form'+item.id"
 									 :form="item"
 				></component>

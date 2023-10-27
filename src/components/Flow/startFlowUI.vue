@@ -86,7 +86,10 @@ const handle = (row,formIteamJsonArray,t) => {
 			let value = fi.props.value;
 			arr.push(value);
 			fi.props.value = arr;
-			fi.props.oriForm = proxy.$deepCopy(value);
+
+      console.log("fi1-----------------",fi)
+
+			 //fi.props.oriForm = proxy.$deepCopy(value);
 		}
 	}
 
