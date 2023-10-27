@@ -79,7 +79,7 @@ defineExpose({clear,getData});
   >
     <el-table-column type="selection" width="55" />
     <el-table-column label="分组" prop="groupName" width="100"/>
-    <el-table-column label="流程" prop="processName" width="150"/>
+    <el-table-column label="流程" prop="processName" width="200"/>
     <el-table-column label="发起人" prop="startUserName" width="150"/>
     <el-table-column label="发起时间" prop="startTime" width="200"/>
       <el-table-column label="状态" prop="taskCreateTime" width="150">

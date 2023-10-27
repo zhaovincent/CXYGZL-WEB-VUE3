@@ -78,11 +78,11 @@ defineExpose({clear,getData});
   >
     <el-table-column type="selection" width="55" />
     <el-table-column label="分组" prop="groupName" width="100"/>
-    <el-table-column label="流程" prop="processName" width="150"/>
+    <el-table-column label="流程" prop="processName" width="200"/>
     <el-table-column label="发起人" prop="startUserName" width="150"/>
-    <el-table-column label="发起时间" prop="startTime" width="200"/>
-    <el-table-column label="结束时间" prop="endTime" width="200"/>
-    <el-table-column label="状态" prop="taskCreateTime" width="150">
+    <el-table-column label="发起时间" prop="startTime" width="160"/>
+    <el-table-column label="结束时间" prop="endTime" width="160"/>
+    <el-table-column label="状态" prop="taskCreateTime" width="100">
       <template #default="scope">
         <el-tag v-if="scope.row.processInstanceStatus == 1" type="success">进行中</el-tag>
         <el-tag v-else-if="scope.row.processInstanceStatus == 3" type="danger">已撤销</el-tag>
