@@ -42,7 +42,6 @@ const addLayoutOneItem = (id) => {
 		}
 		let value = item.props.value;
 		let oriForm = item.props.oriForm;
-    console.log(oriForm,"原始表单")
 		value.push(util.deepCopy(oriForm));
 		item.props.value = value;
 

@@ -14,13 +14,11 @@ const show = (title1,options,v) => {
 
 	title.value = title1;
 
-    console.log(options,"关联流程选项",v)
 		if(v){
 			itemList.value=v;
 		}
 
 		let map = options.map(w=>w[1]);
-    console.log(map,"关联流程选项")
 
 		flowIdList.value=map;
 

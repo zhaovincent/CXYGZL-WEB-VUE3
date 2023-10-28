@@ -168,38 +168,11 @@ const formGroupConfig: FormGroupVO[] = [
 				},
 			}
 		]
-	},{
-	name:"其他",
+	},
+	{
+		name:'组织架构',
 		formList:[
 
-
-			{
-				name: "图片",
-				type: "UploadImage",
-				typeName: "图片",
-				icon: "Picture",
-
-				placeholder: "请选择",
-				required: false,
-				printable: true,
-				props: {
-					value: [], min: 1, max: 10, maxSize: 10
-				},
-			},
-
-
-			{
-				name: "文件",
-				type: "UploadFile",
-				typeName: "文件",
-				icon: "Upload",
-				placeholder: "请选择",
-				required: false,
-				printable: true,
-				props: {
-					value: [], min: 1, max: 10, maxSize: 10, suffixArray: []
-				},
-			},
 			{
 				name: "单用户",
 				type: "SelectUser",
@@ -260,6 +233,40 @@ const formGroupConfig: FormGroupVO[] = [
 					multi: true,
 					self: false,
 					value: []
+				},
+			}
+		]
+	},
+	{
+	name:"其他",
+		formList:[
+
+
+			{
+				name: "图片",
+				type: "UploadImage",
+				typeName: "图片",
+				icon: "Picture",
+
+				placeholder: "请选择",
+				required: false,
+				printable: true,
+				props: {
+					value: [], min: 1, max: 10, maxSize: 10
+				},
+			},
+
+
+			{
+				name: "文件",
+				type: "UploadFile",
+				typeName: "文件",
+				icon: "Upload",
+				placeholder: "请选择",
+				required: false,
+				printable: true,
+				props: {
+					value: [], min: 1, max: 10, maxSize: 10, suffixArray: []
 				},
 			},{
 				name: "地区",

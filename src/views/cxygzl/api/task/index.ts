@@ -61,6 +61,18 @@ export function queryMineStarted(data: any) {
 		data: data
 	});
 }
+/**
+ * 查询流程实例详情
+ *
+ * @param data
+ */
+export function queryDetailByProcessInstanceId(data: any) {
+	return request({
+		url: '/process-instance/queryDetailByProcessInstanceId',
+		method: 'get',
+		params: {processInstanceId:data}
+	});
+}
 
 
 // 查询当前用户已办任务
