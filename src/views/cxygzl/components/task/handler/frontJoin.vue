@@ -6,7 +6,6 @@ import selectShow from "../../orgselect/selectAndShow.vue";
 
 const dialogVisible = ref(false);
 
-const submitDesc = ref("");
 
 const currentOpenFlowForm = ref();
 
@@ -47,14 +46,13 @@ const submit = () => {
 	var param = {
 		paramMap: value,
 		taskId:taskId.value,
-	  approveDesc:submitDesc.value,
 
 	  targetUserId:userList.value[0].id,
 	  processInstanceId: processInstanceId.value
 
 	};
+  param={...param,...commentContent.value};
 
-	console.log(param)
 
 	frontJoinTask(param).then(res => {
 		dialogVisible.value = false;
@@ -67,10 +65,12 @@ const submit = () => {
 const userList=ref([])
 
 const dialogClosed=()=>{
-  submitDesc.value=''
+  commentContent.value={}
   userList.value=[]
 }
+const  commentContent=ref({})
 
+import  CommentHandle from './components/comment.vue'
 </script>
 
 <template>
@@ -96,16 +96,8 @@ const dialogClosed=()=>{
 
 		</div>
 
-			<el-input
+      <comment-handle :content="commentContent"></comment-handle>
 
-							style="margin-top: 20px;"
-
-			  v-model="submitDesc"
-							type="textarea"
-								maxlength="100"
-								:rows="5"
-								placeholder="审核意见"
-								show-word-limit/>
 			<template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>

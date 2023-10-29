@@ -5,7 +5,6 @@ import {rejectTask} from "../../../api/task";
 
 const dialogVisible = ref(false);
 
-const submitDesc = ref("");
 const rejectNodeId = ref("");
 
 
@@ -156,12 +155,12 @@ const submit = () => {
 		taskId: taskId.value,
 	  nodeId: nodeId.value,
 	  targetNodeId: rejectNodeId.value,
-	  processInstanceId: processInstanceId.value,
-	  approveDesc: submitDesc.value
+	  processInstanceId: processInstanceId.value
 
 
 
 	};
+  param={...param,...commentContent.value};
 
 	rejectTask(param).then(res => {
 		dialogVisible.value = false;
@@ -172,9 +171,14 @@ const submit = () => {
 }
 
 const dialogClosed=()=>{
-  submitDesc.value=''
+  commentContent.value={}
   rejectNodeId.value=''
 }
+const  commentContent=ref({})
+
+import  CommentHandle from './components/comment.vue'
+
+
 </script>
 
 <template>
@@ -200,14 +204,8 @@ const dialogClosed=()=>{
 			/>
 		</el-select>
 
-			<el-input
+      <comment-handle :content="commentContent"></comment-handle>
 
-			  v-model="submitDesc"
-							type="textarea"
-								maxlength="100"
-								:rows="5"
-								placeholder="审核意见"
-								show-word-limit/>
 			<template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>

@@ -128,6 +128,24 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
 							<el-tag v-if="item1.sys" type="success">系统</el-tag>
 								<el-text  type="info">{{JSON.parse(item1.desc).content}}</el-text>
 
+              <div v-if="item1.approveImageList?.length>0" style="margin-top: 10px;margin-bottom: 10px;">
+                <el-image v-for="im in item1.approveImageList"
+                    style="width: 60px; height: 60px"
+                    :src="im.url"
+                    :zoom-rate="1.2"
+                    :max-scale="7"
+                    :min-scale="0.2"
+                    :preview-src-list="[im.url]"
+                    :initial-index="4"
+                    fit="cover"
+                />
+              </div>
+
+              <template v-if="item1.approveFileList?.length>0">
+                <div v-for="ifi in item1.approveFileList">
+                   <el-link target="_blank" :href="ifi.url" type="primary">{{ifi.name}}</el-link>
+                </div>
+              </template>
 						</div>
 
 						<el-divider v-if="index1!=node.approveDescList.length-1"/>

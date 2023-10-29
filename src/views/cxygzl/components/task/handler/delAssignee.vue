@@ -6,8 +6,6 @@ import selectShow from "../../orgselect/selectAndShow.vue";
 
 const dialogVisible = ref(false);
 
-const submitDesc = ref("");
-
 
 const currentOpenFlowForm = ref();
 
@@ -51,12 +49,11 @@ const submit = () => {
 		paramMap: value,
 		taskId:  taskId.value,
 
-	  approveDesc:submitDesc.value,
-
 	  targetUserIdList:userList.value.map(res=>res.id),
 	  processInstanceId:  processInstanceId.value
 
 	};
+  param={...param,...commentContent.value};
 
 
 	delAssigneeTask(param).then(res => {
@@ -70,9 +67,14 @@ const submit = () => {
 const userList=ref([])
 
 const dialogClosed=()=>{
-  submitDesc.value=''
+  commentContent.value={}
   userList.value=[]
 }
+
+
+const  commentContent=ref({})
+
+import  CommentHandle from './components/comment.vue'
 </script>
 
 <template>
@@ -95,17 +97,9 @@ const dialogClosed=()=>{
 		<select-show
 				v-model:orgList="userList" :select-self="false" type="user" :multiple="true"></select-show>
 		</div>
-			<el-input
+      <comment-handle :content="commentContent"></comment-handle>
 
-							style="margin-top: 20px;"
-
-			  v-model="submitDesc"
-							type="textarea"
-								maxlength="100"
-								:rows="5"
-								placeholder="审核意见"
-								show-word-limit/>
-			<template #footer>
+      <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="submit">

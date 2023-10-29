@@ -167,7 +167,7 @@ function handleBeforeUpload(file: UploadRawFile) {
 
   let name = file.name;
   var suffix = name.substring(name.lastIndexOf(".") + 1);
-  if (props.suffixArray.indexOf(suffix) < 0) {
+  if (props.suffixArray.indexOf(suffix) < 0&&props.suffixArray.length>0) {
     ElMessage.warning("表单不支持文件格式：" + suffix);
     return false
 
