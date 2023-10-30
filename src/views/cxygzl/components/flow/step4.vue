@@ -1,28 +1,59 @@
 <template>
 	<div>
 		<div class="container-div" style="margin-top: 20px">
+
 			<el-card class="box-card">
 
+            <el-card>
+              <h3>是否开启数据统计
 
-					<el-card>
-			  <h3>是否开启数据统计
+
+                <el-switch
+                    :disabled="dbRecord.oldEnable&&!dbRecord.enable"
+                    v-model="dbRecord.enable"
+                    size="large"
+                />
+              </h3>
+              <el-alert v-if="dbRecord.enable" type="warning" show-icon :closable="false">
+                <p>开启之后则无法关闭，后续编辑流程无法修改表单相关信息</p>
+              </el-alert>
+              <el-alert v-if="!dbRecord.enable&&dbRecord.oldEnable" type="error" show-icon :closable="false">
+                <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
+                <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
+                <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
+              </el-alert>
+            </el-card>
+
+        <el-card style="margin-top: 20px;">
+
+        <h3>自动去重
 
 
-				  <el-switch
-									:disabled="dbRecord.oldEnable&&!dbRecord.enable"
-						  v-model="dbRecord.enable"
-						  size="large"
-				  />
-			  </h3>
-            <el-alert v-if="dbRecord.enable" type="warning" show-icon :closable="false">
-              <p>开启之后则无法关闭，后续编辑流程无法修改表单相关信息</p>
-            </el-alert>
-            <el-alert v-if="!dbRecord.enable&&dbRecord.oldEnable" type="error" show-icon :closable="false">
-              <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
-              <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
-              <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
-            </el-alert>
-					</el-card>
+                <el-switch
+                    v-model="distinct.enable"
+                    size="large"
+                />
+              </h3>
+              <el-alert  type="warning" show-icon :closable="false">
+                <p>审批流程中审批人重复出现时，只需审批一次其余自动通过</p>
+              </el-alert>
+              <el-radio-group v-model="distinct.value" v-if="distinct.enable" style="margin-top: 20px;">
+                <el-radio :label="1">
+                  <div style="font-size: 15px;font-weight: bold">
+                    流程中审批通过一次就去重
+                  </div>
+                </el-radio>
+                <el-radio :label="2">
+                  <div style="font-size: 15px;font-weight: bold">
+
+                  仅在连续出现时，自动去重
+                  </div>
+                </el-radio>
+              </el-radio-group>
+            </el-card>
+
+
+
 		  <el-card style="margin-top: 20px;">
 
 
@@ -643,6 +674,9 @@ var formListWithRoot = computed(() => {
 
 var dbRecord = computed(() => {
 	return step4Store.value.dbRecord;
+});
+var distinct = computed(() => {
+	return step4Store.value.distinct;
 });
 var frontNotifyForm = computed(() => {
 	return step4Store.value.frontNotify;
