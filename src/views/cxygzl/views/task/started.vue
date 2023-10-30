@@ -4,7 +4,8 @@ import ViewProcessInstanceImage from "../../components/ViewProcessInstanceImage.
 
 import {
 	queryMineStarted,
-	stopProcessInstance
+	stopProcessInstance,
+	urgeProcessInstance
 } from "../../api/task";
 
 
@@ -17,6 +18,18 @@ function stop(row) {
 		handleQuery();
 	})
 }
+
+/**
+ * 催办
+ * @param row
+ */
+function urge(row) {
+	currentData.value = row;
+	urgDialogVisible.value = true
+}
+
+const urgDialogVisible = ref(false);
+
 
 import {RoleQuery} from "../../api/role/types";
 import TaskHandle from "../../components/task/handler/task.vue";
@@ -43,11 +56,10 @@ const deal = (row) => {
 
 	currentData.value = row;
 
-  taskHandler.value.deal(row)
+	taskHandler.value.deal(row)
 
 
 }
-const currentDetailData = ref();
 const viewImageRef = ref();
 
 
@@ -57,7 +69,6 @@ const viewImageRef = ref();
 const viewImage = (row) => {
 	viewImageRef.value.view(row)
 }
-
 
 
 /**
@@ -76,25 +87,44 @@ function handleQuery() {
 }
 
 
-
 const taskHandler = ref();
 onMounted(() => {
 	handleQuery();
 });
 
-const formValue = computed(() => {
-	var obj = {}
-
-	for (var item of currentDetailData.value.formItems) {
-		obj[item.id] = item.props.value
-	}
-	return obj;
-})
-
+const urgeDesc = ref('')
+const confirmSubmitUrge = () => {
+	urgeProcessInstance({
+		processInstanceId: currentData.value.processInstanceId,
+		approveDesc: urgeDesc.value,
+	}).then(res => {
+			urgDialogVisible.value=false
+			urgeDesc.value=''
+	})
+}
 </script>
 
 <template>
 	<div class="app-container">
+
+		<el-dialog width="500" v-model="urgDialogVisible" title="催办">
+			<el-input
+					v-model="urgeDesc"
+					:rows="5"
+					:maxlength="100"
+					show-word-limit
+					type="textarea"
+					placeholder="输入催办意见"
+			/>
+			<template #footer>
+      <span class="dialog-footer">
+        <el-button @click="urgDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirmSubmitUrge">
+          确定
+        </el-button>
+      </span>
+			</template>
+		</el-dialog>
 
 		<el-card shadow="never">
 
@@ -149,6 +179,16 @@ const formValue = computed(() => {
 							<i-ep-lock/>
 							撤销流程
 						</el-button>
+						<el-button
+								:disabled="scope.row.status != 1"
+								type="primary"
+								size="small"
+								link
+								@click="urge(scope.row)"
+						>
+							<i-ep-bell/>
+							催办
+						</el-button>
 
 						<el-button
 								type="primary"
@@ -174,7 +214,7 @@ const formValue = computed(() => {
 		</el-card>
 
 
-    <task-handle ref="taskHandler"  @taskSubmitEvent="handleQuery" ></task-handle>
+		<task-handle ref="taskHandler" @taskSubmitEvent="handleQuery"></task-handle>
 
 		<!--			查看流程图-->
 		<view-process-instance-image ref="viewImageRef"/>
@@ -182,12 +222,14 @@ const formValue = computed(() => {
 	</div>
 </template>
 <style scoped>
-.f11{
+.f11 {
 	width: 70px;
 }
-.f22{
+
+.f22 {
 	width: calc(100% - 70px);
 }
+
 .iconclass {
 	width: 80px;
 	height: 64px;
