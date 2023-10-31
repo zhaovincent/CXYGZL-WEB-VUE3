@@ -123,6 +123,14 @@ export function showImage(processInstanceId: string) {
 		method: 'get'
 	});
 }
+// 添加评论
+export function submitComment(param:Object) {
+	return request({
+		url: 'task/submitComment',
+		method: 'post',
+		data: param
+	})
+}
 // 完成任务
 export function completeTask(param:Object) {
 	return request({

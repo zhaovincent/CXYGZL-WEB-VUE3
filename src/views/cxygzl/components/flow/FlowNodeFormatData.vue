@@ -7,6 +7,8 @@ const row = ref([]);
 const selectUserNodeIdList = ref([]);
 const disableSelect = ref(true);
 
+const  paramMapData=ref({})
+
 const queryData = (p,fid,pid,tid) => {
 	var data = {
 		flowId: fid,
@@ -14,11 +16,17 @@ const queryData = (p,fid,pid,tid) => {
 		paramMap: p,
 		taskId:tid
 	}
-	formatStartNodeShow(data).then(res => {
-		row.value = res.data.processNodeShowDtoList;
-	  disableSelect.value=res.data.disableSelectUser
-	  selectUserNodeIdList.value=res.data.selectUserNodeIdList
-	})
+  paramMapData.value=data;
+  refresh();
+
+}
+
+const refresh=()=>{
+  formatStartNodeShow(paramMapData.value).then(res => {
+    row.value = res.data.processNodeShowDtoList;
+    disableSelect.value=res.data.disableSelectUser
+    selectUserNodeIdList.value=res.data.selectUserNodeIdList
+  })
 }
 
 onMounted(() => {
@@ -59,7 +67,7 @@ const formatSelectNodeUser = () => {
 	return obj;
 }
 
-defineExpose({validate, formatSelectNodeUser,queryData});
+defineExpose({validate,refresh, formatSelectNodeUser,queryData});
 
 
 </script>

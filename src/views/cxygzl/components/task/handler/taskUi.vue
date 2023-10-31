@@ -14,6 +14,10 @@ import {
   queryHeaderShow
 } from "../../../api/base";
 
+import {
+  submitComment
+} from "../../../api/task";
+
 import {getFormList} from '../../../api/form'
 
 
@@ -24,7 +28,7 @@ const headerUIRef = ref();
 /**
  * 点击开始处理
  */
-const deal = (tId, pId, fId, ccId,nId) => {
+const deal = (tId, pId, fId, ccId, nId) => {
 
   taskId.value = tId
   flowId.value = fId
@@ -52,12 +56,11 @@ const deal = (tId, pId, fId, ccId,nId) => {
   });
 
 
-
   getFormList({
     flowId: fId,
     processInstanceId: pId,
     taskId: tId,
-    ccId:ccId
+    ccId: ccId
   }, true).then(res => {
     let data = res.data;
 
@@ -72,7 +75,7 @@ const deal = (tId, pId, fId, ccId,nId) => {
     }
 
 
-    formUIRef.value.loadData(data,fId,nId,pId,tId,ccId)
+    formUIRef.value.loadData(data, fId, nId, pId, tId, ccId)
 
     operUIRef.value.handle(tId);
   })
@@ -102,20 +105,20 @@ const taskSubmitEvent = () => {
 function validateForm(f) {
 
   let validate = flowNodeFormatRef.value.validate();
-  if(!validate){
+  if (!validate) {
     f(false)
     return
   }
   let param = flowNodeFormatRef.value.formatSelectNodeUser();
 
 
-  formUIRef.value.validate(function (a,b) {
+  formUIRef.value.validate(function (a, b) {
 
-    if(param){
-      f(a,{...b,...param});
+    if (param) {
+      f(a, {...b, ...param});
 
-    }else{
-      f(a,b);
+    } else {
+      f(a, b);
 
     }
   })
@@ -135,7 +138,7 @@ const subProcessStartFlowRef = ref()
 const formValueChange = (v) => {
 
 
-  flowNodeFormatRef.value.queryData(v,flowId.value,processInstanceId.value,taskId.value)
+  flowNodeFormatRef.value.queryData(v, flowId.value, processInstanceId.value, taskId.value)
 
 }
 const flowNodeFormatRef = ref();
@@ -145,6 +148,24 @@ const taskId = ref('');
 const copyId = ref();
 
 const processInstanceId = ref('');
+const commentHandler = ref();
+
+const showCommentDialog=()=>{
+
+  commentHandler.value.handle(processInstanceId.value, taskId.value,   "添加评论");
+
+}
+
+const submitCommentF = () => {
+
+    // 刷新节点渲染
+    flowNodeFormatRef.value.refresh();
+
+}
+
+
+import {Delete, Edit, Search, Share, Upload} from '@element-plus/icons-vue'
+import CommentHandle from "./comment.vue";
 </script>
 
 <template>
@@ -162,21 +183,35 @@ const processInstanceId = ref('');
         <el-card class="box-card">
 
           <form-u-i
-                    @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
+              @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
 
 
         </el-card>
 
         <flow-node-format
-                          ref="flowNodeFormatRef"></flow-node-format>
+            ref="flowNodeFormatRef"></flow-node-format>
 
 
       </template>
       <template #footer>
+        <div style="display: flex;justify-content: space-between">
+          <!--			同意提交处理-->
 
-        <oper-u-i ref="operUIRef" @taskSubmitEvent="taskSubmitEvent" @validateForm="validateForm" :flow-id="flowId"
-                  :task-id="taskId"
-                  :process-instance-id="processInstanceId"></oper-u-i>
+          <div>
+            <el-button size="large" text :icon="Edit" @click="showCommentDialog">
+              评论
+            </el-button>
+            <comment-handle @taskSubmitEvent="submitCommentF" ref="commentHandler"></comment-handle>
+
+          </div>
+          <div>
+            <oper-u-i ref="operUIRef" @taskSubmitEvent="taskSubmitEvent" @validateForm="validateForm" :flow-id="flowId"
+                      :task-id="taskId"
+                      :process-instance-id="processInstanceId"></oper-u-i>
+          </div>
+        </div>
+
+
       </template>
     </el-drawer>
 

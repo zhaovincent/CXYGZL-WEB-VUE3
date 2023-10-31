@@ -40,7 +40,7 @@ const taskUiHandler=ref();
 <template>
 	<div >
 
-			<task-u-i-handle  @taskSubmitEvent="taskSubmitEvent" ref="taskUiHandler"></task-u-i-handle>
+			<task-u-i-handle   @taskSubmitEvent="taskSubmitEvent" ref="taskUiHandler"></task-u-i-handle>
 
 	</div>
 </template>
