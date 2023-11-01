@@ -44,6 +44,7 @@ function handleSpan() {
 				|| item.type === 'MultiSelect'
 				|| item.type === 'SelectDept'
 				|| item.type === 'SelectUser'
+				|| item.type === 'RelatedProcess'
 				|| item.type === 'SelectMultiDept'
 		) {
 			multipleIdArray.push(item.id);
@@ -80,6 +81,7 @@ function handleSpan() {
 				if (head.type == 'SelectMultiUser'
 						|| head.type === 'UploadImage'
 						|| head.type === 'UploadFile'
+						|| head.type === 'RelatedProcess'
 						|| head.type === 'SingleSelect'
 						|| head.type === 'MultiSelect'
 						|| head.type === 'SelectDept'
@@ -200,10 +202,31 @@ const objectSpanMethod = ({
 				</el-table-column>
 
 			</template>
+			<template v-else-if="item.type==='Signature'">
+				<el-table-column :label="item.name" :prop="item.id">
+					<template #default="scope">
+
+						<el-image v-if="isNotBlank(scope.row[item.id])" style="width: 76px; height:34px"
+											:src="scope.row[item.id]"
+											fit="contain"/>
+						<template v-else></template>
+					</template>
+				</el-table-column>
+
+			</template>
 			<template v-else-if="item.type==='UploadFile'">
 				<el-table-column :label="item.name" :prop="item.id">
 					<template #default="scope">
 						<a :href="scope.row[item.id].url" target="_blank">{{ scope.row[item.id].name }}</a>
+
+					</template>
+				</el-table-column>
+
+			</template>
+			<template v-else-if="item.type==='RelatedProcess'">
+				<el-table-column :label="item.name" :prop="item.id">
+					<template #default="scope">
+			  {{ scope.row[item.id] ?  (scope.row[item.id]).processName : '' }}
 
 					</template>
 				</el-table-column>
