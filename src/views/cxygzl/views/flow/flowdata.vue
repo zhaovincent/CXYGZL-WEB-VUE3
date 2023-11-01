@@ -5,7 +5,7 @@ import flowDataComp from "../../components/flow/flowData.vue";
 
 
 import {
-	queryFlowDataList
+	queryFlowDataList,exportDataList
 } from "../../api/flow";
 
 import {
@@ -62,6 +62,25 @@ onMounted(() => {
 	handleQuery();
 });
 
+const exportData=()=>{
+
+
+	loading.value = true;
+	exportDataList(queryParams)
+		.then(({data}) => {
+			headList.value = data.headList;
+
+			tempList.value = data.records;
+
+			total.value = data.total;
+
+		})
+		.finally(() => {
+			loading.value = false;
+		});
+}
+
+
 
 </script>
 
@@ -69,6 +88,8 @@ onMounted(() => {
 	<div class="app-container">
 
 		<el-card shadow="never">
+
+				<el-button @click="exportData" style="margin-bottom: 20px;" type="primary">导出</el-button>
 
 				<flow-data-comp :data-list="tempList" :head-list="headList"></flow-data-comp>
 

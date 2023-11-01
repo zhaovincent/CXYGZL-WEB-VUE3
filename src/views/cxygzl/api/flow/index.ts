@@ -8,6 +8,14 @@ export function queryFlowDataList(param:any) {
 		data: param
 	})
 }
+//  导出数据列表
+export function exportDataList(param:any) {
+	return request({
+		url: '/process/exportDataList',
+		method: 'post',
+		data: param
+	})
+}
 
 
 /**
