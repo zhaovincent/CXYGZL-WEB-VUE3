@@ -40,22 +40,8 @@ export function queryMineTask(data: any) {
 		data: data
 	});
 }
-// 结束流程
-export function stopProcessInstance(param:any) {
-	return request({
-		url: 'task/stopProcessInstance',
-		method: 'post',
-		data: param
-	})
-}
-// 催办任务
-export function urgeProcessInstance(param:any) {
-	return request({
-		url: 'task/urgeProcessInstance',
-		method: 'post',
-		data: param
-	})
-}
+
+
 
 /**
  * 查询我发起的任务

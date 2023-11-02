@@ -3,17 +3,18 @@ import ViewProcessInstanceImage from "../../components/ViewProcessInstanceImage.
 
 
 import {
-	queryMineStarted,
-	stopProcessInstance,
-	urgeProcessInstance
+	queryMineStarted
 } from "../../api/task";
+import {
+	stopProcessInstance,urgeProcessInstance,exportDetail
+} from "../../api/processInstance";
 
 
 import pagination from "../../components/pagination.vue";
 
-function stop(row) {
+function stop({processInstanceId}) {
 	stopProcessInstance({
-		processInstanceId: row.processInstanceId
+		  processInstanceId
 	}).then(res => {
 		handleQuery();
 	})
@@ -68,6 +69,17 @@ const viewImageRef = ref();
  */
 const viewImage = (row) => {
 	viewImageRef.value.view(row)
+}
+
+/**
+ * 导出详情
+ */
+const exportDetailF = ({processInstanceId}) => {
+	 console.log('导出',processInstanceId)
+    exportDetail(processInstanceId).then(res=>{
+        window.location.href=res.data;
+		})
+
 }
 
 
@@ -140,7 +152,7 @@ const confirmSubmitUrge = () => {
 				<el-table-column label="流程" prop="name" width="150"/>
 				<el-table-column label="发起时间" prop="createTime" width="200"/>
 				<el-table-column label="结束时间" prop="endTime" width="200"/>
-				<el-table-column label="状态" prop="taskCreateTime" width="150">
+				<el-table-column label="状态" prop="taskCreateTime" width="100">
 					<template #default="scope">
 						<el-tag v-if="scope.row.status == 1" type="success">进行中</el-tag>
 						<el-tag v-else-if="scope.row.status == 3" type="danger">已撤销</el-tag>
@@ -148,7 +160,7 @@ const confirmSubmitUrge = () => {
 
 					</template>
 				</el-table-column>
-				<el-table-column label="审批结果" prop="taskCreateTime" width="150">
+				<el-table-column label="审批结果" prop="taskCreateTime" width="100">
 					<template #default="scope">
 						<el-tag v-if="scope.row.result == 1" type="success">同意</el-tag>
 						<el-tag v-else-if="scope.row.result == 2" type="danger">拒绝</el-tag>
@@ -190,6 +202,15 @@ const confirmSubmitUrge = () => {
 							催办
 						</el-button>
 
+						<el-button
+								type="primary"
+								size="small"
+								link
+								@click="exportDetailF(scope.row)"
+						>
+							<i-ep-share/>
+							导出
+						</el-button>
 						<el-button
 								type="primary"
 								size="small"
