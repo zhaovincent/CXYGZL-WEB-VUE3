@@ -68,11 +68,8 @@ const exportData=()=>{
 	loading.value = true;
 	exportDataList(queryParams)
 		.then(({data}) => {
-			headList.value = data.headList;
 
-			tempList.value = data.records;
-
-			total.value = data.total;
+			window.location.href=data;
 
 		})
 		.finally(() => {
