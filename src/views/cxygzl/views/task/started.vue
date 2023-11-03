@@ -13,9 +13,9 @@ import {
 import pagination from "../../components/pagination.vue";
 
 function stop({processInstanceId}) {
-	stopProcessInstance({
+	stopProcessInstance(
 		  processInstanceId
-	}).then(res => {
+	).then(res => {
 		handleQuery();
 	})
 }
