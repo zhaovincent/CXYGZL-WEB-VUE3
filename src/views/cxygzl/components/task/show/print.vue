@@ -13,7 +13,6 @@ const allData=ref({})
 
 const show=(d)=>{
   queryPrintData(d).then(res=>{
-    console.log(res)
     allData.value=res.data;
     dialogTableVisible.value=true;
 
@@ -106,12 +105,8 @@ const printObj=ref({
       </div>
 		<div style="display: flex;flex-direction: row" v-for="it1 of allData.approveList" >
 			<div class="title border" style="width:25%;">{{ it1.nodeName }}</div>
-			<div class="content border"  :style="{width:(it1.comment.length>0)?'40%':'75%'}">{{ it1.userName }} / {{it1.taskTypeShow}} / {{it1.date}}</div>
-			<div class="content border" style="width: 35%;" v-if="it1.comment.length>0">
-					<div v-for="c in it1.comment">
-						{{JSON.parse(c.message).content}}
-					</div>
-			</div>
+			<div class="content border" style="width: 75%;">{{ it1.desc }} </div>
+
 
 		</div>
 
