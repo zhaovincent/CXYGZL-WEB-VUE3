@@ -8,9 +8,9 @@ import {useFlowStore} from '../../../stores/flow'
 const dialogTableVisible = ref(false);
 
 const show = (title1, itemList) => {
-	console.log("显示对话框数据",itemList)
+	console.log("显示对话框数据", itemList)
 	if (itemList) {
-
+	  formatUniId(itemList);
 		dataSource.value = itemList;
 	} else {
 		dataSource.value = [];
@@ -119,6 +119,17 @@ const addItemOk = (item) => {
 		dataSource.value.push(newChild)
 	}
 	dataSource.value = [...dataSource.value]
+}
+
+const formatUniId = (arr) => {
+
+	for (var item of arr) {
+
+		item.uniId = getRandomId();
+
+		formatUniId(item.children);
+
+	}
 }
 
 const getTreeData = (uniId, arr) => {

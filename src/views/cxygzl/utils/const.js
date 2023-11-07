@@ -360,15 +360,27 @@ export let conditionExpression = ref(
 			}
 		],
 		"Cascade": [
-            {
-                key: "empty",
-                name: "为空"
-            },
-            {
-                key: "notempty",
-                name: "不为空"
-            },
 			{
+				key: "empty",
+				name: "为空"
+			},
+			{
+				key: "notempty",
+				name: "不为空"
+			},
+			{
+				key: "==",
+				name: "等于"
+			}, {
+				key: "!=",
+				name: "不等于"
+			}, {
+				key: "contain",
+				name: "包含"
+			}, {
+				key: "notcontain",
+				name: "不包含"
+			},{
 				key: "in",
 				name: "属于"
 			}, {
