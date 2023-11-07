@@ -4,7 +4,7 @@ import { reactive } from 'vue'
 
 // 按需引入图标
 import {
-	CloseBold,
+	CloseBold,Fold,
 	Close,
 	Plus,AlarmClock,CopyDocument,
 	Star,ChatLineSquare,Histogram,
@@ -32,6 +32,7 @@ const dictIcon = reactive({
 	'Close': Close,
 	'ChatLineSquare': ChatLineSquare,
 	'Calendar': Calendar,
+	'Fold': Fold,
 	'CopyDocument': CopyDocument,
 	'Histogram': Histogram,
 	'CirclePlusFilled': CirclePlusFilled,

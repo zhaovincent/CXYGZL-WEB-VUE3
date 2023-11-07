@@ -166,6 +166,25 @@ const formGroupConfig: FormGroupVO[] = [
 						},
 					],
 				},
+			},
+			{
+				name: "级联",
+				type: "Cascade",
+				typeName: "级联",
+				icon: "Fold",
+				placeholder: "请选择",
+				required: false,
+				printable: true,
+				props: {
+					value: [],
+					options: [
+						// {
+						// 	key: "",
+						// 	value: "",
+						// 	uniId:''
+						// },
+					],
+				},
 			}
 		]
 	},
