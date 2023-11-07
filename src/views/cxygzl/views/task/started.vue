@@ -164,6 +164,7 @@ const confirmSubmitUrge = () => {
 					<template #default="scope">
 						<el-tag v-if="scope.row.result == 1" type="success">同意</el-tag>
 						<el-tag v-else-if="scope.row.result == 2" type="danger">拒绝</el-tag>
+						<el-tag v-else-if="scope.row.result == 3" type="warning">撤销</el-tag>
 
 
 					</template>

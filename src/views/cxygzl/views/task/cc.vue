@@ -169,6 +169,7 @@ const formValue = computed(() => {
 			  </div>
 		  <img v-if="currentDetailData.processInstanceResult==1" class="iconclass" src="../../assets/images/pass.png"/>
 		  <img v-if="currentDetailData.processInstanceResult==2" class="iconclass" src="../../assets/images/refuse.png"/>
+		  <img v-if="currentDetailData.processInstanceResult==3" class="iconclass" src="../../assets/images/canceled.png"/>
 	  </div>
 		  </el-card>
 
@@ -193,7 +194,7 @@ const formValue = computed(() => {
 </template>
 <style scoped>
 .iconclass {
-	width: 80px;
+	width: 64px;
 	height: 64px;
 	position: absolute;
 	top: 0px;

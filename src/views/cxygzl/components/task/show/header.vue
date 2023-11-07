@@ -59,6 +59,7 @@ const printRef=ref();
     </div>
     <img v-if="currentData.processInstanceResult==1" class="iconclass" src="../../../assets/images/pass.png"/>
     <img v-if="currentData.processInstanceResult==2" class="iconclass" src="../../../assets/images/refuse.png"/>
+    <img v-if="currentData.processInstanceResult==3" class="iconclass" src="../../../assets/images/canceled.png"/>
 
   </div>
 
@@ -74,7 +75,7 @@ const printRef=ref();
 }
 
 .iconclass {
-  width: 80px;
+  width: 64px;
   height: 64px;
   position: absolute;
   top: 0px;
