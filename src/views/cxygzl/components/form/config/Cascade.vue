@@ -62,9 +62,20 @@ var formValue = computed({
 	  return value?.value
 	},
 	set(t) {
+    if(!t){
+      config.value.props.value = undefined
+      return
+    }
       let treeData = getTreeData(t[t.length-1],options.value);
       let d = deepCopy(treeData);
       d.value=t;
+
+    var arr=[]
+    for(var k of t){
+      arr.push(getTreeData(k, options.value).label)
+    }
+    d.labelList=arr;
+
       config.value.props.value = d
 	}
 })
@@ -91,7 +102,7 @@ const completeOptions=(items)=>{
 
 		<el-form-item label="默认值">
 
-		<el-cascader style="width: 100%" :props="{value:'key'}" v-model="formValue" :options="options"   />
+		<el-cascader clearable style="width: 100%" :props="{value:'key'}" v-model="formValue" :options="options"   />
 
 		</el-form-item>
 	</div>

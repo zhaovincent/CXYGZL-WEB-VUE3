@@ -66,6 +66,7 @@ import selectShow from "../../orgselect/selectAndShow.vue";
 import {conditionExpression} from '../../../utils/const'
 import {computed} from "vue";
 import {getAreaValue} from "../../../utils/area/area";
+import {deepCopy} from "../../../utils/objutil";
 
 var areaList = areaData
 var userFieldList = ref([])
@@ -174,6 +175,47 @@ var areaValue = computed({
 		props.condition.value = getAreaValue(areaList, t);
 	}
 })
+
+
+var cascadeValue = computed({
+	get() {
+    let value = props.condition.value;
+
+
+
+    return value?.value;
+	},
+	set(t) {
+    let options = formIdObj.value[props.condition.key].props.options;
+    let treeData = getCascadeTreeData(t[t.length-1],options);
+    let d = deepCopy(treeData);
+    d.value=t;
+
+    var arr=[]
+    for(var k of t){
+      arr.push(getCascadeTreeData(k, options).label)
+    }
+    d.labelList=arr;
+
+    props.condition.value = d
+		//props.condition.value = getAreaValue(areaList, t);
+	}
+})
+
+const getCascadeTreeData = (key, arr) => {
+
+  for (var item of arr) {
+
+    if (item.key === key) {
+      return item;
+    }
+    let treeData = getCascadeTreeData(key, item.children);
+    if (treeData) {
+      return treeData
+    }
+  }
+  return undefined;
+}
 
 var conditionKey = computed({
 	get() {
@@ -314,10 +356,24 @@ conditionTypeObj==='Score'
 
 				  clearable
 				  :props="{
-			   checkStrictly:true,
+			      checkStrictly:true,
 			   		value:'code',label:'name'
 					 }"
 				  v-model="areaValue"
+
+		  />
+
+		  <el-cascader
+
+				  style="width: 100%;margin-top: 20px;"
+				  :options="conditionOptionsObj"
+				  v-if="conditionTypeObj==='Cascade'"
+				  clearable
+				  :props="{
+			      checkStrictly:true,
+			   		value:'key'
+					 }"
+				  v-model="cascadeValue"
 
 		  />
           <el-select v-model="conditionSelectVal"

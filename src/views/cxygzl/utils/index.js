@@ -303,7 +303,9 @@ All.prototype = {
 						continue
 					}
 					if (!ite.key || ite.key.length == 0 || !ite.expression || ite.expression.length == 0 || ((ite.expression.indexOf('empty') < 0) && (!ite.value || ite.value.length == 0))
-						|| (ite.keyType === 'Area' && (!ite.value?.value && ite.expression.indexOf('empty') < 0))) {
+						|| (ite.keyType === 'Area' && (!ite.value?.value && ite.expression.indexOf('empty') < 0))
+						|| (ite.keyType === 'Cascade' && (!ite.value?.value && ite.expression.indexOf('empty') < 0))
+					) {
 						return false;
 					}
 				}
@@ -426,6 +428,23 @@ All.prototype = {
 						} else {
 							if (value?.name) {
 								valueShow = value.name
+
+							} else {
+								valueShow = '?'
+
+							}
+
+						}
+
+
+					}else if (valueElement.type === 'Cascade') {
+
+						if (expression.indexOf('empty') >= 0) {
+							valueShow = ''
+
+						} else {
+							if (value?.label) {
+								valueShow = value.label
 
 							} else {
 								valueShow = '?'

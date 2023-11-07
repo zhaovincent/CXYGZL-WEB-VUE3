@@ -359,6 +359,23 @@ export let conditionExpression = ref(
 				name: "不属于"
 			}
 		],
+		"Cascade": [
+            {
+                key: "empty",
+                name: "为空"
+            },
+            {
+                key: "notempty",
+                name: "不为空"
+            },
+			{
+				key: "in",
+				name: "属于"
+			}, {
+				key: "notin",
+				name: "不属于"
+			}
+		],
 		"MultiSelect": [
             {
                 key: "empty",

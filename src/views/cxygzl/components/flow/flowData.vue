@@ -240,6 +240,14 @@ const objectSpanMethod = ({
 				</el-table-column>
 
 			</template>
+			<template v-else-if="item.type==='Cascade'">
+				<el-table-column :label="item.name" :prop="item.id">
+					<template #default="scope">
+						{{ scope.row[item.id] ? JSON.parse(scope.row[item.id]).labelList.join(' / ') : '' }}
+					</template>
+				</el-table-column>
+
+			</template>
 			<template
 					v-else-if="item.type==='SelectMultiUser'||item.type==='SelectMultiDept'||item.type==='SelectUser'||item.type==='SelectDept'">
 				<el-table-column :label="item.name" :prop="item.id">

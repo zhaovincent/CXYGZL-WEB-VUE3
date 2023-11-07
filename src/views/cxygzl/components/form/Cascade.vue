@@ -8,7 +8,7 @@
 							 size="large">
 
 		</el-select>
-	  <el-cascader
+	  <el-cascader clearable
             :disabled="form.perm === 'R'"
             :placeholder="form.placeholder"
 						v-else style="width: 100%" :props="{value:'key'}" v-model="formValue" :options="form.props.options"   />
@@ -27,9 +27,19 @@ var formValue = computed({
         return value?.value
     },
     set(t) {
+        console.log(t,"表单设置值")
+				if(!t){
+            props.form.props.value=undefined;
+            return
+				}
         let treeData = getTreeData(t[t.length-1], props.form.props.options);
         let d = deepCopy(treeData);
         d.value=t;
+        var arr=[]
+        for(var k of t){
+            arr.push(getTreeData(k, props.form.props.options).label)
+				}
+        d.labelList=arr;
         props.form.props.value = d
     }
 })

@@ -381,6 +381,25 @@ export function selectValidate(configValue: any) {
     };
 }
 
+export function cascadeValidate(configValue: any) {
+
+    var options = configValue.props.options;
+    if (!options) {
+        options = []
+    }
+
+    if (options.length < 1) {
+        return {
+            valid: false, msg: configValue.name + ":请设置选项"
+        };
+    }
+
+
+    return {
+        valid: true
+    };
+}
+
 export function fileValidate(configValue: any) {
     let min = configValue.props.min;
     let max = configValue.props.max;
@@ -421,6 +440,7 @@ export let formValidateDict = {
     'DateTime': dateTimeValidate,
     'Time': timeValidate,
     'SingleSelect': selectValidate,
+    'Cascade': cascadeValidate,
     'MultiSelect': selectValidate,
     'UploadFile': fileValidate,
     'Layout': layoutValidate,
