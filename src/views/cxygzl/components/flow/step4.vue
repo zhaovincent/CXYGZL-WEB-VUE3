@@ -1,568 +1,634 @@
 <template>
-	<div>
-		<div class="container-div" style="margin-top: 20px">
+  <div>
+    <div class="container-div" style="margin-top: 20px">
 
-			<el-card class="box-card">
+      <el-card class="box-card">
 
-            <el-card>
-              <h3>是否开启数据统计
+        <el-card>
+          <h3>是否开启数据统计
 
 
-                <el-switch
-                    :disabled="dbRecord.oldEnable&&!dbRecord.enable"
-                    v-model="dbRecord.enable"
-                    size="large"
-                />
-              </h3>
-              <el-alert v-if="dbRecord.enable" type="warning" show-icon :closable="false">
-                <p>开启之后则无法关闭，后续编辑流程无法修改表单相关信息</p>
-              </el-alert>
-              <el-alert v-if="!dbRecord.enable&&dbRecord.oldEnable" type="error" show-icon :closable="false">
-                <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
-                <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
-                <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
-              </el-alert>
-            </el-card>
+            <el-switch
+                :disabled="dbRecord.oldEnable&&!dbRecord.enable"
+                v-model="dbRecord.enable"
+                size="large"
+            />
+          </h3>
+          <el-alert v-if="dbRecord.enable" type="warning" show-icon :closable="false">
+            <p>开启之后则无法关闭，后续编辑流程无法修改表单相关信息</p>
+          </el-alert>
+          <el-alert v-if="!dbRecord.enable&&dbRecord.oldEnable" type="error" show-icon :closable="false">
+            <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
+            <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
+            <p>关闭之后，已经存在的数据就会被删除，请谨慎！！！</p>
+          </el-alert>
+        </el-card>
 
         <el-card style="margin-top: 20px;">
 
-        <h3>自动去重
+          <h3>自定义流程编号
 
 
-                <el-switch
-                    v-model="distinct.enable"
-                    size="large"
+            <el-switch
+                v-model="customRule.enable"
+                size="large"
+            />
+          </h3>
+          <template v-if="customRule.enable">
+
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-input v-model="customRule.prefix" :maxlength="6" placeholder="前缀"/>
+
+            </el-col>
+            <el-col :span="8">
+
+              <el-select v-model="customRule.middle"   placeholder="连字符">
+                <el-option
+
+                    key="1"
+                    label="无"
+                    value="1"
                 />
-              </h3>
-              <el-alert  type="warning" show-icon :closable="false">
-                <p>审批流程中审批人重复出现时，只需审批一次其余自动通过</p>
+                <el-option
+
+                    key="2"
+                    label="-"
+                    value="2"
+                />
+                <el-option
+
+                    key="3"
+                    label="|"
+                    value="3"
+                />
+                <el-option
+
+                    key="4"
+                    label="日期"
+                    value="4"
+                />
+              </el-select>
+
+            </el-col>
+            <el-col :span="8">
+              <el-input-number v-model="customRule.serino" :min="5" step-strictly :max="15" :step="1"/>
+
+            </el-col>
+          </el-row>
+          <div style="margin-top: 20px;">
+            <el-link>
+             编码示例： {{ customRule.prefix }}{{ customRuleMiddleShow }}{{ Array(customRule.serino).join("0")+"1" }}
+            </el-link>
+          </div>
+          </template>
+
+        </el-card>
+
+
+        <el-card style="margin-top: 20px;">
+
+          <h3>自动去重
+
+
+            <el-switch
+                v-model="distinct.enable"
+                size="large"
+            />
+          </h3>
+          <el-alert type="warning" show-icon :closable="false">
+            <p>审批流程中审批人重复出现时，只需审批一次其余自动通过</p>
+          </el-alert>
+          <el-radio-group v-model="distinct.value" v-if="distinct.enable" style="margin-top: 20px;">
+            <el-radio :label="1">
+              <div style="font-size: 15px;font-weight: bold">
+                流程中审批通过一次就去重
+              </div>
+            </el-radio>
+            <el-radio :label="2">
+              <div style="font-size: 15px;font-weight: bold">
+
+                仅在连续出现时，自动去重
+              </div>
+            </el-radio>
+          </el-radio-group>
+        </el-card>
+
+
+        <el-card style="margin-top: 20px;">
+
+
+          <h3>前置校验
+
+            <el-text type="info" size="small">
+              <el-icon>
+                <Aim/>
+              </el-icon>
+              流程启动前触发
+            </el-text>
+            <el-switch
+                v-model="frontCheckForm.enable"
+                size="large"
+            />
+          </h3>
+
+          <el-form v-if="frontCheckForm.enable" :model="frontCheckForm" ref="frontCheckForm" :rules="rules"
+                   label-width="120px" label-position="top">
+            <el-form-item label="请求地址" prop="url">
+              <el-alert type="warning" show-icon :closable="false">
+                <p>仅支持POST请求，以请求体方式接收参数</p>
               </el-alert>
-              <el-radio-group v-model="distinct.value" v-if="distinct.enable" style="margin-top: 20px;">
-                <el-radio :label="1">
-                  <div style="font-size: 15px;font-weight: bold">
-                    流程中审批通过一次就去重
-                  </div>
-                </el-radio>
-                <el-radio :label="2">
-                  <div style="font-size: 15px;font-weight: bold">
+              <el-input style="margin-top: 10px" :maxlength="100" v-model="frontCheckForm.url"
+                        placeholder="http://www.cxygzl.com"/>
+            </el-form-item>
 
-                  仅在连续出现时，自动去重
-                  </div>
-                </el-radio>
-              </el-radio-group>
-            </el-card>
-
-
-
-		  <el-card style="margin-top: 20px;">
-
-
-		  <h3>前置校验
-
-					<el-text type="info" size="small">
-						<el-icon>
-							<Aim/>
-						</el-icon>
-						流程启动前触发
-					</el-text>
-					<el-switch
-							v-model="frontCheckForm.enable"
-							size="large"
-					/>
-				</h3>
-
-				<el-form v-if="frontCheckForm.enable" :model="frontCheckForm" ref="frontCheckForm" :rules="rules"
-								 label-width="120px" label-position="top">
-					<el-form-item label="请求地址" prop="url">
-						<el-alert type="warning" show-icon :closable="false">
-							<p>仅支持POST请求，以请求体方式接收参数</p>
-						</el-alert>
-						<el-input style="margin-top: 10px" :maxlength="100" v-model="frontCheckForm.url"
-											placeholder="http://www.cxygzl.com"/>
-					</el-form-item>
-
-					<el-form-item label="请求头">
-						<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontCheckForm.header">
-							<el-col :span="9">
-								<el-form-item
-										:prop="'header.' + index + '.field'"
-										:rules="[
+            <el-form-item label="请求头">
+              <el-row style="width: 100%;margin-bottom: 20px" :gutter="20"
+                      v-for="(item,index) in frontCheckForm.header">
+                <el-col :span="9">
+                  <el-form-item
+                      :prop="'header.' + index + '.field'"
+                      :rules="[
        	{required: true, message: '请填写字段名称', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
       ]"
-								>
-									<el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
+                  >
+                    <el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
 
-								</el-form-item>
+                  </el-form-item>
 
-							</el-col>
-							<el-col :span="6">
-								<el-switch
-										@change="modeChange('frontCheck','header',index)"
-										v-model="item.valueMode"
-										size="large"
-										active-text="固定值"
-										inactive-text="表单"
-								/>
-							</el-col>
-							<el-col :span="8">
-								<el-form-item
-										:prop="'header.' + index + '.value'"
-										:rules="[
+                </el-col>
+                <el-col :span="6">
+                  <el-switch
+                      @change="modeChange('frontCheck','header',index)"
+                      v-model="item.valueMode"
+                      size="large"
+                      active-text="固定值"
+                      inactive-text="表单"
+                  />
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item
+                      :prop="'header.' + index + '.value'"
+                      :rules="[
        	{required: true, message: '请填写字段对应值', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段对应值长度<50', trigger: 'blur' },
       ]"
-								>
+                  >
 
-									<el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
-									<el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
-										<el-option
-												v-for="f in formListWithRoot"
-												:key="f.id"
-												:label="f.name"
-												:value="f.id"
-										/>
-									</el-select>
-								</el-form-item>
-							</el-col>
-							<el-col :span="1">
-								<el-button @click="delOneLine('frontCheck','header',index)" text :icon="$icon['Delete']"></el-button>
-							</el-col>
-						</el-row>
-						<el-button text type="primary" @click="addOneLine('frontCheck','header')" :icon="$icon['Plus']">添加一行
-						</el-button>
-					</el-form-item>
-					<el-form-item label="请求体">
-						<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontCheckForm.body">
-							<el-col :span="9">
-								<el-form-item
-										:prop="'body.' + index + '.field'"
-										:rules="[
+                    <el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
+                    <el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
+                      <el-option
+                          v-for="f in formListWithRoot"
+                          :key="f.id"
+                          :label="f.name"
+                          :value="f.id"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">
+                  <el-button @click="delOneLine('frontCheck','header',index)" text :icon="$icon['Delete']"></el-button>
+                </el-col>
+              </el-row>
+              <el-button text type="primary" @click="addOneLine('frontCheck','header')" :icon="$icon['Plus']">添加一行
+              </el-button>
+            </el-form-item>
+            <el-form-item label="请求体">
+              <el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontCheckForm.body">
+                <el-col :span="9">
+                  <el-form-item
+                      :prop="'body.' + index + '.field'"
+                      :rules="[
        	{required: true, message: '请填写字段名称', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
       ]"
-								>
-									<el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
+                  >
+                    <el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
 
-								</el-form-item>
+                  </el-form-item>
 
-							</el-col>
-							<el-col :span="6">
-								<el-switch
-										@change="modeChange('frontCheck','body',index)"
-										v-model="item.valueMode"
-										size="large"
-										active-text="固定值"
-										inactive-text="表单"
-								/>
-							</el-col>
-							<el-col :span="8">
-								<el-form-item
-										:prop="'body.' + index + '.value'"
-										:rules="[
+                </el-col>
+                <el-col :span="6">
+                  <el-switch
+                      @change="modeChange('frontCheck','body',index)"
+                      v-model="item.valueMode"
+                      size="large"
+                      active-text="固定值"
+                      inactive-text="表单"
+                  />
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item
+                      :prop="'body.' + index + '.value'"
+                      :rules="[
        	{required: true, message: '请填写字段对应值', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段对应值长度<50', trigger: 'blur' },
       ]"
-								>
+                  >
 
-									<el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
-									<el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
-										<el-option
-												v-for="f in formListWithRoot"
-												:key="f.id"
-												:label="f.name"
-												:value="f.id"
-										/>
-									</el-select>
-								</el-form-item>
-							</el-col>
-							<el-col :span="1">
-								<el-button @click="delOneLine('frontCheck','body',index)" text :icon="$icon['Delete']"></el-button>
-							</el-col>
-						</el-row>
-						<el-button text type="primary" @click="addOneLine('frontCheck','body')" :icon="$icon['Plus']">添加一行
-						</el-button>
-					</el-form-item>
-					<el-form-item label="返回值">
-						<el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">
-							<p>接口返回校验结果，格式如下:</p>
-								<p>
-										{
-    									"ok": false,
-   										 "msg": "假期余额不足"
-										}
-								</p>
-						</el-alert>
+                    <el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
+                    <el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
+                      <el-option
+                          v-for="f in formListWithRoot"
+                          :key="f.id"
+                          :label="f.name"
+                          :value="f.id"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">
+                  <el-button @click="delOneLine('frontCheck','body',index)" text :icon="$icon['Delete']"></el-button>
+                </el-col>
+              </el-row>
+              <el-button text type="primary" @click="addOneLine('frontCheck','body')" :icon="$icon['Plus']">添加一行
+              </el-button>
+            </el-form-item>
+            <el-form-item label="返回值">
+              <el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">
+                <p>接口返回校验结果，格式如下:</p>
+                <p>
+                  {
+                  "ok": false,
+                  "msg": "假期余额不足"
+                  }
+                </p>
+              </el-alert>
 
-					</el-form-item>
-
-
-				</el-form>
-		  </el-card>
-		  <el-card style="margin-top: 20px;">
+            </el-form-item>
 
 
-				<h3>前置通知
+          </el-form>
+        </el-card>
+        <el-card style="margin-top: 20px;">
 
-					<el-text type="info" size="small">
-						<el-icon>
-							<Aim/>
-						</el-icon>
-						流程启动时触发
-					</el-text>
-					<el-switch
-							v-model="frontNotifyForm.enable"
-							size="large"
-					/>
-				</h3>
 
-				<el-form v-if="frontNotifyForm.enable" :model="frontNotifyForm" ref="frontNotifyForm" :rules="rules"
-								 label-width="120px" label-position="top">
-					<el-form-item label="请求地址" prop="url">
-						<el-alert type="warning" show-icon :closable="false">
-							<p>仅支持POST请求，以请求体方式接收参数</p>
-						</el-alert>
-						<el-input style="margin-top: 10px" :maxlength="100" v-model="frontNotifyForm.url"
-											placeholder="http://www.cxygzl.com"/>
-					</el-form-item>
+          <h3>前置通知
 
-					<el-form-item label="请求头">
-						<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontNotifyForm.header">
-							<el-col :span="9">
-								<el-form-item
-										:prop="'header.' + index + '.field'"
-										:rules="[
+            <el-text type="info" size="small">
+              <el-icon>
+                <Aim/>
+              </el-icon>
+              流程启动时触发
+            </el-text>
+            <el-switch
+                v-model="frontNotifyForm.enable"
+                size="large"
+            />
+          </h3>
+
+          <el-form v-if="frontNotifyForm.enable" :model="frontNotifyForm" ref="frontNotifyForm" :rules="rules"
+                   label-width="120px" label-position="top">
+            <el-form-item label="请求地址" prop="url">
+              <el-alert type="warning" show-icon :closable="false">
+                <p>仅支持POST请求，以请求体方式接收参数</p>
+              </el-alert>
+              <el-input style="margin-top: 10px" :maxlength="100" v-model="frontNotifyForm.url"
+                        placeholder="http://www.cxygzl.com"/>
+            </el-form-item>
+
+            <el-form-item label="请求头">
+              <el-row style="width: 100%;margin-bottom: 20px" :gutter="20"
+                      v-for="(item,index) in frontNotifyForm.header">
+                <el-col :span="9">
+                  <el-form-item
+                      :prop="'header.' + index + '.field'"
+                      :rules="[
        	{required: true, message: '请填写字段名称', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
       ]"
-								>
-									<el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
+                  >
+                    <el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
 
-								</el-form-item>
+                  </el-form-item>
 
-							</el-col>
-							<el-col :span="6">
-								<el-switch
-										@change="modeChange('frontNotify','header',index)"
-										v-model="item.valueMode"
-										size="large"
-										active-text="固定值"
-										inactive-text="表单"
-								/>
-							</el-col>
-							<el-col :span="8">
-								<el-form-item
-										:prop="'header.' + index + '.value'"
-										:rules="[
+                </el-col>
+                <el-col :span="6">
+                  <el-switch
+                      @change="modeChange('frontNotify','header',index)"
+                      v-model="item.valueMode"
+                      size="large"
+                      active-text="固定值"
+                      inactive-text="表单"
+                  />
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item
+                      :prop="'header.' + index + '.value'"
+                      :rules="[
        	{required: true, message: '请填写字段对应值', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段对应值长度<50', trigger: 'blur' },
       ]"
-								>
+                  >
 
-									<el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
-									<el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
-										<el-option
-												v-for="f in formListWithRoot"
-												:key="f.id"
-												:label="f.name"
-												:value="f.id"
-										/>
-									</el-select>
-								</el-form-item>
-							</el-col>
-							<el-col :span="1">
-								<el-button @click="delOneLine('frontNotify','header',index)" text :icon="$icon['Delete']"></el-button>
-							</el-col>
-						</el-row>
-						<el-button text type="primary" @click="addOneLine('frontNotify','header')" :icon="$icon['Plus']">添加一行
-						</el-button>
-					</el-form-item>
-					<el-form-item label="请求体">
-						<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontNotifyForm.body">
-							<el-col :span="9">
-								<el-form-item
-										:prop="'body.' + index + '.field'"
-										:rules="[
+                    <el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
+                    <el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
+                      <el-option
+                          v-for="f in formListWithRoot"
+                          :key="f.id"
+                          :label="f.name"
+                          :value="f.id"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">
+                  <el-button @click="delOneLine('frontNotify','header',index)" text :icon="$icon['Delete']"></el-button>
+                </el-col>
+              </el-row>
+              <el-button text type="primary" @click="addOneLine('frontNotify','header')" :icon="$icon['Plus']">添加一行
+              </el-button>
+            </el-form-item>
+            <el-form-item label="请求体">
+              <el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontNotifyForm.body">
+                <el-col :span="9">
+                  <el-form-item
+                      :prop="'body.' + index + '.field'"
+                      :rules="[
        	{required: true, message: '请填写字段名称', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
       ]"
-								>
-									<el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
+                  >
+                    <el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
 
-								</el-form-item>
+                  </el-form-item>
 
-							</el-col>
-							<el-col :span="6">
-								<el-switch
-										@change="modeChange('frontNotify','body',index)"
-										v-model="item.valueMode"
-										size="large"
-										active-text="固定值"
-										inactive-text="表单"
-								/>
-							</el-col>
-							<el-col :span="8">
-								<el-form-item
-										:prop="'body.' + index + '.value'"
-										:rules="[
+                </el-col>
+                <el-col :span="6">
+                  <el-switch
+                      @change="modeChange('frontNotify','body',index)"
+                      v-model="item.valueMode"
+                      size="large"
+                      active-text="固定值"
+                      inactive-text="表单"
+                  />
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item
+                      :prop="'body.' + index + '.value'"
+                      :rules="[
        	{required: true, message: '请填写字段对应值', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段对应值长度<50', trigger: 'blur' },
       ]"
-								>
+                  >
 
-									<el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
-									<el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
-										<el-option
-												v-for="f in formListWithRoot"
-												:key="f.id"
-												:label="f.name"
-												:value="f.id"
-										/>
-									</el-select>
-								</el-form-item>
-							</el-col>
-							<el-col :span="1">
-								<el-button @click="delOneLine('frontNotify','body',index)" text :icon="$icon['Delete']"></el-button>
-							</el-col>
-						</el-row>
-						<el-button text type="primary" @click="addOneLine('frontNotify','body')" :icon="$icon['Plus']">添加一行
-						</el-button>
-					</el-form-item>
-					<el-form-item label="返回值">
-						<el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">
-							<p>通过接口可以修改表单值：左侧表单表示要修改的表单值，右侧字段是指接口返回的字段名</p>
-						</el-alert>
-						<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in frontNotifyForm.result">
-							<el-col :span="10">
-								<el-form-item
-										:prop="'result.' + index + '.value'"
-										:rules="[
+                    <el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
+                    <el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
+                      <el-option
+                          v-for="f in formListWithRoot"
+                          :key="f.id"
+                          :label="f.name"
+                          :value="f.id"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">
+                  <el-button @click="delOneLine('frontNotify','body',index)" text :icon="$icon['Delete']"></el-button>
+                </el-col>
+              </el-row>
+              <el-button text type="primary" @click="addOneLine('frontNotify','body')" :icon="$icon['Plus']">添加一行
+              </el-button>
+            </el-form-item>
+            <el-form-item label="返回值">
+              <el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">
+                <p>通过接口可以修改表单值：左侧表单表示要修改的表单值，右侧字段是指接口返回的字段名</p>
+              </el-alert>
+              <el-row style="width: 100%;margin-bottom: 20px" :gutter="20"
+                      v-for="(item,index) in frontNotifyForm.result">
+                <el-col :span="10">
+                  <el-form-item
+                      :prop="'result.' + index + '.value'"
+                      :rules="[
        	{required: true, message: '请选择表单', trigger: 'blur'}
       ]"
-								>
+                  >
 
 
-									<el-select v-model="item.value" placeholder="选择表单" style="width: 100%">
-										<el-option
-												v-for="f in formList"
-												:key="f.id"
-												:label="f.name"
-												:value="f.id"
-										/>
-									</el-select>
-								</el-form-item>
-							</el-col>
-							<el-col :span="13">
-								<el-form-item
-										:prop="'result.' + index + '.field'"
-										:rules="[
+                    <el-select v-model="item.value" placeholder="选择表单" style="width: 100%">
+                      <el-option
+                          v-for="f in formList"
+                          :key="f.id"
+                          :label="f.name"
+                          :value="f.id"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="13">
+                  <el-form-item
+                      :prop="'result.' + index + '.field'"
+                      :rules="[
        	{required: true, message: '请填写字段名称', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
       ]"
-								>
-									<el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
+                  >
+                    <el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
 
-								</el-form-item>
+                  </el-form-item>
 
-							</el-col>
-
-
-							<el-col :span="1">
-								<el-button @click="delOneLine('frontNotify','result',index)" text :icon="$icon['Delete']"></el-button>
-							</el-col>
-						</el-row>
-						<el-button text type="primary" @click="addOneLine('frontNotify','result')" :icon="$icon['Plus']">添加一行
-						</el-button>
-					</el-form-item>
+                </el-col>
 
 
-				</el-form>
-	  </el-card>
+                <el-col :span="1">
+                  <el-button @click="delOneLine('frontNotify','result',index)" text :icon="$icon['Delete']"></el-button>
+                </el-col>
+              </el-row>
+              <el-button text type="primary" @click="addOneLine('frontNotify','result')" :icon="$icon['Plus']">添加一行
+              </el-button>
+            </el-form-item>
 
-		  <el-card style="margin-top: 20px;">
+
+          </el-form>
+        </el-card>
+
+        <el-card style="margin-top: 20px;">
 
 
-		  <h3>后置通知
+          <h3>后置通知
 
-					<el-text type="info" size="small">
-						<el-icon>
-							<Aim/>
-						</el-icon>
-						流程结束时触发
-					</el-text>
-					<el-switch
-							v-model="backNotifyForm.enable"
-							size="large"
-					/>
-				</h3>
+            <el-text type="info" size="small">
+              <el-icon>
+                <Aim/>
+              </el-icon>
+              流程结束时触发
+            </el-text>
+            <el-switch
+                v-model="backNotifyForm.enable"
+                size="large"
+            />
+          </h3>
 
-				<el-form v-if="backNotifyForm.enable" :model="backNotifyForm" ref="backNotifyForm" :rules="rules"
-								 label-width="120px" label-position="top">
-					<el-form-item label="请求地址" prop="url">
-						<el-alert type="warning" show-icon :closable="false">
-							<p>仅支持POST请求，以请求体方式接收参数</p>
-						</el-alert>
-						<el-input style="margin-top: 10px" :maxlength="100" v-model="backNotifyForm.url"
-											placeholder="http://www.cxygzl.com"/>
-					</el-form-item>
+          <el-form v-if="backNotifyForm.enable" :model="backNotifyForm" ref="backNotifyForm" :rules="rules"
+                   label-width="120px" label-position="top">
+            <el-form-item label="请求地址" prop="url">
+              <el-alert type="warning" show-icon :closable="false">
+                <p>仅支持POST请求，以请求体方式接收参数</p>
+              </el-alert>
+              <el-input style="margin-top: 10px" :maxlength="100" v-model="backNotifyForm.url"
+                        placeholder="http://www.cxygzl.com"/>
+            </el-form-item>
 
-					<el-form-item label="请求头">
-						<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in backNotifyForm.header">
-							<el-col :span="9">
-								<el-form-item
-										:prop="'header.' + index + '.field'"
-										:rules="[
+            <el-form-item label="请求头">
+              <el-row style="width: 100%;margin-bottom: 20px" :gutter="20"
+                      v-for="(item,index) in backNotifyForm.header">
+                <el-col :span="9">
+                  <el-form-item
+                      :prop="'header.' + index + '.field'"
+                      :rules="[
        	{required: true, message: '请填写字段名称', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
       ]"
-								>
-									<el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
+                  >
+                    <el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
 
-								</el-form-item>
+                  </el-form-item>
 
-							</el-col>
-							<el-col :span="6">
-								<el-switch
-										@change="modeChange('backNotify','header',index)"
-										v-model="item.valueMode"
-										size="large"
-										active-text="固定值"
-										inactive-text="表单"
-								/>
-							</el-col>
-							<el-col :span="8">
-								<el-form-item
-										:prop="'header.' + index + '.value'"
-										:rules="[
+                </el-col>
+                <el-col :span="6">
+                  <el-switch
+                      @change="modeChange('backNotify','header',index)"
+                      v-model="item.valueMode"
+                      size="large"
+                      active-text="固定值"
+                      inactive-text="表单"
+                  />
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item
+                      :prop="'header.' + index + '.value'"
+                      :rules="[
        	{required: true, message: '请填写字段对应值', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段对应值长度<50', trigger: 'blur' },
       ]"
-								>
+                  >
 
-									<el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
-									<el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
-										<el-option
-												v-for="f in formListWithRoot"
-												:key="f.id"
-												:label="f.name"
-												:value="f.id"
-										/>
-									</el-select>
-								</el-form-item>
-							</el-col>
-							<el-col :span="1">
-								<el-button @click="delOneLine('backNotify','header',index)" text :icon="$icon['Delete']"></el-button>
-							</el-col>
-						</el-row>
-						<el-button text type="primary" @click="addOneLine('backNotify','header')" :icon="$icon['Plus']">添加一行
-						</el-button>
-					</el-form-item>
-					<el-form-item label="请求体">
-						<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in backNotifyForm.body">
-							<el-col :span="9">
-								<el-form-item
-										:prop="'body.' + index + '.field'"
-										:rules="[
+                    <el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
+                    <el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
+                      <el-option
+                          v-for="f in formListWithRoot"
+                          :key="f.id"
+                          :label="f.name"
+                          :value="f.id"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">
+                  <el-button @click="delOneLine('backNotify','header',index)" text :icon="$icon['Delete']"></el-button>
+                </el-col>
+              </el-row>
+              <el-button text type="primary" @click="addOneLine('backNotify','header')" :icon="$icon['Plus']">添加一行
+              </el-button>
+            </el-form-item>
+            <el-form-item label="请求体">
+              <el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in backNotifyForm.body">
+                <el-col :span="9">
+                  <el-form-item
+                      :prop="'body.' + index + '.field'"
+                      :rules="[
        	{required: true, message: '请填写字段名称', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
       ]"
-								>
-									<el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
+                  >
+                    <el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
 
-								</el-form-item>
+                  </el-form-item>
 
-							</el-col>
-							<el-col :span="6">
-								<el-switch
-										@change="modeChange('backNotify','body',index)"
-										v-model="item.valueMode"
-										size="large"
-										active-text="固定值"
-										inactive-text="表单"
-								/>
-							</el-col>
-							<el-col :span="8">
-								<el-form-item
-										:prop="'body.' + index + '.value'"
-										:rules="[
+                </el-col>
+                <el-col :span="6">
+                  <el-switch
+                      @change="modeChange('backNotify','body',index)"
+                      v-model="item.valueMode"
+                      size="large"
+                      active-text="固定值"
+                      inactive-text="表单"
+                  />
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item
+                      :prop="'body.' + index + '.value'"
+                      :rules="[
        	{required: true, message: '请填写字段对应值', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段对应值长度<50', trigger: 'blur' },
       ]"
-								>
+                  >
 
-									<el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
-									<el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
-										<el-option
-												v-for="f in formListWithRoot"
-												:key="f.id"
-												:label="f.name"
-												:value="f.id"
-										/>
-									</el-select>
-								</el-form-item>
-							</el-col>
-							<el-col :span="1">
-								<el-button @click="delOneLine('backNotify','body',index)" text :icon="$icon['Delete']"></el-button>
-							</el-col>
-						</el-row>
-						<el-button text type="primary" @click="addOneLine('backNotify','body')" :icon="$icon['Plus']">添加一行
-						</el-button>
-					</el-form-item>
-					<el-form-item label="返回值">
-						<el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">
-							<p>通过接口可以修改表单值：左侧表单表示要修改的表单值，右侧字段是指接口返回的字段名</p>
-						</el-alert>
-						<el-row style="width: 100%;margin-bottom: 20px" :gutter="20" v-for="(item,index) in backNotifyForm.result">
-							<el-col :span="10">
-								<el-form-item
-										:prop="'result.' + index + '.value'"
-										:rules="[
+                    <el-input v-if="item.valueMode" :maxlength="100" v-model="item.value" placeholder="固定内容"/>
+                    <el-select v-else v-model="item.value" placeholder="选择表单" style="width: 100%">
+                      <el-option
+                          v-for="f in formListWithRoot"
+                          :key="f.id"
+                          :label="f.name"
+                          :value="f.id"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="1">
+                  <el-button @click="delOneLine('backNotify','body',index)" text :icon="$icon['Delete']"></el-button>
+                </el-col>
+              </el-row>
+              <el-button text type="primary" @click="addOneLine('backNotify','body')" :icon="$icon['Plus']">添加一行
+              </el-button>
+            </el-form-item>
+            <el-form-item label="返回值">
+              <el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px;">
+                <p>通过接口可以修改表单值：左侧表单表示要修改的表单值，右侧字段是指接口返回的字段名</p>
+              </el-alert>
+              <el-row style="width: 100%;margin-bottom: 20px" :gutter="20"
+                      v-for="(item,index) in backNotifyForm.result">
+                <el-col :span="10">
+                  <el-form-item
+                      :prop="'result.' + index + '.value'"
+                      :rules="[
        	{required: true, message: '请选择表单', trigger: 'blur'}
       ]"
-								>
+                  >
 
 
-									<el-select v-model="item.value" placeholder="选择表单" style="width: 100%">
-										<el-option
-												v-for="f in formList"
-												:key="f.id"
-												:label="f.name"
-												:value="f.id"
-										/>
-									</el-select>
-								</el-form-item>
-							</el-col>
-							<el-col :span="13">
-								<el-form-item
-										:prop="'result.' + index + '.field'"
-										:rules="[
+                    <el-select v-model="item.value" placeholder="选择表单" style="width: 100%">
+                      <el-option
+                          v-for="f in formList"
+                          :key="f.id"
+                          :label="f.name"
+                          :value="f.id"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="13">
+                  <el-form-item
+                      :prop="'result.' + index + '.field'"
+                      :rules="[
        	{required: true, message: '请填写字段名称', trigger: 'blur'},
 				  { min: 1, max: 50, message: '1<字段名称长度<50', trigger: 'blur' },
       ]"
-								>
-									<el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
+                  >
+                    <el-input v-model="item.field" :maxlength="100" placeholder="接收字段，比如userName"/>
 
-								</el-form-item>
+                  </el-form-item>
 
-							</el-col>
-
-
-							<el-col :span="1">
-								<el-button @click="delOneLine('backNotify','result',index)" text :icon="$icon['Delete']"></el-button>
-							</el-col>
-						</el-row>
-						<el-button text type="primary" @click="addOneLine('backNotify','result')" :icon="$icon['Plus']">添加一行
-						</el-button>
-					</el-form-item>
+                </el-col>
 
 
-				</el-form>
-	  </el-card>
+                <el-col :span="1">
+                  <el-button @click="delOneLine('backNotify','result',index)" text :icon="$icon['Delete']"></el-button>
+                </el-col>
+              </el-row>
+              <el-button text type="primary" @click="addOneLine('backNotify','result')" :icon="$icon['Plus']">添加一行
+              </el-button>
+            </el-form-item>
 
-			</el-card>
-		</div>
 
-	</div>
+          </el-form>
+        </el-card>
+
+      </el-card>
+    </div>
+
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -575,69 +641,99 @@ import * as util from "../../utils/objutil";
 
 import type {FormInstance, FormRules} from "element-plus";
 
+//自定义编码过滤器
+const customRuleMiddleShow = computed(() => {
+  let middle = customRule.value.middle;
+  if (middle === '1') {
+    return ''
+  }
+  if (middle === '2') {
+    return '-'
+  }
+  if (middle === '3') {
+    return '|'
+  }
+  if (middle === '4') {
+    return momentFormat(new Date(),"YYYYMMDD")
+  }
+  return ''
+})
 
 import {useFlowStore} from "../../stores/flow";
+import {isBlank, momentFormat} from "../../utils/objutil";
+
 const {proxy} = getCurrentInstance();
 
 const addOneLine = (k1, k2) => {
-	flowStore.addStep4OneLine(k1, k2)
+  flowStore.addStep4OneLine(k1, k2)
 }
 const delOneLine = (k1, k2, index) => {
-	flowStore.delStep4OneLine(k1, k2, index)
+  flowStore.delStep4OneLine(k1, k2, index)
 }
 const modeChange = (k1, k2, index) => {
-	flowStore.clearStep4Value(k1, k2, index)
+  flowStore.clearStep4Value(k1, k2, index)
 }
 
 const validate = (f) => {
-	let backEnable = backNotifyForm.value.enable;
-	let frontEnable = frontNotifyForm.value.enable;
-	let frontCheckEnable = frontCheckForm.value.enable;
 
-	var list=[];
-	if(frontEnable){
-		list.push(proxy.$refs.frontNotifyForm)
-	}
-	if(backEnable){
-		list.push(proxy.$refs.backNotifyForm)
-	}
-	if(frontCheckEnable){
-		list.push(proxy.$refs.frontCheckForm)
-	}
+  //检查自定义流程编号
+  if(customRule.value.enable&&isBlank(customRule.value.prefix)){
+    f(false,['请完善自定义流程编号'])
+    return
+  }
 
-	circleValidate(0,list,f)
+  let backEnable = backNotifyForm.value.enable;
+  let frontEnable = frontNotifyForm.value.enable;
+  let frontCheckEnable = frontCheckForm.value.enable;
+
+  var list = [];
+  if (frontEnable) {
+    list.push(proxy.$refs.frontNotifyForm)
+  }
+  if (backEnable) {
+    list.push(proxy.$refs.backNotifyForm)
+  }
+  if (frontCheckEnable) {
+    list.push(proxy.$refs.frontCheckForm)
+  }
+
+
+  circleValidate(0, list, f)
+
+
+
 
 };
 
 function circleValidate(idx, list, f) {
 
-	if (idx >= list.length) {
-		f(true)
-		return;
-	}
+  if (idx >= list.length) {
+    f(true)
+    return;
+  }
 
-	list[idx].validate((valid, fields) => {
-		if (!valid) {
-			var arr = [];
+  list[idx].validate((valid, fields) => {
+    if (!valid) {
+      var arr = [];
 
-			for (var err in fields) {
-				arr.push(fields[err][0].message)
-			}
-			f(valid, arr);
-		}else{
-			circleValidate(idx+1,list,f)
-		}
+      for (var err in fields) {
+        arr.push(fields[err][0].message)
+      }
+      f(valid, arr);
+    } else {
+      circleValidate(idx + 1, list, f)
+    }
 
 
-	});
+  });
 }
 
 // 暴露方法和属性给父组件
 defineExpose({validate});
 const rules = reactive<FormRules>({
-	url: [
-		{required: true, message: "请填写请求地址", type: 'url', trigger: "blur"}
-	]
+  url: [
+    {required: true, message: "请填写请求地址", type: 'url', trigger: "blur"}
+  ]
 });
 
 
@@ -650,52 +746,54 @@ onMounted(() => {
 });
 
 
-
 let flowStore = useFlowStore();
 
 var step4Store = computed(() => {
-	return flowStore.step4;
+  return flowStore.step4;
 });
 
 
 var formList = computed(() => {
-	return flowStore.step2.filter(res => res.type != 'Description');
+  return flowStore.step2.filter(res => res.type != 'Description');
 });
 
 var formListWithRoot = computed(() => {
-	let step2 = util.deepCopy(formList.value);
-	step2.push({
-		id: 'root',
-		type: 'SelectUser',
-		name: '发起人'
-	})
-	return step2;
+  let step2 = util.deepCopy(formList.value);
+  step2.push({
+    id: 'root',
+    type: 'SelectUser',
+    name: '发起人'
+  })
+  return step2;
 });
 
 var dbRecord = computed(() => {
-	return step4Store.value.dbRecord;
+  return step4Store.value.dbRecord;
 });
 var distinct = computed(() => {
-	return step4Store.value.distinct;
+  return step4Store.value.distinct;
+});
+var customRule = computed(() => {
+  return step4Store.value.customRule;
 });
 var frontNotifyForm = computed(() => {
-	return step4Store.value.frontNotify;
+  return step4Store.value.frontNotify;
 });
 
 var frontCheckForm = computed(() => {
-	return step4Store.value.frontCheck;
+  return step4Store.value.frontCheck;
 });
 
 var backNotifyForm = computed(() => {
-	return step4Store.value.backNotify;
+  return step4Store.value.backNotify;
 });
 
 
 </script>
 <style scoped lang="less">
 .container-div {
-	width: 800px;
-	margin-left: calc(50% - 400px);
+  width: 800px;
+  margin-left: calc(50% - 400px);
 
 }
 

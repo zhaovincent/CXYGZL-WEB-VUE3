@@ -50,7 +50,7 @@ const printObj=ref({
         <h2 style="text-align: center">{{ allData.processName }}</h2>
         <div style="text-align: right;font-size: 15px;">打印人员：{{userStore.nickname}}</div>
         <div style="display: flex;justify-content: space-between;font-size: 15px;">
-          <div>流程编号：{{ allData.processInstanceId }}</div>
+          <div>流程编号：{{ allData.processInstanceBizCode }}</div>
           <div>打印时间：{{util.momentFormat(new Date(),"YYYY-MM-DD HH:mm")}}</div>
         </div>
 

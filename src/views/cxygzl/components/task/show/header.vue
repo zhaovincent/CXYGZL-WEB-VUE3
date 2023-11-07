@@ -21,7 +21,6 @@ onMounted(() => {
 });
 
 const openPrintDialog=()=>{
-  console.log(currentData.value)
   printRef.value.show(currentData.value.processInstanceId);
 }
 
@@ -53,7 +52,7 @@ const printRef=ref();
 
         </div>
         <div>
-          <el-text size="small">{{ currentData.startTime }}</el-text>
+          <el-text size="small">{{ currentData.processInstanceBizCode }}</el-text>
         </div>
       </div>
     </div>

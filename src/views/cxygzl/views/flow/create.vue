@@ -49,7 +49,7 @@
       </el-steps>
 
       <div style="text-align: center">
-        <el-result v-if="validateFlowStep==4"
+        <el-result v-if="validateFlowStep==4&&validateErrMsg.length==0"
                    icon="success"
                    title="检查成功"
                    sub-title="流程检查完成，现在提交？"
@@ -152,6 +152,7 @@ const validateDialogShow = ref(false);
 const validatingShow = ref(false);
 
 const gotoEdit = () => {
+  console.log(validateFlowStep.value)
   activeStep.value = validateFlowStep.value;
   validateDialogShow.value = false
 }
@@ -299,8 +300,10 @@ const checkStep3 = () => {
 const checkStep4 = () => {
   setTimeout(function () {
 
+    console.log("44444444444444")
 
     step4Ref.value.validate(function (valid, arr) {
+      console.log("4",valid,arr)
       if (valid) {
         console.log("step-4", new Date().getTime())
 
@@ -313,7 +316,7 @@ const checkStep4 = () => {
         validateErrMsg.value = arr;
       }
     })
-  })
+  },500)
 }
 const router = useRouter();
 

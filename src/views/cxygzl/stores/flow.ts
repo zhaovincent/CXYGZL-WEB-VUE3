@@ -36,6 +36,13 @@ export const useFlowStore = defineStore("flow", {
                     enable: false,
                     value: 1
                 },
+
+                customRule: {
+                    enable: false,
+                    prefix: '',
+                    middle:'1',
+                    serino:'5'
+                },
                 frontCheck: {
                     enable: false,
                     url: '',
