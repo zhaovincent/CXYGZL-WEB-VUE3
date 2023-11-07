@@ -57,6 +57,8 @@ var formResultConfigList = ref([
 		id: 'required', name: '是否必填'
 	}, {
 		id: 'radixNum', name: '小数位数'
+	}, {
+		id: 'options', name: '选项'
 	}
 ])
 const addOneLine = (k1, k2) => {
