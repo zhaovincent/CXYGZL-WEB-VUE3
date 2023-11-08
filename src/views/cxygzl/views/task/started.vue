@@ -149,9 +149,9 @@ const confirmSubmitUrge = () => {
 					border
 			>
 				<el-table-column label="分组" prop="groupName" width="100"/>
-				<el-table-column label="流程" prop="name" width="150"/>
-				<el-table-column label="发起时间" prop="createTime" width="200"/>
-				<el-table-column label="结束时间" prop="endTime" width="200"/>
+				<el-table-column label="流程" prop="name" width="200"/>
+				<el-table-column label="发起时间" prop="createTime" width="160"/>
+				<el-table-column label="结束时间" prop="endTime" width="160"/>
 				<el-table-column label="状态" prop="taskCreateTime" width="100">
 					<template #default="scope">
 						<el-tag v-if="scope.row.status == 1" type="success">进行中</el-tag>

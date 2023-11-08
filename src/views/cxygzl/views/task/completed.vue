@@ -100,12 +100,12 @@ onMounted(() => {
 					border
 			>
 				<el-table-column label="分组" prop="groupName" width="100"/>
-				<el-table-column label="流程" prop="processName" width="150"/>
+				<el-table-column label="流程" prop="processName" width="200"/>
 				<el-table-column label="发起人" prop="rootUserName" width="150"/>
-				<el-table-column label="发起时间" prop="startTime" width="200"/>
+				<el-table-column label="发起时间" prop="startTime" width="160"/>
 				<el-table-column label="任务名称" prop="taskName" width="200"/>
-				<el-table-column label="任务开始时间" prop="taskCreateTime" width="200"/>
-				<el-table-column label="任务结束时间" prop="taskEndTime" width="200"/>
+				<el-table-column label="任务开始时间" prop="taskCreateTime" width="160"/>
+				<el-table-column label="任务结束时间" prop="taskEndTime" width="160"/>
 
 
 				<el-table-column fixed="right" label="操作" width="200">

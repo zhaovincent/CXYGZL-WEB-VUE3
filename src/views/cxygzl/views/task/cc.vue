@@ -108,11 +108,11 @@ const formValue = computed(() => {
 					border
 			>
 				<el-table-column label="分组" prop="groupName" width="100"/>
-				<el-table-column label="流程" prop="processName" width="150"/>
+				<el-table-column label="流程" prop="processName" width="200"/>
 				<el-table-column label="发起人" prop="startUserName" width="150"/>
-				<el-table-column label="发起时间" prop="startTime" width="200"/>
+				<el-table-column label="发起时间" prop="startTime" width="160"/>
 				<el-table-column label="节点" prop="nodeName" width="200"/>
-				<el-table-column label="抄送时间" prop="nodeTime" width="200"/>
+				<el-table-column label="抄送时间" prop="nodeTime" width="160"/>
 
 
 				<el-table-column fixed="right" label="操作">
