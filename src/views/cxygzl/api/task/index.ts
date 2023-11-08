@@ -55,6 +55,20 @@ export function queryMineStarted(data: any) {
 		data: data
 	});
 }
+
+
+/**
+ * 查询流程列表
+ *
+ * @param data
+ */
+export function queryList(data: any) {
+	return request({
+		url: '/process-instance/queryList',
+		method: 'post',
+		data: data
+	});
+}
 /**
  * 查询流程实例详情
  *

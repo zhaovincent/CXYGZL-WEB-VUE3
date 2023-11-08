@@ -15,10 +15,10 @@
 						<single-upload v-model="form.logo"/>
 					</el-form-item>
 					<el-form-item label="名称" prop="name">
-						<el-input maxlength="10" v-model="form.name"/>
+						<el-input maxlength="20" v-model="form.name"/>
 					</el-form-item>
 					<el-form-item label="说明" prop="remark">
-						<el-input maxlength="20" v-model="form.remark"/>
+						<el-input maxlength="40" v-model="form.remark"/>
 					</el-form-item>
 					<el-form-item label="分组" prop="groupId">
 						<el-select style="width: 100%;" v-model="form.groupId" placeholder="请选择流程组">
@@ -90,11 +90,11 @@ defineExpose({validate});
 const rules = reactive<FormRules>({
 	name: [
 		{required: true, message: "请填写名称", trigger: "blur"},
-		{min: 2, max: 10, message: "2-10个字符", trigger: "blur"},
+		{min: 2, max: 20, message: "2-20个字符", trigger: "blur"},
 	],
 	remark: [
 		{required: false, message: "请填写描述", trigger: "blur"},
-		{min: 2, max: 20, message: "2-20个字符", trigger: "blur"},
+		{min: 2, max: 40, message: "2-40个字符", trigger: "blur"},
 	],
 	groupId: [
 		{
