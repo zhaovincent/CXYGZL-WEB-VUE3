@@ -155,6 +155,14 @@ export function backJoinTask(param:Object) {
 		data: param
 	})
 }
+// 管理员设置执行人 转交
+export function setAssigneeByAdmin(param:Object) {
+	return request({
+		url: 'task/setAssigneeByAdmin',
+		method: 'post',
+		data: param
+	})
+}
 // 驳回任务
 export function rejectTask(param:Object) {
 	return request({

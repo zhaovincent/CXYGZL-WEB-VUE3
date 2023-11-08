@@ -30,6 +30,14 @@ export function stopProcessInstance(param:any) {
     })
 }
 
+// 查询进行中的任务
+export function queryTaskListInProgress(param:any) {
+    return request({
+        url: 'process-instance/queryTaskListInProgress/'+param,
+        method: 'post'
+    })
+}
+
 
 // 催办任务
 export function urgeProcessInstance(param:any) {
