@@ -22,10 +22,10 @@ const formList = computed(() => {
 	let value = step2FormList.value;
 
 	let $deepCopy = util.deepCopy(value.filter(res =>
-			// res.type != 'MultiSelect' &&
 			res.type != 'SelectMultiUser' &&
 			res.type != 'SelectMultiDept' &&
 			res.type != 'Description' &&
+			res.type != 'MultiSelect' &&
 			res.type != 'Signature' &&
 			res.type != 'RelatedProcess' &&
 			res.type != 'Layout' &&
