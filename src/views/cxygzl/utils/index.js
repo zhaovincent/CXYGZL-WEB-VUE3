@@ -371,9 +371,18 @@ All.prototype = {
 						let ele = userKeyFieldList.filter(r => r.key === userKey)[0];
 
 						let type = ele.type;
+
+
+						console.log("用户类型",type,value)
+
 						if (type === 'SingleSelect') {
 
 							valueShow = value.map(res => res.value).join(",")
+
+
+						} else 	if (type === 'SelectUser') {
+
+							valueShow = value.map(res => res.name).join(",")
 
 
 						} else if (type === 'Role') {
