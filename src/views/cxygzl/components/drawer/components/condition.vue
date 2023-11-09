@@ -75,16 +75,19 @@ onMounted(() => {
 	queryAll().then(res => {
 		userFieldList.value = res.data.filter(r => r.type != 'MultiSelect');
 		userFieldList.value.push({
-			key: 'range', type: 'SelectUser', name: '范围'
+			key: 'rangeUser', type: 'SelectUser', name: '人员[系统]'
 		})
 		userFieldList.value.push({
-			key: 'empty', type: '', name: '为空'
+			key: 'rangeDept', type: 'SelectDept', name: '部门[系统]'
 		})
 		userFieldList.value.push({
-			key: 'notempty', type: '', name: '不为空'
+			key: 'empty', type: '', name: '为空[系统]'
 		})
 		userFieldList.value.push({
-			key: 'role', type: 'Role', name: '角色'
+			key: 'notempty', type: '', name: '不为空[系统]'
+		})
+		userFieldList.value.push({
+			key: 'role', type: 'Role', name: '角色[系统]'
 		})
 
 		props.condition.userKeyFieldList = userFieldList.value;
@@ -405,7 +408,7 @@ conditionTypeObj==='Score'
 
           <div style="margin-top: 20px">
               <select-show v-if="conditionTypeObj==='SelectUser'
-" v-model:orgList="condition.value" type="org" :multiple="true"></select-show>
+" v-model:orgList="condition.value" type="user" :multiple="true"></select-show>
           </div>
 
       </template>

@@ -38,18 +38,19 @@ export let conditionExpression = ref(
             },
 			{
 				key: "in",
-				name: "属于"
+				name: "属于(同级)"
 			}, {
 				key: "notin",
-				name: "不属于"
+				name: "不属于(同级)"
 			},
-            {
-                key: "==",
-                name: "等于"
-            }, {
-                key: "!=",
-                name: "不等于"
-            }, {
+			{
+				key: "in_child",
+				name: "属于子级"
+			}, {
+				key: "notin_child",
+				name: "不属于子级"
+			},
+			{
                 key: "contain",
                 name: "包含"
             }, {
@@ -73,20 +74,8 @@ export let conditionExpression = ref(
 			}, {
 				key: "notin",
 				name: "不属于"
-			},
-			{
-				key: "==",
-				name: "等于"
-			}, {
-				key: "!=",
-				name: "不等于"
-			}, {
-				key: "contain",
-				name: "包含"
-			}, {
-				key: "notcontain",
-				name: "不包含"
 			}
+
 		],
 
 		"Input": [

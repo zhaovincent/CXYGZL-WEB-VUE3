@@ -380,7 +380,7 @@ All.prototype = {
 							valueShow = value.map(res => res.value).join(",")
 
 
-						} else 	if (type === 'SelectUser') {
+						} else 	if (type === 'SelectUser'||type === 'SelectDept') {
 
 							valueShow = value.map(res => res.name).join(",")
 
