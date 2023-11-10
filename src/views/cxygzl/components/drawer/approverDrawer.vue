@@ -80,7 +80,7 @@
 
 
 
-				<template v-if="approverConfig.sameAsStarter?.handler&&approverConfig.assignedType!=11">
+				<template v-if="approverConfig.sameAsStarter?.handler&&approverConfig.assignedType!=11&&approverConfig.assignedType!=12">
 					<h4>审批人包含发起人时（审批人可能是多个）</h4>
 					<el-radio-group v-model="approverConfig.sameAsStarter.handler">
 
@@ -94,7 +94,7 @@
 					</el-radio-group>
 				</template>
 
-				<template v-if="approverConfig.assignedType!=11">
+				<template v-if="approverConfig.assignedType!=11&&approverConfig.assignedType!=12">
 					<h4>审批人为空时</h4>
 					<el-radio-group v-model="approverConfig.nobody.handler" class="ml-4">
 						<el-radio label="TO_PASS" size="large">自动通过</el-radio>
@@ -108,7 +108,7 @@
 											 :multiple="false"></select-show>
 				</template>
 
-				<template v-if="approverConfig.refuse?.handler">
+				<template v-if="approverConfig.refuse?.handler&&approverConfig.assignedType!=12">
 					<h4>审批被拒绝</h4>
 					<el-radio-group v-model="approverConfig.refuse.handler" class="ml-4">
 						<el-radio label="TO_END" size="large">直接结束流程</el-radio>
@@ -125,7 +125,7 @@
 					</el-select>
 				</template>
 
-				<template v-if="approverConfig.needSignature!=undefined">
+				<template v-if="approverConfig.needSignature!=undefined&&approverConfig.assignedType!=11&&approverConfig.assignedType!=12">
 					<h4>是否需要签名</h4>
 			<el-switch
 					v-model="approverConfig.needSignature"

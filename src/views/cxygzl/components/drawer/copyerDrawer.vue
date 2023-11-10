@@ -10,7 +10,7 @@
 	  <el-tabs type="border-card">
 		  <el-tab-pane label="设置抄送人">
 
-        <user-config :approver-config="copyerConfig" :exclude-assign-type="[11,4]"></user-config>
+        <user-config :approver-config="copyerConfig" :exclude-assign-type="[11,4,12]"></user-config>
 
 			</el-tab-pane>
 		  <el-tab-pane label="表单权限">
