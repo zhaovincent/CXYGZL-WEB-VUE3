@@ -385,7 +385,16 @@ const addType = (type) => {
 				"childNode": props.childNodeP,
 				nodeUserList: [],
 				//表单权限
-				formPerms: {}
+				formPerms: {},
+        //第几级部门负责人
+        deptLeaderLevel: 1,
+        //人员选择
+        formUserId: "",
+        formUserName: "",
+        //部门下的选择
+        deptUserType:'allUser',
+        //人员方式
+        "assignedType": 1,
 			}
 		}
 		emits("update:childNodeP", data)

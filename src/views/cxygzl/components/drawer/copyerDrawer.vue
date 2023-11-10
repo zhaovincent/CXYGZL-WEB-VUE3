@@ -9,8 +9,9 @@
 
 	  <el-tabs type="border-card">
 		  <el-tab-pane label="设置抄送人">
-		  <select-show   v-model:orgList="copyerConfig.nodeUserList" type="org"
-					   :multiple="true"></select-show>
+
+        <user-config :approver-config="copyerConfig" :exclude-assign-type="[11,4]"></user-config>
+
 			</el-tab-pane>
 		  <el-tab-pane label="表单权限">
 		  <form-perm :hide-key="['E']" :form-perm="copyerConfig.formPerms"></form-perm>
@@ -21,12 +22,12 @@
 	</el-drawer>
 </template>
 <script setup>
-import selectShow from "../orgselect/selectAndShow.vue";
 
 import $func from '../../utils/index'
 import { useStore } from '../../stores/index'
 import { ref, watch, computed } from 'vue'
 let copyerConfig = ref({})
+import UserConfig from './components/userConfig.vue'
 
 import {useFlowStore} from '../../stores/flow'
 let flowStore = useFlowStore();

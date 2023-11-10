@@ -27,70 +27,10 @@
 
 		<el-tabs type="border-card">
 			<el-tab-pane label="设置审批人">
-				<el-radio-group v-model="approverConfig.assignedType" @change="assignedTypeChangeEvent" class="ml-4">
-					<el-row>
-						<el-col :span="8" v-for="({value, label}) in setTypes" :key="value">
-							<el-radio :label="value">{{ label }}</el-radio>
-						</el-col>
-					</el-row>
-				</el-radio-group>
+
+        <user-config :approver-config="approverConfig"></user-config>
 
 
-				<template v-if="approverConfig.assignedType===3">
-					<h4>选择角色</h4>
-
-					<select-show v-model:orgList="approverConfig.nodeUserList" type="role" :multiple="true"></select-show>
-
-				</template>
-				<template v-if="approverConfig.assignedType===1">
-					<h4>选择成员</h4>
-
-					<select-show v-model:orgList="approverConfig.nodeUserList" type="org" :multiple="true"></select-show>
-
-				</template>
-				<template v-if="approverConfig.assignedType===8">
-					<h4>人员控件</h4>
-					<el-select v-model="formUserIdComputed" clearable class="m-2" placeholder="请选择审批表单"
-										 size="large">
-						<el-option
-								v-for="item in step2FormUserList"
-								:key="item.id"
-								:label="item.name"
-								:value="item.id"
-						/>
-					</el-select>
-				</template>
-				<template v-if="approverConfig.assignedType===9">
-					<h4>部门控件</h4>
-					<el-select v-model="formDeptIdComputed" clearable class="m-2" placeholder="请选择审批表单"
-										 size="large">
-						<el-option
-								v-for="item in step2FormDeptList"
-								:key="item.id"
-								:label="item.name"
-								:value="item.id"
-						/>
-					</el-select>
-
-					<el-radio-group v-model="approverConfig.deptUserType" class="ml-4">
-						<el-radio label="allUser" size="large">部门人员</el-radio>
-						<el-radio label="leader" size="large">部门主管</el-radio>
-					</el-radio-group>
-
-				</template>
-				<template v-if="approverConfig.assignedType===10">
-					<h4>选择部门</h4>
-					<select-show v-model:orgList="approverConfig.nodeUserList" type="dept" :multiple="true"></select-show>
-
-				</template>
-				<template v-if="approverConfig.assignedType===7">
-
-					<h4>审批终点</h4>
-					<span style="font-size: 14px;margin-right: 5px;">到第</span>
-					<el-input-number v-model="approverConfig.deptLeaderLevel" :step="1" :min="1" :max="20" step-strictly
-													 size="small"/>
-					<span style="font-size: 14px;margin-left: 5px;">级部门主管终止</span>
-				</template>
 				<template
 						v-if="
 						approverConfig.assignedType===4
@@ -137,14 +77,7 @@
 						</el-form-item>
 					</el-form>
 				</template>
-				<template v-if="approverConfig.assignedType===2">
 
-					<h4>指定审批层级</h4>
-					<span style="font-size: 14px;margin-right: 5px;">第</span>
-					<el-input-number v-model="approverConfig.deptLeaderLevel" :step="1" :min="1" :max="20" step-strictly
-													 size="small"/>
-					<span style="font-size: 14px;margin-left: 5px;">级部门主管</span>
-				</template>
 
 
 				<template v-if="approverConfig.sameAsStarter?.handler&&approverConfig.assignedType!=11">
@@ -276,6 +209,8 @@ import {useFlowStore} from '../../stores/flow'
 import * as util from '../../utils/objutil'
 
 import DynamicFormConfig from "./components/dynamicFormConfig.vue";
+
+import UserConfig from './components/userConfig.vue'
 
 var rejectNodeList = computed(() => {
 
@@ -422,17 +357,7 @@ const step2FormList = computed(() => {
 	return step2;
 })
 
-const step2FormUserList = computed(() => {
 
-
-	return step2FormList.value.filter(res => res.type === 'SelectUser' || res.type === 'SelectMultiUser');
-})
-
-const step2FormDeptList = computed(() => {
-
-
-	return step2FormList.value.filter(res => res.type === 'SelectDept' || res.type === 'SelectMultiDept');
-})
 
 const openEvent = () => {
 	let value = step2FormList.value;
@@ -481,46 +406,11 @@ let visible = computed({
 watch(approverConfigData, (val) => {
 	approverConfig.value = val.value
 })
-//用户表单是否是多选
-const isMultiUserForm = (id) => {
-	if (util.isBlank(id)) {
-		return false
-	}
-	let t = step2FormUserList.value.filter(res => res.id === id)[0].props.multi;
-	return t;
-}
-
-var formUserIdComputed = computed({
-	get() {
-		return approverConfig.value.formUserId;
-	},
-	set(val) {
-		approverConfig.value.formUserName = step2FormUserList.value.filter(res => res.id === val)[0].name
-		approverConfig.value.formUserId = val
-
-	}
-})
 
 
-var formDeptIdComputed = computed({
-	get() {
-		return approverConfig.value.formUserId;
-	},
-	set(val) {
-		approverConfig.value.formUserId = val
-		approverConfig.value.formUserName = step2FormDeptList.value.filter(res => res.id === val)[0].name
-
-	}
-})
 
 
-//审批人类型变化
-const assignedTypeChangeEvent = (e) => {
-	approverConfig.value.nodeUserList = [];
-	approverConfig.value.formUserId = ''
-	approverConfig.value.formUserName = ''
-	console.log('选择审批人选项变化了', e)
-}
+
 
 const saveApprover = () => {
 
