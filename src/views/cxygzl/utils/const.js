@@ -407,29 +407,16 @@ export let conditionExpression = ref(
                 key: "notempty",
                 name: "不为空"
             },
-			{
-				key: "in",
-				name: "属于"
-			}, {
-				key: "notin",
-				name: "不属于"
-			},
+
             {
                 key: "==",
-                name: "等于"
-            }, {
-                key: "!=",
-                name: "不等于"
-            },
-			{
-				key: "contain",
-				name: "包含"
-			}, {
+                name: "完全匹配"
+            },{
 				key: "notcontain",
 				name: "不包含"
 			}, {
 				key: "intersection",
-				name: "重合"
+				name: "包含以下任意"
 			}
 		],
 		"Role": [

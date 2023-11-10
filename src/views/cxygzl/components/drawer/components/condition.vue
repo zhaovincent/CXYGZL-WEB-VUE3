@@ -25,7 +25,7 @@ const formList = computed(() => {
 			res.type != 'SelectMultiUser' &&
 			res.type != 'SelectMultiDept' &&
 			res.type != 'Description' &&
-			res.type != 'MultiSelect' &&
+			// res.type != 'MultiSelect' &&
 			res.type != 'Signature' &&
 			res.type != 'RelatedProcess' &&
 			res.type != 'Layout' &&
