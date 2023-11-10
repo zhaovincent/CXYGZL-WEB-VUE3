@@ -1,5 +1,12 @@
 import moment from 'moment'
 
+export function isNull(s) {
+	if (s === undefined || s === null ) {
+		return true;
+	}
+	return false;
+}
+
 export function isBlank(s) {
 	if (s === undefined || s === null || ((typeof s) === 'string' && s.trim().length == 0)) {
 		return true;

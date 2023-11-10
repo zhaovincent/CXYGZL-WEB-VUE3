@@ -1,3 +1,5 @@
+import {isBlank} from "./objutil.js";
+
 function All() {
 }
 
@@ -302,7 +304,11 @@ All.prototype = {
 					if (ite.keyType === 'SelectUser' && ite.userKey.indexOf('empty') >= 0) {
 						continue
 					}
-					if (!ite.key || ite.key.length == 0 || !ite.expression || ite.expression.length == 0 || ((ite.expression.indexOf('empty') < 0) && (!ite.value || ite.value.length == 0))
+					if (util.isNull(ite.key)
+						|| ite.key.length == 0
+						|| util.isNull(ite.expression)
+						|| ite.expression.length == 0
+						|| ((ite.expression.indexOf('empty') < 0) && (util.isNull(ite.value) || ite.value.length == 0))
 						|| (ite.keyType === 'Area' && (!ite.value?.value && ite.expression.indexOf('empty') < 0))
 						|| (ite.keyType === 'Cascade' && (!ite.value?.value && ite.expression.indexOf('empty') < 0))
 					) {
@@ -373,7 +379,6 @@ All.prototype = {
 						let type = ele.type;
 
 
-						console.log("用户类型",type,value)
 
 						if (type === 'SingleSelect') {
 
@@ -391,7 +396,7 @@ All.prototype = {
 
 
 						} else if (type && type.length > 0) {
-							if (!valueShow) {
+							if (util.isNull(valueShow)) {
 								if (expression.indexOf('empty') >= 0) {
 									valueShow = ''
 
@@ -406,7 +411,7 @@ All.prototype = {
 						}
 
 					} else if (valueElement.type === 'SelectDept') {
-						if (!value) {
+						if (util.isNull(value)) {
 							if (expression.indexOf('empty') >= 0) {
 								valueShow = ''
 
@@ -464,7 +469,7 @@ All.prototype = {
 
 
 					} else {
-						if (!valueShow) {
+						if (util.isNull(valueShow)) {
 							if (expression.indexOf('empty') >= 0) {
 								valueShow = ''
 
