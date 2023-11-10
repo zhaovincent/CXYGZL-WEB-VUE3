@@ -131,6 +131,8 @@ const addType = (type) => {
 				"assignedType": 1,
 				//单选还是多选
 				multiple: false,
+				//是否需求签名
+		    needSignature: false,
 				//多人审批的选项
 				multipleMode: 1,
 				//会签完成比例

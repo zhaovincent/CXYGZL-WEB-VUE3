@@ -146,6 +146,32 @@ import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plu
                    <el-link target="_blank" :href="ifi.url" type="primary">{{ifi.name}}</el-link>
                 </div>
               </template>
+
+              <template v-if="item1.signUrlList?.length>0">
+                <div v-for="ifi in item1.signUrlList">
+                  <el-row>
+                    <el-col :span="8">
+                      <div style="height: 66px;line-height: 66px">
+                        签字：
+
+                      </div>
+                    </el-col>
+                    <el-col :span="16">
+                      <el-image
+                          style="width: 150px;  "
+                          :src="ifi"
+                          :zoom-rate="1.2"
+                          :max-scale="7"
+                          :min-scale="0.2"
+                          :preview-src-list="[ifi]"
+                          :initial-index="4"
+                          fit="cover"
+                      />
+                    </el-col>
+                  </el-row>
+
+                </div>
+              </template>
 						</div>
 
 						<el-divider v-if="index1!=node.approveDescList.length-1"/>

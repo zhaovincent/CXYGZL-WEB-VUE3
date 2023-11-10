@@ -6,24 +6,26 @@ import {completeTask, resolveTask} from "../../../api/task";
 const dialogVisible = ref(false);
 
 
-const  commentContent=ref({})
+const commentContent = ref({})
 
 const frontJoinTask = ref(false);
+const needSignature = ref(false);
 const formValue = ref();
 const dialogTitle = ref("");
 const processInstanceId = ref("");
 const taskId = ref("");
 
-const handle = (pid, tid, formData, dt, dialogTitle1) => {
-	dialogTitle.value = dialogTitle1;
-	frontJoinTask.value = dt;
+const handle = (pid, tid, formData, dt, dialogTitle1, needSignature1) => {
+  dialogTitle.value = dialogTitle1;
+  frontJoinTask.value = dt;
+  needSignature.value = needSignature1;
 
-	formValue.value = formData;
+  formValue.value = formData;
 
-	processInstanceId.value = pid
-	taskId.value = tid
+  processInstanceId.value = pid
+  taskId.value = tid
 
-	dialogVisible.value = true;
+  dialogVisible.value = true;
 }
 
 defineExpose({handle});
@@ -31,69 +33,96 @@ const emit = defineEmits(["taskSubmitEvent"]);
 
 
 const submit = () => {
-	var param = {
-		paramMap: formValue.value,
-		approveResult: true,
-		processInstanceId: processInstanceId.value,
-		taskId: taskId.value
+  if (needSignature.value) {
+    if (isBlank(signUrl.value)) {
+      ElMessage.warning("请签字")
+      return
+    }
+  }
+  var param = {
+    paramMap: formValue.value,
+    approveResult: true,
+    processInstanceId: processInstanceId.value,
+    taskId: taskId.value,
+    signUrl: signUrl.value
 
-	};
-	param={...param,...commentContent.value};
+  };
+  param = {...param, ...commentContent.value};
 
-	if (frontJoinTask.value) {
-		//前加签
-		resolveTask(param).then(res => {
-			dialogVisible.value = false;
-
-
-			emit("taskSubmitEvent")
-		})
-	} else {
-		completeTask(param).then(res => {
-			dialogVisible.value = false;
+  if (frontJoinTask.value) {
+    //前加签
+    resolveTask(param).then(res => {
+      dialogVisible.value = false;
 
 
-			emit("taskSubmitEvent")
-		})
-	}
+      emit("taskSubmitEvent")
+    })
+  } else {
+    completeTask(param).then(res => {
+      dialogVisible.value = false;
+
+
+      emit("taskSubmitEvent")
+    })
+  }
 
 }
-const dialogClosed=()=>{
-	commentContent.value={}
+const dialogClosed = () => {
+  commentContent.value = {}
 
 }
 
-import  CommentHandle from './components/comment.vue'
+import CommentHandle from './components/comment.vue'
+import FlowSignature from "../../flowSignature.vue";
+import {isBlank} from "../../../utils/objutil";
+
+const signOk = (url) => {
+  console.log("签字", url)
+  signUrl.value = url;
+}
+
+const signUrl = ref('')
+
 </script>
 
 <template>
-	<div>
-		<el-dialog
-				v-model="dialogVisible"
-				:title="dialogTitle"
-				width="400px"
+  <div>
+    <el-dialog
+        v-model="dialogVisible"
+        :title="dialogTitle"
+        width="400px"
         destroy-on-close
         @closed="dialogClosed"
-		>
+    >
 
-			<template #header="{ close, titleId, titleClass }">
-				<div style="text-align: left;font-size: 20px;font-weight: bold">
-					{{ dialogTitle }}
-				</div>
-			</template>
+      <template #header="{ close, titleId, titleClass }">
+        <div style="text-align: left;font-size: 20px;font-weight: bold">
+          {{ dialogTitle }}
+        </div>
+      </template>
 
-				<comment-handle :content="commentContent"></comment-handle>
+      <comment-handle :content="commentContent"></comment-handle>
 
-			<template #footer>
+
+      <template v-if="needSignature">
+        <el-divider>签字</el-divider>
+
+        <div>
+          <flow-signature @ok="signOk"></flow-signature>
+        </div>
+      </template>
+
+      <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="submit">
           确定
         </el-button>
       </span>
-			</template>
-		</el-dialog>
-	</div>
+      </template>
+    </el-dialog>
+
+  </div>
 </template>
 
 <style scoped lang="less">

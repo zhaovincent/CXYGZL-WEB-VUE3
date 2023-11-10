@@ -192,6 +192,16 @@
 					</el-select>
 				</template>
 
+				<template v-if="approverConfig.needSignature!=undefined">
+					<h4>是否需要签名</h4>
+			<el-switch
+					v-model="approverConfig.needSignature"
+					size="large"
+					active-text="需要"
+					inactive-text="不需要"
+			/>
+				</template>
+
 			</el-tab-pane>
 			<el-tab-pane label="操作权限">
 				<ul>

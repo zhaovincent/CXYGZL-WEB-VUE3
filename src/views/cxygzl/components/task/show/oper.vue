@@ -31,10 +31,12 @@ function handle(tId) {
 
 	queryTaskOperData(tId).then(res => {
 		let data = res.data;
+    console.log('操作数据',data)
 
 		processInstanceId.value = data.processInstanceId;
 
 		nodeId.value = data.nodeId;
+    needSignature.value = data.needSignature;
 		delegationTask.value = data.frontJoinTask;
 		taskExist.value = data.taskExist;
 		process.value = data.process;
@@ -46,6 +48,7 @@ function handle(tId) {
 }
 
 const nodeId = ref();
+const needSignature = ref(false);
 const process = ref();
 
 /**
@@ -54,7 +57,7 @@ const process = ref();
 const submitTask = (name, fv) => {
 
 
-	agreeHandler.value.handle(processInstanceId.value, taskId.value, fv, delegationTask.value, name);
+	agreeHandler.value.handle(processInstanceId.value, taskId.value, fv, delegationTask.value, name,needSignature.value);
 
 
 }
@@ -107,7 +110,7 @@ const rejectTask = (name, fv) => {
 const refuseTask = (name, fv) => {
 
 
-	refuseHandler.value.handle(processInstanceId.value, taskId.value, fv, name);
+	refuseHandler.value.handle(processInstanceId.value, taskId.value, fv, name,needSignature.value);
 
 
 }
