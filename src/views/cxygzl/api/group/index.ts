@@ -16,6 +16,42 @@ export function addGroup(data: Group) {
   });
 }
 /**
+ * 修改分组
+ *
+ * @param data
+ */
+export function editGroup(data: Group) {
+  return request({
+    url: '/processGroup/edit',
+    method: 'post',
+    data: data
+  });
+}
+/**
+ * 下移排序
+ *
+ * @param data
+ */
+export function bottomSort(data: Group) {
+  return request({
+    url: '/processGroup/bottomSort',
+    method: 'post',
+    data: data
+  });
+}
+/**
+ * 上移排序
+ *
+ * @param data
+ */
+export function topSort(data: Group) {
+  return request({
+    url: '/processGroup/topSort',
+    method: 'post',
+    data: data
+  });
+}
+/**
  * 删除分组
  *
  * @param data

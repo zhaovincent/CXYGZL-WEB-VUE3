@@ -1,299 +1,389 @@
 <template>
-	<div class="app-container">
-		<div style="width: 80%;margin-left: 10%;text-align: right;margin-bottom: 20px">
-			<el-button class="button" @click="addOneGroupShow">新建分组</el-button>
-			<el-button class="button" @click.stop="toCreateFlow(undefined)" type="primary" :icon="Plus">创建流程</el-button>
-		</div>
-		<el-card class="box-card" v-if="addGroupCardShow">
-			<div class="item additem" style="height: 40px">
-				<div style="height: 40px;line-height: 40px">
-					<el-input ref="addGroupRef" :key="addGroupKey" maxlength="20" minlength="2" v-model="addGroupName"
-							  @blur.stop="addGroupInputBlur"
-							  placeholder="分组名称"   clearable/>
+  <div class="app-container">
+    <div style="width: 80%;margin-left: 10%;text-align: right;margin-bottom: 20px">
+      <el-button class="button" @click="addOneGroupShow">新建分组</el-button>
+      <el-button class="button" @click.stop="toCreateFlow(undefined)" type="primary" :icon="Plus">创建流程</el-button>
+    </div>
+    <el-card class="box-card" v-if="addGroupCardShow">
+      <div class="item additem" style="height: 40px">
+        <div style="height: 40px;line-height: 40px">
+          <el-input ref="addGroupRef" :key="addGroupKey" maxlength="10" minlength="2" v-model="addGroupName"
+                    @blur.stop="addGroupInputBlur"
+                    placeholder="分组名称" clearable/>
 
-				</div>
-				<div class="last">
-					<el-tooltip
-							class="box-item"
-							effect="dark"
-							content="删除"
-							placement="top"
+        </div>
+        <div class="last">
+          <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="删除"
+              placement="top"
 
-					>
-						<el-button text :icon="Delete" circle @click.stop="deleteAddGroup"/>
-					</el-tooltip>
-				</div>
-			</div>
-		</el-card>
-		<el-card class="box-card" v-for="item in successGroupList">
-			<template #header>
-				<div class="card-header">
-					<span>{{ item.name }}</span>
-					<span>
+          >
+            <el-button text :icon="Delete" circle @click.stop="deleteAddGroup"/>
+          </el-tooltip>
+        </div>
+      </div>
+    </el-card>
+    <el-card class="box-card" v-for="(item,index) in successGroupList">
+      <template #header>
+        <div class="card-header">
+					<span v-if="!item.editable" class="title1" @click="toEditGroupName(item)">
+
+									<el-button text :icon="Edit" circle/>	{{ item.name }}({{item.items.length}})
+
+
+					</span>
+          <el-input v-else :ref="'editGroupRef'+item.id" class="title1_input" autofocus maxlength="10" minlength="2"
+                    v-model="item.name"
+                    @blur.stop="editGroupInputBlur(item)"
+                    placeholder="分组名称" clearable/>
+          <span>
+            		  <el-tooltip
+
+                      class="box-item"
+                      effect="dark"
+                      content="上移"
+                      placement="top"
+                  >
+			  <el-button v-if="index>0" @click.stop="topSortF(item)" text :icon="Top" circle/>
+                  </el-tooltip>
+                    		  <el-tooltip
+
+                              class="box-item"
+                              effect="dark"
+                              content="下移"
+                              placement="top"
+                          >
+			  <el-button v-if="index<successGroupList.length-1" @click.stop="bottomSortF(item)" text :icon="Bottom"
+                   circle/>
+                          </el-tooltip>
 			  <el-tooltip
 
-				class="box-item"
-				effect="dark"
-				content="创建流程"
-				placement="top"
-		>
+            class="box-item"
+            effect="dark"
+            content="创建流程"
+            placement="top"
+        >
 			  <el-button @click.stop="toCreateFlow(item.id)" text :icon="Plus" circle/>
 				</el-tooltip>
 			  <el-tooltip
 
-				class="box-item"
-				effect="dark"
-				content="删除"
-				placement="top"
-		>
-			  <el-button text :icon="Delete" @click.stop="deleteGroup(item.id)"  circle :disabled="item.items?.length>0"/>
+            class="box-item"
+            effect="dark"
+            content="删除"
+            placement="top"
+        >
+			  <el-button text :icon="Delete" @click.stop="deleteGroup(item.id)" circle :disabled="item.items?.length>0"/>
 				</el-tooltip>
 						</span>
 
-				</div>
-			</template>
-			<div v-for="(flow,index1) in item.items" :key="index1" class="item">
-				<div>
-					<el-avatar shape="square" :size="50"
-							   :src="flow.logo"/>
-				</div>
-				<div style="margin-left: 20px;width: 300px;" v-if="flow.remark?.length>0">
-					<div>{{ flow.name }}  <el-tag v-if="flow.stop" type="danger">已停用</el-tag></div>
-					<div>{{flow.remark}}</div>
-				</div>
-				<div style="margin-left: 20px;width: 300px;" v-else>
-					<div style="height: 60px;line-height: 60px;">{{ flow.name }}  <el-tag v-if="flow.stop" type="danger">已停用</el-tag></div>
-				</div>
-				<div style="margin-left: 50px;height: 60px;line-height: 60px;width: 250px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-					{{flow.updated}}
-				</div>
-				<div style="margin-left: 50px;height: 60px;line-height: 60px;width: 200px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-					{{(flow.rangeShow&&flow.rangeShow.length>0)?flow.rangeShow:'所有人'}}
-				</div>
-				<div class="last">
-					<el-tooltip
-							class="box-item"
-							effect="dark"
-							content="编辑"
-							placement="top"
-					>
-						<el-button text @click="toEditFlow(flow)" :icon="Edit" circle/>
-					</el-tooltip>
-					<el-tooltip
-							class="box-item"
-							effect="dark"
-							content="复制"
-							placement="top"
-					>
-						<el-button text @click="toCopyFlow(flow)"  :icon="DocumentCopy" circle/>
-					</el-tooltip>
+        </div>
+      </template>
+      <div v-for="(flow,index1) in item.items" :key="index1" class="item">
+        <div>
+          <el-avatar shape="square" :size="50"
+                     :src="flow.logo"/>
+        </div>
+        <div style="margin-left: 20px;width: 300px;" v-if="flow.remark?.length>0">
+          <div>{{ flow.name }}
+            <el-tag v-if="flow.stop" type="danger">已停用</el-tag>
+          </div>
+          <div>{{ flow.remark }}</div>
+        </div>
+        <div style="margin-left: 20px;width: 300px;" v-else>
+          <div style="height: 60px;line-height: 60px;">{{ flow.name }}
+            <el-tag v-if="flow.stop" type="danger">已停用</el-tag>
+          </div>
+        </div>
+        <div
+            style="margin-left: 50px;height: 60px;line-height: 60px;width: 250px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+          {{ flow.updated }}
+        </div>
+        <div
+            style="margin-left: 50px;height: 60px;line-height: 60px;width: 200px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+          {{ (flow.rangeShow && flow.rangeShow.length > 0) ? flow.rangeShow : '所有人' }}
+        </div>
+        <div class="last">
+          <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="编辑"
+              placement="top"
+          >
+            <el-button text @click="toEditFlow(flow)" :icon="Edit" circle/>
+          </el-tooltip>
+          <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="复制"
+              placement="top"
+          >
+            <el-button text @click="toCopyFlow(flow)" :icon="DocumentCopy" circle/>
+          </el-tooltip>
 
 
+          <el-tooltip v-if="flow.dbRecordEnable"
+                      class="box-item"
+                      effect="dark"
+                      content="查看统计数据"
+                      placement="top"
+          >
+            <el-button text @click="toViewFlowData(flow)" :icon="Histogram" circle/>
+          </el-tooltip>
+          <el-tooltip v-if="!flow.stop"
+                      class="box-item"
+                      effect="dark"
+                      content="停用"
+                      placement="top"
+          >
+            <el-button @click="showDisableConfirm(flow)" text :icon="Hide" circle/>
+          </el-tooltip>
+
+          <el-tooltip v-else
+                      class="box-item"
+                      effect="dark"
+                      content="启用"
+                      placement="top"
+          >
+            <el-button @click="showEnableConfirm(flow)" text :icon="View" circle/>
+          </el-tooltip>
 
 
-			<el-tooltip v-if="flow.dbRecordEnable"
-					class="box-item"
-					effect="dark"
-					content="查看统计数据"
-					placement="top"
-			>
-				<el-button text @click="toViewFlowData(flow)" :icon="Histogram" circle/>
-			</el-tooltip>
-			  <el-tooltip v-if="!flow.stop"
-					  class="box-item"
-					  effect="dark"
-					  content="停用"
-					  placement="top"
-			  >
-						<el-button @click="showDisableConfirm(flow)" text :icon="Hide" circle/>
-		</el-tooltip>
+          <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="删除"
+              placement="top"
+          >
+            <el-button text @click="showDeleteConfirm(flow)" :icon="Delete" circle/>
+          </el-tooltip>
 
-			  <el-tooltip v-else
-					  class="box-item"
-					  effect="dark"
-					  content="启用"
-					  placement="top"
-			  >
-						<el-button @click="showEnableConfirm(flow)" text :icon="View" circle/>
-		</el-tooltip>
-
-
-					<el-tooltip
-							class="box-item"
-							effect="dark"
-							content="删除"
-							placement="top"
-					>
-						<el-button text @click="showDeleteConfirm(flow)" :icon="Delete" circle/>
-					</el-tooltip>
-
-				</div>
-			</div>
-		</el-card>
-	</div>
+        </div>
+      </div>
+    </el-card>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import {
-	Plus,
-	Delete,
-	Edit,
-	DocumentCopy,
-	Hide,
-	View,
-	PieChart,
-	Histogram,
-		SwitchButton
+  Plus,
+  Delete,
+  Top, Bottom,
+  Edit,
+  DocumentCopy,
+  Hide,
+  View,
+  PieChart,
+  Histogram,
+  SwitchButton
 } from '@element-plus/icons-vue'
 
 import {
-	addGroup,
-	delGroup,
-	queryGroupFlowList
+  addGroup,
+  delGroup, editGroup,bottomSort,topSort,
+  queryGroupFlowList
 } from "../../api/group";
 import {
-	disableFlow,
-	enableFlow,
-	deleteFlow
+  disableFlow,
+  enableFlow,
+  deleteFlow
 } from "../../api/flow";
 
-import {ref, getCurrentInstance,onMounted} from 'vue'
+import {ref, getCurrentInstance, onMounted} from 'vue'
 import {GroupVO} from "../../api/group/types";
 
 import * as util from '../../utils/objutil'
+
+const {proxy} = getCurrentInstance();
+
+//编辑费分组
+const toEditGroupName = (item) => {
+  item.editable = true
+  item.oldName = util.deepCopy(item.name)
+
+  nextTick(() => {
+    let $ref = proxy.$refs['editGroupRef' + item.id];
+    $ref[0].focus();
+
+  })
+
+}
+
+function topSortF(item){
+  topSort({id:item.id}).then(res=>{
+    handleQuery();
+  })
+}
+function bottomSortF(item){
+  bottomSort({id:item.id}).then(res=>{
+    handleQuery();
+  })
+}
+
+function editGroupInputBlur(item) {
+  item.editable = false
+
+  if (util.isBlank(item.name)) {
+
+    ElMessage.warning("分组名称不能为空")
+    item.name = item.oldName
+
+  } else {
+    editGroup({groupName: item.name, id: item.id}).then(() => {
+      ElMessage.success("修改成功");
+
+    });
+  }
+
+}
+
 
 //新增分组名称
 const addGroupName = ref<String>("");
 const addGroupCardShow = ref<Boolean>(false);
 const addGroupKey = ref<Number>(0);
 const addGroupRef = ref();
-const successGroupList=ref<GroupVO[]>([]);
+const successGroupList = ref<GroupVO[]>([]);
 
 function addGroupInputBlur() {
-	if (util.isBlank(addGroupName.value)) {
-		addGroupCardShow.value = false
+  if (util.isBlank(addGroupName.value)) {
+    addGroupCardShow.value = false
 
-	}else{
-		addGroup({groupName:addGroupName.value}).then(() => {
-			ElMessage.success("新增成功");
-			addGroupCardShow.value = false
-			handleQuery();
-		});
-	}
+  } else {
+    addGroup({groupName: addGroupName.value}).then(() => {
+      ElMessage.success("新增成功");
+      addGroupCardShow.value = false
+      handleQuery();
+    });
+  }
 
 }
+
 
 import {useRouter} from 'vue-router'
-const router=useRouter()
 
-function toCreateFlow(id){
+const router = useRouter()
+
+function toCreateFlow(id) {
   //TODO 创建流程地址
-	let to = "/flow/create";
-	if(!!id){
-		to=to+"?groupId="+id
-	}
-	router.push(to)
+  let to = "/flow/create";
+  if (!!id) {
+    to = to + "?groupId=" + id
+  }
+  router.push(to)
 
 }
-function toEditFlow(flow){
+
+function toEditFlow(flow) {
   //TODO
-	let to = "/flow/create?flowId="+flow.flowId;
+  let to = "/flow/create?flowId=" + flow.flowId;
 
-	router.push(to)
+  router.push(to)
 
 }
-function toViewFlowData(flow){
+
+function toViewFlowData(flow) {
   //TODO
-	let to = "/flow/data?flowId="+flow.flowId;
+  let to = "/flow/data?flowId=" + flow.flowId;
 
-	router.push(to)
+  router.push(to)
 
 }
-function toCopyFlow(flow){
+
+function toCopyFlow(flow) {
   //TODO
-	let to = "/flow/create?cp=1&flowId="+flow.flowId;
+  let to = "/flow/create?cp=1&flowId=" + flow.flowId;
 
-	router.push(to)
+  router.push(to)
 
 }
-function  showDisableConfirm(flow){
-	ElMessageBox.confirm(
-		'确定要停用该流程吗?',
-		'提示',
-		{
-			confirmButtonText: '确定',
-			cancelButtonText: '取消',
-			type: 'warning',
-		}
-	)
-		.then(() => {
-		 		disableFlow(flow.flowId).then(res=>{
-					 handleQuery();
-				})
-		})
+
+function showDisableConfirm(flow) {
+  ElMessageBox.confirm(
+      '确定要停用该流程吗?',
+      '提示',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        disableFlow(flow.flowId).then(res => {
+          handleQuery();
+        })
+      })
 }
-function  showEnableConfirm(flow){
-	ElMessageBox.confirm(
-		'确定要启用该流程吗?',
-		'提示',
-		{
-			confirmButtonText: '确定',
-			cancelButtonText: '取消',
-			type: 'warning',
-		}
-	)
-		.then(() => {
-		 		enableFlow(flow.flowId).then(res=>{
-					 handleQuery();
-				})
-		})
+
+function showEnableConfirm(flow) {
+  ElMessageBox.confirm(
+      '确定要启用该流程吗?',
+      '提示',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        enableFlow(flow.flowId).then(res => {
+          handleQuery();
+        })
+      })
 }
-function  showDeleteConfirm(flow){
-	ElMessageBox.confirm(
-		'确定要删除该流程吗?',
-		'提示',
-		{
-			confirmButtonText: '确定',
-			cancelButtonText: '取消',
-			type: 'warning',
-		}
-	)
-		.then(() => {
-		 		deleteFlow(flow.flowId).then(res=>{
-					 handleQuery();
-				})
-		})
+
+function showDeleteConfirm(flow) {
+  ElMessageBox.confirm(
+      '确定要删除该流程吗?',
+      '提示',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        deleteFlow(flow.flowId).then(res => {
+          handleQuery();
+        })
+      })
 }
+
 onMounted(() => {
-	handleQuery()
+  handleQuery()
 })
-function handleQuery(){
-	queryGroupFlowList(false).then(res=>{
 
-		const  {data} = res;
-		successGroupList.value=data
-	})
+function handleQuery() {
+  queryGroupFlowList(false).then(res => {
+
+    const {data} = res;
+    successGroupList.value = data
+  })
 }
-function  deleteAddGroup(){
-	addGroupCardShow.value = false;
-	addGroupName.value = "";
-	addGroupKey.value = new Date().getTime()
+
+function deleteAddGroup() {
+  addGroupCardShow.value = false;
+  addGroupName.value = "";
+  addGroupKey.value = new Date().getTime()
 }
+
 function addOneGroupShow() {
-	addGroupName.value = "";
-	addGroupKey.value = new Date().getTime()
-	addGroupCardShow.value = true;
-	nextTick(()=>{
-		addGroupRef.value.focus()
+  addGroupName.value = "";
+  addGroupKey.value = new Date().getTime()
+  addGroupCardShow.value = true;
+  nextTick(() => {
+    addGroupRef.value.focus()
 
-	})
+  })
 }
-function deleteGroup(id){
-	delGroup(id).then(()=>{
-		ElMessage.success("删除成功");
 
-		handleQuery();
-	})
+function deleteGroup(id) {
+  delGroup(id).then(() => {
+    ElMessage.success("删除成功");
+
+    handleQuery();
+  })
 }
 </script>
 <style scoped lang="less">
@@ -316,34 +406,34 @@ function deleteGroup(id){
 
 
   div:nth-child(2) div:first-child {
-	font-size: 15px;
-	height: 30px;
-	font-weight: bolder;
-	line-height: 30px;
+    font-size: 15px;
+    height: 30px;
+    font-weight: bolder;
+    line-height: 30px;
   }
 
   div:nth-child(2) div:last-child {
-	font-size: 12px;
-	height: 20px;
-	line-height: 20px;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
 
   }
 
   .last {
-	width: calc(100% - 70px - 200px - 200px - 50px);
-	height: 60px;
-	line-height: 60px;
-	text-align: right;
+    width: calc(100% - 70px - 200px - 200px - 50px);
+    height: 60px;
+    line-height: 60px;
+    text-align: right;
 
   }
 }
 
 .additem {
   .last {
-	width: calc(100% - 200px);
-	height: 40px;
-	line-height: 40px;
-	text-align: right;
+    width: calc(100% - 200px);
+    height: 40px;
+    line-height: 40px;
+    text-align: right;
   }
 }
 
@@ -352,4 +442,29 @@ function deleteGroup(id){
   margin-left: 10%;
   margin-top: 10px;
 }
+
+.title1 {
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  width: 300px;
+  cursor: pointer;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.title1:hover {
+  border: 1px solid #dddddd;
+
+}
+
+.title1_input {
+  border-radius: 5px;
+  padding: 5px 10px;
+  width: 300px;
+  height: 43.33px;
+}
+
 </style>
