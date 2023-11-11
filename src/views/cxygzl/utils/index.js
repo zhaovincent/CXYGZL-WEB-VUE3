@@ -264,8 +264,9 @@ All.prototype = {
 
 			let deptUserType = nodeConfig.deptUserType;
 
+
 			//表单-部门
-			return '表单部门：' + nodeConfig.formUserName + (deptUserType == 'user' ? ' 的人员' : ' 的主管')
+			return '表单部门：' + nodeConfig.formUserName + (deptUserType == 'allUser' ? ' 的人员' : ' 的主管')
 		}
 		return "";
 	},
@@ -552,9 +553,7 @@ All.prototype = {
 	copyerStr(nodeConfig) {
 
 
-		if (nodeConfig.nodeUserList?.length != 0) {
-			return this.arrToStr(nodeConfig.nodeUserList)
-		}
+		return this.setApproverStr(nodeConfig)
 	},
 	triggerStr(nodeConfig) {
 
