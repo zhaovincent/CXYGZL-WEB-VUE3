@@ -126,7 +126,7 @@
 				</template>
 
 				<template v-if="approverConfig.needSignature!=undefined&&approverConfig.assignedType!=11&&approverConfig.assignedType!=12">
-					<h4>是否需要签名</h4>
+					<h4>是否需要签字</h4>
 			<el-switch
 					v-model="approverConfig.needSignature"
 					size="large"
