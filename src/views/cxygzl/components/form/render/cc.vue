@@ -94,6 +94,7 @@ defineExpose({clear,getData});
           <template #default="scope">
               <el-tag v-if="scope.row.processInstanceResult == 1" type="success">同意</el-tag>
               <el-tag v-else-if="scope.row.processInstanceResult == 2" type="danger">拒绝</el-tag>
+              <el-tag v-else-if="scope.row.processInstanceResult == 3" type="warning">撤销</el-tag>
 
 
           </template>
