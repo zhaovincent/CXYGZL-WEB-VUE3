@@ -25,6 +25,8 @@ let props = defineProps({
 });
 let emits = defineEmits(['updateData']);
 
+const readOnly = inject('readOnlyAtFlow') // 导入
+
 
 const updateParentData = (d) => {
 	emits("updateData", d);
@@ -54,7 +56,10 @@ const resetConditionNodesErr = () => {
 				}]
 			}]
 		}
-		conditionNode.placeHolder = $func.conditionStr(props.nodeConfig, i);
+    if(!readOnly){
+      conditionNode.placeHolder = $func.conditionStr(props.nodeConfig, i);
+
+    }
 
 
 	}
@@ -136,6 +141,12 @@ watch(conditionsConfig1, (condition) => {
 let _uid = getCurrentInstance().uid;
 
 const openConfigDrawer = (priorityLevel,index) => {
+
+
+  if(readOnly){
+    return;
+  }
+
 	if(index>=props.nodeConfig.conditionNodes.length-1){
 		return
 	}
@@ -152,6 +163,9 @@ const openConfigDrawer = (priorityLevel,index) => {
 };
 
 const addTerm = () => {
+  if(readOnly){
+    return
+  }
 
 
 	let len = props.nodeConfig.conditionNodes.length + 1;
@@ -226,7 +240,36 @@ watch(() => step2FormList.value, (val) => {
 	}
 })
 
+//节点状态
+const nodeStatusMap = inject('nodeStatusMapAtFlow') // 导入
+//边框颜色
+const outBorder = computed(() => {
 
+  console.log(nodeStatusMap)
+
+  if (readOnly&&nodeStatusMap&&nodeStatusMap.d) {
+    let nodeStatusMapElement = nodeStatusMap.d[props.nodeConfig.id];
+    if (!nodeStatusMapElement) {
+      return ''
+    }
+    if (nodeStatusMapElement == 1) {
+      return 'active being'
+
+    }
+    if (nodeStatusMapElement == 2) {
+      return 'active finished'
+
+    }
+    if (nodeStatusMapElement == 3) {
+      return 'active canceled'
+
+    }
+
+  } else if (props.nodeConfig.error) {
+    return 'active error'
+  }
+  return ''
+})
 </script>
 
 <template>
@@ -240,11 +283,11 @@ watch(() => step2FormList.value, (val) => {
 					<div class="condition-node">
 						<div class="condition-node-box">
 							<div class="auto-judge" :class=" item.error ? 'error active' : ''">
-								<div class="sort-left" v-if="index != 0" @click="arrTransfer(index, -1)">&lt;</div>
+								<div class="sort-left" v-if="index != 0&&!readOnly" @click="arrTransfer(index, -1)">&lt;</div>
 								<div class="title-wrapper">
 									<input
 											style="width: 50%"
-											v-if="isInputList[index]"
+											v-if="isInputList[index] && !readOnly"
 											type="text"
 											class="ant-input editable-title-input"
 											@blur="blurEvent(index)"
@@ -257,13 +300,14 @@ watch(() => step2FormList.value, (val) => {
 									<span class="priority-title" @click="openConfigDrawer(item.priorityLevel,index)">优先级{{
 											item.priorityLevel
 										}}</span>
-									<i class="anticon anticon-close close" @click="delTerm(index)"></i>
+									<i v-if="!readOnly" class="anticon anticon-close close" @click="delTerm(index)"></i>
 								</div>
-								<div class="sort-right" v-if="index != nodeConfig.conditionNodes.length - 1"
+								<div class="sort-right" v-if="!readonly&&index != nodeConfig.conditionNodes.length - 1"
 										 @click="arrTransfer(index)">&gt;
 								</div>
+
 								<div class="content"
-										 @click="openConfigDrawer(item.priorityLevel,index)">{{ $func.conditionStr(nodeConfig, index) }}
+										 @click="openConfigDrawer(item.priorityLevel,index)">{{readonly?nodeConfig.conditionNodes[index].placeHolder: $func.conditionStr(nodeConfig, index) }}
 								</div>
 								<div class="error_tip" v-if="item.error">
 									<i class="anticon anticon-exclamation-circle"></i>

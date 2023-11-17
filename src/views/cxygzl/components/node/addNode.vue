@@ -1,7 +1,7 @@
 <template>
 	<div class="add-node-btn-box">
 		<div class="add-node-btn">
-			<el-popover placement="right-start" v-model="visible" width="350px">
+			<el-popover placement="right-start" :disabled="readOnly" v-model="visible" width="350px">
 				<div class="add-node-popover-body">
 
 
@@ -111,12 +111,19 @@ let props = defineProps({
 	}
 })
 
+const readOnly = inject('readOnlyAtFlow') // 导入
+
 import * as util from '../../utils/objutil'
 
 
 let emits = defineEmits(['update:childNodeP'])
 let visible = ref(false)
 const addType = (type) => {
+
+  if(props.readOnly){
+    return
+  }
+
 	visible.value = false;
 	if (type != 4 && type != 5 && type != 8) {
 		var data;

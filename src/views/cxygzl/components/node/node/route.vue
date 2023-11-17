@@ -17,6 +17,9 @@ let props = defineProps({
 	}
 
 });
+
+const readOnly = inject('readOnlyAtFlow') // 导入
+
 const blurEvent = () => {
 
 	isInput.value = false;
@@ -86,6 +89,11 @@ watch(approverConfigData, (approver) => {
 });
 //打开右侧抽屉
 const openConfigDrawer = () => {
+
+  if(readOnly){
+    return
+  }
+
 	//TODO 4
 
 	//延时器
@@ -96,19 +104,48 @@ const openConfigDrawer = () => {
 		id: _uid,
 	});
 };
+//节点状态
+const nodeStatusMap = inject('nodeStatusMapAtFlow') // 导入
+//边框颜色
+const outBorder = computed(() => {
 
+  console.log(nodeStatusMap)
+
+  if (readOnly&&nodeStatusMap&&nodeStatusMap.d) {
+    let nodeStatusMapElement = nodeStatusMap.d[props.nodeConfig.id];
+    if (!nodeStatusMapElement) {
+      return ''
+    }
+    if (nodeStatusMapElement == 1) {
+      return 'active being'
+
+    }
+    if (nodeStatusMapElement == 2) {
+      return 'active finished'
+
+    }
+    if (nodeStatusMapElement == 3) {
+      return 'active canceled'
+
+    }
+
+  } else if (props.nodeConfig.error) {
+    return 'active error'
+  }
+  return ''
+})
 
 </script>
 
 <template>
 	<div class="node-wrap">
 		<div class="node-wrap-box"
-				 :class="(nodeConfig.type == 0 ? 'start-node ' : '') +( nodeConfig.error ? 'active error' : '')">
+				 :class="(nodeConfig.type == 0 ? 'start-node ' : '') +( outBorder)">
 
 			<div class="title" :style="`background: rgb(${bgColors[nodeConfig.type]});`">
 
 				<input
-						v-if="isInput"
+						v-if="isInput&&!readOnly"
 						type="text"
 						class="ant-input editable-title-input"
 						@blur="blurEvent()"
@@ -118,14 +155,14 @@ const openConfigDrawer = () => {
 						:placeholder="defaultText"
 				/>
 				<span v-else class="editable-title" @click="clickEvent()">{{ nodeConfig.nodeName }}</span>
-				<i class="anticon anticon-close close" @click="delNode"></i>
+				<i v-if="!readOnly" class="anticon anticon-close close" @click="delNode"></i>
 
 			</div>
 			<div class="content" @click="openConfigDrawer">
 				<div class="text">
 					{{ placeHolder?.length > 0 ? placeHolder : '请选择' + defaultText }}
 				</div>
-				<i class="anticon anticon-right arrow"></i>
+				<i v-if="!readOnly" class="anticon anticon-right arrow"></i>
 			</div>
 
 

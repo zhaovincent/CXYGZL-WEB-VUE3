@@ -1,78 +1,80 @@
 <script setup lang="ts">
-import LogicFlow from '@logicflow/core';
-import '@logicflow/core/dist/style/index.css';
-import '@logicflow/extension/lib/style/index.css'
-import { Control } from '@logicflow/extension';
-import '@logicflow/extension/lib/style/index.css'
-
-LogicFlow.use(Control);
-
-
-import {CxygzlRectView,CxygzlRectModel} from './LogicFlow/CxygzlRectModel'
-import {CxygzlCircleView,CxygzlCircleModel} from './LogicFlow/CxygzlCircleModel'
 
 
 import {showImage} from '../api/task/index'
 
-import {defineExpose} from "vue";
+import {ref, defineExpose, provide, watch} from "vue";
+
 
 const dialogVisible = ref(false);
 
-const lf =ref();
-
-
+const nodeStatuMap=reactive({
+  d:{}
+})
+provide("nodeStatusMapAtFlow",nodeStatuMap);
 
 const view = (row) => {
 	dialogVisible.value = true
 
 	showImage(row.processInstanceId).then(res => {
-		// imgBase64.value = 'data:image/png;base64,' + res.data.base64
-		nodeData.value = res.data;
 
 
-		  lf.value = new LogicFlow({
-			container: document.querySelector('#container'),
-			// stopScrollGraph: true,
-			// stopZoomGraph: true,
-			width: screen.width*0.8-100,
-			height: screen.height*0.6,
-			grid: true,
-			isSilentMode: true
-
-		});
-		  lf.value.register({
-		  type: 'cxygzlRect',
-		  view: CxygzlRectView,
-		  model: CxygzlRectModel,
-	  });
-		  lf.value.register({
-		  type: 'cxygzlCircle',
-		  view: CxygzlCircleView,
-		  model: CxygzlCircleModel,
-	  });
-	  // lf.value.setTheme({
-		//   nodeText: { // 节点文本样式
-		// 	  fontSize: 10,
-		// 	  color: '#000000'
-		//   },
-		//
-		//   rect: {
-		// 	  width: 50,
-		// 	  height: 40,
-		// 	  radius: 6
-		//   },
-	  // })
-		lf.value.render(nodeData.value);
-
+		nodeConfig.value=res.data.node;
+     nodeStatuMap.d=res.data.nodeStatuMap;
+   // Object.assign(res.data.nodeStatuMap,nodeStatuMap)
 
 
 	})
 
 
 }
+
+
+import Step3 from "@/views/cxygzl/components/flow/step3.vue";
+
+let nodeConfig = ref({
+
+	"nodeName": "发起人",
+	"type": 0,
+	"id": "root",
+	"error": false,
+	"formPerms": {},
+	"nodeUserList": [],
+	"childNode": {},
+	multipleMode: 1,
+	"dynamicFormConfig": {
+		"url": '',
+		"header": [],
+		"body": [],
+		"result": [
+			{
+				"field": '',
+				"contentConfig": '',
+				"value": ''
+			}
+		]
+	},
+	"operList": [
+		{
+			"key": "pass",
+			"checked": true,
+			"edit": false,
+			"name": "完成",
+			"defaultName": "完成"
+		}
+	]
+});
+watch(()=>nodeStatuMap.value,(v)=>{
+  console.log("状态集合变化了",v)
+})
+
+
+
+//表示流程图只读
+provide("readOnlyAtFlow",true);
+
 defineExpose({view});
 
-const nodeData = ref({nodes: [], edges: []});
 
 
 </script>
@@ -84,11 +86,21 @@ const nodeData = ref({nodes: [], edges: []});
 				title="查看流程图"
 				width="80%"
 		>
-			<div style="display: block" id="container"></div>
+      <div style="background-color: #f5f5f7">
+        <el-scrollbar height="70vh">
+          <step3 :read-only="true" :nodeConfigObj="nodeConfig" ref="step3Ref"/>
+
+        </el-scrollbar>
+
+      </div>
+
+
+
 		</el-dialog>
 	</div>
 </template>
 
 <style scoped lang="less">
+
 
 </style>

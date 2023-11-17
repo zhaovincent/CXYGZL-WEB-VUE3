@@ -13,6 +13,8 @@ let props = defineProps({
 
 });
 
+const readOnly = inject('readOnlyAtFlow') // 导入
+
 import {bgColors, placeholderList} from "../../../utils/const";
 import {computed} from "vue";
 import addNode from "../addNode.vue"
@@ -62,6 +64,9 @@ watch(approverConfigData, (approver) => {
 });
 //打开右侧抽屉
 const openConfigDrawer = () => {
+  if(readOnly){
+    return
+  }
 
 	setPromoter(true);
 	setStarterConfig({
@@ -71,14 +76,43 @@ const openConfigDrawer = () => {
 		id: _uid,
 	});
 };
+//节点状态
+const nodeStatusMap = inject('nodeStatusMapAtFlow') // 导入
+//边框颜色
+const outBorder = computed(() => {
 
+  console.log(nodeStatusMap)
+
+  if (readOnly&&nodeStatusMap&&nodeStatusMap.d) {
+    let nodeStatusMapElement = nodeStatusMap.d[props.nodeConfig.id];
+    if (!nodeStatusMapElement) {
+      return ''
+    }
+    if (nodeStatusMapElement == 1) {
+      return 'active being'
+
+    }
+    if (nodeStatusMapElement == 2) {
+      return 'active finished'
+
+    }
+    if (nodeStatusMapElement == 3) {
+      return 'active canceled'
+
+    }
+
+  } else if (props.nodeConfig.error) {
+    return 'active error'
+  }
+  return ''
+})
 
 </script>
 
 <template>
 	<div class="node-wrap">
 		<div class="node-wrap-box"
-				 :class="(nodeConfig.type == 0 ? 'start-node ' : '') +( nodeConfig.error ? 'active error' : '')">
+				 :class="(nodeConfig.type == 0 ? 'start-node ' : '') +( outBorder)">
 
 			<div class="title" :style="`background: rgb(${bgColors[nodeConfig.type]});`">
 
@@ -90,7 +124,7 @@ const openConfigDrawer = () => {
 				<div class="text">
 					{{ placeHolder?.length > 0 ? placeHolder : '请选择' + defaultText }}
 				</div>
-				<i class="anticon anticon-right arrow"></i>
+				<i v-if="!readOnly" class="anticon anticon-right arrow"></i>
 			</div>
 
 

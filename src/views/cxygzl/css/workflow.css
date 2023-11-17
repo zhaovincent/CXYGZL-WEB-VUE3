@@ -1243,6 +1243,20 @@ html {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1)
 }
 
+
+.node-wrap-box.finished:after {
+    border: 3px solid #6600cc;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1)
+}
+.node-wrap-box.being:after {
+    border: 3px solid #336600;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1)
+}
+.node-wrap-box.canceled:after {
+    border: 3px solid #999999;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1)
+}
+
 .node-wrap-box .title {
     position: relative;
     display: flex;
