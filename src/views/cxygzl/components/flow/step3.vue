@@ -3,7 +3,7 @@
 
     <div class="fd-nav-content">
       <section class="dingflow-design">
-        <div class="zoom">
+        <div class="zoom" v-if="!readOnly">
           <div class="zoom-out" :class="nowVal == 50 && 'disabled'" @click="zoomSize(1)"></div>
           <span>{{ nowVal }}%</span>
           <div class="zoom-in" :class="nowVal == 300 && 'disabled'" @click="zoomSize(2)"></div>
@@ -43,6 +43,9 @@ import conditionDrawer from "../drawer/conditionDrawer.vue";
 import routeDrawer from "../drawer/routeDrawer.vue";
 
 import {useFlowStore} from "../../stores/flow";
+
+const readOnly = inject('readOnlyAtFlow') // 导入
+
 
 let tipList = ref([]);
 let nowVal = ref(100);

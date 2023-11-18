@@ -44,7 +44,8 @@ const resetConditionNodesErr = () => {
 		if (i != props.nodeConfig.conditionNodes.length - 1) {
 
 
-			conditionNode.error = !$func.checkCondition(props.nodeConfig, i);
+			conditionNode.error = !$func.checkCondition(props.nodeConfig, i).ok;
+			conditionNode.errorMsg = $func.checkCondition(props.nodeConfig, i).msg;
 
 		} else {
 			conditionNode.conditionList = [{
@@ -56,10 +57,10 @@ const resetConditionNodesErr = () => {
 				}]
 			}]
 		}
-    if(!readOnly){
-      conditionNode.placeHolder = $func.conditionStr(props.nodeConfig, i);
+		if (!readOnly) {
+			conditionNode.placeHolder = $func.conditionStr(props.nodeConfig, i);
 
-    }
+		}
 
 
 	}
@@ -140,14 +141,14 @@ watch(conditionsConfig1, (condition) => {
 
 let _uid = getCurrentInstance().uid;
 
-const openConfigDrawer = (priorityLevel,index) => {
+const openConfigDrawer = (priorityLevel, index) => {
 
 
-  if(readOnly){
-    return;
-  }
+	if (readOnly) {
+		return;
+	}
 
-	if(index>=props.nodeConfig.conditionNodes.length-1){
+	if (index >= props.nodeConfig.conditionNodes.length - 1) {
 		return
 	}
 
@@ -163,9 +164,9 @@ const openConfigDrawer = (priorityLevel,index) => {
 };
 
 const addTerm = () => {
-  if(readOnly){
-    return
-  }
+	if (readOnly) {
+		return
+	}
 
 
 	let len = props.nodeConfig.conditionNodes.length + 1;
@@ -222,9 +223,9 @@ watch(() => step2FormList.value, (val) => {
 		}
 		for (var item1 of node.conditionList) {
 			for (var item2 of item1.conditionList) {
-					if(item2.key==='root'){
-						continue
-					}
+				if (item2.key === 'root') {
+					continue
+				}
 				let length = val.filter(res => res.id === item2.key).length;
 				if (length == 0) {
 					item2.key = ''
@@ -232,6 +233,7 @@ watch(() => step2FormList.value, (val) => {
 					item2.keyType = ''
 					item2.value = ''
 					node.error = true;
+          node.errorMsg='请设置条件';
 				}
 			}
 		}
@@ -245,30 +247,42 @@ const nodeStatusMap = inject('nodeStatusMapAtFlow') // 导入
 //边框颜色
 const outBorder = computed(() => {
 
-  console.log(nodeStatusMap)
+	let conditionNodes = props.nodeConfig.conditionNodes;
 
-  if (readOnly&&nodeStatusMap&&nodeStatusMap.d) {
-    let nodeStatusMapElement = nodeStatusMap.d[props.nodeConfig.id];
-    if (!nodeStatusMapElement) {
-      return ''
-    }
-    if (nodeStatusMapElement == 1) {
-      return 'active being'
+	var arr = [];
 
-    }
-    if (nodeStatusMapElement == 2) {
-      return 'active finished'
+	for (var c of conditionNodes) {
 
-    }
-    if (nodeStatusMapElement == 3) {
-      return 'active canceled'
+		if (readOnly && nodeStatusMap && nodeStatusMap.d) {
+			let nodeStatusMapElement = nodeStatusMap.d[c.id];
+			if (!nodeStatusMapElement) {
+				arr.push('')
+				continue
+			}
+			if (nodeStatusMapElement == 1) {
+				arr.push('active being')
+				continue
 
-    }
+			}
+			if (nodeStatusMapElement == 2) {
+				arr.push('active finished')
+				continue
+			}
+			if (nodeStatusMapElement == 3) {
+				arr.push('active canceled')
+				continue
+			}
 
-  } else if (props.nodeConfig.error) {
-    return 'active error'
-  }
-  return ''
+		} else if (c.error) {
+			arr.push('active error ')
+			continue
+
+		}
+		arr.push('')
+		continue
+	}
+
+	return arr;
 })
 </script>
 
@@ -282,7 +296,7 @@ const outBorder = computed(() => {
 
 					<div class="condition-node">
 						<div class="condition-node-box">
-							<div class="auto-judge" :class=" item.error ? 'error active' : ''">
+							<div class="auto-judge" :class="outBorder[index]">
 								<div class="sort-left" v-if="index != 0&&!readOnly" @click="arrTransfer(index, -1)">&lt;</div>
 								<div class="title-wrapper">
 									<input
@@ -302,15 +316,33 @@ const outBorder = computed(() => {
 										}}</span>
 									<i v-if="!readOnly" class="anticon anticon-close close" @click="delTerm(index)"></i>
 								</div>
-								<div class="sort-right" v-if="!readonly&&index != nodeConfig.conditionNodes.length - 1"
+								<div class="sort-right" v-if="!readOnly&&index != nodeConfig.conditionNodes.length - 1"
 										 @click="arrTransfer(index)">&gt;
 								</div>
 
 								<div class="content"
-										 @click="openConfigDrawer(item.priorityLevel,index)">{{readonly?nodeConfig.conditionNodes[index].placeHolder: $func.conditionStr(nodeConfig, index) }}
+										 @click="openConfigDrawer(item.priorityLevel,index)">
+                  <div v-if="item.error" class="placeholderError">!</div>	{{ readOnly ?
+                    (nodeConfig.conditionNodes[index].placeHolder ):
+                    (item.error?
+                            (item.errorMsg)
+                        :($func.conditionStr(nodeConfig, index))
+                    ) }}
 								</div>
 								<div class="error_tip" v-if="item.error">
-									<i class="anticon anticon-exclamation-circle"></i>
+<!--									<i class="anticon anticon-exclamation-circle"></i>-->
+
+                  <el-popover
+                      placement="top-start"
+                      :width="200"
+                      trigger="hover"
+                      :content="item.errorMsg"
+                  >
+                    <template #reference>
+                      <i class="anticon anticon-exclamation-circle"></i>
+
+                    </template>
+                  </el-popover>
 								</div>
 							</div>
 							<addNode v-model:childNodeP="item.childNode" :current-node="item"/>

@@ -7,7 +7,15 @@
 
 						 class="set_copyer" :show-close="false" :size="550" :before-close="saveCopyer">
 
-	  <el-tabs type="border-card">
+    <template #header="{ close, titleId, titleClass }">
+
+      <title-handler :node-config="copyerConfig"></title-handler>
+
+
+    </template>
+
+
+    <el-tabs type="border-card">
 		  <el-tab-pane label="设置抄送人">
 
         <user-config :approver-config="copyerConfig" :exclude-assign-type="[11,4,12]"></user-config>
@@ -33,6 +41,7 @@ import {useFlowStore} from '../../stores/flow'
 let flowStore = useFlowStore();
 
 import FormPerm from './components/formPerm.vue'
+import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
 
 const step2FormList = computed(() => {
 	let step2 = flowStore.step2;
@@ -86,7 +95,8 @@ const  openEvent=()=>{
 }
 
 const saveCopyer = () => {
-	copyerConfig.value.error = !$func.copyerStr(copyerConfig.value);
+	copyerConfig.value.error = !$func.checkCopy(copyerConfig.value).ok;
+	copyerConfig.value.errorMsg = $func.checkCopy(copyerConfig.value).msg;
 	setCopyerConfig({
 		value: copyerConfig.value,
 		flag: true,

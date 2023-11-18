@@ -98,7 +98,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, computed, onMounted} from "vue";
+import {ref, computed, onMounted, provide} from "vue";
 import {WarnTriangleFilled} from "@element-plus/icons-vue";
 import {
   addFlow, getFlowDetail
@@ -117,6 +117,9 @@ import {LocationQuery, LocationQueryValue, onBeforeRouteLeave, useRoute, useRout
 
 import {useUserStore} from "../../stores/user";
 
+
+//表示流程图可编辑
+provide("readOnlyAtFlow",false);
 // 监听路由离开
 onBeforeRouteLeave((to, from, next) => {
 

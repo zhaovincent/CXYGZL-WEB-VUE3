@@ -112,7 +112,8 @@ const saveCondition = () => {
 		if (i != conditionsConfig.value.conditionNodes.length - 1) {
 
 
-			conditionNode.error = !$func.checkCondition(conditionsConfig.value,i);
+			conditionNode.error = !$func.checkCondition(conditionsConfig.value,i).ok;
+			conditionNode.errorMsg = $func.checkCondition(conditionsConfig.value,i).msg;
 
 		}
 

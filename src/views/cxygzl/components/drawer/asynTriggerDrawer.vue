@@ -6,6 +6,12 @@
 			 @open="openEvent"
 
 						 class="set_copyer" :show-close="false" :size="550" :before-close="saveTrigger">
+    <template #header="{ close, titleId, titleClass }">
+
+      <title-handler :node-config="config"></title-handler>
+
+
+    </template>
 
 
 	  <el-form   :model="frontNotifyForm" ref="frontNotifyForm" :rules="rules"
@@ -166,6 +172,7 @@ import * as util from '../../utils/objutil'
 import {useFlowStore} from "../../stores/flow";
 import {FormRules} from "element-plus";
 import $func from "../../utils";
+import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
 
 let flowStore = useFlowStore();
 
@@ -221,7 +228,8 @@ const saveTrigger = () => {
 
 
 
-	config.value.error = !$func.checkTrigger(config.value)
+	config.value.error = !$func.checkTrigger(config.value).ok
+	config.value.errorMsg = $func.checkTrigger(config.value).msg
 	setAsynTriggerConfig({
 		value: config.value,
 		flag: true,

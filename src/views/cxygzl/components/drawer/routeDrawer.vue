@@ -5,6 +5,12 @@
 						 @open="openEvent"
 
 						 class="set_copyer" :show-close="false" :size="550" :before-close="saveDelay">
+    <template #header="{ close, titleId, titleClass }">
+
+      <title-handler :node-config="config"></title-handler>
+
+
+    </template>
 
 
 		<el-card class="box-card" v-for="(item,index) in config.list" style="margin-bottom: 20px">
@@ -21,7 +27,7 @@
 						/>
 					</el-select>
 
-					<el-button class="button" type="danger" text @click="deleteRoute(index)">删除</el-button>
+					<el-button   class="button" type="danger" text @click="deleteRoute(index)">删除</el-button>
 				</div>
 			</template>
 			<div>
@@ -192,6 +198,12 @@ var currentIndex = ref()
 
 //删除路由
 var deleteRoute = (index) => {
+
+  if(config.value.list.length<=1){
+    ElMessage.warning("路由不能为空")
+    return
+  }
+
 	config.value.list.splice(index, 1);
 }
 //添加路由
@@ -216,15 +228,14 @@ var addCondition = (index) => {
 }
 //对话框确定条件
 var confirmCondition = () => {
-	conditionDialogConfigTemp.value.error = !$func.checkCondition({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0);
-	if (!$func.checkCondition({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0)) {
+	conditionDialogConfigTemp.value.error = !$func.checkCondition({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0).ok;
+	if (!$func.checkCondition({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0).ok) {
 		ElMessage.warning("请完善条件");
 
 		return
 
 	}
 
-	console.log("条件数据", conditionDialogConfigTemp.value)
 	dialogVisible.value = false
 	//提示语
 	let conditionStr = $func.conditionStr({conditionNodes: [conditionDialogConfigTemp.value, {}]}, 0);
@@ -254,6 +265,7 @@ watch(delayConfigData, (val) => {
 
 
 import * as util from '../../utils/objutil'
+import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
 
 const openEvent = () => {
 
@@ -261,7 +273,12 @@ const openEvent = () => {
 
 
 const saveDelay = () => {
-	config.value.error = !$func.routeOk(config.value)
+	// config.value.error = !$func.routeOk(config.value)
+
+
+
+  config.value.error = !$func.routeOk(config.value).ok
+  config.value.errorMsg = $func.routeOk(config.value).msg
 
 	setRouteConfig({
 		value: config.value,

@@ -5,22 +5,8 @@
 		<!--			标题-->
 		<template #header="{ close, titleId, titleClass }">
 
-			<el-text style="cursor: pointer" v-if="!input" tag="b" size="large" @click="titleTextClickEvent">
-				{{ approverConfig.nodeName }}
-				<el-icon>
-					<EditPen/>
-				</el-icon>
+      <title-handler :node-config="approverConfig"></title-handler>
 
-			</el-text>
-			<el-input
-
-					ref="titleInputRef"
-
-					@blur="titleInputBlurEvent"
-
-					maxlength="10"
-
-					v-if="input" v-model="approverConfig.nodeName"></el-input>
 
 		</template>
 
@@ -315,6 +301,7 @@ let flowStore = useFlowStore();
 const input = ref(false)
 
 import FormPerm from './components/formPerm.vue'
+import TitleHandler from './components/titleHandler.vue'
 
 const clickOperBtnName = (item, index) => {
 
@@ -327,22 +314,8 @@ const clickOperBtnName = (item, index) => {
 
 
 }
-let defaultText = computed(() => {
-	return placeholderList[approverConfig.value.type]
-});
-const titleInputRef = ref()
-const titleTextClickEvent = () => {
-	input.value = true
-	nextTick(() => {
-		titleInputRef.value.focus()
-	})
-}
-const titleInputBlurEvent = () => {
 
-	input.value = false
-	approverConfig.value.nodeName = approverConfig.value.nodeName || defaultText
 
-};
 const operInputBlur = (item) => {
 
 	item.edit = false;
@@ -414,7 +387,9 @@ watch(approverConfigData, (val) => {
 
 const saveApprover = () => {
 
-	approverConfig.value.error = !$func.checkApproval(approverConfig.value);
+  let checkApproval = $func.checkApproval(approverConfig.value);
+  approverConfig.value.error = !checkApproval.ok;
+	approverConfig.value.errorMsg = checkApproval.msg;
 	setApproverConfig({
 		value: approverConfig.value,
 		flag: true,

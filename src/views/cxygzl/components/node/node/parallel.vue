@@ -129,6 +129,48 @@ const addTerm = () => {
 
 };
 
+//节点状态
+const nodeStatusMap = inject('nodeStatusMapAtFlow') // 导入
+//边框颜色
+const outBorder = computed(() => {
+
+	let conditionNodes = props.nodeConfig.conditionNodes;
+
+	var arr = [];
+
+	for (var c of conditionNodes) {
+
+		if (readOnly && nodeStatusMap && nodeStatusMap.d) {
+			let nodeStatusMapElement = nodeStatusMap.d[c.id];
+			if (!nodeStatusMapElement) {
+				arr.push('')
+				continue
+			}
+			if (nodeStatusMapElement == 1) {
+				arr.push('active being')
+				continue
+
+			}
+			if (nodeStatusMapElement == 2) {
+				arr.push('active finished')
+				continue
+			}
+			if (nodeStatusMapElement == 3) {
+				arr.push('active canceled')
+				continue
+			}
+
+		} else if (c.error) {
+			arr.push('active error ')
+			continue
+
+		}
+		arr.push('')
+		continue
+	}
+
+	return arr;
+})
 </script>
 
 <template>
@@ -141,7 +183,7 @@ const addTerm = () => {
 
 					<div class="condition-node">
 						<div class="condition-node-box">
-							<div class="auto-judge" :class=" item.error ? 'error active' : ''">
+							<div class="auto-judge" :class=" outBorder[index]">
 								<div class="sort-left" v-if="!readOnly&&index != 0" @click="arrTransfer(index, -1)">&lt;</div>
 								<div class="title-wrapper">
 									<input

@@ -5,6 +5,12 @@
 			   @open="openEvent"
 
 			   class="set_copyer" :show-close="false" :size="550" :before-close="saveDelay">
+    <template #header="{ close, titleId, titleClass }">
+
+      <title-handler :node-config="config"></title-handler>
+
+
+    </template>
 
 		<el-form label-width="120px" label-position="top">
 
@@ -332,6 +338,7 @@ const handleSubFlowIdChange = (a, clearForm) => {
 }
 
 import {useFlowStore} from "../../stores/flow";
+import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
 
 
 let flowStore = useFlowStore();
@@ -496,8 +503,13 @@ watch(() => step2FormList.value, (val) => {
 const saveDelay = () => {
 
 
-	config.value.error = !$func.subProcessOK(config.value)
-	setSubProcessConfig({
+	// config.value.error = !$func.subProcessOK(config.value)
+
+
+  config.value.error = !$func.subProcessOK(config.value).ok
+  config.value.errorMsg = $func.subProcessOK(config.value).msg
+
+  setSubProcessConfig({
 		value: config.value,
 		flag: true,
 		id: subProcessConfigData.value.id

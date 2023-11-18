@@ -19,7 +19,9 @@ const readOnly = inject('readOnlyAtFlow') // 导入
 onMounted(() => {
 
   //TODO 5
-  props.nodeConfig.error = !$func.checkApproval(props.nodeConfig);
+  let checkApproval = $func.checkApproval(props.nodeConfig);
+  props.nodeConfig.error = !(checkApproval.ok);
+  props.nodeConfig.errorMsg = (checkApproval.msg);
 
 });
 
@@ -51,6 +53,7 @@ watch(() => step2FormList.value, (val) => {
         nodeConfig.formUserId = ''
         nodeConfig.formUserName = ''
         nodeConfig.error = true;
+        nodeConfig.errorMsg = '请选择表单人员';
       }
 
     }
@@ -69,6 +72,7 @@ import addNode from "../addNode.vue"
 
 import $func from "../../../utils";
 import {useStore} from "../../../stores";
+import {isNotBlank} from "../../../utils/objutil";
 
 let defaultText = computed(() => {
   return placeholderList[props.nodeConfig.type]
@@ -78,6 +82,9 @@ let defaultText = computed(() => {
 var placeHolder = computed(() => {
 
   //TODO 1
+  if(props.nodeConfig.error){
+    return props.nodeConfig.errorMsg;
+  }
   return $func.setApproverStr(props.nodeConfig)
 
 })
@@ -178,11 +185,10 @@ const outBorder = computed(() => {
   <div class="node-wrap">
     <div class="node-wrap-box"
          :class="(nodeConfig.type == 0 ? 'start-node ' : '') +(outBorder)">
-
       <div class="title" :style="`background: rgb(${bgColors[nodeConfig.type]});`">
 
         <input
-            v-if="isInput&&!readonly"
+            v-if="isInput&&!readOnly"
             type="text"
             class="ant-input editable-title-input"
             @blur="blurEvent()"
@@ -192,19 +198,32 @@ const outBorder = computed(() => {
             :placeholder="defaultText"
         />
         <span v-else class="editable-title" @click="clickEvent()">{{ nodeConfig.nodeName }}</span>
-        <i v-if="!readonly" class="anticon anticon-close close" @click="delNode"></i>
+        <i v-if="!readOnly" class="anticon anticon-close close" @click="delNode"></i>
 
       </div>
       <div class="content" @click="openConfigDrawer">
         <div class="text">
-          {{ placeHolder?.length > 0 ? placeHolder : '请选择' + defaultText }}
+         <div v-if="nodeConfig.error" class="placeholderError">!</div> {{isNotBlank(placeHolder) ? placeHolder : '请选择' + defaultText }}
         </div>
         <i v-if="!readOnly" class="anticon anticon-right arrow"></i>
       </div>
 
 
       <div class="error_tip" v-if="nodeConfig.error">
-        <i class="anticon anticon-exclamation-circle"></i>
+
+
+        <el-popover
+            placement="top-start"
+            :width="200"
+            trigger="hover"
+            :content="nodeConfig.errorMsg"
+        >
+          <template #reference>
+            <i class="anticon anticon-exclamation-circle"></i>
+
+          </template>
+        </el-popover>
+
       </div>
     </div>
     <addNode :current-node="nodeConfig" v-model:childNodeP="nodeConfig.childNode"/>

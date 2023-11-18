@@ -5,6 +5,12 @@
 						 @open="openEvent"
 
 						 class="set_copyer" :show-close="false" :size="550" :before-close="saveDelay">
+    <template #header="{ close, titleId, titleClass }">
+
+      <title-handler :node-config="config"></title-handler>
+
+
+    </template>
 
 		<el-switch
 				v-model="config.mode"
@@ -75,6 +81,7 @@ watch(delayConfigData, (val) => {
 
 
 import * as util from '../../utils/objutil'
+import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
 
 const changeMode = () => {
 
@@ -92,7 +99,8 @@ const saveDelay = () => {
 
 
 
-	config.value.error = util.isBlank(config.value.value);
+  config.value.error = !$func.checkDelay(config.value).ok
+  config.value.errorMsg = $func.checkDelay(config.value).msg
 	setDelayConfig({
 		value: config.value,
 		flag: true,

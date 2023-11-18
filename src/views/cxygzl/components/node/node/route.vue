@@ -4,7 +4,13 @@ import {getCurrentInstance, onMounted, ref, watch} from "vue";
 let isInput = ref(false);
 
 onMounted(() => {
-	props.nodeConfig.error = !$func.routeOk(props.nodeConfig);
+	// props.nodeConfig.error = !$func.routeOk(props.nodeConfig);
+
+
+  let checkApproval = $func.routeOk(props.nodeConfig);
+
+  props.nodeConfig.error = !(checkApproval.ok);
+  props.nodeConfig.errorMsg = (checkApproval.msg);
 
 });
 let props = defineProps({
@@ -32,6 +38,7 @@ import addNode from "../addNode.vue"
 
 import $func from "../../../utils";
 import {useStore} from "../../../stores";
+import {isNotBlank} from "../../../utils/objutil";
 
 let defaultText = computed(() => {
 	return placeholderList[props.nodeConfig.type]
@@ -39,7 +46,9 @@ let defaultText = computed(() => {
 
 
 var placeHolder = computed(() => {
-
+  if(props.nodeConfig.error){
+    return props.nodeConfig.errorMsg;
+  }
 	//TODO 1
 	return $func.routeStr(props.nodeConfig)
 
@@ -160,14 +169,26 @@ const outBorder = computed(() => {
 			</div>
 			<div class="content" @click="openConfigDrawer">
 				<div class="text">
-					{{ placeHolder?.length > 0 ? placeHolder : '请选择' + defaultText }}
-				</div>
+          <div v-if="nodeConfig.error" class="placeholderError">!</div> {{isNotBlank(placeHolder) ? placeHolder : '请选择' + defaultText }}
+
+        </div>
 				<i v-if="!readOnly" class="anticon anticon-right arrow"></i>
 			</div>
 
 
 			<div class="error_tip" v-if="nodeConfig.error">
-				<i class="anticon anticon-exclamation-circle"></i>
+
+        <el-popover
+            placement="top-start"
+            :width="200"
+            trigger="hover"
+            :content="nodeConfig.errorMsg"
+        >
+          <template #reference>
+            <i class="anticon anticon-exclamation-circle"></i>
+
+          </template>
+        </el-popover>
 			</div>
 		</div>
 		<addNode :current-node="nodeConfig" v-model:childNodeP="nodeConfig.childNode"/>

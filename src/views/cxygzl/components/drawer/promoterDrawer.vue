@@ -93,7 +93,11 @@ watch(starterConfigData, (val) => {
 const savePromoter = () => {
 
 
-	starterConfig.value.error = !$func.checkStarter(starterConfig.value);
+	// starterConfig.value.error = !$func.checkStarter(starterConfig.value);
+
+
+  starterConfig.value.error = !$func.checkStarter(starterConfig.value).ok;
+  starterConfig.value.errorMsg = $func.checkStarter(starterConfig.value).msg;
 	setStarterConfig({
 		value: starterConfig.value,
 		flag: true,
