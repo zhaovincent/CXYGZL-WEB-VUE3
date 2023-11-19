@@ -1,189 +1,77 @@
 <script setup lang="ts">
-import {getCurrentInstance, ref, watch} from "vue";
+import {getCurrentInstance, computed, onMounted, ref, watch} from "vue";
 
 
 let props = defineProps({
 
+  nodeConfig: {
+    type: Object, default: () => {
 
-	nodeConfig: {
-		type: Object, default: () => {
-
-		}
-	}
-
-});
-
-const readOnly = inject('readOnlyAtFlow') // 导入
-
-import {bgColors, placeholderList} from "../../../utils/const";
-import {computed} from "vue";
-import addNode from "../addNode.vue"
-
-import $func from "../../../utils";
-import {useStore} from "../../../stores";
-import {isNotBlank} from "../../../utils/objutil";
-
-let defaultText = computed(() => {
-	return placeholderList[props.nodeConfig.type]
-});
-
-
-var placeHolder = computed(() => {
-  if(props.nodeConfig.error){
-    return props.nodeConfig.errorMsg;
+    }
   }
-	return $func.arrToStr(props.nodeConfig.nodeUserList) || '所有人'
 
-})
+});
+
+
+
+
+
+
+import {useStore} from "../../../stores";
+
 
 
 let emits = defineEmits(['updateData']);
 
 
 const updateParentData = (d) => {
-	emits("updateData", d);
+  emits("updateData", d);
 
 }
 
 
+//TODO
 let store = useStore();
 let {
 
-	setPromoter,
 
-	setStarterConfig,
+  setPromoter,
+
+  setStarterConfig,
 
 } = store;
 
 
 let _uid = getCurrentInstance().uid;
 
+//TODO
 //审批数据
-let approverConfigData = computed(() => store.starterConfigData)
-watch(approverConfigData, (approver) => {
-	if (approver.flag && approver.id === _uid) {
-		updateParentData(approver.value);
-	}
+let configDataAtStore = computed(() => store.starterConfigData)
+watch(configDataAtStore, (approver) => {
+  if (approver.flag && approver.id === _uid) {
+    updateParentData(approver.value);
+  }
 });
-//打开右侧抽屉
-const openConfigDrawer = () => {
-  if(readOnly){
-    return
-  }
 
-	setPromoter(true);
-	setStarterConfig({
-		value: JSON.parse(JSON.stringify(props.nodeConfig)),
 
-		flag: false,
-		id: _uid,
-	});
-};
-//节点状态
-const nodeStatusMap = inject('nodeStatusMapAtFlow') // 导入
-//边框颜色
-const outBorder = computed(() => {
+function open(){
 
-  console.log(nodeStatusMap)
+  //TODO
+  setPromoter(true);
+  setStarterConfig({
+    value: JSON.parse(JSON.stringify(props.nodeConfig)),
+    flag: false,
+    id: _uid,
+  });
+}
 
-  if (readOnly&&nodeStatusMap&&nodeStatusMap.d) {
-    let nodeStatusMapElement = nodeStatusMap.d[props.nodeConfig.id];
-    if (!nodeStatusMapElement) {
-      return ''
-    }
-    if (nodeStatusMapElement == 1) {
-      return 'active being'
-
-    }
-    if (nodeStatusMapElement == 2) {
-      return 'active finished'
-
-    }
-    if (nodeStatusMapElement == 3) {
-      return 'active canceled'
-
-    }
-
-  } else if (props.nodeConfig.error) {
-    return 'active error'
-  }
-  return ''
-})
+import NodeTemplate from "./node-template.vue";
 
 </script>
 
 <template>
-	<div class="node-wrap">
-		<div class="node-wrap-box"
-				 :class="(nodeConfig.type == 0 ? 'start-node ' : '') +( outBorder)">
-
-			<div class="title" :style="`background: rgb(${bgColors[nodeConfig.type]});`">
-
-
-				<span     >{{ nodeConfig.nodeName }}</span>
-
-			</div>
-			<div class="content" @click="openConfigDrawer">
-				<div class="text">
-          <div v-if="nodeConfig.error" class="placeholderError">!</div> {{isNotBlank(placeHolder) ? placeHolder : '请选择' + defaultText }}
-
-        </div>
-				<i v-if="!readOnly" class="anticon anticon-right arrow"></i>
-			</div>
-
-
-			<div class="error_tip" v-if="nodeConfig.error">
-        <el-popover
-            placement="top-start"
-            :width="200"
-            trigger="hover"
-            :content="nodeConfig.errorMsg"
-        >
-          <template #reference>
-            <i class="anticon anticon-exclamation-circle"></i>
-
-          </template>
-        </el-popover>
-			</div>
-		</div>
-		<addNode :current-node="nodeConfig" v-model:childNodeP="nodeConfig.childNode"/>
-	</div>
-
+  <node-template @updateData="updateParentData" place-holder-method-name="starterStr" check-method-name="checkStarter" @open="open"   :node-config="nodeConfig"></node-template>
 </template>
 
 <style scoped lang="less">
-@import "../../../css/workflow.css";
-
-.error_tip {
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	transform: translate(150%, 0px);
-	font-size: 24px;
-}
-
-.promoter_person .el-dialog__body {
-	padding: 10px 20px 14px 20px;
-}
-
-.selected_list {
-	margin-bottom: 20px;
-	line-height: 30px;
-}
-
-.selected_list span {
-	margin-right: 10px;
-	padding: 3px 6px 3px 9px;
-	line-height: 12px;
-	white-space: nowrap;
-	border-radius: 2px;
-	border: 1px solid rgba(220, 220, 220, 1);
-}
-
-.selected_list img {
-	margin-left: 5px;
-	width: 7px;
-	height: 7px;
-	cursor: pointer;
-}
 </style>

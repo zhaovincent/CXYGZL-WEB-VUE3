@@ -10,7 +10,7 @@ import {
 	queryGroupFlowList
 } from "../../api/group";
 import {
-	exportDetail
+	exportDetail, deleteProcessInstance
 } from "../../api/processInstance";
 
 
@@ -73,7 +73,25 @@ const exportDetailF = ({processInstanceId}) => {
  */
 function handOver(r) {
 	console.log(r);
-	handOverDialogRef.value.show(r.processInstanceId,r.name);
+	handOverDialogRef.value.show(r.processInstanceId, r.name);
+}
+
+/**
+ * 删除流程
+ * @param r
+ */
+function deleteF(r) {
+	console.log(r);
+	let processInstanceId = r.processInstanceId;
+	deleteProcessInstance(processInstanceId).then(res => {
+		ElMessage.success("删除成功");
+		if (queryParams.value.pageNum > 1 && roleList.value.length == 1) {
+			queryParams.value.pageNum = queryParams.value.pageNum - 1;
+		}
+		handleQuery();
+
+	})
+
 }
 
 /**
@@ -177,13 +195,13 @@ import {isBlank} from "../../utils/objutil";
 
 import HandOverDialog from "../../components/handOverDialog.vue";
 
-const handOverDialogRef=ref()
+const handOverDialogRef = ref()
 
 </script>
 
 <template>
 	<div class="app-container">
-			<hand-over-dialog ref="handOverDialogRef"></hand-over-dialog>
+		<hand-over-dialog ref="handOverDialogRef"></hand-over-dialog>
 		<employees-dialog
 				v-model:visible="selectUserDialogVisible"
 				:data="queryParams.starterList"
@@ -345,7 +363,18 @@ const handOverDialogRef=ref()
 							<i-ep-edit/>
 							转交
 						</el-button>
-
+<!--						<el-popconfirm @confirm="deleteF(scope.row)" :width="200" title="确定要删除此流程吗?">-->
+<!--							<template #reference>-->
+<!--								<el-button-->
+<!--										type="primary"-->
+<!--										size="small"-->
+<!--										link-->
+<!--								>-->
+<!--									<i-ep-delete/>-->
+<!--									删除-->
+<!--								</el-button>-->
+<!--							</template>-->
+<!--						</el-popconfirm>-->
 
 					</template>
 				</el-table-column>

@@ -22,6 +22,14 @@ export function exportDetail(param:any) {
 	})
 }
 
+//  删除流程
+export function deleteProcessInstance(param:any) {
+	return request({
+		url: '/process-instance/delete/'+param,
+		method: 'delete'
+	})
+}
+
 // 结束流程
 export function stopProcessInstance(param:any) {
     return request({

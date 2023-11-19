@@ -3,7 +3,14 @@
 	<el-drawer :append-to-body="true" title="发起人" v-model="visible" class="set_promoter" :show-close="false"
 						 @open="openEvent"
 						 :size="550" :before-close="savePromoter">
-		<div class="demo-drawer__content">
+    <template #header="{ close, titleId, titleClass }">
+
+      <title-handler :node-config="starterConfig"></title-handler>
+
+
+    </template>
+
+    <div class="demo-drawer__content">
 			<el-tabs type="border-card">
 
 				<el-tab-pane label="表单权限">
@@ -34,6 +41,7 @@ import FormPerm from './components/formPerm.vue'
 let store = useStore()
 import DynamicFormConfig from "./components/dynamicFormConfig.vue";
 import $func from "@/views/cxygzl/utils/index.js";
+import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
 
 
 let starterConfig = ref({})

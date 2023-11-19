@@ -260,6 +260,10 @@ All.prototype = {
             msg: ''
         };
     },
+
+    starterStr(nodeConfig){
+      return '所有人'
+    },
     setApproverStr(nodeConfig) {
 
 
