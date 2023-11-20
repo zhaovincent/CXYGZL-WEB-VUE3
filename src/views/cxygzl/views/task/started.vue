@@ -34,6 +34,7 @@ const urgDialogVisible = ref(false);
 
 import {RoleQuery} from "../../api/role/types";
 import TaskHandle from "../../components/task/handler/task.vue";
+import {isBlank} from "../../utils/objutil";
 
 
 const loading = ref(false);
@@ -69,6 +70,16 @@ const viewImageRef = ref();
  */
 const viewImage = (row) => {
 	viewImageRef.value.view(row)
+}
+/**
+ * 发起流程
+ */
+const startFlow = (row) => {
+    startRef.value.handle({
+				flowId:row.flowId,
+				processInstanceId:row.processInstanceId
+		})
+
 }
 
 /**
@@ -106,19 +117,30 @@ onMounted(() => {
 
 const urgeDesc = ref('')
 const confirmSubmitUrge = () => {
+	if(isBlank(urgeDesc.value)){
+		ElMessage.warning("催办意见不能为空")
+		return
+	}
 	urgeProcessInstance({
 		processInstanceId: currentData.value.processInstanceId,
 		approveDesc: urgeDesc.value,
 	}).then(res => {
 			urgDialogVisible.value=false
-			urgeDesc.value=''
+			urgeDesc.value='';
+
+			ElMessage.success("已通知任务处理人尽快处理")
 	})
 }
+const startRef=ref();
+import Start from "../../components/flow/startFlow.vue";
+
+
 </script>
 
 <template>
 	<div class="app-container">
 
+	  <start ref="startRef"></start>
 		<el-dialog width="500" v-model="urgDialogVisible" title="催办">
 			<el-input
 					v-model="urgeDesc"
@@ -173,7 +195,7 @@ const confirmSubmitUrge = () => {
 				</el-table-column>
 
 
-				<el-table-column fixed="right" label="操作">
+				<el-table-column width="420" fixed="right" label="操作">
 					<template #default="scope">
 						<el-button
 								type="primary"
@@ -184,16 +206,23 @@ const confirmSubmitUrge = () => {
 							<i-ep-position/>
 							查看
 						</el-button>
-						<el-button
-								:disabled="scope.row.status != 1"
-								type="primary"
-								size="small"
-								link
-								@click="stop(scope.row)"
-						>
-							<i-ep-lock/>
-							撤销流程
-						</el-button>
+
+
+			  						<el-popconfirm @confirm="stop(scope.row)" :width="200" title="确定要撤销此流程吗?">
+			  							<template #reference>
+						  <el-button
+								  :disabled="scope.row.status != 1"
+								  type="primary"
+								  size="small"
+								  link
+						  >
+							  <i-ep-lock/>
+							  撤销流程
+						  </el-button>
+			  							</template>
+			  						</el-popconfirm>
+
+
 						<el-button
 								:disabled="scope.row.status != 1"
 								type="primary"
@@ -222,6 +251,16 @@ const confirmSubmitUrge = () => {
 						>
 							<i-ep-picture/>
 							流程图
+						</el-button>
+
+						<el-button
+								type="primary"
+								size="small"
+								link
+								@click="startFlow(scope.row)"
+						>
+							<i-ep-refresh/>
+							重新发起
 						</el-button>
 
 					</template>

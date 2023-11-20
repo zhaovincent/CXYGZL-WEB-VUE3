@@ -117,7 +117,7 @@ const formValue = computed(() => {
 				<el-table-column label="抄送时间" prop="nodeTime" width="160"/>
 
 
-				<el-table-column fixed="right" label="操作">
+				<el-table-column width="200" fixed="right" label="操作">
 					<template #default="scope">
 						<el-button
 								type="primary"

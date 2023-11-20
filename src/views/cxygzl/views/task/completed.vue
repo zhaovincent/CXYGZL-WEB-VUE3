@@ -121,15 +121,20 @@ onMounted(() => {
 							<i-ep-position/>
 							查看
 						</el-button>
-						<el-button
-								type="danger"
-								size="small"
-								link
-								@click="revoke(scope.row)"
-						>
-							<i-ep-refresh-left/>
-							撤回
-						</el-button>
+
+
+			  						<el-popconfirm @confirm="revoke(scope.row)" :width="200" title="确定要撤回任务吗?">
+			  							<template #reference>
+						  <el-button
+								  type="danger"
+								  size="small"
+								  link
+						  >
+							  <i-ep-refresh-left/>
+							  撤回
+						  </el-button>
+			  							</template>
+			  						</el-popconfirm>
 
 
 						<el-button

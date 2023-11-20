@@ -91,7 +91,7 @@ onMounted(() => {
 				<el-table-column label="任务时间" prop="taskCreateTime" width="160"/>
 
 
-				<el-table-column fixed="right" label="操作">
+				<el-table-column fixed="right" width="200" label="操作">
 					<template #default="scope">
 						<el-button
 								type="primary"
