@@ -52,6 +52,9 @@ export function getNumberRadixNum(s) {
 }
 
 export function deepCopy(s) {
+	if(isNull(s)){
+		return undefined;
+	}
 	return JSON.parse(JSON.stringify(s));
 
 }

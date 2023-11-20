@@ -79,11 +79,15 @@ function getFormValueObj(v) {
 
 		if (item.type === 'Layout') {
 
+			console.log(item)
 
 			let subList = item.props.value;
 
 			var d = []
 			for (var array of subList) {
+
+				console.log(array)
+
 
 				var v = {}
 

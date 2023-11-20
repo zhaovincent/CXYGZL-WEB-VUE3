@@ -44,35 +44,36 @@ const complete = () => {
 const flowId = ref('');
 const taskId = ref('');
 const processInstanceId = ref('');
-const handle = (fId,tId,pId) => {
+const handle = (fId, tId, pId) => {
 
 
 	flowId.value = fId
 	taskId.value = tId
 	processInstanceId.value = pId
 
-  getFormList({
-    flowId: fId,
-    processInstanceId: pId,
-    taskId: tId
-  }, true).then(res => {
-    let data = res.data;
+	getFormList({
+		flowId: fId,
+		processInstanceId: pId,
+		taskId: tId,
+		from: 'start'
+	}, true).then(res => {
+		let data = res.data;
 
-    for (var fi of data) {
-      if (fi.type === 'Layout') {
-        var arr = [];
-        let value = fi.props.value;
-        arr.push(value);
-        fi.props.value = arr;
+		for (var fi of data) {
+			if (fi.type === 'Layout') {
+				var arr = [];
+				let value = fi.props.value;
+				arr.push(value);
+				fi.props.value = arr;
 
-         fi.props.oriForm = util.deepCopy(value);
-      }
-    }
+				fi.props.oriForm = util.deepCopy(value);
+			}
+		}
 
 
-    formUIRef.value.loadData(data,flowId.value,undefined)
+		formUIRef.value.loadData(data, flowId.value, undefined)
 
-  })
+	})
 
 	dialogTableVisible.value = true
 
@@ -81,11 +82,10 @@ const handle = (fId,tId,pId) => {
 defineExpose({handle, complete});
 
 
-
 const formValueChange = (v) => {
 
 
-	flowNodeFormatRef.value.queryData(v,flowId.value,processInstanceId.value,taskId.value)
+	flowNodeFormatRef.value.queryData(v, flowId.value, processInstanceId.value, taskId.value)
 
 }
 
@@ -102,7 +102,7 @@ const flowNodeFormatRef = ref();
 				<el-col :span="12">
 
 
-					<form-u-i   @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
+					<form-u-i @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
 
 					<div style="text-align: center">
 						<el-button @click="dialogTableVisible = false">取消</el-button>
@@ -113,7 +113,7 @@ const flowNodeFormatRef = ref();
 				</el-col>
 				<el-col :span="12">
 					<flow-node-format
-														ref="flowNodeFormatRef"></flow-node-format>
+							ref="flowNodeFormatRef"></flow-node-format>
 
 				</el-col>
 			</el-row>
