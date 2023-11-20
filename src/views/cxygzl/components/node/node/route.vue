@@ -44,15 +44,6 @@ let {
 
 let _uid = getCurrentInstance().uid;
 
-//TODO
-//审批数据
-let configDataAtStore = computed(() => store.routeConfigData)
-watch(configDataAtStore, (approver) => {
-  if (approver.flag && approver.id === _uid) {
-    updateParentData(approver.value);
-  }
-});
-
 
 function open(){
 
@@ -70,7 +61,7 @@ import NodeTemplate from "./node-template.vue";
 </script>
 
 <template>
-  <node-template @updateData="updateParentData" place-holder-method-name="routeStr" check-method-name="routeOk" @open="open"   :node-config="nodeConfig"></node-template>
+  <node-template :uid="_uid" store-data-key="routeConfigData" @updateData="updateParentData" place-holder-method-name="routeStr" check-method-name="routeOk" @open="open"   :node-config="nodeConfig"></node-template>
 </template>
 
 <style scoped lang="less">

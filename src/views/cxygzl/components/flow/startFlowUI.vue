@@ -58,19 +58,6 @@ const handle = (fId, tId, pId) => {
 		from: 'start'
 	}, true).then(res => {
 		let data = res.data;
-
-		for (var fi of data) {
-			if (fi.type === 'Layout') {
-				var arr = [];
-				let value = fi.props.value;
-				arr.push(value);
-				fi.props.value = arr;
-
-				fi.props.oriForm = util.deepCopy(value);
-			}
-		}
-
-
 		formUIRef.value.loadData(data, flowId.value, undefined)
 
 	})
@@ -85,7 +72,7 @@ defineExpose({handle, complete});
 const formValueChange = (v) => {
 
 
-	flowNodeFormatRef.value.queryData(v, flowId.value, processInstanceId.value, taskId.value)
+	flowNodeFormatRef.value.queryData(v, flowId.value, processInstanceId.value, taskId.value,'start')
 
 }
 

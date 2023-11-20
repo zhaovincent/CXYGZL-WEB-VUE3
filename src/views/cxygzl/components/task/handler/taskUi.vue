@@ -64,17 +64,6 @@ const deal = (tId, pId, fId, ccId, nId) => {
   }, true).then(res => {
     let data = res.data;
 
-    for (var fi of data) {
-      if (fi.type === 'Layout') {
-        //var arr = [];
-        let value = fi.props.value;
-        //arr.push(value);
-        fi.props.value = value;
-        // fi.props.oriForm = util.deepCopy(value);
-      }
-    }
-
-
     formUIRef.value.loadData(data, fId, nId, pId, tId, ccId)
 
     operUIRef.value.handle(tId);

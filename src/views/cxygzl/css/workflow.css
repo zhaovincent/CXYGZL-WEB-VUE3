@@ -1342,7 +1342,7 @@ html {
 
 .start-node.node-wrap-box .content .text {
     display: block;
-    white-space: nowrap
+    /*white-space: nowrap*/
 }
 
 .node-wrap-box:before {

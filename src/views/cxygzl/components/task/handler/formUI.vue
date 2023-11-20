@@ -92,6 +92,7 @@ function getFormValueObj(v) {
 				var v = {}
 
 				for (var subItem of array) {
+					console.log(subItem)
 					let value = subItem.props.value;
 					v[subItem.id] = value;
 				}

@@ -15,6 +15,12 @@ let props = defineProps({
 	},
 	placeHolderMethodName: {
 		type: String, default: ''
+	},
+	uid: {
+		type: Number, default: undefined
+	},
+	storeDataKey: {
+		type: String, default: ''
 	}
 
 });
@@ -130,6 +136,17 @@ const outBorder = computed(() => {
 	}
 	return ''
 })
+let store = useStore();
+
+//TODO
+//审批数据
+let approverConfigData = computed(() => store[props.storeDataKey])
+watch(approverConfigData, (approver) => {
+  if (approver.flag && approver.id === props.uid) {
+    updateParentData(approver.value);
+  }
+});
+
 
 </script>
 
@@ -150,7 +167,7 @@ const outBorder = computed(() => {
 						:placeholder="defaultText"
 				/>
 				<span v-else class="editable-title" @click="clickEvent()">{{ nodeConfig.nodeName }}</span>
-				<i v-if="!readOnly" class="anticon anticon-close close" @click="delNode"></i>
+				<i v-if="!readOnly&&nodeConfig.type!=0" class="anticon anticon-close close" @click="delNode"></i>
 
 			</div>
 			<div class="content" @click="openConfigDrawer">

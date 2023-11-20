@@ -78,14 +78,7 @@ let {
 
 let _uid = getCurrentInstance().uid;
 
-//TODO
-//审批数据
-let approverConfigData = computed(() => store.approverConfigData)
-watch(approverConfigData, (approver) => {
-  if (approver.flag && approver.id === _uid) {
-    updateParentData(approver.value);
-  }
-});
+
 
 
 function open(){
@@ -108,7 +101,7 @@ import NodeTemplate from "./node-template.vue";
 </script>
 
 <template>
-<node-template @updateData="updateParentData" place-holder-method-name="setApproverStr" check-method-name="checkApproval" @open="open"   :node-config="nodeConfig"></node-template>
+<node-template @updateData="updateParentData" :uid="_uid" store-data-key="approverConfigData" place-holder-method-name="setApproverStr" check-method-name="checkApproval" @open="open"   :node-config="nodeConfig"></node-template>
 </template>
 
 <style scoped lang="less">

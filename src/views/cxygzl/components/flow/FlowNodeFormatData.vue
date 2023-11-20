@@ -9,12 +9,13 @@ const disableSelect = ref(true);
 
 const  paramMapData=ref({})
 
-const queryData = (p,fid,pid,tid) => {
+const queryData = (p,fid,pid,tid,f) => {
 	var data = {
 		flowId: fid,
 		processInstanceId:pid,
 		paramMap: p,
-		taskId:tid
+		taskId:tid,
+    from:f
 	}
   paramMapData.value=data;
   refresh();

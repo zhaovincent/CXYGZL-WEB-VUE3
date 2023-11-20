@@ -81,14 +81,6 @@ let {
 
 let _uid = getCurrentInstance().uid;
 
-//TODO 3
-//审批数据
-let approverConfigData = computed(() => store.copyerConfig1)
-watch(approverConfigData, (approver) => {
-	if (approver.flag && approver.id === _uid) {
-		updateParentData(approver.value);
-	}
-});
 
 
 function open(){
@@ -111,7 +103,7 @@ import NodeTemplate from "./node-template.vue";
 </script>
 
 <template>
-	<node-template @updateData="updateParentData" place-holder-method-name="copyerStr" check-method-name="checkCopy" @open="open"   :node-config="nodeConfig"></node-template>
+	<node-template :uid="_uid" store-data-key="copyerConfig1" @updateData="updateParentData" place-holder-method-name="copyerStr" check-method-name="checkCopy" @open="open"   :node-config="nodeConfig"></node-template>
 </template>
 
 <style scoped lang="less">
