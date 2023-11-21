@@ -61,7 +61,7 @@
 
 
         <el-result title="检查中" sub-title="正在检查流程信息"
-                   v-if="validateErrMsg.length==0&&validateDialogShow&&validatingShow&&validateFlowStep<3">
+                   v-if="validateErrMsg.length==0&&validateDialogShow&&validatingShow&&validateFlowStep<4">
           <template #icon>
 						<span v-loading="true"
                   style="display: inline-block;border:0px solid red;width: 100px;height: 100px;">
