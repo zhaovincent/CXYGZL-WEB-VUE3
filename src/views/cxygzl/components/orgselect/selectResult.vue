@@ -21,9 +21,11 @@
 					</div>
 					<div class="f12">{{ item.name }}</div>
 					<div class="f13">
-						<el-button size="small" text @click="cancel(item)" :icon="CircleClose"></el-button>
+            <i-ep-delete @click="cancel(item)" style="cursor: pointer"/>
 
-					</div>
+
+
+          </div>
 				</div>
 
 			</li>
@@ -33,14 +35,17 @@
 
 			  <div style="display: flex;flex-direction: row">
 				  <div class="f11">
-			  <el-icon style="font-size: 20px"><Grid /></el-icon>
+            <el-image style="width: 20px;height: 20px;"  :src="DeptIconImg" />
 
-		  </div>
+
+          </div>
 				  <div class="f12">{{ item.name }}</div>
 				  <div class="f13">
-					  <el-button size="small" text @click="cancel(item)" :icon="CircleClose"></el-button>
+<!--					  <el-button   text @click="cancel(item)" :icon="CircleClose"></el-button>-->
+            <i-ep-delete @click="cancel(item)" style="cursor: pointer"/>
 
-				  </div>
+
+          </div>
 			  </div>
 
 					</li>
@@ -53,7 +58,8 @@
 							</div>
 							<div class="f12">{{ item.name }}</div>
 							<div class="f13">
-								<el-button size="small" text @click="cancel(item)" :icon="CircleClose"></el-button>
+<!--								<el-button   text @click="cancel(item)" :icon="CircleClose"></el-button>-->
+                <i-ep-delete @click="cancel(item)" style="cursor: pointer"/>
 
 							</div>
 						</div>
@@ -74,6 +80,7 @@ import {
 	Search,
 	Star,
 } from '@element-plus/icons-vue'
+import DeptIconImg from '../../assets/images/depticon.png'
 
 defineProps({
 	total: {
@@ -99,7 +106,7 @@ let emits = defineEmits(['del'])
 		overflow-y: auto;
 
 		li {
-			margin: 11px 26px 13px 19px;
+			margin: 5px 5px;
 			line-height: 17px;
 
 			span {

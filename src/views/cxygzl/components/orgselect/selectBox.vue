@@ -9,12 +9,14 @@
 				@input="getDebounceData($event)"
 				:prefix-icon="Search"
 		/>
+<!--			顶部树形列表提示表头-->
 		<p class="ellipsis tree_nav" v-if="!searchVal&&type!='role'">
 			<span @click="queryData(0)" class="ellipsis-node">根节点</span>
 			<span v-for="(item,index) in departments.titleDepartments" class="ellipsis-node"
 						:key="index+'a'" @click="queryData(item.id)">{{ item.name }}</span>
 		</p>
 
+<!--			下方的列表显示-->
 		<ul class="select-box">
 			<template v-for="(elem, i) in dataList" :key="i">
 				<template v-if="elem.type === 'role'">
@@ -45,19 +47,19 @@
 								>
 									<div style="display: flex;flex-direction: row">
 										<div class="f11">
-											<el-icon style="font-size: 20px">
-												<Grid/>
-											</el-icon>
-										</div>
-										<div class="f12">{{ item.name }}</div>
+                        <el-image style="width: 20px;height: 20px;"  :src="DeptIconImg" />
+
+                    </div>
+										<div class="f12" style="border: 0px solid red;">{{ item.name }}</div>
 									</div>
 								</el-checkbox>
 							</div>
 							<div class="d22" @click="queryData(item.id)">
 
-                <el-icon style="font-size: 20px;color: #1e83e9">
-                  <Guide/>
-                </el-icon>
+									<el-image style="width: 20px;height: 20px;margin-top: 6px"  :src="DeptImg" />
+<!--                <el-icon style="font-size: 20px;color: #1e83e9">-->
+<!--                  <Guide/>-->
+<!--                </el-icon>-->
 							</div>
 						</div>
 
@@ -84,6 +86,9 @@
 	</div>
 </template>
 <script setup>
+
+import DeptImg from '../../assets/images/dept.png'
+import DeptIconImg from '../../assets/images/depticon.png'
 
 var props = defineProps({
 
@@ -241,7 +246,7 @@ watch(() => props.selectedList, (val) => {
 	overflow-y: auto;
 
 	li {
-		padding: 5px 0;
+	//	padding: 5px 0;
 
 	}
 }
@@ -319,25 +324,26 @@ watch(() => props.selectedList, (val) => {
 
 .f12 {
 	width: calc(100% - 30px);
-  padding-top: 5px;
+  //padding-top: 5px;
   border: 0px solid red;
-
+		line-height: 22px;
 }
 
 .d11 {
 	width: calc(100% - 30px);
   border: 0px solid red;
-  line-height: 41px;
+  //line-height: 41px;
 }
 
 .d22 {
 	width: 30px;
-	 padding-top: 10px;
+
   text-align: center;
 	cursor: pointer;
-  border: 0px solid red;
+
 
 }
+
 
 .ellipsis-node {
   white-space: nowrap;
