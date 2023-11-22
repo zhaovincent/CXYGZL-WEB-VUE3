@@ -198,7 +198,7 @@ const activeNodeFunc=(n)=>{
 
           <!--					分支处理-->
           <el-button-group>
-            <el-button @click="activeNodeFunc(node1)" size="small" type="primary" v-for="(node1, index1) in node.branch" >分支{{index1+1}}</el-button>
+            <el-button @click="activeNodeFunc(node1)"   size="small" :type="(isBlank(activeNodeId)?(index1==0?'primary':'default'):(activeNodeId===node1.id?'primary':'default'))" v-for="(node1, index1) in node.branch" >分支{{index1+1}}</el-button>
           </el-button-group>
           <template  v-for="(node1, index1) in node.branch">
             <div v-if="isBlank(activeNodeId)?(index1==0):(node1.id===activeNodeId)">
