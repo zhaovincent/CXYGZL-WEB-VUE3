@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref, getCurrentInstance, onMounted, watch} from 'vue'
-import selectShow from "@/views/flow/workflow/components/dialog/selectAndShow.vue";
+import selectShow from "@/views/cxygzl/components/orgselect/selectAndShow.vue";
 
 
 let props = defineProps({
