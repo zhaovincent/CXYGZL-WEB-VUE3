@@ -23,7 +23,7 @@ let props = defineProps({
 
 
 import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plus/icons-vue";
-import {isBlank} from "../../utils/objutil";
+import {isBlank, isNotBlank} from "../../utils/objutil";
 
 
 const activeNodeId=ref('')
@@ -53,10 +53,10 @@ const activeNodeFunc=(n)=>{
             <!--					<p>{{ node.name }}-->
             <!--					</p>-->
             <div style="display: flex;flex-direction: row">
-              <div class="f21">{{node.name}}</div>
+              <div class="f21" style="font-weight: bold;font-size: 15px;">{{node.name}}</div>
               <div class="f22">{{node.showTimeStr}}</div>
             </div>
-            <div v-if="node.placeholder&&node.placeholder.length>0">[{{ node.placeholder }}]</div>
+            <div style="font-size: 12px;font-weight: normal;margin-top: 5px;" v-if="isNotBlank(node.placeholder)">[{{ node.placeholder }}]</div>
 
           </template>
 
@@ -197,11 +197,11 @@ const activeNodeFunc=(n)=>{
           </template>
 
           <!--					分支处理-->
-          <el-button-group>
+          <el-button-group style="margin-top: 10px;">
             <el-button @click="activeNodeFunc(node1)"   size="small" :type="(isBlank(activeNodeId)?(index1==0?'primary':'default'):(activeNodeId===node1.id?'primary':'default'))" v-for="(node1, index1) in node.branch" >分支{{index1+1}}</el-button>
           </el-button-group>
           <template  v-for="(node1, index1) in node.branch">
-            <div v-if="isBlank(activeNodeId)?(index1==0):(node1.id===activeNodeId)">
+            <div v-if="isBlank(activeNodeId)?(index1==0):(node1.id===activeNodeId)" style="font-size: 12px;margin-top: 5px;">
               <template v-if="node1.placeholder&&node1.placeholder.length>0">[{{ node1.placeholder }}]</template>
 
             </div>

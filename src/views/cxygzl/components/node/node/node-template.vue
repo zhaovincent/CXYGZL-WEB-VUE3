@@ -69,8 +69,10 @@ var placeHolder = computed(() => {
 
 
 	return $func[props.placeHolderMethodName](props.nodeConfig);
-	;
-
+})
+//修改显示内容
+watch(()=>placeHolder.value,(v)=>{
+  props.nodeConfig.placeHolder=v;
 })
 
 const clickEvent = () => {
