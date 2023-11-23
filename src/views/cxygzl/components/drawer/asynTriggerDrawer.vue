@@ -172,7 +172,7 @@ import * as util from '../../utils/objutil'
 import {useFlowStore} from "../../stores/flow";
 import {FormRules} from "element-plus";
 import $func from "../../utils";
-import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
+import TitleHandler from "./components/titleHandler.vue";
 
 let flowStore = useFlowStore();
 

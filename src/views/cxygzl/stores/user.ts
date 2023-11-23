@@ -3,7 +3,6 @@ import {defineStore} from "pinia";
 import {loginApi, loginByTokenApi, logoutApi} from "../api/auth";
 import {getUserInfo} from "../api/user";
 //TODO
-import {resetRouter} from "@/router";
 import {store} from "./store.ts";
 
 import {LoginData} from "../api/auth/types";
@@ -86,22 +85,7 @@ export const useUserStore = defineStore("user", () => {
         });
     }
 
-    // 注销
-    function logout() {
-        return new Promise<void>((resolve, reject) => {
-            logoutApi()
-                .then(() => {
-                    //TODO 修改这里  返回登录
-                    resetRouter();
-                    resetToken();
-                    location.reload(); // 清空路由
-                    resolve();
-                })
-                .catch((error) => {
-                    reject(error);
-                });
-        });
-    }
+
 
     // 重置
     function resetToken() {
@@ -126,7 +110,6 @@ export const useUserStore = defineStore("user", () => {
         login,
         loginByToken,
         getInfo,
-        logout,
         resetToken,
         /**
          * 当前登录用户ID

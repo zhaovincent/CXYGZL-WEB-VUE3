@@ -41,7 +41,7 @@ import {useFlowStore} from '../../stores/flow'
 let flowStore = useFlowStore();
 
 import FormPerm from './components/formPerm.vue'
-import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
+import TitleHandler from "./components/titleHandler.vue";
 
 const step2FormList = computed(() => {
 	let step2 = flowStore.step2;

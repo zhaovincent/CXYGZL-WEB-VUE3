@@ -634,7 +634,7 @@
 <script lang="ts" setup>
 import {Check, Plus, Aim, Link} from "@element-plus/icons-vue";
 
-import {ref, onMounted, reactive, computed} from "vue";
+import {ref, onMounted, reactive,getCurrentInstance , computed} from "vue";
 import {useRoute} from "vue-router";
 import * as util from "../../utils/objutil";
 

@@ -28,6 +28,7 @@ import {
   UploadProps,
 } from "element-plus";
 import {uploadFileApi} from "../../api/file";
+import {ref,watch} from 'vue'
 
 const emit = defineEmits(["update:modelValue"]);
 

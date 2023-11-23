@@ -31,6 +31,8 @@ import {
 } from "element-plus";
 import { uploadFileApi, deleteFileApi } from "../../api/file";
 
+import {ref,watch} from 'vue'
+
 const emit = defineEmits(["update:modelValue"]);
 
 const props = defineProps({

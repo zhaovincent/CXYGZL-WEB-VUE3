@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, defineExpose,onMounted} from "vue";
+import {computed, ref,defineExpose,onMounted} from "vue";
 
 import FormulaRender from '../render/Formula.vue'
 

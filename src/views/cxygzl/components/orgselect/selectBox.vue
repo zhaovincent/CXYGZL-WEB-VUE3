@@ -350,5 +350,10 @@ watch(() => props.selectedList, (val) => {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+ul,li {
+  padding: 0;
+  margin: 0;
+  list-style: none
+}
 
 </style>

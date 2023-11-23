@@ -3,7 +3,7 @@
 
 import {showImage} from '../api/task/index'
 
-import {ref, defineExpose, provide, watch} from "vue";
+import {ref, defineExpose,reactive , provide, watch} from "vue";
 
 
 const dialogVisible = ref(false);
@@ -30,7 +30,7 @@ const view = (row) => {
 }
 
 
-import Step3 from "@/views/cxygzl/components/flow/step3.vue";
+import Step3 from "../components/flow/step3.vue";
 
 let nodeConfig = ref({
 

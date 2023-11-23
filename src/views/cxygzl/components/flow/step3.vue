@@ -31,7 +31,7 @@
 
 <script setup>
 import nodeWrap from "../node/nodeWrap.vue"
-import {ref, defineExpose} from "vue";
+import {ref,inject,watch ,defineExpose} from "vue";
 import promoterDrawer from "../drawer/promoterDrawer.vue";
 import approverDrawer from "../drawer/approverDrawer.vue";
 import copyerDrawer from "../drawer/copyerDrawer.vue";

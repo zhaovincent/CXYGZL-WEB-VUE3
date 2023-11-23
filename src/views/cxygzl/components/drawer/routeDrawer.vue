@@ -79,7 +79,6 @@ var rejectNodeList = computed(() => {
 	var childNodeArr = {}
 
 
-		console.log("-----------",flowStore.step3)
 	produceSerialNodeList(undefined, flowStore.step3, arr, obj, true, childNodeArr)
 
 	queryChildrenNode(config.value.id, childNodeArr, childArr);
@@ -265,7 +264,7 @@ watch(delayConfigData, (val) => {
 
 
 import * as util from '../../utils/objutil'
-import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
+import TitleHandler from "./components/titleHandler.vue";
 
 const openEvent = () => {
 

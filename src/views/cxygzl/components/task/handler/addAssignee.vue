@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {defineExpose, getCurrentInstance} from "vue";
+import {defineExpose, ref,getCurrentInstance} from "vue";
 import {addAssigneeTask} from "../../../api/task";
 import selectShow from "../../orgselect/selectAndShow.vue";
 

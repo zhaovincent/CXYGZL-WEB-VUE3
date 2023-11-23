@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ViewProcessInstanceImage from "../../components/ViewProcessInstanceImage.vue";
-
+import {ref,reactive,onMounted} from 'vue'
 
 import {
 	queryMineStarted

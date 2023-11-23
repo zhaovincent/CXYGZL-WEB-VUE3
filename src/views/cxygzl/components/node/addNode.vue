@@ -98,7 +98,7 @@
 	</div>
 </template>
 <script setup>
-import {ref} from 'vue'
+import {ref,inject} from 'vue'
 
 let props = defineProps({
 	childNodeP: {

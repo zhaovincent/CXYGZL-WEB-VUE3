@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-
+import {ref} from 'vue'
 import {completeTask} from "../../../api/task";
 
 const dialogVisible = ref(false);

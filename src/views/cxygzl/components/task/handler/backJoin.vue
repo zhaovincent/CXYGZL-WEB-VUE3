@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {defineExpose} from "vue";
+import {defineExpose,ref} from "vue";
 import {backJoinTask} from "../../../api/task";
 import selectShow from "../../orgselect/selectAndShow.vue";
 

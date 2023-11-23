@@ -81,7 +81,7 @@ watch(delayConfigData, (val) => {
 
 
 import * as util from '../../utils/objutil'
-import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
+import TitleHandler from "./components/titleHandler.vue";
 
 const changeMode = () => {
 

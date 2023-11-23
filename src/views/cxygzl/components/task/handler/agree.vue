@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {defineExpose} from "vue";
+import {defineExpose,ref} from "vue";
 import {completeTask, resolveTask} from "../../../api/task";
 
 const dialogVisible = ref(false);

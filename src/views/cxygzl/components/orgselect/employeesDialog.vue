@@ -200,4 +200,5 @@ onMounted(() => {
 </script>
 <style scoped>
 @import "../../css/dialog.css";
+
 </style>

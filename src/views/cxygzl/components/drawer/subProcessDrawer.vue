@@ -338,7 +338,7 @@ const handleSubFlowIdChange = (a, clearForm) => {
 }
 
 import {useFlowStore} from "../../stores/flow";
-import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
+import TitleHandler from "./components/titleHandler.vue";
 
 
 let flowStore = useFlowStore();

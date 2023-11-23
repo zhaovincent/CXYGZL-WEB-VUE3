@@ -40,8 +40,8 @@ import FormPerm from './components/formPerm.vue'
 
 let store = useStore()
 import DynamicFormConfig from "./components/dynamicFormConfig.vue";
-import $func from "@/views/cxygzl/utils/index.js";
-import TitleHandler from "@/views/cxygzl/components/drawer/components/titleHandler.vue";
+import $func from "../../utils/index.js";
+import TitleHandler from "./components/titleHandler.vue";
 
 
 let starterConfig = ref({})

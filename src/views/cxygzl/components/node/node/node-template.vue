@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {getCurrentInstance, computed, onMounted, ref, watch} from "vue";
+import {inject, computed, onMounted, ref, watch} from "vue";
 
 let isInput = ref(false);
 

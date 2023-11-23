@@ -19,6 +19,9 @@
 import { UploadRawFile, UploadRequestOptions } from "element-plus";
 import { uploadFileApi } from "../../api/file";
 
+
+import {useVModel} from '@vueuse/core'
+
 const props = defineProps({
   modelValue: {
     type: String,

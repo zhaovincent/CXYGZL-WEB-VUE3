@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, onMounted,computed,reactive} from "vue";
+import {ref, onMounted,computed,watch,reactive} from "vue";
 
 import {queryGroupList} from "../../api/group";
 import SingleUpload from "../Upload/SingleUpload.vue";

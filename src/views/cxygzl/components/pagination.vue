@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { computed, PropType } from "vue";
 import { scrollTo } from "../utils/scroll-to";
+import {useVModel} from '@vueuse/core'
 
 const props = defineProps({
   total: {
