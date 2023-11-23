@@ -1,6 +1,7 @@
 import axios, {InternalAxiosRequestConfig, AxiosResponse} from 'axios';
 import {useUserStoreHook} from '../stores/user';
-import {ElLoading} from 'element-plus'
+import {ElLoading,ElMessage} from 'element-plus'
+
 
 // 创建 axios 实例
 const service = axios.create({
@@ -111,6 +112,7 @@ service.interceptors.response.use(
 			loadingFlag=undefined;
 
 		}
+		console.log(error)
 
 		if (error.response.data) {
 			const {code, msg} = error.response.data;

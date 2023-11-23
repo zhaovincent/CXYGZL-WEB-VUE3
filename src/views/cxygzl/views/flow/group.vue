@@ -190,7 +190,7 @@ import {
   deleteFlow
 } from "../../api/flow";
 
-import {ref, getCurrentInstance, onMounted} from 'vue'
+import {ref, getCurrentInstance,nextTick , onMounted} from 'vue'
 import {GroupVO} from "../../api/group/types";
 
 import * as util from '../../utils/objutil'
@@ -453,6 +453,7 @@ function deleteGroup(id) {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align: left;
 }
 
 .title1:hover {

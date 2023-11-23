@@ -25,6 +25,7 @@ let props = defineProps({
 import {Loading, Finished, Refresh, Clock, CircleCloseFilled} from "@element-plus/icons-vue";
 import {isBlank, isNotBlank} from "../../utils/objutil";
 
+import {ref} from  'vue'
 
 const activeNodeId=ref('')
 const activeNodeFunc=(n)=>{

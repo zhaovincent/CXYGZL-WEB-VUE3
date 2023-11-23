@@ -2,7 +2,7 @@
 import getFormName from "../../../utils/getFormWidget";
 import {onMounted, reactive, ref} from 'vue'
 import type {FormRules} from 'element-plus'
-import {computed} from "vue";
+import {computed,getCurrentInstance,watch} from "vue";
 
 const getFormWidget = (name: string) => {
 	//写的时候，组件的起名一定要与dragList中的element名字一模一样，不然会映射不上

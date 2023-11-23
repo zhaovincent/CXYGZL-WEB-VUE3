@@ -5,7 +5,8 @@
  * @FilePath: /Workflow-Vue3/src/store/index.js
  */
 import {defineStore} from "pinia";
-import {FormConfigUserVO, FormVO} from "../api/form/types";
+import {FormVO} from "../api/form/types";
+import {reactive} from "vue";
 
 
 export const useFlowStore = defineStore("flow", {
