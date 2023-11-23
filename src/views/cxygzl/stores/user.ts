@@ -3,7 +3,7 @@ import {defineStore} from "pinia";
 import {loginApi, loginByTokenApi, logoutApi} from "../api/auth";
 import {getUserInfo} from "../api/user";
 //TODO
-import {resetRouter} from "../router";
+import {resetRouter} from "@/router";
 import {store} from "./store.ts";
 
 import {LoginData} from "../api/auth/types";
