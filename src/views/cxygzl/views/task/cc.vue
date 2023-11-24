@@ -13,6 +13,7 @@ import {
 import {RoleQuery} from "../../api/role/types";
 import TaskHandle from "../../components/task/handler/task.vue";
 import {ref,reactive,computed ,onMounted} from 'vue'
+import {Picture, Position} from "@element-plus/icons-vue";
 
 const rightDrawerVisible = ref(false)
 
@@ -126,8 +127,9 @@ const formValue = computed(() => {
 								link
 								@click="deal(scope.row)"
 						>
-							<i-ep-position/>
-							查看
+              <el-icon ><Position/></el-icon>
+
+              查看
 						</el-button>
 						<el-button
 								type="primary"
@@ -135,8 +137,9 @@ const formValue = computed(() => {
 								link
 								@click="viewImage(scope.row)"
 						>
-							<i-ep-picture/>
-							流程图
+              <el-icon ><Picture/></el-icon>
+
+              流程图
 						</el-button>
 
 					</template>

@@ -11,6 +11,7 @@ import {
 
 
 import pagination from "../../components/pagination.vue";
+import {Picture, Position} from "@element-plus/icons-vue";
 
 
 const loading = ref(false);
@@ -100,7 +101,7 @@ onMounted(() => {
 								link
 								@click="deal(scope.row)"
 						>
-							<i-ep-position/>
+              <el-icon ><Position/></el-icon>
 							开始处理
 						</el-button>
 						<el-button
@@ -109,7 +110,8 @@ onMounted(() => {
 								link
 								@click="viewImage(scope.row)"
 						>
-							<i-ep-picture/>
+              <el-icon ><Picture/></el-icon>
+
 							流程图
 						</el-button>
 

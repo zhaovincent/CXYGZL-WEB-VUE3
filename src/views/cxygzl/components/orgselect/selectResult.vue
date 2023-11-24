@@ -1,9 +1,4 @@
-<!--
- * @Date: 2022-08-26 16:29:24
- * @LastEditors: StavinLi 495727881@qq.com
- * @LastEditTime: 2022-09-21 14:36:30
- * @FilePath: /Workflow-Vue3/src/components/selectResult.vue
--->
+
 <template>
 	<div class="select-result l">
 		<p class="clear">已选（{{ total }}）
@@ -21,8 +16,8 @@
 					</div>
 					<div class="f12">{{ item.name }}</div>
 					<div class="f13">
-            <i-ep-delete @click="cancel(item)" style="cursor: pointer"/>
 
+            <el-icon @click="cancel(item)" style="cursor: pointer"><Delete/></el-icon>
 
 
           </div>
@@ -41,8 +36,7 @@
           </div>
 				  <div class="f12">{{ item.name }}</div>
 				  <div class="f13">
-<!--					  <el-button   text @click="cancel(item)" :icon="CircleClose"></el-button>-->
-            <i-ep-delete @click="cancel(item)" style="cursor: pointer"/>
+            <el-icon @click="cancel(item)" style="cursor: pointer"><Delete/></el-icon>
 
 
           </div>
@@ -58,8 +52,8 @@
 							</div>
 							<div class="f12">{{ item.name }}</div>
 							<div class="f13">
-<!--								<el-button   text @click="cancel(item)" :icon="CircleClose"></el-button>-->
-                <i-ep-delete @click="cancel(item)" style="cursor: pointer"/>
+
+                <el-icon @click="cancel(item)" style="cursor: pointer"><Delete/></el-icon>
 
 							</div>
 						</div>
@@ -73,12 +67,12 @@
 <script setup>
 
 import {
-	CircleClose,
-	Delete,
-	Edit, Grid,Share,
-	Message,
-	Search,
-	Star,
+  CircleClose,
+  Delete,
+  Edit, Grid, Share,
+  Message,
+  Search,
+  Star, Picture,
 } from '@element-plus/icons-vue'
 import DeptIconImg from '../../assets/images/depticon.png'
 

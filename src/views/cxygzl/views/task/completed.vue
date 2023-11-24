@@ -22,6 +22,7 @@ const queryParams = reactive<RoleQuery>({
 });
 
 import {revokeTask} from "../../api/task";
+import {Picture, Position, RefreshLeft} from "@element-plus/icons-vue";
 
 
 const roleList = ref();
@@ -119,8 +120,9 @@ onMounted(() => {
 								link
 								@click="deal(scope.row)"
 						>
-							<i-ep-position/>
-							查看
+              <el-icon ><Position/></el-icon>
+
+              查看
 						</el-button>
 
 
@@ -131,7 +133,8 @@ onMounted(() => {
 								  size="small"
 								  link
 						  >
-							  <i-ep-refresh-left/>
+                <el-icon ><RefreshLeft/></el-icon>
+
 							  撤回
 						  </el-button>
 			  							</template>
@@ -144,8 +147,9 @@ onMounted(() => {
 								link
 								@click="viewImage(scope.row)"
 						>
-							<i-ep-picture/>
-							流程图
+              <el-icon ><Picture/></el-icon>
+
+              流程图
 						</el-button>
 
 					</template>

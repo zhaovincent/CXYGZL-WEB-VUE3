@@ -13,7 +13,8 @@
     :limit="props.limit"
     :disabled="disabled"
   >
-    <i-ep-plus />
+    <el-icon   class="single-uploader-icon"><Plus/></el-icon>
+
   </el-upload>
 
   <el-dialog v-model="dialogVisible">
@@ -32,6 +33,7 @@ import {
 import { uploadFileApi, deleteFileApi } from "../../api/file";
 
 import {ref,watch} from 'vue'
+import {Plus} from "@element-plus/icons-vue";
 
 const emit = defineEmits(["update:modelValue"]);
 

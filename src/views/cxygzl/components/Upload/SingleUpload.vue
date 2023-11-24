@@ -10,7 +10,7 @@
   >
 
 		  <img v-if="imgUrl" :src="imgUrl" class="single" />
-		  <el-icon v-else class="single-uploader-icon"><i-ep-plus /></el-icon>
+		  <el-icon v-else class="single-uploader-icon"><Plus/></el-icon>
 
   </el-upload>
 </template>
@@ -21,6 +21,7 @@ import { uploadFileApi } from "../../api/file";
 
 
 import {useVModel} from '@vueuse/core'
+import {Plus} from "@element-plus/icons-vue";
 
 const props = defineProps({
   modelValue: {

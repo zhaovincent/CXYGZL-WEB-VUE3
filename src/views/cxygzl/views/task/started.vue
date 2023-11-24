@@ -133,6 +133,7 @@ const confirmSubmitUrge = () => {
 }
 const startRef=ref();
 import Start from "../../components/flow/startFlow.vue";
+import {Bell, Lock, Picture, Position, Refresh, Share} from "@element-plus/icons-vue";
 
 
 </script>
@@ -203,7 +204,8 @@ import Start from "../../components/flow/startFlow.vue";
 								link
 								@click="deal(scope.row)"
 						>
-							<i-ep-position/>
+              <el-icon ><Position/></el-icon>
+
 							查看
 						</el-button>
 
@@ -216,7 +218,8 @@ import Start from "../../components/flow/startFlow.vue";
 								  size="small"
 								  link
 						  >
-							  <i-ep-lock/>
+                <el-icon ><Lock/></el-icon>
+
 							  撤销流程
 						  </el-button>
 			  							</template>
@@ -230,7 +233,8 @@ import Start from "../../components/flow/startFlow.vue";
 								link
 								@click="urge(scope.row)"
 						>
-							<i-ep-bell/>
+              <el-icon ><Bell/></el-icon>
+
 							催办
 						</el-button>
 
@@ -240,7 +244,8 @@ import Start from "../../components/flow/startFlow.vue";
 								link
 								@click="exportDetailF(scope.row)"
 						>
-							<i-ep-share/>
+              <el-icon ><Share/></el-icon>
+
 							导出
 						</el-button>
 						<el-button
@@ -249,8 +254,9 @@ import Start from "../../components/flow/startFlow.vue";
 								link
 								@click="viewImage(scope.row)"
 						>
-							<i-ep-picture/>
-							流程图
+              <el-icon ><Picture/></el-icon>
+
+              流程图
 						</el-button>
 
 						<el-button
@@ -259,7 +265,8 @@ import Start from "../../components/flow/startFlow.vue";
 								link
 								@click="startFlow(scope.row)"
 						>
-							<i-ep-refresh/>
+              <el-icon ><Refresh/></el-icon>
+
 							重新发起
 						</el-button>
 

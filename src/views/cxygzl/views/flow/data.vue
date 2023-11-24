@@ -194,6 +194,7 @@ import employeesDialog from "../../components/orgselect/employeesDialog.vue";
 import {isBlank} from "../../utils/objutil";
 
 import HandOverDialog from "../../components/handOverDialog.vue";
+import {Edit, Picture, Position, Refresh, Share} from "@element-plus/icons-vue";
 
 const handOverDialogRef = ref()
 
@@ -281,13 +282,15 @@ const handOverDialogRef = ref()
 				<el-form-item>
 					<el-button type="primary" @click="search"
 					>
-						<i-ep-search/>
-						搜索
+            <el-icon ><Search/></el-icon>
+
+            搜索
 					</el-button
 					>
 					<el-button @click="resetQuery">
-						<i-ep-refresh/>
-						重置
+            <el-icon ><Refresh/></el-icon>
+
+            重置
 					</el-button
 					>
 				</el-form-item>
@@ -337,8 +340,9 @@ const handOverDialogRef = ref()
 								link
 								@click="deal(scope.row)"
 						>
-							<i-ep-position/>
-							查看
+              <el-icon ><Position/></el-icon>
+
+              查看
 						</el-button>
 
 
@@ -348,8 +352,9 @@ const handOverDialogRef = ref()
 								link
 								@click="exportDetailF(scope.row)"
 						>
-							<i-ep-share/>
-							导出
+              <el-icon ><Share/></el-icon>
+
+              导出
 						</el-button>
 
 
@@ -360,21 +365,11 @@ const handOverDialogRef = ref()
 								v-if="scope.row.status == 1"
 								@click="handOver(scope.row)"
 						>
-							<i-ep-edit/>
-							转交
+              <el-icon ><Edit/></el-icon>
+
+              转交
 						</el-button>
-<!--						<el-popconfirm @confirm="deleteF(scope.row)" :width="200" title="确定要删除此流程吗?">-->
-<!--							<template #reference>-->
-<!--								<el-button-->
-<!--										type="primary"-->
-<!--										size="small"-->
-<!--										link-->
-<!--								>-->
-<!--									<i-ep-delete/>-->
-<!--									删除-->
-<!--								</el-button>-->
-<!--							</template>-->
-<!--						</el-popconfirm>-->
+
 
 					</template>
 				</el-table-column>
