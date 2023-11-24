@@ -85,23 +85,30 @@ const flowNodeFormatRef = ref();
 <template>
 	<div>
 		<el-dialog v-model="dialogTableVisible" title="发起流程" width="800px" destroy-on-close>
-			<el-row>
+			<el-row :gutter="10">
 				<el-col :span="12">
+          <div style="height: 55vh">
+            <el-scrollbar  style="padding-right: 10px;">
+
+              <form-u-i @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
 
 
-					<form-u-i @formValueChange="formValueChange" ref="formUIRef"></form-u-i>
+            </el-scrollbar>
+          </div>
 
-					<div style="text-align: center">
-						<el-button @click="dialogTableVisible = false">取消</el-button>
-						<el-button type="primary" @click="submitProcess">
-							提交
-						</el-button>
-					</div>
+
+          <div style="text-align: center;margin-top: 10px;">
+            <el-button type="danger" @click="dialogTableVisible = false">取消</el-button>
+            <el-button type="primary" @click="submitProcess">
+              提交
+            </el-button>
+          </div>
 				</el-col>
 				<el-col :span="12">
+          <el-scrollbar height="60vh">
 					<flow-node-format
 							ref="flowNodeFormatRef"></flow-node-format>
-
+          </el-scrollbar>
 				</el-col>
 			</el-row>
 

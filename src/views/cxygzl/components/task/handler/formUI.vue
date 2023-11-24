@@ -165,7 +165,7 @@ watch(() => formValue.value, (v) => {
 </script>
 
 <template>
-	<diev>
+
 		<el-form label-position="top">
 
 
@@ -175,7 +175,7 @@ watch(() => formValue.value, (v) => {
 									 :form-list="formList"></form-render>
 
 		</el-form>
-	</diev>
+
 </template>
 
 <style scoped lang="less">
