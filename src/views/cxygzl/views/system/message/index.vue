@@ -1,40 +1,34 @@
 <script setup lang="ts">
-import TaskHandle from "../../cxygzl/components/task/handler/task.vue"
+import TaskHandle from "../../../components/task/handler/task.vue"
 
 defineOptions({
   name: "Role",
   inheritAttrs: false,
 });
 
+import {ref,onMounted ,reactive} from "vue";
+
 
 import {
 	queryMessageList,deleteMsg,readMsg
-} from "@/api/message";
+} from "../../../api/message";
+import {Check, Delete, Plus, Position, Refresh, Search} from "@element-plus/icons-vue";
 
-import { RolePageVO, RoleForm, RoleQuery } from "@/api/role/types";
-
-const queryFormRef = ref(ElForm);
+const queryFormRef = ref();
 
 
 const loading = ref(false);
 const ids = ref<number[]>([]);
 const total = ref(0);
 
-const queryParams = reactive<RoleQuery>({
+const queryParams = reactive({
   pageNum: 1,
   pageSize: 10,
 });
 
-const roleList = ref<RolePageVO[]>();
+const roleList = ref<[]>();
 
 
-
-const formData = reactive<RoleForm>({
-  sort: 1,
-  status: 1,
-  key: "",
-  name: "",
-});
 
 
 function taskSubmit(){
@@ -167,10 +161,10 @@ onMounted(() => {
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="handleQuery"
-            ><i-ep-search />搜索</el-button
+          <el-button type="primary" @click="handleQuery" :icon="Plus"
+            > 搜索</el-button
           >
-          <el-button @click="resetQuery"><i-ep-refresh />重置</el-button>
+          <el-button @click="resetQuery" :icon="Refresh"> 重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -210,7 +204,8 @@ onMounted(() => {
               link
               @click="handleDeal(scope.row)"
             >
-              <i-ep-position />处理
+              <el-icon><Position/></el-icon>
+              处理
             </el-button>
             <el-button
               type="success"
@@ -219,7 +214,8 @@ onMounted(() => {
 							:disabled="scope.row.readed"
               @click="handleRead(scope.row.id)"
             >
-              <i-ep-check />已读
+              <el-icon><Check/></el-icon>
+              已读
             </el-button>
 
             <el-button
@@ -228,7 +224,8 @@ onMounted(() => {
               link
               @click="handleDelete(scope.row.id)"
             >
-              <i-ep-delete />删除
+              <el-icon><Delete/></el-icon>
+              删除
             </el-button>
           </template>
         </el-table-column>

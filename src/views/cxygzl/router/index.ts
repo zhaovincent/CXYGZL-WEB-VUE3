@@ -13,6 +13,17 @@ export const constantRoutes: RouteRecordRaw[] = [
   },
 
   {
+    path: "/system/message",
+    component: () => import("../views/system/message/index.vue"),
+    meta: { hidden: true },
+  },
+  {
+    path: "/system/prop",
+    component: () => import("../views/system/prop/index.vue"),
+    meta: { hidden: true },
+  },
+
+  {
     path: "/flow/list",
     component: () => import("../views/flow/list.vue"),
     meta: { hidden: true },

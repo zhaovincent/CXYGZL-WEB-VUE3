@@ -1,8 +1,11 @@
 <script setup lang="ts">
 
-import {saveRemoteData,queryAll} from "@/api/userfield/index"
+import {saveRemoteData,queryAll} from "../../../api/userfield/index"
 
-import {getCurrentInstance} from "vue";
+import {onMounted,ref} from "vue";
+
+import * as proxy from '../../../utils/objutil'
+import {Plus} from "@element-plus/icons-vue";
 
 /**
  * 查询
@@ -56,11 +59,10 @@ const fieldTypeOptions = ref([]);
 //值
 const fieldValueArray = ref([])
 
-const {proxy} = getCurrentInstance()
 
 const addItem = () => {
 	fieldValueArray.value.push({
-		required: false, name: '', type: '',perm:'E', key: proxy.$getRandomId(), props: {
+		required: false, name: '', type: '',perm:'E', key: proxy.getRandomId(), props: {
 		  options:[],radixNum:4
 			}
 	})
@@ -104,7 +106,7 @@ const delOptionItem = (index) => {
 }
 const confirmOption = () => {
 	{
-		var l = optionOption.value.filter(res => proxy.$isBlank(res.key) || proxy.$isBlank(res.value)).length
+		var l = optionOption.value.filter(res => proxy.isBlank(res.key) || proxy.isBlank(res.value)).length
 
 		if (l > 0) {
 			ElMessage.warning("所有的值必填");
@@ -141,7 +143,7 @@ const confirmOption = () => {
 
 const saveData=()=>{
 	{
-		var l = fieldValueArray.value.filter((w) => proxy.$isBlank(w.type)).length;
+		var l = fieldValueArray.value.filter((w) => proxy.isBlank(w.type)).length;
 
 		if (l>0) {
 			ElMessage.warning("属性类型不能空");
@@ -150,7 +152,7 @@ const saveData=()=>{
 		}
 	}
 	{
-		var l = fieldValueArray.value.filter((w) => proxy.$isBlank(w.name)).length;
+		var l = fieldValueArray.value.filter((w) => proxy.isBlank(w.name)).length;
 
 		if (l>0) {
 			ElMessage.warning("属性名称不能空");
@@ -199,16 +201,11 @@ const saveData=()=>{
 			<template #header>
 				<el-button type="success" @click="addItem"
 				>
-					<i-ep-plus/>
+          <el-icon><Plus/></el-icon>
 					新增
 				</el-button
 				>
-				<!--        <el-button-->
-				<!--          type="danger"-->
-				<!--          :disabled="ids.length === 0"-->
-				<!--          @click="handleDelete()"-->
-				<!--          ><i-ep-delete />删除</el-button-->
-				<!--        >-->
+
 			</template>
 
 			<div style="display: flex;flex-direction: row;margin-bottom: 20px" v-for="(item,index) in fieldValueArray">
