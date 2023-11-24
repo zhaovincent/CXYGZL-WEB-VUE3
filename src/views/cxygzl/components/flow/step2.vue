@@ -95,25 +95,33 @@
 									{{ currentForm?.typeName }}
 								</div>
 							</template>
-							<el-form label-width="120px" label-position="top">
-								<el-form-item required label="标题">
-									<el-input v-model="currentForm.name" maxlength="10"/>
-								</el-form-item>
+              <el-tabs v-model="activeConfigTab" type="border-card" class="demo-tabs" >
+                <el-tab-pane  label="基础" name="base">
+                  <el-form label-width="120px" label-position="top">
+                    <el-form-item required label="标题">
+                      <el-input v-model="currentForm.name" maxlength="10"/>
+                    </el-form-item>
 
-								<el-form-item label="提示" :required="currentForm.type==='Description'">
-									<el-input v-model="currentForm.placeholder" maxlength="50"/>
-								</el-form-item>
+                    <el-form-item label="提示" :required="currentForm.type==='Description'">
+                      <el-input v-model="currentForm.placeholder" maxlength="50"/>
+                    </el-form-item>
 
-								<component
-										:is="getFormConfigWidget(currentForm.type)"
-										:id="currentForm.id"
-										ref="currentFormConfigRef"
-								></component>
-								<el-form-item label="其他">
-									<el-checkbox v-model="currentForm.required" label="必填"/>
-									<el-checkbox v-model="currentForm.printable" label="打印"/>
-								</el-form-item>
-							</el-form>
+                    <component
+                        :is="getFormConfigWidget(currentForm.type)"
+                        :id="currentForm.id"
+                        ref="currentFormConfigRef"
+                    ></component>
+                    <el-form-item label="其他">
+                      <el-checkbox v-model="currentForm.required" label="必填"/>
+                      <el-checkbox v-model="currentForm.printable" label="打印"/>
+                    </el-form-item>
+                  </el-form>
+
+                </el-tab-pane>
+                <el-tab-pane label="动态表单" name="dynamic">
+                  <form-dynamic-config :current-form="currentForm" />
+                </el-tab-pane>
+              </el-tabs>
 
 						</el-card>
 
@@ -139,10 +147,13 @@ import {useFlowStore} from "../../stores/flow";
 import getFormName from "../../utils/getFormWidget";
 import getFormConfigName from "../../utils/getFormConfigWidget";
 import draggable from "vuedraggable";
-import {FormGroupVO, FormVO} from "../../api/form/types";
+import {FormGroupVO} from "../../api/form/types";
 import {formGroupConfig} from "../../api/form/data";
 import * as util from "../../utils/objutil";
 
+import FormDynamicConfig from "./components/formDynamicConfig.vue";
+
+const activeConfigTab = ref('base');
 
 const drag = ref(false);
 
@@ -221,7 +232,7 @@ const deleteForm = (id) => {
 
 
 //定义当前打开的表单
-const currentForm = ref<FormVO>();
+const currentForm = ref();
 const drawer = ref(false);
 
 const showCurrentPageConfigPanel = (id) => {

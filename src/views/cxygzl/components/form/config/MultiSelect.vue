@@ -57,6 +57,9 @@ var formValue = computed({
 		config.value.props.value = filterElement
 	}
 })
+
+import ValueCom from './components/value/MultiSelect.vue'
+
 </script>
 
 <template>
@@ -80,21 +83,8 @@ var formValue = computed({
     </el-form-item>
 
     <el-form-item label="默认值">
-      <el-select
-        v-model="formValue"
-        multiple
-        collapse-tags
-        collapse-tags-tooltip
-        placeholder=""
-        style="width: 100%"
-      >
-        <el-option
-          v-for="item in options"
-          :key="item.key"
-          :label="item.value"
-          :value="item.key"
-        />
-      </el-select>
+      <value-com :id="id" :value-config="config.props"></value-com>
+
     </el-form-item>
   </div>
 </template>

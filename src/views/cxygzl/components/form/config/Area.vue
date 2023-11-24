@@ -9,10 +9,6 @@ let props = defineProps({
 });
 
 import {useFlowStore} from "../../../stores/flow";
-import {areaData} from "../../../utils/area";
-
-
-import {getAreaValue} from "../../../utils/area/area";
 
 let flowStore = useFlowStore();
 
@@ -35,20 +31,12 @@ var config = computed(() => {
 	return undefined;
 });
 
-const dataList = areaData;
-
 onMounted(() => {
 
 })
 
-var areaValue = computed({
-	get() {
-		return config.value.props.value.value;
-	},
-	set(t) {
-	  config.value.props.value= getAreaValue(dataList,t);
-	}
-})
+
+import ValueCom from './components/value/Area.vue'
 
 </script>
 
@@ -57,20 +45,10 @@ var areaValue = computed({
 
 		<el-form-item label="默认值">
 
-			<el-cascader
-					style="width: 100%"
-					:options="dataList"
+      <value-com :id="id" :value-config="config.props"></value-com>
 
-					clearable
-					:props="{
-			   checkStrictly:false,
-			   		value:'code',label:'name'
-					 }"
-					v-model="areaValue"
 
-			/>
-
-		</el-form-item>
+    </el-form-item>
 	</div>
 </template>
 

@@ -30,6 +30,9 @@ var config = computed(() => {
 
 	return undefined;
 });
+
+import ValueCom from './components/value/Money.vue'
+
 </script>
 
 <template>
@@ -58,13 +61,9 @@ var config = computed(() => {
 		</el-form-item>
 
 		<el-form-item label="默认值">
-			<el-input-number
-			  :precision="config.props.radixNum"
+      <value-com :id="id" :value-config="config.props"></value-com>
 
-					controls-position="right"
-					style="width: 100%;"
-					v-model="config.props.value"/>
-		</el-form-item>
+    </el-form-item>
 	</div>
 </template>
 

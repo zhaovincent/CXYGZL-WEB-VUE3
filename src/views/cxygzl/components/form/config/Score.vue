@@ -37,6 +37,9 @@ const halfSelectChange = (e) => {
 	}
 }
 
+import ValueCom from './components/value/Score.vue'
+
+
 </script>
 
 <template>
@@ -50,9 +53,10 @@ const halfSelectChange = (e) => {
 		</el-form-item>
 
 		<el-form-item label="默认值">
-			<el-rate v-model="config.props.value" :allow-half="config.props.halfSelect"/>
+      <value-com :id="id" :value-config="config.props"></value-com>
 
-		</el-form-item>
+
+    </el-form-item>
 	</div>
 </template>
 

@@ -31,6 +31,8 @@ var config = computed(() => {
 	return undefined;
 });
 
+import ValueCom from './components/value/Input.vue'
+
 </script>
 
 <template>
@@ -57,7 +59,7 @@ var config = computed(() => {
 
 		</el-form-item>
 		<el-form-item label="默认值">
-			<el-input v-model="config.props.value"/>
+      <value-com :id="id" :value-config="config.props"></value-com>
 		</el-form-item>
 	</div>
 </template>

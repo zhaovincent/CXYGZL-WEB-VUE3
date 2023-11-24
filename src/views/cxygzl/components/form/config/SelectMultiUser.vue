@@ -55,6 +55,7 @@ const afterSelectUser = (data) => {
   selectUserDialogVisible.value = false;
 };
 import selectShow from "../../orgselect/selectAndShow.vue";
+import ValueCom from './components/value/SelectMultiUser.vue'
 
 </script>
 
@@ -91,11 +92,10 @@ import selectShow from "../../orgselect/selectAndShow.vue";
 				/>
 			</div>
 			<div v-if="!config.props.defaultRoot">
-				<select-show
-						:disabled="false" v-model:orgList="defaultValue" type="user" :multiple="true"
-						:selectSelf="config.props.self"></select-show>
+        <value-com :id="id" :value-config="config.props"></value-com>
 
-			</div>
+
+      </div>
 
 		</div>
 

@@ -35,20 +35,7 @@ var options = computed(() => {
 	return config.value.props.options;
 });
 
-const getTreeData = (key, arr) => {
 
-    for (var item of arr) {
-
-        if (item.key === key) {
-            return item;
-        }
-        let treeData = getTreeData(key, item.children);
-        if (treeData) {
-            return treeData
-        }
-    }
-    return undefined;
-}
 
 
 const addOption = () => {
@@ -56,29 +43,7 @@ const addOption = () => {
 };
 
 
-var formValue = computed({
-	get() {
-	  let value = config.value.props.value;
-	  return value?.value
-	},
-	set(t) {
-    if(!t){
-      config.value.props.value = undefined
-      return
-    }
-      let treeData = getTreeData(t[t.length-1],options.value);
-      let d = deepCopy(treeData);
-      d.value=t;
 
-    var arr=[]
-    for(var k of t){
-      arr.push(getTreeData(k, options.value).label)
-    }
-    d.labelList=arr;
-
-      config.value.props.value = d
-	}
-})
 
 import CascadeConfigHandle from  '../render/Cascade.vue'
 import {deepCopy} from "../../../utils/objutil";
@@ -88,6 +53,7 @@ const completeOptions=(items)=>{
 	config.value.props.options=items;
 
 }
+import ValueCom from './components/value/Cascade.vue'
 
 </script>
 
@@ -102,7 +68,7 @@ const completeOptions=(items)=>{
 
 		<el-form-item label="默认值">
 
-		<el-cascader clearable style="width: 100%" :props="{value:'key'}" v-model="formValue" :options="options"   />
+      <value-com :id="id" :value-config="config.props"></value-com>
 
 		</el-form-item>
 	</div>

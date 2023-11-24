@@ -19,6 +19,19 @@ const formGroupConfig: FormGroupVO[] = [
 					minLength:undefined,
 					maxLength:undefined
 				},
+				dynamicForm:[
+					{
+						id: 'value', name: '值'
+					},   {
+						id: 'minLength', name: '最小长度'
+					}, {
+						id: 'maxLength', name: '最大长度'
+					}, {
+						id: 'perm', name: '表单权限'
+					}, {
+						id: 'required', name: '是否必填'
+					}
+				]
 			},
 			{
 				name: "多行文本",
@@ -33,6 +46,20 @@ const formGroupConfig: FormGroupVO[] = [
 					value: ""
 
 				},
+
+				dynamicForm:[
+					{
+						id: 'value', name: '值'
+					},   {
+						id: 'minLength', name: '最小长度'
+					}, {
+						id: 'maxLength', name: '最大长度'
+					}, {
+						id: 'perm', name: '表单权限'
+					}, {
+						id: 'required', name: '是否必填'
+					}
+				]
 			},
 			{
 				name: "说明",
@@ -47,6 +74,12 @@ const formGroupConfig: FormGroupVO[] = [
 					value: ""
 
 				},
+
+				dynamicForm:[
+				  {
+						id: 'perm', name: '表单权限'
+					}
+				]
 			}
 		]
 	},
@@ -66,6 +99,22 @@ const formGroupConfig: FormGroupVO[] = [
 
 
 				},
+
+				dynamicForm:[
+					{
+						id: 'value', name: '值'
+					}, {
+						id: 'min', name: '最小值'
+					}, {
+						id: 'max', name: '最大值'
+					},  {
+						id: 'perm', name: '表单权限'
+					}, {
+						id: 'required', name: '是否必填'
+					}, {
+						id: 'radixNum', name: '小数位数'
+					}
+				]
 			},
 			{
 				name: "金额",
@@ -79,6 +128,22 @@ const formGroupConfig: FormGroupVO[] = [
 				props: {
 					radixNum: 0
 				},
+
+				dynamicForm:[
+					{
+						id: 'value', name: '值'
+					}, {
+						id: 'min', name: '最小值'
+					}, {
+						id: 'max', name: '最大值'
+					},  {
+						id: 'perm', name: '表单权限'
+					}, {
+						id: 'required', name: '是否必填'
+					}, {
+						id: 'radixNum', name: '小数位数'
+					}
+				]
 			}
 		]
 	},	{name: "日期-时间",
@@ -97,6 +162,21 @@ const formGroupConfig: FormGroupVO[] = [
 
 
 				},
+
+
+				dynamicForm:[
+					{
+						id: 'value', name: '值'
+					}, {
+						id: 'min', name: '最小值'
+					}, {
+						id: 'max', name: '最大值'
+					},  {
+						id: 'perm', name: '表单权限'
+					}, {
+						id: 'required', name: '是否必填'
+					}
+				]
 			}	,	{
 				name: "日期时间",
 				type: "DateTime",
@@ -111,6 +191,19 @@ const formGroupConfig: FormGroupVO[] = [
 
 
 				},
+				dynamicForm:[
+					{
+						id: 'value', name: '值'
+					}, {
+						id: 'min', name: '最小值'
+					}, {
+						id: 'max', name: '最大值'
+					},  {
+						id: 'perm', name: '表单权限'
+					}, {
+						id: 'required', name: '是否必填'
+					}
+				]
 			}	,	{
 				name: "时间",
 				type: "Time",
@@ -125,6 +218,19 @@ const formGroupConfig: FormGroupVO[] = [
 
 
 				},
+				dynamicForm:[
+					{
+						id: 'value', name: '值'
+					}, {
+						id: 'min', name: '最小值'
+					}, {
+						id: 'max', name: '最大值'
+					},  {
+						id: 'perm', name: '表单权限'
+					}, {
+						id: 'required', name: '是否必填'
+					}
+				]
 			}
 		]
 	},
@@ -148,6 +254,15 @@ const formGroupConfig: FormGroupVO[] = [
 						},
 					],
 				},
+
+				dynamicForm:[{
+					id: 'value', name: '值'
+				},  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},
 			{
 				name: "多选",
@@ -166,6 +281,15 @@ const formGroupConfig: FormGroupVO[] = [
 						},
 					],
 				},
+
+				dynamicForm:[{
+					id: 'value', name: '值'
+				},  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},
 			{
 				name: "级联",
@@ -185,6 +309,15 @@ const formGroupConfig: FormGroupVO[] = [
 						// },
 					],
 				},
+
+				dynamicForm:[{
+					id: 'value', name: '值'
+				},  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			}
 		]
 	},
@@ -207,6 +340,15 @@ const formGroupConfig: FormGroupVO[] = [
 					self: false,
 					value: []
 				},
+
+				dynamicForm:[{
+					id: 'value', name: '值'
+				},  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},
 			{
 				name: "多用户",
@@ -222,7 +364,14 @@ const formGroupConfig: FormGroupVO[] = [
 					multi: true,
 					self: false,
 					value: []
-				},
+				},	dynamicForm:[{
+					id: 'value', name: '值'
+				},  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},
 			{
 				name: "单部门",
@@ -237,7 +386,14 @@ const formGroupConfig: FormGroupVO[] = [
 					multi: false,
 					self: false,
 					value: []
-				},
+				},	dynamicForm:[{
+					id: 'value', name: '值'
+				},  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},
 			{
 				name: "多部门",
@@ -252,7 +408,14 @@ const formGroupConfig: FormGroupVO[] = [
 					multi: true,
 					self: false,
 					value: []
-				},
+				},	dynamicForm:[{
+					id: 'value', name: '值'
+				},  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			}
 		]
 	},
@@ -273,6 +436,12 @@ const formGroupConfig: FormGroupVO[] = [
 				props: {
 					value: [], min: 1, max: 10, maxSize: 10
 				},
+				dynamicForm:[  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},
 
 
@@ -286,7 +455,12 @@ const formGroupConfig: FormGroupVO[] = [
 				printable: true,
 				props: {
 					value: [], min: 1, max: 10, maxSize: 10, suffixArray: []
-				},
+				},	dynamicForm:[ {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},{
 				name: "地区",
 				type: "Area",
@@ -297,7 +471,14 @@ const formGroupConfig: FormGroupVO[] = [
 				printable: true,
 				props: {
 					value: {}
-				},
+				},	dynamicForm:[{
+					id: 'value', name: '值'
+				},  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},{
 				name: "评分",
 				type: "Score",
@@ -308,7 +489,18 @@ const formGroupConfig: FormGroupVO[] = [
 				printable: true,
 				props: {
 					value: 0, min: 1, max: 10,halfSelect:false,radixNum:1
-				},
+				},	dynamicForm:[{
+					id: 'value', name: '值'
+				}, {
+					id: 'min', name: '最小值'
+				}, {
+					id: 'max', name: '最大值'
+				}, {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},{
 				name: "明细",
 				type: "Layout",
@@ -320,6 +512,12 @@ const formGroupConfig: FormGroupVO[] = [
 				props: {
 					value: [], min: 1, max: 10
 				},
+				dynamicForm:[  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},{
 				name: "手写签名",
 				type: "Signature",
@@ -331,6 +529,12 @@ const formGroupConfig: FormGroupVO[] = [
 				props: {
 					 lastContent:false
 				},
+				dynamicForm:[  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},{
 				name: "计算公式",
 				type: "Formula",
@@ -344,6 +548,12 @@ const formGroupConfig: FormGroupVO[] = [
 					readonly:true,
 					expList:[]
 				},
+				dynamicForm:[  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			},{
 				name: "关联流程",
 				type: "RelatedProcess",
@@ -355,6 +565,13 @@ const formGroupConfig: FormGroupVO[] = [
 				props: {
 					options:[]
 				},
+
+				dynamicForm:[  {
+					id: 'perm', name: '表单权限'
+				}, {
+					id: 'required', name: '是否必填'
+				}
+				]
 			}
 		]
 	}

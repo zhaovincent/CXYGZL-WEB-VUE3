@@ -35,11 +35,12 @@
 			</div>
 			<div style="margin-top: 20px">
 
-				<el-button type="danger" @click="addCondition(index)">添加条件</el-button>
+				<el-button type="primary" @click="addCondition(index)">添加条件</el-button>
 			</div>
 		</el-card>
 
 		<el-button text type="primary" @click="addRoute">添加路由</el-button>
+
 
 		<el-dialog
 				v-model="dialogVisible"

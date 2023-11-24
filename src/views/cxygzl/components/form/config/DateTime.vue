@@ -17,6 +17,7 @@ var config = computed(() => {
 	let filterElement = step2.filter(res => res.id === props.id)[0];
 	return filterElement;
 });
+import ValueCom from './components/value/DateTime.vue'
 
 </script>
 
@@ -55,18 +56,9 @@ var config = computed(() => {
 		</el-form-item>
 
 		<el-form-item label="默认值">
-		<el-date-picker
-				size="default"
-				class="formDate"
-		value-format="YYYY-MM-DD HH:mm:ss"
+      <value-com :id="id" :value-config="config.props"></value-com>
 
-				v-model="config.props.value"
-
-		type="datetime"
-
-
-	/>
-		</el-form-item>
+    </el-form-item>
 	</div>
 </template>
 

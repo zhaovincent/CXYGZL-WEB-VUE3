@@ -92,10 +92,10 @@
 				<condition :condition="item1"></condition>
 
 			</div>
-			<el-button dark type="success" style="margin-top: 20px;" @click="addOneCondition(item,index)">添加条件</el-button>
+			<el-button dark type="success" size="small" text :icon="Plus"  style="margin-top: 20px;" @click="addOneCondition(item,index)">添加条件</el-button>
 
 		</el-card>
-		<el-button dark type="primary" @click="addOneConditionGroup">添加条件组</el-button>
+		<el-button dark type="primary" text :icon="Plus"   @click="addOneConditionGroup">添加条件组</el-button>
 
 
 
@@ -179,6 +179,7 @@ const addOneCondition = (item, index) => {
 
 import Condition from './condition.vue'
 import {useFlowStore} from '../../../stores/flow'
+import {Plus} from "@element-plus/icons-vue";
 
 let flowStore = useFlowStore();
 

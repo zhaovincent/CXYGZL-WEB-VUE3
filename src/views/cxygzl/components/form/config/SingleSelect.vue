@@ -48,16 +48,10 @@ const deleteOption = (index) => {
 	options.value.splice(index, 1);
 };
 
-var formValue = computed({
-	get() {
-	  let value = config.value.props.value;
-	  return (value&&value.length==1)?value[0].key:undefined;
-	},
-	set(t) {
-	  let filterElement = options.value.filter(res=>res.key===t);
-		config.value.props.value = filterElement
-	}
-})
+
+
+import ValueCom from './components/value/SingleSelect.vue'
+
 </script>
 
 <template>
@@ -81,19 +75,9 @@ var formValue = computed({
 		</el-form-item>
 
 		<el-form-item label="默认值">
-			<el-select
-					v-model="formValue"
-					placeholder=""
-					style="width: 100%"
-			>
-				<el-option
-						v-for="item in options"
-						:key="item.key"
-						:label="item.value"
-						:value="item.key"
-				/>
-			</el-select>
-		</el-form-item>
+      <value-com :id="id" :value-config="config.props"></value-com>
+
+    </el-form-item>
 	</div>
 </template>
 

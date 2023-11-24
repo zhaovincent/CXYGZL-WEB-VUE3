@@ -29,6 +29,9 @@ var config = computed(() => {
 
 	return undefined;
 });
+
+import ValueCom from './components/value/Textarea.vue'
+
 </script>
 
 <template>
@@ -53,8 +56,9 @@ var config = computed(() => {
 
 		</el-form-item>
 		<el-form-item label="默认值">
-			<el-input type="textarea" v-model="config.props.value"/>
-		</el-form-item>
+      <value-com :id="id" :value-config="config.props"></value-com>
+
+    </el-form-item>
 	</div>
 </template>
 
