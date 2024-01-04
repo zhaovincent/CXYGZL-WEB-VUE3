@@ -46,3 +46,11 @@ export let opt1s = [
   {value: '<', label: '<'},
   {value: '≤', label: '≤'},
 ]
+
+export let delayUnitOpts = [
+	{value: 'M', label: '月'},
+	{value: 'D', label: '天'},
+	{value: 'TH', label: '小时'},
+	{value: 'TM', label: '分钟'},
+	{value: 'TS', label: '秒'},
+]

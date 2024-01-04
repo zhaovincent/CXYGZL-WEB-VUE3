@@ -77,6 +77,14 @@ const addType = (type) => {
 				//单选还是多选
 				multiple: false,
 		  deptUserType:'allUser',
+				//审批时限
+				expireSetting:{
+					enable:false,
+					value:6,//默认6小时
+					valueUnit:'TH',//默认小时
+					type:1,//1通知2自动通过3自动拒绝
+					once:true//如果是通知 是否一次提醒还是循环
+				},
 				//多人审批的选项
 				multipleMode: 1,
 				//第几级部门负责人

@@ -189,7 +189,66 @@
 				  />
 			  </el-select>
 		  </template>
-      </el-tab-pane>
+				<template
+						v-if="approverConfig.expireSetting!=undefined">
+					<h4>⏲审批时限</h4>
+					<el-switch
+							v-model="approverConfig.expireSetting.enable"
+							size="large"
+							active-text="开启"
+							inactive-text="关闭"
+					/>
+					<template
+							v-if="approverConfig.expireSetting.enable"
+
+					>
+						<p  >
+							<h5>过期时长</h5>
+							<el-input
+									v-model="approverConfig.expireSetting.value"
+									type="number"
+									placeholder="请输入时长"
+									style="width: 250px"
+							>
+
+								<template #append>
+									<el-select v-model="approverConfig.expireSetting.valueUnit" placeholder="Select" style="width: 115px">
+										<template  v-for="item in delayUnitOpts">
+											<el-option  v-if="item.value!='M'&&item.value!='T1S'"  :label="item.label" :value="item.value"></el-option>
+
+										</template>
+
+									</el-select>
+								</template>
+							</el-input>
+						</p>
+						<p>
+							<el-radio-group v-model="approverConfig.expireSetting.type" class="ml-4">
+								<el-radio :label="1" size="large">通知提醒</el-radio>
+								<!--					<el-radio label="TO_END" size="large">自动结束</el-radio>-->
+								<el-radio :label="2" size="large">自动通过</el-radio>
+								<el-radio :label="3" size="large">自动拒绝</el-radio>
+								<!--							<el-radio label="4" size="large">指定人员审批</el-radio>-->
+							</el-radio-group>
+							<select-show v-if="approverConfig.expireSetting.type==='4'"
+													 v-model:orgList="approverConfig.expireSetting.assignedUser" type="user"
+													 :multiple="false"></select-show>
+						</p>
+
+						<p v-if="approverConfig.expireSetting.type===1">
+							<el-switch
+									v-model="approverConfig.expireSetting.once"
+									size="large"
+									active-text="仅提醒一次"
+									inactive-text="循环提醒"
+							/>
+						</p>
+					</template>
+
+
+				</template>
+
+			</el-tab-pane>
       <el-tab-pane label="表单权限">
         <form-perm :form-perm="approverConfig.formPerms"></form-perm>
       </el-tab-pane>
@@ -199,7 +258,7 @@
 <script setup type="ts">
 import {ref, watch, computed, onMounted} from 'vue'
 import $func from '../../utils/index'
-import {setTypes, selectModes, selectRanges} from '../../utils/const'
+import {setTypes, selectModes, selectRanges, delayUnitOpts} from '../../utils/const'
 import {useStore} from '../../stores/index'
 import {useFlowStore} from '../../stores/flow'
 import {ElTable} from 'element-plus'
