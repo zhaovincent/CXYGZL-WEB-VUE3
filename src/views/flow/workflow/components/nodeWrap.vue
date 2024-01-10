@@ -231,8 +231,16 @@ watch(() => step2FormList.value, (val) => {
 			}
 			for (var item1 of node.conditionList) {
 				for (var item2 of item1.conditionList) {
+
+					console.log("111111",item2)
+
+					if(item2.key=='root'){
+						continue
+					}
+
 					let length = val.filter(res => res.id === item2.key).length;
 					if (length == 0) {
+
 						item2.key = ''
 						item2.expression = ''
 						item2.keyType = ''
@@ -448,6 +456,7 @@ const openConfigDrawer = (priorityLevel) => {
 			id: _uid,
 		});
 	} else {
+		console.log("分支条件:",props.nodeConfig)
 		setCondition(true);
 		setConditionsConfig({
 			value: JSON.parse(JSON.stringify(props.nodeConfig)),
