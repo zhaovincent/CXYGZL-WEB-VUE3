@@ -441,9 +441,7 @@ const openConfigDrawer = (priorityLevel) => {
 		setApprover(true);
 		setApproverConfig({
 			value: {
-				...JSON.parse(JSON.stringify(props.nodeConfig)),
-				...{assignedType: props.nodeConfig.assignedType ? props.nodeConfig.assignedType : 1},
-				...{multiple: false},
+				...JSON.parse(JSON.stringify(props.nodeConfig))
 			},
 			flag: false,
 			id: _uid,
